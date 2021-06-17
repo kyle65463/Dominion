@@ -14,41 +14,29 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-        primaryStage.setTitle("1");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
-        primaryStage.setX(100);
-        primaryStage.setY(0);
-        primaryStage.show();
+        double offsetX1 = 100;
+        double offsetX2 = 720;
+        double offsetY1 = 0;
+        double offsetY2 = 500;
 
-        Stage secondStage = new Stage();
-        Parent root2 = FXMLLoader.load(getClass().getResource("main.fxml"));
-        secondStage.setTitle("2");
-        secondStage.setScene(new Scene(root2));
-        secondStage.setResizable(false);
-        secondStage.setX(720);
-        secondStage.setY(0);
-        secondStage.show();
+        newWindow(offsetX1, offsetY1, "kyle15989");
+        newWindow(offsetX2, offsetY1, "DomioDestroyer");
+        newWindow(offsetX1, offsetY2, "freeChina");
+        newWindow(offsetX2, offsetY2, "Ken30510");
+    }
 
-
-        Stage thirdStage = new Stage();
-        Parent root3 = FXMLLoader.load(getClass().getResource("main.fxml"));
-        thirdStage.setTitle("3");
-        thirdStage.setScene(new Scene(root3));
-        thirdStage.setResizable(false);
-        thirdStage.setX(100);
-        thirdStage.setY(500);
-        thirdStage.show();
-
-        Stage fourthStage = new Stage();
-        Parent root4 = FXMLLoader.load(getClass().getResource("main.fxml"));
-        fourthStage.setTitle("4");
-        fourthStage.setScene(new Scene(root4));
-        fourthStage.setResizable(false);
-        fourthStage.setX(720);
-        fourthStage.setY(500);
-        fourthStage.show();
+    private void newWindow(double x, double y, String name) throws Exception{
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+        Parent root = loader.load();
+        MainController controller = loader.getController();
+        controller.setName(name);
+        stage.setTitle("Dominion");
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.setX(x);
+        stage.setY(y);
+        stage.show();
     }
 
 

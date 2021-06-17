@@ -1,6 +1,8 @@
 package application.connection;
 
+import application.User;
 import application.action.Action;
+import application.action.ConnectionRequest;
 import application.action.NetworkAction;
 
 import java.net.Socket;
@@ -20,7 +22,9 @@ public class Client extends Connection {
             sender = new ActionSender(client);
             receiver = new ActionReceiver(client, actionCallback);
             receiver.start();
+            sender.send(new ConnectionRequest(new User(0, name)));
         } catch (Exception e) {
+            System.out.println("Server error");
             System.out.println(e);
             actionCallback.send(new NetworkAction("connection error"));
         }
