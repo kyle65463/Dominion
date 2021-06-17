@@ -23,6 +23,8 @@ public abstract class ConnectToRoomController {
     protected Button confirmButton;
     @FXML
     protected TextField nameField;
+    @FXML
+    protected TextField ipField;
 
     // Variables
     protected Connection connection;
@@ -48,6 +50,9 @@ public abstract class ConnectToRoomController {
     }
 
     public void confirm(ActionEvent event) {
+        if (ipField != null) {
+            connection.setIp(ipField.getText());
+        }
         connection.setName(nameField.getText());
         connection.setActionCallback((m) -> Platform.runLater(() -> checkStatus(m, event)));
         Thread connectionThread = new Thread(connection);

@@ -20,7 +20,7 @@ public class Server extends Connection {
 
     public void run() {
         try {
-            ServerSocket server = new ServerSocket(9091);
+            ServerSocket server = new ServerSocket(12478);
             User user = new User(0, name);
             users.add(user);
             actionCallback.send(new ConnectionAccepted(user, users));

@@ -14,7 +14,7 @@ public class Client extends Connection {
     public void run() {
         try {
             actionCallback.send(new NetworkAction("connecting"));
-            Socket client = new Socket("localhost", 9091);
+            Socket client = new Socket(ip, 12478);
             if (client.isConnected()) {
                 actionCallback.send(new NetworkAction("connected"));
             }
@@ -24,7 +24,7 @@ public class Client extends Connection {
             receiver.start();
             sender.send(new ConnectionRequest(new User(0, name)));
         } catch (Exception e) {
-            System.out.println("Server error");
+            System.out.println("Client error");
             System.out.println(e);
             actionCallback.send(new NetworkAction("connection error"));
         }
