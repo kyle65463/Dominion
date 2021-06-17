@@ -6,16 +6,17 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 public class ActionReceiver{
-    // Initialization
-    public ActionReceiver(Socket client, Callback setOutput) {
+    // Constructors
+    public ActionReceiver() { }
+    public ActionReceiver(Socket client, ActionCallback setOutput) {
         this.client = client;
         this.setOutput = setOutput;
     }
 
     // Variables
     private Socket client;
-    private Callback setOutput;
-    private  Receive receive;
+    private ActionCallback setOutput;
+    private Receive receive = new Receive();
 
     // Functions
     public void start() {
@@ -24,21 +25,22 @@ public class ActionReceiver{
         thread.start();
     }
 
-    public void setOutputCallback(Callback setOutput) {
+    public void setActionCallback(ActionCallback setOutput) {
         this.setOutput = setOutput;
         receive.setOutputCallback(setOutput);
     }
 }
 
 class Receive implements Runnable {
-    Receive(Socket client, Callback setOutput) {
+    Receive() {}
+    Receive(Socket client, ActionCallback setOutput) {
         this.client = client;
         this.setOutput = setOutput;
     }
     private Socket client;
-    private Callback setOutput;
+    private ActionCallback setOutput;
 
-    public void setOutputCallback(Callback setOutput) {
+    public void setOutputCallback(ActionCallback setOutput) {
         this.setOutput = setOutput;
     }
 
@@ -49,7 +51,7 @@ class Receive implements Runnable {
             boolean flag = true;
             while (flag) {
                 Action action = (Action) inputStream.readObject();
-                setOutput.set(action);
+                setOutput.send(action);
             }
         }
         catch (Exception e) {

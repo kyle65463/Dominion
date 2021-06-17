@@ -1,19 +1,14 @@
 package application;
 
 import application.action.Action;
+import application.action.Message;
 import application.connection.Connection;
-import application.connection.Server;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
-
-import java.awt.event.KeyEvent;
 
 public class RoomController {
     @FXML
@@ -22,6 +17,8 @@ public class RoomController {
     VBox messages;
     @FXML
     TextField textField;
+    @FXML
+    VBox playerListBox;
 
     @FXML
     public void initialize() {
@@ -32,7 +29,7 @@ public class RoomController {
     public void initialize(String name, Connection connection) {
         nameLabel.setText(name);
         this.connection = connection;
-        connection.setOutputCallback((action) -> Platform.runLater(() -> handleAction(action)));
+        connection.setActionCallback((action) -> Platform.runLater(() -> handleAction(action)));
         textField.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.ENTER){
                 onPressed();
@@ -41,7 +38,9 @@ public class RoomController {
     }
 
     public void handleAction(Action action) {
-        addMessage(action.getUsername() + ": " + action.getContent());
+        if (action instanceof Message) {
+            addMessage(action.getUsername() + ": " + action.getContent());
+        }
     }
 
     public void addMessage(String message) {
@@ -51,7 +50,7 @@ public class RoomController {
     public void onPressed() {
         if (!textField.getText().isEmpty()) {
             String message = textField.getText();
-            connection.send(new Action(nameLabel.getText(), message));
+            connection.send(new Message(nameLabel.getText(), message));
             textField.setText("");
         }
     }

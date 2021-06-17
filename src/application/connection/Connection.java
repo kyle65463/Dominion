@@ -4,15 +4,10 @@ import application.action.Action;
 
 abstract public class Connection implements Runnable{
 
-    protected Callback setOutput = (m) -> {};
-    protected Callback setStatus = (m) -> {};
+    protected ActionCallback actionCallback = (m) -> {};
 
 
-    public abstract void setOutputCallback(Callback setOutput);
-
-    public void setStatusCallback(Callback setStatus) {
-        this.setStatus = setStatus;
-    }
+    public abstract void setActionCallback(ActionCallback callback);
 
     public abstract void send(Action action);
 

@@ -1,6 +1,7 @@
 package application;
 
 import application.action.Action;
+import application.connection.Connection;
 import application.connection.Server;
 import application.util.Navigator;
 import javafx.application.Platform;
@@ -31,21 +32,21 @@ public class CreateRoomController {
         Navigator.to(event, "application/main.fxml");
     }
 
-    private Server server = new Server();
+    private Connection connection = new Server();
     public void confirm(ActionEvent event) {
-        server.setStatusCallback((m) -> Platform.runLater(() -> checkStatus(m, event)));
-        Thread serverThread = new Thread(server);
-        serverThread.start();
+        connection.setActionCallback((m) -> Platform.runLater(() -> checkStatus(m, event)));
+        Thread connectionThread = new Thread(connection);
+        connectionThread.start();
     }
 
     public void checkStatus(Action action, ActionEvent event) {
         String status = action.getContent();
-        if(status == "Connected") {
+        if(status == "connected") {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("room.fxml"));
                 Parent root = loader.load();
                 RoomController roomController = loader.getController();
-                roomController.initialize(nameField.getText(), server);
+                roomController.initialize(nameField.getText(), connection);
                 Navigator.to(event, root);
             }
             catch (Exception e) {

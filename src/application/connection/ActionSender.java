@@ -31,6 +31,7 @@ import java.net.Socket;
 
 public class ActionSender {
     // Initialization
+    public ActionSender() {}
     public ActionSender(Socket client) {
         try {
             outputStream = new ObjectOutputStream(client.getOutputStream());

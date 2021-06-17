@@ -2,7 +2,7 @@ package application.action;
 
 import java.io.Serializable;
 
-public class Action implements Serializable{
+public abstract class Action implements Serializable{
     public Action(String username, String str) {
         this.username = username;
         this.content = str;

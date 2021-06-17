@@ -1,47 +1,71 @@
 package application.connection;
 
 import application.action.Action;
+import application.action.NetworkAction;
 
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server extends Connection {
-    private ActionSender sender;
-    private ActionReceiver receiver;
+    private int numConnection = 0;
+    private int maxConnection = 3;
+    private List<ActionSender> senders = new ArrayList<>();
+    private List<ActionReceiver> receivers = new ArrayList<>();
 
     public void run() {
         try {
             ServerSocket server = new ServerSocket(9091);
-            setStatus.set(new Action("", "Connecting"));
-            Socket client = server.accept();
-            setStatus.set(new Action("", "Connected"));
+            while (true) {
+                numConnection = senders.size();
+                if (numConnection >= maxConnection) {
+                    server.close();
+                }
+                else if(server.isClosed()) {
+                    server = new ServerSocket(9091);
+                }
 
-            sender = new ActionSender(client);
-            receiver = new ActionReceiver(client, setOutput);
-            receiver.start();
+                actionCallback.send(new NetworkAction("connecting"));
+                Socket client = server.accept();
+                actionCallback.send(new NetworkAction("connected"));
+
+                ActionSender sender = new ActionSender(client);
+                ActionReceiver receiver = new ActionReceiver(client, (action) -> {
+                    actionCallback.send(action);
+                    sendClient(action);
+                });
+                receiver.start();
+
+                senders.add(sender);
+                receivers.add(receiver);
+
+            }
         } catch (Exception e) {
             System.out.println(e);
-            setStatus.set(new Action("", "Error"));
+            actionCallback.send(new NetworkAction("connection error"));
         }
 
     }
 
-    public void setOutputCallback(Callback setOutput) {
-        this.setOutput = setOutput;
-        receiver.setOutputCallback((action) -> {
-            setOutput.set(action);
-            sendClient(action);
-        });
+    public void setActionCallback(ActionCallback callback) {
+        this.actionCallback = callback;
+        for (ActionReceiver receiver : receivers) {
+            receiver.setActionCallback((action) -> {
+                callback.send(action);
+                sendClient(action);
+            });
+        }
     }
 
     private void sendClient(Action action) {
-
-        sender.send(action);
+        for (ActionSender sender : senders) {
+            sender.send(action);
+        }
     }
 
     public void send(Action action) {
         sendClient(action);
-        setOutput.set(action);
+        actionCallback.send(action);
     }
 }

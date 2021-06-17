@@ -1,32 +1,34 @@
 package application.connection;
 
 import application.action.Action;
+import application.action.NetworkAction;
 
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Client extends Connection {
-    private ActionSender sender;
-    private ActionReceiver receiver;
+    private ActionSender sender = new ActionSender();
+    private ActionReceiver receiver = new ActionReceiver();
 
     public void run() {
         try {
-            setStatus.set(new Action("", "Connecting"));
+            actionCallback.send(new NetworkAction("connecting"));
             Socket client = new Socket("localhost", 9091);
-            setStatus.set(new Action("", "Connected"));
+            if (client.isConnected()) {
+                actionCallback.send(new NetworkAction("connected"));
+            }
 
             sender = new ActionSender(client);
-            receiver = new ActionReceiver(client, setOutput);
+            receiver = new ActionReceiver(client, actionCallback);
             receiver.start();
         } catch (Exception e) {
             System.out.println(e);
-            setStatus.set(new Action("", "Error"));
+            actionCallback.send(new NetworkAction("connection error"));
         }
     }
 
-    public void setOutputCallback(Callback setOutput) {
-        this.setOutput = setOutput;
-        receiver.setOutputCallback(setOutput);
+    public void setActionCallback(ActionCallback callback) {
+        this.actionCallback = callback;
+        receiver.setActionCallback(callback);
     }
 
     public void send(Action action) {

@@ -2,6 +2,7 @@ package application;
 
 import application.action.Action;
 import application.connection.Client;
+import application.connection.Connection;
 import application.util.Navigator;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -19,7 +20,7 @@ public class EnterRoomController {
     @FXML
     TextField nameField;
 
-    Client client = new Client();
+    Connection connection = new Client();
 
     @FXML
     public void initialize() {
@@ -29,21 +30,20 @@ public class EnterRoomController {
     public void cancel(ActionEvent event) {
         Navigator.to(event, "application/main.fxml");
     }
-
     public void confirm(ActionEvent event) {
-        client.setStatusCallback((m) -> Platform.runLater(() -> checkStatus(m, event)));
-        Thread serverThread = new Thread(client);
-        serverThread.start();
+        connection.setActionCallback((m) -> Platform.runLater(() -> checkStatus(m, event)));
+        Thread connectionThread = new Thread(connection);
+        connectionThread.start();
     }
 
     public void checkStatus(Action action, ActionEvent event) {
         String status = action.getContent();
-        if(status == "Connected") {
+        if(status == "connected") {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("room.fxml"));
                 Parent root = loader.load();
                 RoomController roomController = loader.getController();
-                roomController.initialize(nameField.getText(), client);
+                roomController.initialize(nameField.getText(), connection);
                 Navigator.to(event, root);
             }
             catch (Exception e) {
