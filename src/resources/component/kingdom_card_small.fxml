@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="120.0" style="-fx-border-width: 3; -fx-border-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="42.0" text="王座" textAlignment="CENTER">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Circle fill="#fae77d" layoutX="16.0" layoutY="85.0" radius="11.0" stroke="#00000033" strokeType="INSIDE" strokeWidth="0.5" />
+      <Label alignment="CENTER" layoutX="7.0" layoutY="77.0" prefHeight="16.0" prefWidth="17.0" text="3" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c1c1c1" height="20.0" layoutX="5.0" layoutY="5.0" stroke="#00000080" strokeType="INSIDE" strokeWidth="0.5" width="20.0" />
+      <Label layoutX="9.0" layoutY="8.0" text="10">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

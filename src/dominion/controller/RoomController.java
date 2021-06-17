@@ -1,13 +1,17 @@
 package dominion.controller;
 
+import dominion.connection.Server;
 import dominion.model.User;
 import dominion.model.action.Action;
 import dominion.model.action.ConnectionAccepted;
 import dominion.model.action.Message;
 import dominion.connection.Connection;
+import dominion.util.Navigator;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -26,13 +30,15 @@ public class RoomController {
     TextField textField;
     @FXML
     VBox playerListBox;
-
     @FXML
-    public void initialize() {
-        nameLabel.setText("");
-    }
+    Button startGameButton;
 
     Connection connection;
+
+    public void startGame(ActionEvent event) {
+        Navigator.to(event, "resources/view/game.fxml");
+    }
+
     public void initialize(User user, List<User> users, Connection connection) {
         for (User u : users) {
             addUser(u);
@@ -41,10 +47,14 @@ public class RoomController {
         this.connection = connection;
         connection.setActionCallback((action) -> Platform.runLater(() -> handleAction(action)));
         textField.setOnKeyReleased(event -> {
-            if (event.getCode() == KeyCode.ENTER){
+            if (event.getCode() == KeyCode.ENTER) {
                 onPressed();
             }
         });
+        if (!(connection instanceof Server)) {
+            startGameButton.setVisible(false);
+            startGameButton.setDisable(true);
+        }
     }
 
     public void handleAction(Action action) {
@@ -52,7 +62,7 @@ public class RoomController {
             addMessage(action.getUsername() + ": " + action.getContent());
         }
         if (action instanceof ConnectionAccepted) {
-            User acceptedUser = ((ConnectionAccepted)action).getAcceptedUser();
+            User acceptedUser = ((ConnectionAccepted) action).getAcceptedUser();
             addUser(acceptedUser);
         }
     }
@@ -79,8 +89,7 @@ public class RoomController {
         HBox box2 = (HBox) playerListBox.getChildren().get(1);
         if (box1.getChildren().size() < 2) {
             box1.getChildren().add(label);
-        }
-        else{
+        } else {
             box2.getChildren().add(label);
         }
     }
