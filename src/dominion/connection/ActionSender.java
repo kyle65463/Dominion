@@ -1,6 +1,6 @@
-package application.connection;
+package dominion.connection;
 
-import application.action.Action;
+import dominion.model.action.Action;
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;

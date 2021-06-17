@@ -1,6 +1,6 @@
-package application;
+package dominion.controller;
 
-import application.util.Navigator;
+import dominion.util.Navigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +24,7 @@ public class MainController {
 
     public void navigateToCreateRoomScene(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("create_room.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("resources/view/create_room.fxml"));
             Parent root = loader.load();
             CreateRoomController createRoomController = loader.getController();
             createRoomController.setName(name);
@@ -37,7 +37,7 @@ public class MainController {
 
     public void navigateToEnterRoomScene(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("enter_room.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("resources/view/enter_room.fxml"));
             Parent root = loader.load();
             EnterRoomController enterRoomController = loader.getController();
             enterRoomController.setName(name);

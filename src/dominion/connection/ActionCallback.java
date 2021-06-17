@@ -1,6 +1,6 @@
-package application.connection;
+package dominion.connection;
 
-import application.action.Action;
+import dominion.model.action.Action;
 
 public interface ActionCallback {
     void send(Action action);

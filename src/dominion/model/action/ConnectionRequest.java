@@ -1,6 +1,6 @@
-package application.action;
+package dominion.model.action;
 
-import application.User;
+import dominion.model.User;
 
 public class ConnectionRequest extends NetworkAction{
     // Constructor

@@ -1,4 +1,4 @@
-package application;
+package dominion.model;
 
 import java.io.Serializable;
 

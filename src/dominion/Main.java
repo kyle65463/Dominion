@@ -1,13 +1,10 @@
-package application;
+package dominion;
 
+import dominion.controller.MainController;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -27,7 +24,7 @@ public class Main extends Application {
 
     private void newWindow(double x, double y, String name) throws Exception{
         Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/view/main.fxml"));
         Parent root = loader.load();
         MainController controller = loader.getController();
         controller.setName(name);

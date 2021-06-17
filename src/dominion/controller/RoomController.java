@@ -1,9 +1,10 @@
-package application;
+package dominion.controller;
 
-import application.action.Action;
-import application.action.ConnectionAccepted;
-import application.action.Message;
-import application.connection.Connection;
+import dominion.model.User;
+import dominion.model.action.Action;
+import dominion.model.action.ConnectionAccepted;
+import dominion.model.action.Message;
+import dominion.connection.Connection;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;

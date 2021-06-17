@@ -1,4 +1,4 @@
-package application.action;
+package dominion.model.action;
 
 import java.io.Serializable;
 

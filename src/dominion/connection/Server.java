@@ -1,15 +1,14 @@
-package application.connection;
+package dominion.connection;
 
-import application.User;
-import application.action.Action;
-import application.action.ConnectionAccepted;
-import application.action.ConnectionRequest;
-import application.action.NetworkAction;
+import dominion.model.User;
+import dominion.model.action.Action;
+import dominion.model.action.ConnectionAccepted;
+import dominion.model.action.ConnectionRequest;
+import dominion.model.action.NetworkAction;
 
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Server extends Connection {

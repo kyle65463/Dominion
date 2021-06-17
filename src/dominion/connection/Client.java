@@ -1,9 +1,9 @@
-package application.connection;
+package dominion.connection;
 
-import application.User;
-import application.action.Action;
-import application.action.ConnectionRequest;
-import application.action.NetworkAction;
+import dominion.model.User;
+import dominion.model.action.Action;
+import dominion.model.action.ConnectionRequest;
+import dominion.model.action.NetworkAction;
 
 import java.net.Socket;
 

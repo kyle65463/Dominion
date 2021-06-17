@@ -1,6 +1,5 @@
-package application.util;
+package dominion.util;
 
-import application.RoomController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
