@@ -1,6 +1,5 @@
 package dominion;
 
-import dominion.controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,7 +23,7 @@ public class Main extends Application {
 
     private void newWindow(double x, double y, String name) throws Exception{
         Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/view/game.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/scenes/game.fxml"));
         Parent root = loader.load();
 //        MainController controller = loader.getController();
 //        controller.setName(name);
