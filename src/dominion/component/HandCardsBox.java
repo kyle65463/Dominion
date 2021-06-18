@@ -1,48 +1,63 @@
 package dominion.component;
 
-import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import dominion.util.Animator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HandCardsBox {
-    public HandCardsBox(Node gameScene) {
-        this.gameScene = (AnchorPane) gameScene;
+    // Constructor
+    public HandCardsBox(GameScene gameScene) {
+        this.gameScene = gameScene;
     }
-    private AnchorPane gameScene;
-    private final double centerLayoutX = 560;
-    private final double layoutY = 589;
-    private double layoutX = 560;
-    private final double padding = 12;
-    private double layoutXOffset = 0;
 
-    List<Card> cards = new ArrayList<>();
+    // Variables
+    private GameScene gameScene;
+    private List<Card> cards = new ArrayList<>();
+    private final double centerX = 560;
+    private final double y = 589;
+    private final double padding = 12;
+
+    // Functions
+    public List<Card> getCards() {
+        return getCards();
+    }
+
+    public void removeCards() {
+        cards.clear();
+    }
 
     public void addCard(Card card) {
         cards.add(card);
-        if (cards.size() % 2 == 0 && cards.size() > 0){
-            layoutX = centerLayoutX - (cards.size() / 2) * card.getWidth() - (cards.size() / 2) * padding + (1 / 2) * padding;
-            for(Card c : cards) {
-                c.setLayout(layoutX, layoutY);
-                layoutX += padding + c.getWidth();
-                if(!gameScene.getChildren().contains(c.getNode())) {
-                    gameScene.getChildren().add(c.getNode());
-                }
+        rearrange();
+    }
+
+    public void removeCard(Card card) {
+        cards.remove(card);
+        rearrange();
+    }
+
+    private void rearrange() {
+        double x = calculateFirstX();
+        for (Card card : cards) {
+            if (!gameScene.contains(card.getNode())) {
+                card.setLayout(x, y);
+                gameScene.add(card.getNode());
+            } else {
+                gameScene.setToTop(card.getNode());
+                Animator.transitTo(card.getNode(), x, y);
             }
-        }
-        else if (cards.size() % 2 == 1){
-            layoutX = centerLayoutX - (cards.size() / 2) * card.getWidth() - (cards.size() / 2) * padding;
-            for(Card c : cards) {
-                c.setLayoutCenterX(layoutX, layoutY);
-                layoutX += padding + c.getWidth();
-                if(!gameScene.getChildren().contains(c.getNode())) {
-                    gameScene.getChildren().add(c.getNode());
-                }
-            }
+            x += padding + card.getWidth();
         }
     }
 
+    private double calculateFirstX() {
+        double x = centerX - (cards.size() / 2) * Card.originalWidth - (cards.size() / 2) * padding;
+        if (cards.size() % 2 == 0) {
+            x += padding / 2;
+        } else {
+            x -= Card.originalWidth / 2;
+        }
+        return x;
+    }
 }

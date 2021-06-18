@@ -1,23 +1,22 @@
 package dominion.controller;
 
 import dominion.component.*;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
-import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameController {
     @FXML
-    AnchorPane gameScene;
+    AnchorPane rootNode;
     @FXML
-    GridPane kingdomCardBox;
+    GridPane majorKingdomCardsBoxNode;
     @FXML
-    GridPane coinCardBox;
+    GridPane minorKingdomCardsBoxNode;
     @FXML
     VBox messageBox;
     @FXML
@@ -29,21 +28,23 @@ public class GameController {
 
     @FXML
     void initialize() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 2; j++) {
-                kingdomCardBox.add(new KingdomCard().getNode(), i, j);
-            }
-        }
+        GameScene gameScene = new GameScene(rootNode);
 
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 4; j++) {
-                KingdomCard kingdomCard = new KingdomCard();
-                kingdomCard.setScale(0.7);
-                coinCardBox.add(kingdomCard.getNode(), i, j);
-            }
+        MajorKingdomCardsBox majorKingdomCardsBox = new MajorKingdomCardsBox(majorKingdomCardsBoxNode);
+        MinorKingdomCardsBox minorKingdomCardsBox = new MinorKingdomCardsBox(minorKingdomCardsBoxNode);
+        List<KingdomCard> majorKingdomCards = new ArrayList<>();
+        List<KingdomCard> minorKingdomCards = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            majorKingdomCards.add(new KingdomCard());
         }
+        for (int i = 0; i < 7; i++) {
+            minorKingdomCards.add(new KingdomCard());
+        }
+        majorKingdomCardsBox.setKingdomCards(majorKingdomCards);
+        minorKingdomCardsBox.setKingdomCards(minorKingdomCards);
 
-        actionBar.getChildren().add(new ActionBar().getNode());
+        ActionBar a = new ActionBar();
+        actionBar.getChildren().add(a.getNode());
         for (int i = 0; i < 3; i++) {
             opponentsNameStatusBox.add(new NameStatus().getNode(), i, 0);
         }
@@ -53,7 +54,10 @@ public class GameController {
         HandCardsBox handCardsBox = new HandCardsBox(gameScene);
         Card card = new Card();
         handCardsBox.addCard(new Card());
+        handCardsBox.addCard(new Card());
+        handCardsBox.addCard(new Card());
         handCardsBox.addCard(card);
+
 
         FieldCardsBox fieldCardsBox = new FieldCardsBox(gameScene);
         fieldCardsBox.addCard(new Card());
@@ -61,6 +65,16 @@ public class GameController {
         fieldCardsBox.addCard(new Card());
         fieldCardsBox.addCard(new Card());
         fieldCardsBox.addCard(new Card());
-        fieldCardsBox.addCard(card);
+
+        DiscardPileBox discardPileBox = new DiscardPileBox(gameScene);
+        discardPileBox.addCard(new Card());
+
+        DeckBox deckBox = new DeckBox(gameScene);
+        deckBox.addCard(new Card());
+
+        a.setActionButtonOnPressed((e) -> {
+            handCardsBox.removeCard(card);
+            fieldCardsBox.addCard(card);
+        });
     }
 }

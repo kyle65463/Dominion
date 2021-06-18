@@ -1,5 +1,6 @@
 package dominion.component;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -54,6 +55,10 @@ public class ActionBar {
     public void setStatus(String status) {
         this.status = status;
         statusLabel.setText(status);
+    }
+
+    public void setActionButtonOnPressed(EventHandler handler) {
+        button.setOnMousePressed(handler);
     }
 
     private void initialize() {

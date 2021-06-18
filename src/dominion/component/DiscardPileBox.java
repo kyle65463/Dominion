@@ -5,19 +5,18 @@ import dominion.util.Animator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FieldCardsBox {
+public class DiscardPileBox {
     // Constructor
-    public FieldCardsBox(GameScene gameScene) {
+    public DiscardPileBox(GameScene gameScene) {
         this.gameScene = gameScene;
     }
 
     // Variables
     private GameScene gameScene;
-    private final double cardScale = 0.6;
-    private final double baseX = 235 - (Card.originalWidth * (1 - cardScale)) / 2;
-    private final double y = 390 - (Card.originalHeight * (1 - cardScale)) / 2;
-    private double offsetX = 0;
     private List<Card> cards = new ArrayList<>();
+    private final double cardScale = 0.6;
+    private final double x = 95 - (Card.originalWidth * (1 - cardScale)) / 2;
+    private final double y = 670 - (Card.originalHeight * (1 - cardScale)) / 2;
 
     // Functions
     public List<Card> getCards() {
@@ -33,12 +32,11 @@ public class FieldCardsBox {
         if (!gameScene.contains(card.getNode())) {
             // Add the card to game scene
             card.setScale(cardScale);
-            card.setLayout(baseX + offsetX, y);
+            card.setLayout(x, y);
             gameScene.add(card.getNode());
         } else {
             gameScene.setToTop(card.getNode());
-            Animator.transitTo(card.getNode(), baseX + offsetX, y, cardScale);
+            Animator.transitTo(card.getNode(), x, y, cardScale);
         }
-        offsetX = cards.size() * (card.getWidth() * 0.7);
     }
 }
