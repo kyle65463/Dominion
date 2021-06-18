@@ -1,13 +1,19 @@
 package dominion.controller;
 
-import dominion.component.ActionBar;
-import dominion.component.KingdomCard;
+import dominion.component.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 
 public class GameController {
+    @FXML
+    AnchorPane gameScene;
     @FXML
     GridPane kingdomCardBox;
     @FXML
@@ -16,6 +22,10 @@ public class GameController {
     VBox messageBox;
     @FXML
     Pane actionBar;
+    @FXML
+    GridPane opponentsNameStatusBox;
+    @FXML
+    Pane playerNameStatusBox;
 
     @FXML
     void initialize() {
@@ -33,6 +43,24 @@ public class GameController {
             }
         }
 
-        actionBar.getChildren().add((Pane) new ActionBar().getNode());
+        actionBar.getChildren().add(new ActionBar().getNode());
+        for (int i = 0; i < 3; i++) {
+            opponentsNameStatusBox.add(new NameStatus().getNode(), i, 0);
+        }
+
+        playerNameStatusBox.getChildren().add(new NameStatus().getNode());
+
+        HandCardsBox handCardsBox = new HandCardsBox(gameScene);
+        Card card = new Card();
+        handCardsBox.addCard(new Card());
+        handCardsBox.addCard(card);
+
+        FieldCardsBox fieldCardsBox = new FieldCardsBox(gameScene);
+        fieldCardsBox.addCard(new Card());
+        fieldCardsBox.addCard(new Card());
+        fieldCardsBox.addCard(new Card());
+        fieldCardsBox.addCard(new Card());
+        fieldCardsBox.addCard(new Card());
+        fieldCardsBox.addCard(card);
     }
 }

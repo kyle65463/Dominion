@@ -17,17 +17,17 @@ public class Main extends Application {
         double offsetY2 = 500;
 
         newWindow(offsetX1, offsetY1, "kyle15989");
-        newWindow(offsetX2, offsetY1, "DomioDestroyer");
-        newWindow(offsetX1, offsetY2, "freeChina");
-        newWindow(offsetX2, offsetY2, "Ken30510");
+//        newWindow(offsetX2, offsetY1, "DomioDestroyer");
+//        newWindow(offsetX1, offsetY2, "freeChina");
+//        newWindow(offsetX2, offsetY2, "Ken30510");
     }
 
     private void newWindow(double x, double y, String name) throws Exception{
         Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/view/main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/view/game.fxml"));
         Parent root = loader.load();
-        MainController controller = loader.getController();
-        controller.setName(name);
+//        MainController controller = loader.getController();
+//        controller.setName(name);
         stage.setTitle("Dominion");
         stage.setScene(new Scene(root));
         stage.setResizable(false);

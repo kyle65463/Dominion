@@ -82,6 +82,12 @@ public class ActionBar {
                     button = (Button) node;
                 }
             }
+
+            button.setOnMousePressed(
+                    e -> {
+//                        System.out.println(e);
+                    }
+            );
             setNumActions(1);
             setNumPurchases(1);
             setNumCoins(3);

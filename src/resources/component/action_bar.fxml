@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="630.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="650.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="10.0" layoutY="33.0" text="你可以打出行動卡" textFill="#cbcfff">
          <font>
@@ -51,7 +51,7 @@
             </StackPane>
          </children>
       </HBox>
-      <Button alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="516.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" text="結束行動" wrapText="true">
+      <Button alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="535.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="92.0" text="結束行動" wrapText="true">
          <font>
             <Font size="15.0" />
          </font>
