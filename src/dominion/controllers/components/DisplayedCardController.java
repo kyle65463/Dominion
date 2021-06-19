@@ -5,6 +5,7 @@ import dominion.models.game.cards.Card;
 import dominion.models.game.cards.curses.Curses;
 import dominion.models.game.cards.treasures.Treasure;
 import dominion.models.game.cards.victories.Victory;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -31,6 +32,10 @@ public class DisplayedCardController extends ComponentController{
         rootNode.setScaleX(scale);
         rootNode.setScaleY(scale);
         rootNode.setTranslateX(0 - (1 - scale) * 120 / 2);
+    }
+
+    public void setOnPressed(EventHandler eventHandler) {
+        rootNode.setOnMouseClicked(eventHandler);
     }
 
     private void setStyle() {

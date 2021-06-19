@@ -24,11 +24,11 @@ public class ActionBarController extends ComponentController{
 
     // Functions
     public void setNumActions(int numActions) {
-        actionsLabel.setText(String.valueOf(numActions) + "行動");
+        actionsLabel.setText(String.valueOf(numActions) + " 行動");
     }
 
     public void setNumPurchases(int numPurchases) {
-        purchasesLabel.setText(String.valueOf(numPurchases) + "購買");
+        purchasesLabel.setText(String.valueOf(numPurchases) + " 購買");
     }
 
     public void setNumCoins(int numCoins) {
@@ -68,7 +68,6 @@ public class ActionBarController extends ComponentController{
             setStatus("你可以購買卡片");
             setButtonText("結束購買");
 
-            System.out.println("hi");
             rootNode.setLayoutX(x);
             rootNode.setLayoutY(y);
             gameScene.add(this);

@@ -25,7 +25,7 @@ public class Game implements Runnable {
                 Platform.runLater(() -> {
                     currentPlayer.selectActionCards();
                 });
-                waitForPlayingActionCardsPhasesEnd();
+                waitForPlayingActionsPhasesEnd();
             }
 
             // Buying cards
@@ -33,7 +33,7 @@ public class Game implements Runnable {
             Platform.runLater(() -> {
                 currentPlayer.selectTreasureCards();
             });
-            waitForPlayingActionCardsPhasesEnd();
+            waitForBuyingPhasesEnd();
 
             // Reset cards
             Platform.runLater(() -> {
@@ -45,10 +45,10 @@ public class Game implements Runnable {
         }
     }
 
-    private void waitForPlayingActionCardsPhasesEnd() {
+    private void waitForPlayingActionsPhasesEnd() {
         GameManager.lock.lock();
         try {
-            GameManager.getIsPlayActionCardsPhaseEnd().await();
+            GameManager.getIsPlayActionsPhaseEnd().await();
         } catch (Exception e) {
 
         } finally {
@@ -56,10 +56,10 @@ public class Game implements Runnable {
         }
     }
 
-    private void waitForBuyingCardsPhasesEnd() {
+    private void waitForBuyingPhasesEnd() {
         GameManager.lock.lock();
         try {
-            GameManager.getIsBuyingCardsPhaseEnd().await();
+            GameManager.getIsBuyingPhaseEnd().await();
         } catch (Exception e) {
 
         } finally {

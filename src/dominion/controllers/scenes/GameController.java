@@ -44,23 +44,6 @@ public class GameController {
     public void initialize(List<User> users, User applicationUser) {
         gameScene = new GameScene(rootNode);
 
-        // Set up purchase areas
-        MajorPurchaseArea majorPurchaseArea = new MajorPurchaseArea(majorKingdomCardsBoxNode);
-        MinorPurchaseArea minorPurchaseArea = new MinorPurchaseArea(minorKingdomCardsBoxNode);
-        List<DisplayedCard> majorKingdomCards = new ArrayList<>();
-        List<DisplayedCard> minorKingdomCards = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            majorKingdomCards.add(new DisplayedCard(new Copper(), 10));
-        }
-
-        minorKingdomCards.add(new DisplayedCard(new Province(), 4 * users.size()));
-        minorKingdomCards.add(new DisplayedCard(new Duchy(), 4 * users.size()));
-        minorKingdomCards.add(new DisplayedCard(new Estate(), 4 * users.size()));
-        minorKingdomCards.add(new DisplayedCard(new Curse(), 10 * users.size()));
-        minorKingdomCards.add(new DisplayedCard(new Gold(), 30));
-        minorKingdomCards.add(new DisplayedCard(new Silver(), 40));
-        minorKingdomCards.add(new DisplayedCard(new Copper(), 60 - 7 * users.size()));
-
         // Set up initial cards
         List<Card> initialCards = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
@@ -93,6 +76,22 @@ public class GameController {
             player.setFieldCards(fieldCards);
             players.add(player);
         }
+
+        // Set up purchase areas
+        MajorPurchaseArea majorPurchaseArea = new MajorPurchaseArea(majorKingdomCardsBoxNode);
+        MinorPurchaseArea minorPurchaseArea = new MinorPurchaseArea(minorKingdomCardsBoxNode);
+        List<DisplayedCard> majorKingdomCards = new ArrayList<>();
+        List<DisplayedCard> minorKingdomCards = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            majorKingdomCards.add(new DisplayedCard(new Copper(), 10, applicationPlayer));
+        }
+        minorKingdomCards.add(new DisplayedCard(new Province(), 4 * users.size(), applicationPlayer));
+        minorKingdomCards.add(new DisplayedCard(new Duchy(), 4 * users.size(), applicationPlayer));
+        minorKingdomCards.add(new DisplayedCard(new Estate(), 4 * users.size(), applicationPlayer));
+        minorKingdomCards.add(new DisplayedCard(new Curse(), 10 * users.size(), applicationPlayer));
+        minorKingdomCards.add(new DisplayedCard(new Gold(), 30, applicationPlayer));
+        minorKingdomCards.add(new DisplayedCard(new Silver(), 40, applicationPlayer));
+        minorKingdomCards.add(new DisplayedCard(new Copper(), 60 - 7 * users.size(), applicationPlayer));
 
         majorPurchaseArea.setDisplayedCards(majorKingdomCards);
         minorPurchaseArea.setDisplayedCards(minorKingdomCards);

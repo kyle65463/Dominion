@@ -2,6 +2,7 @@ package dominion.models.game;
 
 import dominion.controllers.components.ActionBarController;
 import dominion.models.game.GameScene;
+import javafx.event.EventHandler;
 
 public class ActionBar implements HasUi {
     // Constructor
@@ -45,6 +46,12 @@ public class ActionBar implements HasUi {
     public void setButtonText(String text) {
         if(isEnableUi) {
             uiController.setButtonText(text);
+        }
+    }
+
+    public void setButtonOnPressed(EventHandler eventHandler) {
+        if(isEnableUi) {
+            uiController.setButtonOnPressed(eventHandler);
         }
     }
 }

@@ -5,7 +5,7 @@ import dominion.models.game.HasUi;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.event.EventHandler;
 
-public abstract class Card implements HasUi {
+public abstract class Card implements HasUi, Cloneable{
     // Constructor
     public Card() {
         disableUi();
@@ -44,6 +44,12 @@ public abstract class Card implements HasUi {
     public void disableUi() {
         uiController = null;
         isEnableUi = false;
+    }
+
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     public void enableUi() {

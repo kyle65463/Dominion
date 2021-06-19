@@ -21,20 +21,20 @@ public class GameManager {
     private static Player currentPlayer;       // The player playing actions
     private static List<Player> players;       // All players
 
-    private final static Condition isPlayActionCardsPhaseEnd = lock.newCondition();
-    private final static Condition isBuyingCardsPhaseEnd = lock.newCondition();
+    private final static Condition isPlayingActionsPhaseEnd = lock.newCondition();
+    private final static Condition isBuyingPhaseEnd = lock.newCondition();
 
     // Functions
     public static Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public static Condition getIsPlayActionCardsPhaseEnd() {
-        return isPlayActionCardsPhaseEnd;
+    public static Condition getIsPlayActionsPhaseEnd() {
+        return isPlayingActionsPhaseEnd;
     }
 
-    public static Condition getIsBuyingCardsPhaseEnd() {
-        return isBuyingCardsPhaseEnd;
+    public static Condition getIsBuyingPhaseEnd() {
+        return isBuyingPhaseEnd;
     }
 
     public static void sendEvent(EventAction event) {
@@ -44,23 +44,22 @@ public class GameManager {
     private static void handleEvent(EventAction event) {
         if(event instanceof GameEvent) {
             ((GameEvent)event).perform();
-            playActionCardsPhaseEnd();
         }
     }
 
-    public static void playActionCardsPhaseEnd() {
+    public static void endPlayingActionsPhase() {
         lock.lock();
         try {
-            isPlayActionCardsPhaseEnd.signal();
+            isPlayingActionsPhaseEnd.signal();
         }finally {
             lock.unlock();
         }
     }
 
-    public static void buyingCardsPhaseEnd() {
+    public static void endBuyingPhase() {
         lock.lock();
         try {
-            isBuyingCardsPhaseEnd.signal();
+            isBuyingPhaseEnd.signal();
         }finally {
             lock.unlock();
         }

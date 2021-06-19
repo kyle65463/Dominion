@@ -58,6 +58,7 @@ public class CardController extends ComponentController {
     }
 
     public void setNumValueLabel(int value) {
+        valueBox.setVisible(value > 0);
         numValueLabel.setText(String.valueOf(value));
     }
 
@@ -66,11 +67,7 @@ public class CardController extends ComponentController {
     }
 
     public void setNumRemainLabel(int numRemain) {
-        if (numRemain > 1) {
-            numRemainBox.setVisible(true);
-        } else {
-            numRemainBox.setVisible(false);
-        }
+        numRemainBox.setVisible(numRemain > 1);
         numRemainLabel.setText(String.valueOf(numRemain));
     }
 
@@ -118,6 +115,8 @@ public class CardController extends ComponentController {
             setNumCostLabel(card.getNumCost());
             if (card instanceof Treasure) {
                 setNumValueLabel(((Treasure) card).getNumValue());
+            } else {
+                setNumValueLabel(0);
             }
             setStyle();
         } catch (Exception e) {
