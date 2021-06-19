@@ -37,13 +37,19 @@ public class ActionBarController extends ComponentController{
 
     public void setButtonText(String buttonText) {
         button.setText(buttonText);
+        if(buttonText.isEmpty()){
+            button.setVisible(false);
+        }
+        else{
+            button.setVisible(true);
+        }
     }
 
     public void setStatus(String status) {
         statusLabel.setText(status);
     }
 
-    public void setActionButtonOnPressed(EventHandler handler) {
+    public void setButtonOnPressed(EventHandler handler) {
         button.setOnMousePressed(handler);
     }
 

@@ -1,17 +1,24 @@
 package dominion.models.game;
 
 import dominion.controllers.components.HandCardsController;
+import dominion.game.GameManager;
+import dominion.models.events.game.GameEvent;
+import dominion.models.events.game.PlayCardEvent;
 import dominion.models.game.cards.Card;
+import dominion.models.game.cards.actions.Action;
+import dominion.models.game.cards.treasures.Treasure;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HandCards implements HasUi{
+public class HandCards implements HasUi {
     // Constructor
-    public HandCards() {
+    public HandCards(Player player) {
+        this.player = player;
     }
 
     // Variables
+    private Player player;
     private boolean isEnableUi = false;
     private HandCardsController uiController;
     private List<Card> cards = new ArrayList<>();
@@ -20,7 +27,7 @@ public class HandCards implements HasUi{
     public void enableUi(GameScene gameScene) {
         this.uiController = new HandCardsController(gameScene);
         isEnableUi = true;
-        for(Card card : cards) {
+        for (Card card : cards) {
             card.enableUi();
         }
     }
@@ -30,24 +37,73 @@ public class HandCards implements HasUi{
     }
 
     public List<Card> getCards() {
-        return getCards();
+        return new ArrayList<>(cards);
     }
 
     public void removeCards() {
         cards.clear();
+        if (isEnableUi) {
+            uiController.arrangeCardsPos(cards);
+        }
+    }
+
+    public void disableAllCards() {
+        for (Card card : cards) {
+            card.disableOnPressed();
+        }
+    }
+
+    public boolean hasActionCards() {
+        for (Card card : cards) {
+            if (card instanceof Action) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void enableActionCards() {
+        for (Card card : cards) {
+            if (card instanceof Action) {
+                card.setOnPressed((e) -> {
+                    GameManager.sendEvent(new PlayCardEvent(player, card));
+                });
+            } else {
+                card.disableOnPressed();
+            }
+        }
+    }
+
+    public void enableTreasureCards() {
+        for (Card card : cards) {
+            if (card instanceof Treasure) {
+                card.setOnPressed((e) -> {
+                    GameManager.sendEvent(new PlayCardEvent(player, card));
+                });
+            } else {
+                card.disableOnPressed();
+            }
+        }
+    }
+
+    public void addCards(List<Card> cards) {
+        for (Card card : cards) {
+            addCard(card);
+        }
     }
 
     public void addCard(Card card) {
         cards.add(card);
-        if(isEnableUi) {
+        if (isEnableUi) {
             uiController.arrangeCardsPos(cards);
         }
     }
 
     public void removeCard(Card card) {
         cards.remove(card);
-        if(isEnableUi) {
-            card.enableUi();
+        card.setNumRemain(0);
+        card.disableOnPressed();
+        if (isEnableUi) {
             uiController.arrangeCardsPos(cards);
         }
     }

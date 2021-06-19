@@ -55,16 +55,19 @@ public class GameController {
 
         minorKingdomCards.add(new DisplayedCard(new Province(), 4 * users.size()));
         minorKingdomCards.add(new DisplayedCard(new Duchy(), 4 * users.size()));
-        minorKingdomCards.add(new DisplayedCard(new Estate(), 4 * users.size() + 3 * users.size()));
+        minorKingdomCards.add(new DisplayedCard(new Estate(), 4 * users.size()));
         minorKingdomCards.add(new DisplayedCard(new Curse(), 10 * users.size()));
         minorKingdomCards.add(new DisplayedCard(new Gold(), 30));
         minorKingdomCards.add(new DisplayedCard(new Silver(), 40));
-        minorKingdomCards.add(new DisplayedCard(new Copper(), 60));
+        minorKingdomCards.add(new DisplayedCard(new Copper(), 60 - 7 * users.size()));
 
         // Set up initial cards
         List<Card> initialCards = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 7; i++) {
             initialCards.add(new Copper());
+        }
+        for (int i = 0; i < 3; i++) {
+            initialCards.add(new Estate());
         }
 
         // Set up players
@@ -88,17 +91,23 @@ public class GameController {
 
             player.setDeckCards(initialCards);
             player.setFieldCards(fieldCards);
-            players.add(new Player(user));
+            players.add(player);
         }
 
         majorPurchaseArea.setDisplayedCards(majorKingdomCards);
         minorPurchaseArea.setDisplayedCards(minorKingdomCards);
 
         // Set up game manager
-        GameManager gameManager = new GameManager(applicationPlayer, players);
+        GameManager.initialize(players);
+        for(Player player : players){
+            player.drawCards(5);
+        }
+
+        applicationPlayer.selectTreasureCards();
 
         // Run the game
-        Game game = new Game(gameManager);
-        game.start();
+        Game game = new Game();
+        Thread thread = new Thread(game);
+        thread.start();
     }
 }

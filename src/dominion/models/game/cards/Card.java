@@ -3,6 +3,7 @@ package dominion.models.game.cards;
 import dominion.controllers.components.CardController;
 import dominion.models.game.HasUi;
 import dominion.models.game.cards.treasures.Treasure;
+import javafx.event.EventHandler;
 
 public abstract class Card implements HasUi {
     // Constructor
@@ -46,10 +47,10 @@ public abstract class Card implements HasUi {
     }
 
     public void enableUi() {
-        if(uiController == null) {
+        if (uiController == null) {
             uiController = new CardController(this);
             uiController.setNumRemainLabel(numRemain);
-            if(this instanceof Treasure) {
+            if (this instanceof Treasure) {
                 uiController.setNumValueLabel(((Treasure) this).getNumValue());
             }
         }
@@ -57,19 +58,32 @@ public abstract class Card implements HasUi {
     }
 
     public void flipToBack() {
-        if(isEnableUi) {
+        if (isEnableUi) {
             uiController.flipToBack();
+        }
+    }
+
+    public void disableOnPressed() {
+        if (isEnableUi) {
+            uiController.setOnPressed((e -> {
+            }));
+        }
+    }
+
+    public void setOnPressed(EventHandler eventHandler) {
+        if (isEnableUi) {
+            uiController.setOnPressed(eventHandler);
         }
     }
 
     public void flipToFront() {
-        if(isEnableUi) {
-            uiController.flipToBack();
+        if (isEnableUi) {
+            uiController.flipToFront();
         }
     }
 
     public void setNumRemain(int numRemain) {
-        if(isEnableUi) {
+        if (isEnableUi) {
             uiController.setNumRemainLabel(numRemain);
         }
     }

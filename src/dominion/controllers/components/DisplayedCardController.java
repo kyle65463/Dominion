@@ -30,7 +30,6 @@ public class DisplayedCardController extends ComponentController{
     public void setScale(double scale) {
         rootNode.setScaleX(scale);
         rootNode.setScaleY(scale);
-        System.out.println(scale * ((Pane)rootNode).getWidth() / 2);
         rootNode.setTranslateX(0 - (1 - scale) * 120 / 2);
     }
 

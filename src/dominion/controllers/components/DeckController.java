@@ -2,6 +2,7 @@ package dominion.controllers.components;
 
 import dominion.models.game.cards.Card;
 import dominion.models.game.GameScene;
+import dominion.utils.Animator;
 
 public class DeckController extends ComponentController{
     // Constructor
@@ -17,11 +18,14 @@ public class DeckController extends ComponentController{
     // Functions
     public void addCard(Card card) {
         CardController cardController = card.getController();
-        cardController.setScale(cardScale);
-        cardController.setLayout(x, y);
         if (!gameScene.contains(cardController)) {
             // Add the card to game scene
+            cardController.setScale(cardScale);
+            cardController.setLayout(x, y);
             gameScene.add(cardController);
+        } else {
+            gameScene.setToTop(cardController);
+            Animator.transitTo(cardController, x, y, cardScale);
         }
     }
 }

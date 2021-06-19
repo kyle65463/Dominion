@@ -4,9 +4,10 @@ import dominion.controllers.components.DeckController;
 import dominion.models.game.cards.Card;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Deck implements HasUi{
+public class Deck implements HasUi {
     // Constructor
     public Deck() {
     }
@@ -20,9 +21,13 @@ public class Deck implements HasUi{
     public void enableUi(GameScene gameScene) {
         this.uiController = new DeckController(gameScene);
         isEnableUi = true;
-        for(Card card : cards) {
+        for (Card card : cards) {
             card.enableUi();
         }
+    }
+
+    public boolean isEmpty() {
+        return cards.isEmpty();
     }
 
     public int getNumCards() {
@@ -36,40 +41,41 @@ public class Deck implements HasUi{
     public List<Card> popCards(int numCards) {
         List<Card> resultCards = new ArrayList<>();
         for (int i = 0; i < numCards; i++) {
-            if(cards.isEmpty()){
+            if (cards.isEmpty()) {
                 break;
             }
             Card card = cards.get(cards.size() - 1);
             cards.remove(card);
             resultCards.add(card);
+
+            if (isEnableUi) {
+                card.enableUi();
+                card.setNumRemain(0);
+                card.flipToFront();
+            }
         }
         return resultCards;
     }
 
-    public void removeCards() {
-        if (isEnableUi) {
-            for (Card card : cards){
-                card.enableUi();
-                card.flipToFront();
-                card.setNumRemain(0);
-                uiController.addCard(card);
-            }
+    public void addCards(List<Card> cards, boolean shuffle) {
+        if(shuffle){
+            Collections.shuffle(cards);
         }
-        cards.clear();
-    }
-
-    public void addCards(List<Card> cards) {
-        for(Card card : cards) {
+        for (Card card : cards) {
             addCard(card);
         }
     }
 
-    public void addCard(Card card) {
+    public void addCards(List<Card> cards) {
+        addCards(cards, false);
+    }
+
+    private void addCard(Card card) {
         cards.add(card);
         if (isEnableUi) {
             card.enableUi();
-            card.flipToBack();
             card.setNumRemain(cards.size());
+            card.flipToBack();
             uiController.addCard(card);
         }
     }

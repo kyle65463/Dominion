@@ -3,6 +3,7 @@ package dominion.controllers.components;
 import dominion.models.game.cards.Card;
 import dominion.models.game.GameScene;
 import dominion.utils.Animator;
+import javafx.util.Duration;
 
 import java.util.List;
 
@@ -19,7 +20,6 @@ public class HandCardsController extends ComponentController{
 
     // Functions
     public void arrangeCardsPos(List<Card> cards) {
-
         double x = calculateFirstX(cards);
         for (Card card : cards) {
             CardController cardController = card.getController();

@@ -35,4 +35,16 @@ public class ActionBar implements HasUi {
             uiController.setNumPurchases(numPurchases);
         }
     }
+
+    public void setStatus(String status) {
+        if(isEnableUi) {
+            uiController.setStatus(status);
+        }
+    }
+
+    public void setButtonText(String text) {
+        if(isEnableUi) {
+            uiController.setButtonText(text);
+        }
+    }
 }

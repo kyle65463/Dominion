@@ -59,7 +59,7 @@ public class RoomController {
 
     public void handleAction(EventAction eventAction) {
         if (eventAction instanceof Message) {
-            addMessage(eventAction.getUsername() + ": " + eventAction.getContent());
+            addMessage(((Message)eventAction).getUsername() + ": " + ((Message)eventAction).getContent());
         }
         if (eventAction instanceof ConnectionAccepted) {
             User acceptedUser = ((ConnectionAccepted) eventAction).getAcceptedUser();

@@ -30,7 +30,7 @@ public class DiscardPile implements HasUi{
     }
 
     public List<Card> getCards() {
-        return cards;
+        return new ArrayList<>(cards);
     }
 
     public void removeCards() {
@@ -42,6 +42,12 @@ public class DiscardPile implements HasUi{
         if(isEnableUi){
             card.enableUi();
             uiController.addCard(card);
+        }
+    }
+
+    public void addCards(List<Card> cards) {
+        for(Card card : cards) {
+            addCard(card);
         }
     }
 }

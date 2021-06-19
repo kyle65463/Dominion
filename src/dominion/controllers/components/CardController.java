@@ -3,10 +3,12 @@ package dominion.controllers.components;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.treasures.Treasure;
 import dominion.utils.CardStyles;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+
 
 public class CardController extends ComponentController {
     // Constructor
@@ -47,6 +49,10 @@ public class CardController extends ComponentController {
         rootNode.setTranslateY(y);
     }
 
+    public void setOnPressed(EventHandler eventHandler) {
+        rootNode.setOnMouseClicked(eventHandler);
+    }
+
     public void setNumCostLabel(int score) {
         numCostLabel.setText(String.valueOf(score));
     }
@@ -77,11 +83,11 @@ public class CardController extends ComponentController {
     }
 
     public void flipToFront() {
+        setStyle();
         nameLabel.setVisible(true);
         valueBox.setVisible(true);
         costBox.setVisible(true);
         typesLabel.setVisible(true);
-        setTypesLabel(typesLabel.getText());
     }
 
     public void enableRemainBox(Boolean enable) {
