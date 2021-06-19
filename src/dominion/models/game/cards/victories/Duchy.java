@@ -12,7 +12,7 @@ public class Duchy extends Card implements Victory{
         style = CardStyles.green;
         type = CardTypes.victory;
         numCost = 5;
-        numVictories = 5;
+        numVictories = 3;
     }
 
     // Variables

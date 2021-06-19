@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.Serializable;
+
 public class GameScene {
     public GameScene(AnchorPane rootNode) {
         this.rootNode = rootNode;
@@ -31,6 +33,13 @@ public class GameScene {
         Node node = controller.getRootNode();
         if(!contains(controller)) {
             rootNode.getChildren().add(node);
+        }
+    }
+
+    public void delete(ComponentController controller) {
+        Node node = controller.getRootNode();
+        if(contains(controller)) {
+            rootNode.getChildren().remove(node);
         }
     }
 }

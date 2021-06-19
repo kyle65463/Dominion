@@ -1,13 +1,12 @@
-package dominion.models.events;
+package dominion.models.events.connections;
 
 import dominion.models.User;
 
 import java.util.List;
 
-public class ConnectionAccepted extends NetworkEventAction {
+public class ConnectionAccepted extends ConnectionEvent {
     // Constructor
     public ConnectionAccepted(User acceptedUser, List<User> users) {
-        super("accepted");
         this.acceptedUser = acceptedUser;
         this.users = users;
     }

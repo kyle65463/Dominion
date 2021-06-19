@@ -8,9 +8,10 @@ import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.treasures.Treasure;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Player {
+public class Player  {
     // Constructor
     public Player(User user) {
         this(user.getName(), user.getId());
@@ -87,7 +88,7 @@ public class Player {
         numActions--;
         updateActionStatus();
         if(numActions <= 0){
-            GameManager.sendEvent(new EndPlayingActionsPhaseEvent(this));
+            GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
         }
     }
 
@@ -105,7 +106,7 @@ public class Player {
         numPurchase--;
         updateActionStatus();
         if(numPurchase <= 0){
-            GameManager.sendEvent(new EndBuyingPhaseEvent(this));
+            GameManager.sendEvent(new EndBuyingPhaseEvent(id));
         }
     }
 
@@ -128,7 +129,12 @@ public class Player {
         updatePlayerStatus();
     }
 
-    public void playCard(Card card) {
+    public List<Card> getCards() {
+        return handCards.getCards();
+    }
+
+    public void playCard(int cardId) {
+        Card card = handCards.getCardByCardId(cardId);
         handCards.removeCard(card);
         fieldCards.addCard(card);
         if(card instanceof Treasure) {
@@ -140,7 +146,7 @@ public class Player {
             handCards.enableActionCards();
             decreaseNumActions();
             if(!hasActionCards()) {
-                GameManager.sendEvent(new EndPlayingActionsPhaseEvent(this));
+                GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
             }
         }
 
@@ -158,7 +164,7 @@ public class Player {
         buttonText = "結束行動";
         handCards.enableActionCards();
         actionBar.setButtonOnPressed((e) -> {
-            GameManager.sendEvent(new EndPlayingActionsPhaseEvent(this));
+            GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
         });
         updateActionStatus();
     }
@@ -168,7 +174,7 @@ public class Player {
         buttonText = "結束購買";
         handCards.enableTreasureCards();
         actionBar.setButtonOnPressed((e) -> {
-            GameManager.sendEvent(new EndBuyingPhaseEvent(this));
+            GameManager.sendEvent(new EndBuyingPhaseEvent(id));
         });
         updateActionStatus();
     }
@@ -183,11 +189,11 @@ public class Player {
     public void discardFieldCards() {
         // Discard all field cards to discard pile
         List<Card> cards = fieldCards.getCards();
-        discardPile.addCards(cards);
         fieldCards.removeCards();
+        discardPile.addCards(cards);
     }
 
-    public void endTurn() {
+    public void reset() {
         // Update action status
         numActions = 1;
         numCoins = 0;

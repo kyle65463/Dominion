@@ -14,9 +14,11 @@ public class MinorPurchaseArea {
 
     // Variables
     GridPane gridPane;
+    List<DisplayedCard> displayedCards;
 
     // Functions
     public void setDisplayedCards(List<DisplayedCard> displayedCards) {
+        this.displayedCards = displayedCards;
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 4; j++) {
                 int index = i * 4 + j;
@@ -29,5 +31,14 @@ public class MinorPurchaseArea {
                 gridPane.add(displayedCardController.getRootNode(), i, j);
             }
         }
+    }
+
+    public DisplayedCard getDisplayedCardById(int id) {
+        for(DisplayedCard displayedCard : displayedCards){
+            if(displayedCard.getId() == id){
+                return  displayedCard;
+            }
+        }
+        return null;
     }
 }

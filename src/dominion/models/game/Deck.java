@@ -1,13 +1,16 @@
 package dominion.models.game;
 
 import dominion.controllers.components.DeckController;
+import dominion.game.GameManager;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.curses.Curses;
 import dominion.models.game.cards.victories.Victory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Deck implements HasUi {
     // Constructor
@@ -74,7 +77,7 @@ public class Deck implements HasUi {
 
     public void addCards(List<Card> cards, boolean shuffle) {
         if(shuffle){
-            Collections.shuffle(cards);
+            Collections.shuffle(cards, new Random(GameManager.getRandomInt()));
         }
         for (Card card : cards) {
             addCard(card);

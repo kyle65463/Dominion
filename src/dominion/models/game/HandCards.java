@@ -12,6 +12,7 @@ import dominion.models.game.cards.victories.Victory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class HandCards implements HasUi {
     // Constructor
@@ -32,6 +33,15 @@ public class HandCards implements HasUi {
         for (Card card : cards) {
             card.enableUi();
         }
+    }
+
+    public Card getCardByCardId(int cardId) {
+        for(Card card : cards) {
+            if(card.getId() == cardId){
+                return card;
+            }
+        }
+        return null;
     }
 
     public int getNumScores() {
@@ -81,7 +91,7 @@ public class HandCards implements HasUi {
         for (Card card : cards) {
             if (card instanceof Action) {
                 card.setOnPressed((e) -> {
-                    GameManager.sendEvent(new PlayCardEvent(player, card));
+                    GameManager.sendEvent(new PlayCardEvent(player.getId(), card.getId()));
                 });
             } else {
                 card.disableOnPressed();
@@ -93,7 +103,7 @@ public class HandCards implements HasUi {
         for (Card card : cards) {
             if (card instanceof Treasure) {
                 card.setOnPressed((e) -> {
-                    GameManager.sendEvent(new PlayCardEvent(player, card));
+                    GameManager.sendEvent(new PlayCardEvent(player.getId(), card.getId()));
                 });
             } else {
                 card.disableOnPressed();
@@ -108,6 +118,7 @@ public class HandCards implements HasUi {
     }
 
     public void addCard(Card card) {
+
         cards.add(card);
         if (isEnableUi) {
             uiController.arrangeCardsPos(cards);

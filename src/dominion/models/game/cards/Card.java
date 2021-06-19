@@ -1,14 +1,19 @@
 package dominion.models.game.cards;
 
 import dominion.controllers.components.CardController;
+import dominion.game.GameManager;
 import dominion.models.game.HasUi;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.event.EventHandler;
+
+import java.io.Serializable;
+import java.util.Random;
 
 public abstract class Card implements HasUi, Cloneable{
     // Constructor
     public Card() {
         disableUi();
+        setId(GameManager.getRandomInt());
     }
 
     // Variables
@@ -19,6 +24,7 @@ public abstract class Card implements HasUi, Cloneable{
     protected String style = "";
     protected int numCost = 0;
     protected int numRemain = 0;
+    protected int id = -1;
 
     /* UI */
     protected boolean isEnableUi = false;
@@ -41,11 +47,26 @@ public abstract class Card implements HasUi, Cloneable{
         return numCost;
     }
 
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public void disableUi() {
+        if(uiController != null) {
+            System.out.println("Delete");
+            uiController.deleteOnScene();
+        }
         uiController = null;
         isEnableUi = false;
     }
 
+    public boolean getEnableUi () {
+        return isEnableUi;
+    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {

@@ -5,16 +5,17 @@ import dominion.models.game.Player;
 
 public abstract class GameEvent extends EventAction {
     // Constructor
-    public GameEvent(Player player) {
-        this.player = player;
+    public GameEvent(int playerId) {
+
+        this.playerId = playerId;
     }
 
     // Variables
-    protected Player player;
+    protected int playerId;
 
     // Functions
-    public Player getPlayer() {
-        return player;
+    public int getPlayerId() {
+        return playerId;
     }
 
     public abstract void perform();

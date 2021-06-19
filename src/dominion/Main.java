@@ -1,6 +1,7 @@
 package dominion;
 
 import dominion.controllers.scenes.GameController;
+import dominion.controllers.scenes.MainController;
 import dominion.models.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -28,18 +29,18 @@ public class Main extends Application {
 
     private void newWindow(double x, double y, String name) throws Exception{
         Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/scenes/game.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/scenes/main.fxml"));
         Parent root = loader.load();
-//        MainController controller = loader.getController();
-//        controller.setName(name);
+        MainController controller = loader.getController();
+        controller.setName(name);
 
-        User applicationUser = new User(0, "kyle15989");
-        List<User> users = new ArrayList<>();
-        users.add(applicationUser);
-        users.add(new User(1, "DomioDestroyer"));
-        users.add(new User(2, "freeChina"));
-        GameController controller = loader.getController();
-        controller.initialize(users, applicationUser);
+//        User applicationUser = new User(0, "kyle15989");
+//        List<User> users = new ArrayList<>();
+//        users.add(applicationUser);
+//        users.add(new User(1, "DomioDestroyer"));
+//        users.add(new User(2, "freeChina"));
+//        GameController controller = loader.getController();
+//        controller.initialize(users, applicationUser);
         stage.setTitle("Dominion");
         stage.setScene(new Scene(root));
         stage.setResizable(false);

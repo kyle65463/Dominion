@@ -7,12 +7,15 @@ import dominion.models.game.cards.Card;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+import java.io.Serializable;
+
 public class DisplayedCard implements HasUi {
     // Constructor
-    public DisplayedCard(Card card, int numRemain, Player player) {
+    public DisplayedCard(Card card, int numRemain, Player player, int id) {
         this.player = player;
         this.card = card;
         this.numRemain = numRemain;
+        this.id = id;
         card.disableUi();
 
         // Impossible with no ui
@@ -20,6 +23,7 @@ public class DisplayedCard implements HasUi {
     }
 
     // Variables
+    private int id;
     private Player player;
     private Card card;
     private int numRemain;
@@ -28,15 +32,14 @@ public class DisplayedCard implements HasUi {
 
     // Functions
     public void enableUi() {
-        this.uiController =  new DisplayedCardController(card);
+        this.uiController = new DisplayedCardController(card);
         setNumRemain(numRemain);
         uiController.setOnPressed((e) -> {
-            if(e instanceof MouseEvent) {
-                MouseButton button = ((MouseEvent)e).getButton();
-                if(button == MouseButton.PRIMARY) {
-                    GameManager.sendEvent(new BuyCardEvent(player, this));
-                }
-                else if (button == MouseButton.SECONDARY){
+            if (e instanceof MouseEvent) {
+                MouseButton button = ((MouseEvent) e).getButton();
+                if (button == MouseButton.PRIMARY) {
+                    GameManager.sendEvent(new BuyCardEvent(player.getId(), id));
+                } else if (button == MouseButton.SECONDARY) {
                     System.out.println("Show description");
                 }
             }
@@ -44,7 +47,11 @@ public class DisplayedCard implements HasUi {
         isEnableUi = true;
     }
 
-    public Card getCard(){
+    public int getId() {
+        return id;
+    }
+
+    public Card getCard() {
         return card;
     }
 

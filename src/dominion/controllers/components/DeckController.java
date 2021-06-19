@@ -24,6 +24,7 @@ public class DeckController extends ComponentController{
             cardController.setLayout(x, y);
             gameScene.add(cardController);
         } else {
+
             gameScene.setToTop(cardController);
             Animator.transitTo(cardController, x, y, cardScale);
         }

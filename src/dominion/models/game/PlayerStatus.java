@@ -7,7 +7,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class PlayerStatus {
+import java.io.Serializable;
+
+public class PlayerStatus{
     // Constructor
     public PlayerStatus() {
         this.uiController = new PlayerStatusController();

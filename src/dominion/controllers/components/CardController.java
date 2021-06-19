@@ -1,5 +1,6 @@
 package dominion.controllers.components;
 
+import dominion.game.GameManager;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.treasures.Treasure;
 import dominion.utils.CardStyles;
@@ -31,6 +32,10 @@ public class CardController extends ComponentController {
     private Label numValueLabel;
 
     // Functions
+    public void deleteOnScene() {
+        GameManager.getGameScene().delete(this);
+    }
+
     private void setStyle() {
         rootNode.setStyle(card.getStyle());
     }

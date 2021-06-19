@@ -4,7 +4,9 @@ import dominion.controllers.components.ActionBarController;
 import dominion.models.game.GameScene;
 import javafx.event.EventHandler;
 
-public class ActionBar implements HasUi {
+import java.io.Serializable;
+
+public class ActionBar implements HasUi{
     // Constructor
     public ActionBar() {
     }

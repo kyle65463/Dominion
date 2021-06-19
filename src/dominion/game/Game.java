@@ -27,7 +27,7 @@ public class Game implements Runnable {
                     currentPlayer.selectActionCards();
                 }
                 else{
-                    GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer));
+                    GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer.getId()));
                 }
             });
             waitForPlayingActionsPhasesEnd();
@@ -44,7 +44,7 @@ public class Game implements Runnable {
                 currentPlayer.discardHandCards();
                 currentPlayer.discardFieldCards();
                 currentPlayer.drawCards(5);
-                currentPlayer.endTurn();
+                currentPlayer.reset();
             });
 
             GameManager.endTurn();

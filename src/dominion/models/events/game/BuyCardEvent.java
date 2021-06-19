@@ -7,17 +7,19 @@ import dominion.models.game.cards.Card;
 
 public class BuyCardEvent extends GameEvent{
     // Constructor
-    public BuyCardEvent(Player player, DisplayedCard displayedCard) {
-        super(player);
-        this.displayedCard = displayedCard;
+    public BuyCardEvent(int playerId, int displayedCardId) {
+        super(playerId);
+        this.displayedCardId = displayedCardId;
     }
 
     // Variables
-    private DisplayedCard displayedCard;
+    private int displayedCardId;
 
     // Functions
     @Override
     public void perform() {
+        Player player = GameManager.getPlayerById(playerId);
+        DisplayedCard displayedCard = GameManager.getDisplayedCardById(displayedCardId);
         if(player.getId() == GameManager.getCurrentPlayer().getId()){
             Card card = displayedCard.getCard();
             if(player.getNumCoins() >= card.getNumCost() && player.getNumPurchase() > 0 && displayedCard.getNumRemain() > 0) {

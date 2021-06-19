@@ -3,6 +3,7 @@ package dominion.models.game;
 import dominion.controllers.components.FieldCardsController;
 import dominion.models.game.cards.Card;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

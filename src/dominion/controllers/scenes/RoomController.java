@@ -3,14 +3,17 @@ package dominion.controllers.scenes;
 import dominion.connections.Server;
 import dominion.models.User;
 import dominion.models.events.EventAction;
-import dominion.models.events.ConnectionAccepted;
+import dominion.models.events.connections.ConnectionAccepted;
 import dominion.models.events.Message;
 import dominion.connections.Connection;
-import dominion.utils.Navigator;
+import dominion.models.events.connections.StartGameEvent;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,8 +21,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class RoomController {
     @FXML
@@ -35,11 +41,22 @@ public class RoomController {
 
     Connection connection;
 
+    Stage stage;
+
+    User applicationUser;
+    List<User> users = new ArrayList<>();
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     public void startGame(ActionEvent event) {
-        Navigator.to(event, "resources/scenes/game.fxml");
+        int randomSeed = new Random().nextInt(10000);
+        connection.send(new StartGameEvent(randomSeed));
     }
 
     public void initialize(User user, List<User> users, Connection connection) {
+        this.applicationUser = user;
         for (User u : users) {
             addUser(u);
         }
@@ -65,6 +82,20 @@ public class RoomController {
             User acceptedUser = ((ConnectionAccepted) eventAction).getAcceptedUser();
             addUser(acceptedUser);
         }
+        if(eventAction instanceof StartGameEvent) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/scenes/game.fxml"));
+                Parent root = loader.load();
+                GameController controller = loader.getController();
+                controller.initialize(users, applicationUser, connection, ((StartGameEvent) eventAction).getRandomSeed());
+
+                stage.setScene(new Scene(root));
+                stage.show();
+            }
+            catch (Exception e) {
+                System.out.println(e);
+            }
+        }
     }
 
     public void addMessage(String message) {
@@ -80,6 +111,7 @@ public class RoomController {
     }
 
     public void addUser(User newUser) {
+        users.add(newUser);
         Label label = new Label(newUser.getName());
         label.setPadding(new Insets(10, 5, 0, 0));
         label.setFont(new Font(17));

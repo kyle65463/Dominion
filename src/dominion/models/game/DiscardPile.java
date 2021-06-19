@@ -5,6 +5,7 @@ import dominion.models.game.cards.Card;
 import dominion.models.game.cards.curses.Curses;
 import dominion.models.game.cards.victories.Victory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
