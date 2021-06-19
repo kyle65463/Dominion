@@ -1,6 +1,7 @@
 package dominion.controllers.scenes;
 
-import dominion.components.*;
+import dominion.controllers.components.PlayerStatusController;
+import dominion.models.game.*;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -20,61 +21,62 @@ public class GameController {
     @FXML
     VBox messageBox;
     @FXML
-    Pane actionBar;
+    GridPane opponentsStatusBox;
     @FXML
-    GridPane opponentsNameStatusBox;
-    @FXML
-    Pane playerNameStatusBox;
+    Pane playerStatusBox;
 
     @FXML
     void initialize() {
         GameScene gameScene = new GameScene(rootNode);
 
-        MajorKingdomCardsBox majorKingdomCardsBox = new MajorKingdomCardsBox(majorKingdomCardsBoxNode);
-        MinorKingdomCardsBox minorKingdomCardsBox = new MinorKingdomCardsBox(minorKingdomCardsBoxNode);
-        List<KingdomCard> majorKingdomCards = new ArrayList<>();
-        List<KingdomCard> minorKingdomCards = new ArrayList<>();
+        MajorPurchaseArea majorPurchaseArea = new MajorPurchaseArea(majorKingdomCardsBoxNode);
+        MinorPurchaseArea minorPurchaseArea = new MinorPurchaseArea(minorKingdomCardsBoxNode);
+        List<DisplayedCard> majorKingdomCards = new ArrayList<>();
+        List<DisplayedCard> minorKingdomCards = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            majorKingdomCards.add(new KingdomCard());
+            majorKingdomCards.add(new DisplayedCard());
         }
         for (int i = 0; i < 7; i++) {
-            minorKingdomCards.add(new KingdomCard());
+            minorKingdomCards.add(new DisplayedCard());
         }
-        majorKingdomCardsBox.setKingdomCards(majorKingdomCards);
-        minorKingdomCardsBox.setKingdomCards(minorKingdomCards);
+        majorPurchaseArea.setDisplayedCards(majorKingdomCards);
+        minorPurchaseArea.setDisplayedCards(minorKingdomCards);
 
-        ActionBar a = new ActionBar();
-        actionBar.getChildren().add(a.getNode());
+        ActionBar actionBar = new ActionBar(gameScene);
         for (int i = 0; i < 3; i++) {
-            opponentsNameStatusBox.add(new NameStatus().getNode(), i, 0);
+            PlayerStatus playerStatus = new PlayerStatus();
+            PlayerStatusController playerStatusController = playerStatus.getController();
+            opponentsStatusBox.add(playerStatusController.getRootNode(), i, 0);
         }
 
-        playerNameStatusBox.getChildren().add(new NameStatus().getNode());
+        PlayerStatus playerStatus = new PlayerStatus();
+        PlayerStatusController playerStatusController = playerStatus.getController();
+        playerStatusBox.getChildren().add(playerStatusController.getRootNode());
 
-        HandCardsBox handCardsBox = new HandCardsBox(gameScene);
+        HandCards handCards = new HandCards(gameScene);
         Card card = new Card();
-        handCardsBox.addCard(new Card());
-        handCardsBox.addCard(new Card());
-        handCardsBox.addCard(new Card());
-        handCardsBox.addCard(card);
+        handCards.addCard(new Card());
+        handCards.addCard(new Card());
+        handCards.addCard(new Card());
+        handCards.addCard(card);
 
 
-        FieldCardsBox fieldCardsBox = new FieldCardsBox(gameScene);
-        fieldCardsBox.addCard(new Card());
-        fieldCardsBox.addCard(new Card());
-        fieldCardsBox.addCard(new Card());
-        fieldCardsBox.addCard(new Card());
-        fieldCardsBox.addCard(new Card());
+        FieldCards fieldCards = new FieldCards(gameScene);
+        fieldCards.addCard(new Card());
+        fieldCards.addCard(new Card());
+        fieldCards.addCard(new Card());
+        fieldCards.addCard(new Card());
+        fieldCards.addCard(new Card());
 
-        DiscardPileBox discardPileBox = new DiscardPileBox(gameScene);
-        discardPileBox.addCard(new Card());
+        DiscardPile discardPile = new DiscardPile(gameScene);
+        discardPile.addCard(new Card());
 
-        DeckBox deckBox = new DeckBox(gameScene);
+        Deck deckBox = new Deck(gameScene);
         deckBox.addCard(new Card());
 
-        a.setActionButtonOnPressed((e) -> {
-            handCardsBox.removeCard(card);
-            fieldCardsBox.addCard(card);
-        });
+//        a.setActionButtonOnPressed((e) -> {
+//            handCards.removeCard(card);
+//            fieldCards.addCard(card);
+//        });
     }
 }

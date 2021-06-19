@@ -1,5 +1,6 @@
 package dominion.utils;
 
+import dominion.controllers.components.ComponentController;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
@@ -12,19 +13,20 @@ public class Animator {
     private static Duration defaultDuration = Duration.millis(200);
 
     // Functions
-    public static void transitTo(Node node, double x, double y) {
-        transitTo(node, x, y, defaultScale, defaultDuration);
+    public static void transitTo(ComponentController controller, double x, double y) {
+        transitTo(controller, x, y, defaultScale, defaultDuration);
     }
 
-    public static void transitTo(Node node, double x, double y, Duration duration) {
-        transitTo(node, x, y, defaultScale, duration);
+    public static void transitTo(ComponentController controller, double x, double y, Duration duration) {
+        transitTo(controller, x, y, defaultScale, duration);
     }
 
-    public static void transitTo(Node node, double x, double y, double scale) {
-        transitTo(node, x, y, scale, defaultDuration);
+    public static void transitTo(ComponentController controller, double x, double y, double scale) {
+        transitTo(controller, x, y, scale, defaultDuration);
     }
 
-    public static void transitTo(Node node, double x, double y, double scale, Duration duration) {
+    public static void transitTo(ComponentController controller, double x, double y, double scale, Duration duration) {
+        Node node = controller.getRootNode();
         // Scale transition
         ScaleTransition scaleTransition = new ScaleTransition();
         scaleTransition.setNode(node);

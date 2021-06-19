@@ -1,22 +1,21 @@
-package dominion.components;
+package dominion.controllers.components;
 
+import dominion.models.game.Card;
 import javafx.fxml.FXMLLoader;
-
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-public class Card {
-    public Card() {
+public class CardController extends ComponentController{
+    // Constructor
+    public CardController() {
         initialize();
     }
 
-    protected static final double originalWidth = 120;
-    protected static final double originalHeight = 190;
-    private double width = 120;
-    private double height = 190;
-    private Pane node;
+    // Variables
+    public static final double width = 120;
+    public static final double height = 190;
     private StackPane remainBox;
     private StackPane valueBox;
     private Label nameLabel;
@@ -25,10 +24,7 @@ public class Card {
     private Label typesLabel;
     private Label valueLabel;
 
-    public Node getNode() {
-        return node;
-    }
-
+    // Functions
     public void setTypesLabel(String type) {
         typesLabel.setText(type);
         String style = "-fx-border-color: black;-fx-border-width: 3;";
@@ -42,32 +38,22 @@ public class Card {
         else if (type.contains("行動")){
             style += "-fx-background-color: white";
         }
-        node.setStyle(style);
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public double getHeight() {
-        return width;
+        rootNode.setStyle(style);
     }
 
     public void setScale(double scale) {
-        node.setScaleX(scale);
-        node.setScaleY(scale);
-        width = originalWidth * scale;
-        height = originalHeight * scale;
+        rootNode.setScaleX(scale);
+        rootNode.setScaleY(scale);
     }
 
     public void setLayout(double x, double y) {
-        node.setTranslateX(x);
-        node.setTranslateY(y);
+        rootNode.setTranslateX(x);
+        rootNode.setTranslateY(y);
     }
 
     public void setLayoutCenterX(double x, double y) {
-        node.setTranslateX(x - width / 2);
-        node.setTranslateY(y);
+        rootNode.setTranslateX(x - width / 2);
+        rootNode.setTranslateY(y);
     }
 
     public void setCostLabel(int score) {
@@ -98,16 +84,14 @@ public class Card {
 
     private void initialize() {
         try {
-            node = (Pane) FXMLLoader.load(Card.class.getClassLoader().getResource("resources/component/card.fxml"));
-            nameLabel = (Label) node.lookup("#name");
-            typesLabel = (Label) node.lookup("#types");
-            costLabel = (Label) node.lookup("#cost");
-            remainLabel = (Label) node.lookup("#remain");
-            valueLabel = (Label) node.lookup("#value");
-            remainBox = (StackPane) node.lookup("#remain_box");
-            valueBox = (StackPane) node.lookup("#value_box");
-
-
+            rootNode = (Pane) FXMLLoader.load(Card.class.getClassLoader().getResource("resources/components/card.fxml"));
+            nameLabel = (Label) rootNode.lookup("#name");
+            typesLabel = (Label) rootNode.lookup("#types");
+            costLabel = (Label) rootNode.lookup("#cost");
+            remainLabel = (Label) rootNode.lookup("#remain");
+            valueLabel = (Label) rootNode.lookup("#value");
+            remainBox = (StackPane) rootNode.lookup("#remain_box");
+            valueBox = (StackPane) rootNode.lookup("#value_box");
             setNameLabel("銅幣");
             setTypesLabel("錢幣卡");
             setRemainLabel(1);

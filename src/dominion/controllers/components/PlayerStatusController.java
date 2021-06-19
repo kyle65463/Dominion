@@ -1,28 +1,23 @@
-package dominion.components;
+package dominion.controllers.components;
 
+import dominion.models.game.PlayerStatus;
 import javafx.fxml.FXMLLoader;
-
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 
-public class NameStatus {
-    public NameStatus() {
+public class PlayerStatusController extends ComponentController{
+    // Constructor
+    public PlayerStatusController() {
         initialize();
     }
 
-
-    private VBox vbox;
-    private  Label nameLabel;
+    // Variables
+    private Label nameLabel;
     private Label scoreLabel;
     private Label deckLabel;
     private Label discardPileLabel;
     private Label handCardsLabel;
 
-    public Node getNode() {
-        return vbox;
-    }
-
+    // Functions
     public void setDeckLabel(int numDeck) {
         deckLabel.setText("牌庫: " + String.valueOf(numDeck));
     }
@@ -45,12 +40,12 @@ public class NameStatus {
 
     private void initialize() {
         try {
-            vbox = (VBox) FXMLLoader.load(NameStatus.class.getClassLoader().getResource("resources/component/name_status.fxml"));
-            nameLabel = (Label) vbox.lookup("#name");
-            deckLabel = (Label) vbox.lookup("#deck");
-            discardPileLabel = (Label) vbox.lookup("#discard_pile");
-            handCardsLabel = (Label) vbox.lookup("#hand_cards");
-            scoreLabel = (Label) vbox.lookup("#score");
+            rootNode = FXMLLoader.load(PlayerStatus.class.getClassLoader().getResource("resources/components/player_status.fxml"));
+            nameLabel = (Label) rootNode.lookup("#name");
+            deckLabel = (Label) rootNode.lookup("#deck");
+            discardPileLabel = (Label) rootNode.lookup("#discard_pile");
+            handCardsLabel = (Label) rootNode.lookup("#hand_cards");
+            scoreLabel = (Label) rootNode.lookup("#score");
 
             setNameLabel("kyle15989");
             setDeckLabel(10);

@@ -1,5 +1,6 @@
-package dominion.components;
+package dominion.models.game;
 
+import dominion.controllers.components.ComponentController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -12,12 +13,13 @@ public class GameScene {
 
     private AnchorPane rootNode;
 
-    public boolean contains(Node node) {
-        return rootNode.getChildren().contains(node);
+    public boolean contains(ComponentController controller) {
+        return rootNode.getChildren().contains(controller.getRootNode());
     }
 
-    public void setToTop(Node node) {
-        if(contains(node)) {
+    public void setToTop(ComponentController controller) {
+        Node node = controller.getRootNode();
+        if(contains(controller)) {
             ObservableList<Node> nodes = FXCollections.observableArrayList(rootNode.getChildren());
             nodes.remove(node);
             nodes.add(node);
@@ -25,8 +27,9 @@ public class GameScene {
         }
     }
 
-    public void add(Node node) {
-        if(!contains(node)) {
+    public void add(ComponentController controller) {
+        Node node = controller.getRootNode();
+        if(!contains(controller)) {
             rootNode.getChildren().add(node);
         }
     }
