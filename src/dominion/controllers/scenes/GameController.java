@@ -5,6 +5,7 @@ import dominion.game.GameManager;
 import dominion.models.User;
 import dominion.models.game.*;
 import dominion.models.game.cards.Card;
+import dominion.models.game.cards.actions.*;
 import dominion.models.game.cards.curses.Curse;
 import dominion.models.game.cards.treasures.Copper;
 import dominion.models.game.cards.treasures.Gold;
@@ -82,9 +83,13 @@ public class GameController {
         MinorPurchaseArea minorPurchaseArea = new MinorPurchaseArea(minorKingdomCardsBoxNode);
         List<DisplayedCard> majorKingdomCards = new ArrayList<>();
         List<DisplayedCard> minorKingdomCards = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            majorKingdomCards.add(new DisplayedCard(new Copper(), 10, applicationPlayer));
-        }
+
+        majorKingdomCards.add(new DisplayedCard(new Village(), 10, applicationPlayer));
+        majorKingdomCards.add(new DisplayedCard(new Smithy(), 10, applicationPlayer));
+        majorKingdomCards.add(new DisplayedCard(new Laboratory(), 10, applicationPlayer));
+        majorKingdomCards.add(new DisplayedCard(new Market(), 10, applicationPlayer));
+        majorKingdomCards.add(new DisplayedCard(new Festival(), 10, applicationPlayer));
+
         minorKingdomCards.add(new DisplayedCard(new Province(), 4 * users.size(), applicationPlayer));
         minorKingdomCards.add(new DisplayedCard(new Duchy(), 4 * users.size(), applicationPlayer));
         minorKingdomCards.add(new DisplayedCard(new Estate(), 4 * users.size(), applicationPlayer));

@@ -9,27 +9,23 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="120.0" style="-fx-border-width: 3; -fx-border-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="42.0" text="王座" textAlignment="CENTER">
+      <Label fx:id="name" alignment="CENTER" contentDisplay="CENTER" layoutY="40.0" prefHeight="26.0" prefWidth="120.0" text="王座" textAlignment="CENTER">
          <font>
-            <Font size="15.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <StackPane layoutX="5.0" layoutY="5.0" prefHeight="22.0" prefWidth="22.0">
+      <StackPane layoutX="5.0" layoutY="5.0" prefHeight="25.0" prefWidth="25.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c1c1c1" height="20.0" stroke="#00000080" strokeType="INSIDE" strokeWidth="0.5" width="20.0" />
-            <Label fx:id="remain" text="10">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Label>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c1c1c1" height="25.0" stroke="#00000080" strokeType="INSIDE" strokeWidth="0.5" width="25.0" />
+            <Label fx:id="remain" alignment="CENTER" prefHeight="17.0" prefWidth="27.0" text="10" />
          </children>
       </StackPane>
-      <StackPane layoutX="5.0" layoutY="74.0" prefHeight="22.0" prefWidth="20.0">
+      <StackPane layoutX="5.0" layoutY="71.0" prefHeight="25.0" prefWidth="25.0">
          <children>
-            <Circle fill="#fae77d" radius="11.0" stroke="#00000033" strokeType="INSIDE" strokeWidth="0.5" />
-            <Label fx:id="cost" alignment="CENTER" prefHeight="16.0" prefWidth="17.0" text="10" textAlignment="CENTER">
+            <Circle fill="#fae77d" radius="12.0" stroke="#00000033" strokeType="INSIDE" strokeWidth="0.5" />
+            <Label fx:id="cost" alignment="CENTER" contentDisplay="CENTER" prefHeight="16.0" prefWidth="50.0" text="10" textAlignment="CENTER">
                <font>
-                  <Font name="System Bold" size="11.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
          </children>

@@ -6,7 +6,9 @@ import dominion.models.events.game.GameEvent;
 import dominion.models.events.game.PlayCardEvent;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
+import dominion.models.game.cards.curses.Curses;
 import dominion.models.game.cards.treasures.Treasure;
+import dominion.models.game.cards.victories.Victory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,19 @@ public class HandCards implements HasUi {
         for (Card card : cards) {
             card.enableUi();
         }
+    }
+
+    public int getNumScores() {
+        int numScores = 0;
+        for (Card card : cards) {
+            if (card instanceof Victory) {
+                numScores += ((Victory) card).getNumVictories();
+            }
+            else if(card instanceof Curses) {
+                numScores -= ((Curses) card).getNumCurses();
+            }
+        }
+        return numScores;
     }
 
     public int getNumCards() {

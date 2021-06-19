@@ -2,6 +2,8 @@ package dominion.models.game;
 
 import dominion.controllers.components.DeckController;
 import dominion.models.game.cards.Card;
+import dominion.models.game.cards.curses.Curses;
+import dominion.models.game.cards.victories.Victory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +26,19 @@ public class Deck implements HasUi {
         for (Card card : cards) {
             card.enableUi();
         }
+    }
+
+    public int getNumScores() {
+        int numScores = 0;
+        for (Card card : cards) {
+            if (card instanceof Victory) {
+                numScores += ((Victory) card).getNumVictories();
+            }
+            else if(card instanceof Curses) {
+                numScores -= ((Curses) card).getNumCurses();
+            }
+        }
+        return numScores;
     }
 
     public boolean isEmpty() {

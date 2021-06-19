@@ -5,6 +5,7 @@ import dominion.models.User;
 import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
 import dominion.models.game.cards.Card;
+import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.treasures.Treasure;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class Player {
     // Variables
     final private String name;
     final private int id;
-    private int score = 3;
+    private int numScores = 3;
 
     private int numActions = 1;
     private int numCoins = 0;
@@ -90,12 +91,27 @@ public class Player {
         }
     }
 
+    public void increaseNumActions(int numIncrease) {
+        numActions += numIncrease;
+        updateActionStatus();
+    }
+
+    public void increaseNumPurchases(int numIncrease) {
+        numPurchase += numIncrease;
+        updateActionStatus();
+    }
+
     public void decreaseNumPurchases() {
         numPurchase--;
         updateActionStatus();
         if(numPurchase <= 0){
             GameManager.sendEvent(new EndBuyingPhaseEvent(this));
         }
+    }
+
+    public void increaseNumCoins(int numIncrease) {
+        numCoins += numIncrease;
+        updateActionStatus();
     }
 
     public void decreaseNumCoins(int numDecreases) {
@@ -118,13 +134,23 @@ public class Player {
         if(card instanceof Treasure) {
             numCoins += ((Treasure) card).getNumValue();
         }
+        else if(card instanceof Action){
+            System.out.println(card.getName());
+            ((Action) card).perform(this);
+            handCards.enableActionCards();
+            decreaseNumActions();
+            if(!hasActionCards()) {
+                GameManager.sendEvent(new EndPlayingActionsPhaseEvent(this));
+            }
+        }
 
         updatePlayerStatus();
         updateActionStatus();
     }
 
     public boolean hasActionCards() {
-        return handCards.hasActionCards();
+        boolean result = handCards.hasActionCards();
+        return result;
     }
 
     public void selectActionCards() {
@@ -147,6 +173,20 @@ public class Player {
         updateActionStatus();
     }
 
+    public void discardHandCards() {
+        // Discard all hand cards to discard pile
+        List<Card> cards = handCards.getCards();
+        discardPile.addCards(cards);
+        handCards.removeCards();
+    }
+
+    public void discardFieldCards() {
+        // Discard all field cards to discard pile
+        List<Card> cards = fieldCards.getCards();
+        discardPile.addCards(cards);
+        fieldCards.removeCards();
+    }
+
     public void endTurn() {
         // Update action status
         numActions = 1;
@@ -156,32 +196,31 @@ public class Player {
         buttonText = "";
         updateActionStatus();
 
-        // Discard all hand cards to discard pile
-        List<Card> cards = handCards.getCards();
-        discardPile.addCards(cards);
-        handCards.removeCards();
-
-        // Discard all field cards to discard pile
-        cards = fieldCards.getCards();
-        discardPile.addCards(cards);
-        fieldCards.removeCards();
-
-        // Redraw cards
-        drawCards(5);
-
         handCards.disableAllCards();
         updatePlayerStatus();
     }
 
     public void drawCards(int numCards) {
+        // Check bounds
+        if(numCards > discardPile.getNumCards() + deck.getNumCards()){
+            return;
+        }
+
+        // Refill the deck if it's empty
         if(deck.isEmpty()){
             List<Card> newCards = discardPile.getCards();
             discardPile.removeCards();
             deck.addCards(newCards, true);
         }
 
+        // Draw cards from the deck
         List<Card> cards = deck.popCards(numCards);
         handCards.addCards(cards);
+
+        // Draw cards again if not enough
+        if(cards.size() < numCards){
+            drawCards(numCards - cards.size());
+        }
 
         updatePlayerStatus();
     }
@@ -201,6 +240,11 @@ public class Player {
         playerStatus.setNumDeckCards(numDeckCards);
         playerStatus.setNumDiscardPileCards(numDiscardPileCards);
         playerStatus.setNumHandCards(numHandCards);
-        playerStatus.setScore(score);
+        numScores = getNumScores();
+        playerStatus.setScore(numScores);
+    }
+
+    private int getNumScores() {
+        return handCards.getNumScores() + deck.getNumScores() + discardPile.getNumScores();
     }
 }

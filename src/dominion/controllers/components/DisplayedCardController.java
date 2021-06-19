@@ -56,10 +56,12 @@ public class DisplayedCardController extends ComponentController{
             nameLabel = (Label) rootNode.lookup("#name");
             numRemainLabel = (Label) rootNode.lookup("#remain");
             numCostLabel = (Label) rootNode.lookup("#cost");
+
             setName(card.getName());
             setNumCost(card.getNumCost());
             setNumRemain(0);
             setStyle();
+
         } catch (Exception e) {
 
         }

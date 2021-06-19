@@ -1,5 +1,6 @@
 package dominion.game;
 
+import dominion.models.events.game.EndPlayingActionsPhaseEvent;
 import dominion.models.game.Player;
 import javafx.application.Platform;
 
@@ -21,12 +22,15 @@ public class Game implements Runnable {
 
             // Playing action cards
             System.out.println("playing action cards phase");
-            if (currentPlayer.hasActionCards()) {
-                Platform.runLater(() -> {
+            Platform.runLater(() -> {
+                if (currentPlayer.hasActionCards()) {
                     currentPlayer.selectActionCards();
-                });
-                waitForPlayingActionsPhasesEnd();
-            }
+                }
+                else{
+                    GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer));
+                }
+            });
+            waitForPlayingActionsPhasesEnd();
 
             // Buying cards
             System.out.println("buying cards phase");
@@ -37,6 +41,9 @@ public class Game implements Runnable {
 
             // Reset cards
             Platform.runLater(() -> {
+                currentPlayer.discardHandCards();
+                currentPlayer.discardFieldCards();
+                currentPlayer.drawCards(5);
                 currentPlayer.endTurn();
             });
 

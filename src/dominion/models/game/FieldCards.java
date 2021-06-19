@@ -23,7 +23,7 @@ public class FieldCards implements HasUi{
     }
 
     public List<Card> getCards() {
-        return cards;
+        return new ArrayList<>(cards);
     }
 
     public void removeCards() {

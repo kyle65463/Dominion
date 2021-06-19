@@ -25,8 +25,8 @@
             </Label>
          </children>
       </StackPane>
-      <Label id="types" layoutX="41.0" layoutY="165.0" text="錢幣卡" />
-      <Label id="name" layoutX="36.0" layoutY="81.0" text="銅幣">
+      <Label id="types" alignment="CENTER" layoutX="3.0" layoutY="165.0" prefHeight="17.0" prefWidth="120.0" text="錢幣卡" />
+      <Label id="name" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="81.0" prefHeight="29.0" prefWidth="120.0" text="銅幣" textAlignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
