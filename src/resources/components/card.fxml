@@ -15,7 +15,7 @@
             <Label id="remain" text="10" />
          </children>
       </StackPane>
-      <StackPane layoutX="5.0" layoutY="161.0" prefHeight="25.0" prefWidth="25.0">
+      <StackPane id="cost_box" layoutX="5.0" layoutY="161.0" prefHeight="25.0" prefWidth="25.0">
          <children>
             <Circle fill="#fae77d" radius="12.0" stroke="#00000033" strokeType="INSIDE" strokeWidth="0.5" />
             <Label id="cost" alignment="CENTER" prefHeight="16.0" prefWidth="17.0" text="10" textAlignment="CENTER">

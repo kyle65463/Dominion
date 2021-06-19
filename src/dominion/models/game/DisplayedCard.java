@@ -6,16 +6,23 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
-public class DisplayedCard {
+public class DisplayedCard implements HasUi {
     // Constructor
     public DisplayedCard() {
-        this.uiController = new DisplayedCardController();
+        // Impossible with no ui
+        enableUi();
     }
 
     // Variables
+    private boolean isEnableUi;
     private DisplayedCardController uiController;
 
     // Functions
+    public void enableUi() {
+        this.uiController =  new DisplayedCardController();
+        isEnableUi = true;
+    }
+
     public DisplayedCardController getController() {
         return uiController;
     }

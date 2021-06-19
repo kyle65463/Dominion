@@ -5,17 +5,29 @@ import dominion.controllers.components.DeckController;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Deck {
+public class Deck implements HasUi{
     // Constructor
-    public Deck(GameScene gameScene) {
-        this.uiController = new DeckController(gameScene);
+    public Deck() {
     }
 
     // Variables
+    private boolean isEnableUi = false;
     private DeckController uiController;
     private List<Card> cards = new ArrayList<>();
 
     // Functions
+    public void enableUi(GameScene gameScene) {
+        this.uiController = new DeckController(gameScene);
+        isEnableUi = true;
+        for(Card card : cards) {
+            card.enableUi();
+        }
+    }
+
+    public int getNumCards() {
+        return cards.size();
+    }
+
     public List<Card> getCards() {
         return cards;
     }
@@ -34,11 +46,30 @@ public class Deck {
     }
 
     public void removeCards() {
+        if (isEnableUi) {
+            for (Card card : cards){
+                card.enableUi();
+                card.flipToFront();
+                card.setNumRemain(0);
+                uiController.addCard(card);
+            }
+        }
         cards.clear();
+    }
+
+    public void addCards(List<Card> cards) {
+        for(Card card : cards) {
+            addCard(card);
+        }
     }
 
     public void addCard(Card card) {
         cards.add(card);
-        uiController.addCard(card);
+        if (isEnableUi) {
+            card.enableUi();
+            card.flipToBack();
+            card.setNumRemain(cards.size());
+            uiController.addCard(card);
+        }
     }
 }

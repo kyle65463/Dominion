@@ -20,4 +20,24 @@ public class PlayerStatus {
     public PlayerStatusController getController() {
         return uiController;
     }
+
+    public void setName(String name) {
+        uiController.setNameLabel(name);
+    }
+
+    public void setScore(int score) {
+        uiController.setScoreLabel(score);
+    }
+
+    public void setNumDeckCards(int numDeckCards) {
+        uiController.setDeckLabel(numDeckCards);
+    }
+
+    public void setNumDiscardPileCards(int numDiscardPileCards) {
+        uiController.setDiscardPileLabel(numDiscardPileCards);
+    }
+
+    public void setNumHandCards(int numHandCards) {
+        uiController.setHandCardsLabel(numHandCards);
+    }
 }

@@ -46,12 +46,6 @@ public class PlayerStatusController extends ComponentController{
             discardPileLabel = (Label) rootNode.lookup("#discard_pile");
             handCardsLabel = (Label) rootNode.lookup("#hand_cards");
             scoreLabel = (Label) rootNode.lookup("#score");
-
-            setNameLabel("kyle15989");
-            setDeckLabel(10);
-            setDiscardPileLabel(5);
-            setHandCardsLabel(5);
-            setScoreLabel(3);
         } catch (Exception e) {
 
         }

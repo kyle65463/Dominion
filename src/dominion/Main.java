@@ -1,10 +1,15 @@
 package dominion;
 
+import dominion.controllers.scenes.GameController;
+import dominion.models.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -27,6 +32,14 @@ public class Main extends Application {
         Parent root = loader.load();
 //        MainController controller = loader.getController();
 //        controller.setName(name);
+
+        User applicationUser = new User(0, "kyle15989");
+        List<User> users = new ArrayList<>();
+        users.add(applicationUser);
+        users.add(new User(1, "DomioDestroyer"));
+        users.add(new User(2, "freeChina"));
+        GameController controller = loader.getController();
+        controller.initialize(users, applicationUser);
         stage.setTitle("Dominion");
         stage.setScene(new Scene(root));
         stage.setResizable(false);

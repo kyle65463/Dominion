@@ -1,6 +1,9 @@
 package dominion.controllers.scenes;
 
 import dominion.controllers.components.PlayerStatusController;
+import dominion.game.Game;
+import dominion.game.GameManager;
+import dominion.models.User;
 import dominion.models.game.*;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
@@ -24,10 +27,11 @@ public class GameController {
     GridPane opponentsStatusBox;
     @FXML
     Pane playerStatusBox;
+    GameScene gameScene;
 
     @FXML
     void initialize() {
-        GameScene gameScene = new GameScene(rootNode);
+        gameScene = new GameScene(rootNode);
 
         MajorPurchaseArea majorPurchaseArea = new MajorPurchaseArea(majorKingdomCardsBoxNode);
         MinorPurchaseArea minorPurchaseArea = new MinorPurchaseArea(minorKingdomCardsBoxNode);
@@ -41,42 +45,44 @@ public class GameController {
         }
         majorPurchaseArea.setDisplayedCards(majorKingdomCards);
         minorPurchaseArea.setDisplayedCards(minorKingdomCards);
+    }
 
-        ActionBar actionBar = new ActionBar(gameScene);
-        for (int i = 0; i < 3; i++) {
-            PlayerStatus playerStatus = new PlayerStatus();
-            PlayerStatusController playerStatusController = playerStatus.getController();
-            opponentsStatusBox.add(playerStatusController.getRootNode(), i, 0);
+    public void initialize(List<User> users, User applicationUser) {
+        // Set up initial cards
+        List<Card> initialCards = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            initialCards.add(new Card());
         }
 
-        PlayerStatus playerStatus = new PlayerStatus();
-        PlayerStatusController playerStatusController = playerStatus.getController();
-        playerStatusBox.getChildren().add(playerStatusController.getRootNode());
+        // Set up players
+        Player applicationPlayer = new Player(applicationUser);
+        List<Player> players = new ArrayList<>();
+        FieldCards fieldCards = new FieldCards();
+        fieldCards.enableUi(gameScene);
+        int index = 0;
+        for (User user : users) {
+            Player player = new Player(user);
+            PlayerStatus playerStatus = player.getPlayerStatus();
+            if(user == applicationUser) {
+                applicationPlayer = player;
+                player.enableUi(gameScene);
+                playerStatusBox.getChildren().add(playerStatus.getController().getRootNode());
+            }
+            else {
+                opponentsStatusBox.add(playerStatus.getController().getRootNode(), index, 0);
+                index++;
+            }
 
-        HandCards handCards = new HandCards(gameScene);
-        Card card = new Card();
-        handCards.addCard(new Card());
-        handCards.addCard(new Card());
-        handCards.addCard(new Card());
-        handCards.addCard(card);
+            player.setDeckCards(initialCards);
+            player.setFieldCards(fieldCards);
+            players.add(new Player(user));
+        }
 
+        // Set up game manager
+        GameManager gameManager = new GameManager(applicationPlayer, players);
 
-        FieldCards fieldCards = new FieldCards(gameScene);
-        fieldCards.addCard(new Card());
-        fieldCards.addCard(new Card());
-        fieldCards.addCard(new Card());
-        fieldCards.addCard(new Card());
-        fieldCards.addCard(new Card());
-
-        DiscardPile discardPile = new DiscardPile(gameScene);
-        discardPile.addCard(new Card());
-
-        Deck deckBox = new Deck(gameScene);
-        deckBox.addCard(new Card());
-
-//        a.setActionButtonOnPressed((e) -> {
-//            handCards.removeCard(card);
-//            fieldCards.addCard(card);
-//        });
+        // Run the game
+        Game game = new Game(gameManager);
+        game.start();
     }
 }

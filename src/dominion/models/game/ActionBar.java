@@ -3,25 +3,36 @@ package dominion.models.game;
 import dominion.controllers.components.ActionBarController;
 import dominion.models.game.GameScene;
 
-public class ActionBar {
+public class ActionBar implements HasUi {
     // Constructor
-    public ActionBar(GameScene gameScene) {
-        this.uiController = new ActionBarController(gameScene);
+    public ActionBar() {
     }
 
     // Variables
+    private boolean isEnableUi = false;
     private ActionBarController uiController;
 
     // Functions
+    public void enableUi(GameScene gameScene) {
+        this.uiController = new ActionBarController(gameScene);
+        isEnableUi = true;
+    }
+
     public void setNumCoins(int numCoins) {
-        uiController.setNumCoins(numCoins);
+        if(isEnableUi) {
+            uiController.setNumCoins(numCoins);
+        }
     }
 
     public void setNumActions(int numActions) {
-        uiController.setNumActions(numActions);
+        if(isEnableUi) {
+            uiController.setNumActions(numActions);
+        }
     }
 
     public void setNumPurchases(int numPurchases) {
-        uiController.setNumPurchases(numPurchases);
+        if(isEnableUi) {
+            uiController.setNumPurchases(numPurchases);
+        }
     }
 }

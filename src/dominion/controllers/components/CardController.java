@@ -18,6 +18,7 @@ public class CardController extends ComponentController{
     public static final double height = 190;
     private StackPane remainBox;
     private StackPane valueBox;
+    private StackPane costBox;
     private Label nameLabel;
     private Label costLabel;
     private Label remainLabel;
@@ -69,7 +70,30 @@ public class CardController extends ComponentController{
     }
 
     public void setRemainLabel(int numRemained) {
+        if(numRemained > 0) {
+            remainBox.setVisible(true);
+        }
+        else {
+            remainBox.setVisible(false);
+        }
         remainLabel.setText(String.valueOf(numRemained));
+    }
+
+    public void flipToBack() {
+        String style = "-fx-border-color: black;-fx-border-width: 3;-fx-background-color: tan";
+        rootNode.setStyle(style);
+        nameLabel.setVisible(false);
+        valueBox.setVisible(false);
+        costBox.setVisible(false);
+        typesLabel.setVisible(false);
+    }
+
+    public void flipToFront() {
+        nameLabel.setVisible(true);
+        valueBox.setVisible(true);
+        costBox.setVisible(true);
+        typesLabel.setVisible(true);
+        setTypesLabel(typesLabel.getText());
     }
 
     public void enableRemainBox(Boolean enable) {
@@ -92,6 +116,8 @@ public class CardController extends ComponentController{
             valueLabel = (Label) rootNode.lookup("#value");
             remainBox = (StackPane) rootNode.lookup("#remain_box");
             valueBox = (StackPane) rootNode.lookup("#value_box");
+            costBox = (StackPane) rootNode.lookup("#cost_box");
+
             setNameLabel("銅幣");
             setTypesLabel("錢幣卡");
             setRemainLabel(1);
