@@ -1,6 +1,6 @@
 package dominion.connections;
 
-import dominion.models.action.Action;
+import dominion.models.events.EventAction;
 
 abstract public class Connection implements Runnable{
 
@@ -9,7 +9,7 @@ abstract public class Connection implements Runnable{
     protected String ip = "localhost";
 
     public abstract void setActionCallback(ActionCallback callback);
-    public abstract void send(Action action);
+    public abstract void send(EventAction eventAction);
     public void setName(String name) { this.name = name; }
     public void setIp(String ip) { this.ip = ip; }
 

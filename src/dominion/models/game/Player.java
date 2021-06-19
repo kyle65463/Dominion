@@ -1,6 +1,7 @@
 package dominion.models.game;
 
 import dominion.models.User;
+import dominion.models.game.cards.Card;
 
 import java.util.List;
 

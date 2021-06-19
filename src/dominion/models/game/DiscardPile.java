@@ -1,6 +1,7 @@
 package dominion.models.game;
 
 import dominion.controllers.components.DiscardPileController;
+import dominion.models.game.cards.Card;
 
 import java.util.ArrayList;
 import java.util.List;

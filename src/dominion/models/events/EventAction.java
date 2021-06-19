@@ -1,9 +1,9 @@
-package dominion.models.action;
+package dominion.models.events;
 
 import java.io.Serializable;
 
-public abstract class Action implements Serializable{
-    public Action(String username, String str) {
+public abstract class EventAction implements Serializable{
+    public EventAction(String username, String str) {
         this.username = username;
         this.content = str;
     }

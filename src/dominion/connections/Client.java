@@ -1,9 +1,9 @@
 package dominion.connections;
 
 import dominion.models.User;
-import dominion.models.action.Action;
-import dominion.models.action.ConnectionRequest;
-import dominion.models.action.NetworkAction;
+import dominion.models.events.EventAction;
+import dominion.models.events.ConnectionRequest;
+import dominion.models.events.NetworkEventAction;
 
 import java.net.Socket;
 
@@ -13,10 +13,10 @@ public class Client extends Connection {
 
     public void run() {
         try {
-            actionCallback.send(new NetworkAction("connecting"));
+            actionCallback.send(new NetworkEventAction("connecting"));
             Socket client = new Socket(ip, 12478);
             if (client.isConnected()) {
-                actionCallback.send(new NetworkAction("connected"));
+                actionCallback.send(new NetworkEventAction("connected"));
             }
 
             sender = new ActionSender(client);
@@ -26,7 +26,7 @@ public class Client extends Connection {
         } catch (Exception e) {
             System.out.println("Client error");
             System.out.println(e);
-            actionCallback.send(new NetworkAction("connection error"));
+            actionCallback.send(new NetworkEventAction("connection error"));
         }
     }
 
@@ -35,7 +35,7 @@ public class Client extends Connection {
         receiver.setActionCallback(callback);
     }
 
-    public void send(Action action) {
-        sender.send(action);
+    public void send(EventAction eventAction) {
+        sender.send(eventAction);
     }
 }

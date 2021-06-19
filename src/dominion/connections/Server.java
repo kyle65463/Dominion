@@ -1,10 +1,10 @@
 package dominion.connections;
 
 import dominion.models.User;
-import dominion.models.action.Action;
-import dominion.models.action.ConnectionAccepted;
-import dominion.models.action.ConnectionRequest;
-import dominion.models.action.NetworkAction;
+import dominion.models.events.EventAction;
+import dominion.models.events.ConnectionAccepted;
+import dominion.models.events.ConnectionRequest;
+import dominion.models.events.NetworkEventAction;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -45,7 +45,7 @@ public class Server extends Connection {
         } catch (Exception e) {
             System.out.println("Server error");
             System.out.println(e);
-            actionCallback.send(new NetworkAction("connection error"));
+            actionCallback.send(new NetworkEventAction("connection error"));
         }
 
     }
@@ -68,14 +68,14 @@ public class Server extends Connection {
         }
     }
 
-    private void sendClient(Action action) {
+    private void sendClient(EventAction eventAction) {
         for (ActionSender sender : senders) {
-            sender.send(action);
+            sender.send(eventAction);
         }
     }
 
-    public void send(Action action) {
-        sendClient(action);
-        actionCallback.send(action);
+    public void send(EventAction eventAction) {
+        sendClient(eventAction);
+        actionCallback.send(eventAction);
     }
 }

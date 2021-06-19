@@ -1,7 +1,7 @@
 package dominion.connections;
 
-import dominion.models.action.Action;
+import dominion.models.events.EventAction;
 
 public interface ActionCallback {
-    void send(Action action);
+    void send(EventAction eventAction);
 }

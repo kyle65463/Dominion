@@ -1,8 +1,8 @@
 package dominion.controllers.scenes;
 
 import dominion.models.User;
-import dominion.models.action.Action;
-import dominion.models.action.ConnectionAccepted;
+import dominion.models.events.EventAction;
+import dominion.models.events.ConnectionAccepted;
 import dominion.connections.Connection;
 import dominion.utils.Navigator;
 import javafx.application.Platform;
@@ -59,9 +59,9 @@ public abstract class ConnectToRoomController {
         connectionThread.start();
     }
 
-    public void checkStatus(Action action, ActionEvent event) {
-        if(action instanceof ConnectionAccepted) {
-            ConnectionAccepted accepted = ((ConnectionAccepted)action);
+    public void checkStatus(EventAction eventAction, ActionEvent event) {
+        if(eventAction instanceof ConnectionAccepted) {
+            ConnectionAccepted accepted = ((ConnectionAccepted) eventAction);
             User user = accepted.getAcceptedUser();
             List<User> users = accepted.getUsers();
             try {

@@ -1,6 +1,6 @@
 package dominion.connections;
 
-import dominion.models.action.Action;
+import dominion.models.events.EventAction;
 
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -50,8 +50,8 @@ class Receive implements Runnable {
             ObjectInputStream inputStream = new ObjectInputStream(client.getInputStream());
             boolean flag = true;
             while (flag) {
-                Action action = (Action) inputStream.readObject();
-                setOutput.send(action);
+                EventAction eventAction = (EventAction) inputStream.readObject();
+                setOutput.send(eventAction);
             }
         }
         catch (Exception e) {

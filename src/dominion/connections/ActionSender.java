@@ -1,6 +1,6 @@
 package dominion.connections;
 
-import dominion.models.action.Action;
+import dominion.models.events.EventAction;
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -44,9 +44,9 @@ public class ActionSender {
     private ObjectOutputStream outputStream;
 
     // Functions
-    public void send(Action action) {
+    public void send(EventAction eventAction) {
         try {
-            outputStream.writeObject(action);
+            outputStream.writeObject(eventAction);
         } catch (Exception e) {
             System.out.println("Sender Error");
             System.out.println(e);

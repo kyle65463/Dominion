@@ -2,9 +2,9 @@ package dominion.controllers.scenes;
 
 import dominion.connections.Server;
 import dominion.models.User;
-import dominion.models.action.Action;
-import dominion.models.action.ConnectionAccepted;
-import dominion.models.action.Message;
+import dominion.models.events.EventAction;
+import dominion.models.events.ConnectionAccepted;
+import dominion.models.events.Message;
 import dominion.connections.Connection;
 import dominion.utils.Navigator;
 import javafx.application.Platform;
@@ -57,12 +57,12 @@ public class RoomController {
         }
     }
 
-    public void handleAction(Action action) {
-        if (action instanceof Message) {
-            addMessage(action.getUsername() + ": " + action.getContent());
+    public void handleAction(EventAction eventAction) {
+        if (eventAction instanceof Message) {
+            addMessage(eventAction.getUsername() + ": " + eventAction.getContent());
         }
-        if (action instanceof ConnectionAccepted) {
-            User acceptedUser = ((ConnectionAccepted) action).getAcceptedUser();
+        if (eventAction instanceof ConnectionAccepted) {
+            User acceptedUser = ((ConnectionAccepted) eventAction).getAcceptedUser();
             addUser(acceptedUser);
         }
     }

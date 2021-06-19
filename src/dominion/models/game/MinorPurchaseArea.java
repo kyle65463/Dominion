@@ -17,16 +17,16 @@ public class MinorPurchaseArea {
 
     // Functions
     public void setDisplayedCards(List<DisplayedCard> displayedCards) {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 2; j++) {
-                int index = i * 2 + j;
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 4; j++) {
+                int index = i * 4 + j;
                 if (index >= displayedCards.size()){
                     break;
                 }
                 DisplayedCard displayedCard = displayedCards.get(index);
                 DisplayedCardController displayedCardController = displayedCard.getController();
                 displayedCardController.setScale(0.7);
-                gridPane.add(displayedCardController.getRootNode(), j, i);
+                gridPane.add(displayedCardController.getRootNode(), i, j);
             }
         }
     }

@@ -1,26 +1,34 @@
 package dominion.models.game;
 
 import dominion.controllers.components.DisplayedCardController;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.layout.Pane;
+import dominion.models.game.cards.Card;
 
 public class DisplayedCard implements HasUi {
     // Constructor
-    public DisplayedCard() {
+    public DisplayedCard(Card card, int numRemain) {
+        this.card = card;
+        this.numRemain = numRemain;
+        card.disableUi();
+
         // Impossible with no ui
         enableUi();
     }
 
     // Variables
+    private Card card;
+    private int numRemain;
     private boolean isEnableUi;
     private DisplayedCardController uiController;
 
     // Functions
     public void enableUi() {
-        this.uiController =  new DisplayedCardController();
+        this.uiController =  new DisplayedCardController(card);
+        setNumRemain(numRemain);
         isEnableUi = true;
+    }
+
+    public void setNumRemain(int numRemain) {
+        uiController.setNumRemain(numRemain);
     }
 
     public DisplayedCardController getController() {

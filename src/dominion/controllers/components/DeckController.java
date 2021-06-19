@@ -1,6 +1,6 @@
 package dominion.controllers.components;
 
-import dominion.models.game.Card;
+import dominion.models.game.cards.Card;
 import dominion.models.game.GameScene;
 
 public class DeckController extends ComponentController{

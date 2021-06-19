@@ -1,8 +1,8 @@
-package dominion.models.action;
+package dominion.models.events;
 
 import dominion.models.User;
 
-public class ConnectionRequest extends NetworkAction{
+public class ConnectionRequest extends NetworkEventAction {
     // Constructor
     public ConnectionRequest(User requestedUser ) {
         super("request");
