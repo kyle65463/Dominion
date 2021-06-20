@@ -1,54 +1,70 @@
 package dominion.game;
 
+import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
+import dominion.models.events.game.PlayCardEvent;
 import dominion.models.game.Player;
+import dominion.models.game.cards.actions.Action;
+import dominion.models.game.cards.treasures.Treasure;
 import javafx.application.Platform;
 
 
 public class Game implements Runnable {
-    // Constructor
-    public Game() {
-
-    }
-
-    // Variables
-
     // Functions
     public void run() {
-
         while (true) {
+            // New turn
             Player currentPlayer = GameManager.getCurrentPlayer();
             System.out.println("Player " + currentPlayer.getName() + "'s turn");
 
             // Playing action cards
-            System.out.println("playing action cards phase");
             Platform.runLater(() -> {
                 if (currentPlayer.hasActionCards()) {
-                    currentPlayer.selectActionCards();
+                    System.out.println("playing action cards phase");
+                    currentPlayer.setActionBarStatus("你可以打出行動卡", "結束行動");
+                    currentPlayer.setActionBarButtonOnPressed((e) -> {
+                        GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer.getId()));
+                    });
+                    currentPlayer.selectCards((card)->{
+                        if(card instanceof Action) {
+                            GameManager.sendEvent(new PlayCardEvent(currentPlayer.getId(), card.getId()));
+                        }
+                    });
                 }
                 else{
                     GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer.getId()));
                 }
             });
             waitForPlayingActionsPhasesEnd();
+            currentPlayer.disableSelectingCards();
 
             // Buying cards
-            System.out.println("buying cards phase");
             Platform.runLater(() -> {
-                currentPlayer.selectTreasureCards();
+                System.out.println("buying cards phase");
+                currentPlayer.setActionBarStatus("你可以購買卡片", "結束購買");
+                currentPlayer.setActionBarButtonOnPressed((e) -> {
+                    GameManager.sendEvent(new EndBuyingPhaseEvent(currentPlayer.getId()));
+                });
+                currentPlayer.selectCards((card)->{
+                    if(card instanceof Treasure) {
+                        GameManager.sendEvent(new PlayCardEvent(currentPlayer.getId(), card.getId()));
+                    }
+                });
             });
             waitForBuyingPhasesEnd();
+            currentPlayer.disableSelectingCards();
 
-            // Reset cards
+            // Reset
             Platform.runLater(() -> {
                 currentPlayer.discardHandCards();
                 currentPlayer.discardFieldCards();
                 currentPlayer.drawCards(5);
+                currentPlayer.setActionBarStatus("等待其他人的回合", "");
                 currentPlayer.reset();
             });
 
             GameManager.endTurn();
-
+            GameManager.checkGameOver();
         }
     }
 

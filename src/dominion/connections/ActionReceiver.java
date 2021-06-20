@@ -50,7 +50,8 @@ class Receive implements Runnable {
             ObjectInputStream inputStream = new ObjectInputStream(client.getInputStream());
             boolean flag = true;
             while (flag) {
-                EventAction eventAction = (EventAction) inputStream.readObject();
+                Object object = inputStream.readObject();
+                EventAction eventAction = (EventAction) object;
                 setOutput.send(eventAction);
             }
         }

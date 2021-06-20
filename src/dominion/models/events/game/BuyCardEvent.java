@@ -22,7 +22,7 @@ public class BuyCardEvent extends GameEvent{
         DisplayedCard displayedCard = GameManager.getDisplayedCardById(displayedCardId);
         if(player.getId() == GameManager.getCurrentPlayer().getId()){
             Card card = displayedCard.getCard();
-            if(player.getNumCoins() >= card.getNumCost() && player.getNumPurchase() > 0 && displayedCard.getNumRemain() > 0) {
+            if(player.getNumCoins() >= card.getNumCost() && player.getNumPurchases() > 0 && displayedCard.getNumRemain() > 0) {
                 try {
                     Card newCard = (Card) card.clone();
                     newCard.setNumRemain(1);

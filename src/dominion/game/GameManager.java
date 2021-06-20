@@ -6,6 +6,7 @@ import dominion.models.events.game.GameEvent;
 import dominion.models.game.*;
 import javafx.application.Platform;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -124,4 +125,29 @@ public class GameManager {
         int currentPlayerIndex = players.indexOf(currentPlayer);
         currentPlayer = players.get((currentPlayerIndex + 1) % players.size());
     }
+
+    public static void checkGameOver() {
+        if(minorPurchaseArea.isGameOver()) {
+            gameOver();
+        }
+        else if(minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3){
+            gameOver();
+        }
+    }
+
+    private static void gameOver(){
+        int maxNumScores = 0;
+        List<Player> winners = new ArrayList<>();
+        for (Player player : players) {
+            int scores = player.getNumScores();
+            if(scores >= maxNumScores){
+                scores = maxNumScores;
+               winners.add(player);
+            }
+        }
+        for (Player winner : winners) {
+            System.out.println(winner + "wins!");
+        }
+    }
+
 }

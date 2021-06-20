@@ -4,11 +4,12 @@ import dominion.game.GameManager;
 import dominion.models.User;
 import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
+import dominion.models.events.game.PlayCardEvent;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.treasures.Treasure;
+import javafx.event.EventHandler;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class Player  {
@@ -35,9 +36,7 @@ public class Player  {
 
     private int numActions = 1;
     private int numCoins = 0;
-    private int numPurchase = 1;
-    private String status = "";
-    private String buttonText = "";
+    private int numPurchases = 1;
 
     private boolean isEnableUi;
     private Deck deck;
@@ -64,8 +63,8 @@ public class Player  {
         return numCoins;
     }
 
-    public int getNumPurchase() {
-        return numPurchase;
+    public int getNumPurchases() {
+        return numPurchases;
     }
 
     public int getNumActions() {
@@ -81,12 +80,12 @@ public class Player  {
 
     public void receiveNewCard(Card card) {
         discardPile.addCard(card);
-        updatePlayerStatus();
+        setPlayerStatusValues();
     }
 
     public void decreaseNumActions() {
         numActions--;
-        updateActionStatus();
+        setActionBarValues();
         if(numActions <= 0){
             GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
         }
@@ -94,30 +93,30 @@ public class Player  {
 
     public void increaseNumActions(int numIncrease) {
         numActions += numIncrease;
-        updateActionStatus();
+        setActionBarValues();
     }
 
     public void increaseNumPurchases(int numIncrease) {
-        numPurchase += numIncrease;
-        updateActionStatus();
+        numPurchases += numIncrease;
+        setActionBarValues();
     }
 
     public void decreaseNumPurchases() {
-        numPurchase--;
-        updateActionStatus();
-        if(numPurchase <= 0){
+        numPurchases--;
+        setActionBarValues();
+        if(numPurchases <= 0){
             GameManager.sendEvent(new EndBuyingPhaseEvent(id));
         }
     }
 
     public void increaseNumCoins(int numIncrease) {
         numCoins += numIncrease;
-        updateActionStatus();
+        setActionBarValues();
     }
 
     public void decreaseNumCoins(int numDecreases) {
         numCoins -= numDecreases;
-        updateActionStatus();
+        setActionBarValues();
     }
 
     public void setFieldCards(FieldCards fieldCards) {
@@ -126,7 +125,7 @@ public class Player  {
 
     public void setDeckCards(List<Card> cards) {
         deck.addCards(cards, true);
-        updatePlayerStatus();
+        setPlayerStatusValues();
     }
 
     public List<Card> getCards() {
@@ -141,17 +140,15 @@ public class Player  {
             numCoins += ((Treasure) card).getNumValue();
         }
         else if(card instanceof Action){
-            System.out.println(card.getName());
             ((Action) card).perform(this);
-            handCards.enableActionCards();
             decreaseNumActions();
             if(!hasActionCards()) {
                 GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
             }
         }
 
-        updatePlayerStatus();
-        updateActionStatus();
+        setPlayerStatusValues();
+        setActionBarValues();
     }
 
     public boolean hasActionCards() {
@@ -159,24 +156,22 @@ public class Player  {
         return result;
     }
 
-    public void selectActionCards() {
-        status = "你可以打出行動卡";
-        buttonText = "結束行動";
-        handCards.enableActionCards();
-        actionBar.setButtonOnPressed((e) -> {
-            GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
-        });
-        updateActionStatus();
+
+    public void setActionBarStatus(String status, String buttonText) {
+        actionBar.setStatus(status);
+        actionBar.setButtonText(buttonText);
     }
 
-    public void selectTreasureCards() {
-        status = "你可以購買卡片";
-        buttonText = "結束購買";
-        handCards.enableTreasureCards();
-        actionBar.setButtonOnPressed((e) -> {
-            GameManager.sendEvent(new EndBuyingPhaseEvent(id));
-        });
-        updateActionStatus();
+    public void setActionBarButtonOnPressed(EventHandler eventHandler) {
+        actionBar.setButtonOnPressed(eventHandler);
+    }
+
+    public void selectCards(CardSelectedHandler cardSelectedHandler) {
+        handCards.setSelectingCards(cardSelectedHandler);
+    }
+
+    public void disableSelectingCards(){
+        handCards.removeSelectingCards();
     }
 
     public void discardHandCards() {
@@ -184,6 +179,7 @@ public class Player  {
         List<Card> cards = handCards.getCards();
         discardPile.addCards(cards);
         handCards.removeCards();
+        setPlayerStatusValues();
     }
 
     public void discardFieldCards() {
@@ -191,19 +187,16 @@ public class Player  {
         List<Card> cards = fieldCards.getCards();
         fieldCards.removeCards();
         discardPile.addCards(cards);
+        setPlayerStatusValues();
     }
 
     public void reset() {
         // Update action status
+        handCards.disableAllCards();
         numActions = 1;
         numCoins = 0;
-        numPurchase = 1;
-        status = "等待其他人的回合";
-        buttonText = "";
-        updateActionStatus();
-
-        handCards.disableAllCards();
-        updatePlayerStatus();
+        numPurchases = 1;
+        setActionBarValues();
     }
 
     public void drawCards(int numCards) {
@@ -228,29 +221,33 @@ public class Player  {
             drawCards(numCards - cards.size());
         }
 
-        updatePlayerStatus();
+        setPlayerStatusValues();
     }
 
-    private void updateActionStatus() {
+    public int getNumScores() {
+        return numScores;
+    }
+
+    private void setActionBarValues() {
         actionBar.setNumActions(numActions);
-        actionBar.setNumPurchases(numPurchase);
+        actionBar.setNumPurchases(numPurchases);
         actionBar.setNumCoins(numCoins);
-        actionBar.setStatus(status);
-        actionBar.setButtonText(buttonText);
     }
 
-    private void updatePlayerStatus() {
+    /*
+        Call this when finishing operations on deck/hand/discard pile.
+    */
+    private void setPlayerStatusValues() {
+        // Update num cards of deck/hand/discard pile
         int numDeckCards = deck.getNumCards();
         int numDiscardPileCards = discardPile.getNumCards();
         int numHandCards = handCards.getNumCards();
         playerStatus.setNumDeckCards(numDeckCards);
         playerStatus.setNumDiscardPileCards(numDiscardPileCards);
         playerStatus.setNumHandCards(numHandCards);
-        numScores = getNumScores();
-        playerStatus.setScore(numScores);
-    }
 
-    private int getNumScores() {
-        return handCards.getNumScores() + deck.getNumScores() + discardPile.getNumScores();
+        // Update scores
+        numScores = handCards.getNumScores() + deck.getNumScores() + discardPile.getNumScores();
+        playerStatus.setScore(numScores);
     }
 }

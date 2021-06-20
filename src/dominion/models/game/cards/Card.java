@@ -57,7 +57,6 @@ public abstract class Card implements HasUi, Cloneable{
 
     public void disableUi() {
         if(uiController != null) {
-            System.out.println("Delete");
             uiController.deleteOnScene();
         }
         uiController = null;

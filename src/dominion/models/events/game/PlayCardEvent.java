@@ -20,7 +20,6 @@ public class PlayCardEvent extends GameEvent {
     @Override
     public void perform() {
         Player player = GameManager.getPlayerById(playerId);
-        System.out.println(player.getName() + " " + player.getId());
         player.playCard(cardId);
     }
 }

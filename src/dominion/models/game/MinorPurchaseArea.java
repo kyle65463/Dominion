@@ -41,4 +41,18 @@ public class MinorPurchaseArea {
         }
         return null;
     }
+
+    public int getNumNoneRemained() {
+        int numNoneRemained = 0;
+        for(DisplayedCard displayedCard : displayedCards){
+            if(displayedCard.getNumRemain() == 0){
+                numNoneRemained++;
+            }
+        }
+        return numNoneRemained;
+    }
+
+    public boolean isGameOver() {
+        return displayedCards.get(0).getNumRemain() == 0;
+    }
 }

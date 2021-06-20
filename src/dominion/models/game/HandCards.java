@@ -9,6 +9,7 @@ import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.curses.Curses;
 import dominion.models.game.cards.treasures.Treasure;
 import dominion.models.game.cards.victories.Victory;
+import javafx.event.EventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,27 +88,18 @@ public class HandCards implements HasUi {
         return false;
     }
 
-    public void enableActionCards() {
-        for (Card card : cards) {
-            if (card instanceof Action) {
-                card.setOnPressed((e) -> {
-                    GameManager.sendEvent(new PlayCardEvent(player.getId(), card.getId()));
-                });
-            } else {
-                card.disableOnPressed();
-            }
-        }
+    public void removeSelectingCards() {
+        this.cardSelectedHandler = (card) -> {};
     }
 
-    public void enableTreasureCards() {
+    private CardSelectedHandler cardSelectedHandler = (card) -> {};
+
+    public void setSelectingCards(CardSelectedHandler cardSelectedHandler) {
+        this.cardSelectedHandler = cardSelectedHandler;
         for (Card card : cards) {
-            if (card instanceof Treasure) {
-                card.setOnPressed((e) -> {
-                    GameManager.sendEvent(new PlayCardEvent(player.getId(), card.getId()));
-                });
-            } else {
-                card.disableOnPressed();
-            }
+            card.setOnPressed((e) -> {
+                cardSelectedHandler.onSelected(card);
+            });
         }
     }
 
@@ -118,8 +110,10 @@ public class HandCards implements HasUi {
     }
 
     public void addCard(Card card) {
-
         cards.add(card);
+        card.setOnPressed((e) -> {
+            cardSelectedHandler.onSelected(card);
+        });
         if (isEnableUi) {
             uiController.arrangeCardsPos(cards);
         }
