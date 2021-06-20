@@ -1,5 +1,6 @@
 package dominion.models.game.cards.victories;
 
+import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
 import dominion.utils.CardStyles;
 import dominion.utils.CardTypes;
@@ -20,7 +21,7 @@ public class Province extends Card implements Victory{
 
     // Functions
     @Override
-    public int getNumVictories() {
+    public int getNumVictories(Player player) {
         return numVictories;
     }
 }

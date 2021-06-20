@@ -14,6 +14,7 @@ import dominion.models.game.cards.treasures.Gold;
 import dominion.models.game.cards.treasures.Silver;
 import dominion.models.game.cards.victories.Duchy;
 import dominion.models.game.cards.victories.Estate;
+import dominion.models.game.cards.victories.Gardens;
 import dominion.models.game.cards.victories.Province;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -90,23 +91,29 @@ public class GameController {
         List<DisplayedCard> majorKingdomCards = new ArrayList<>();
         List<DisplayedCard> minorKingdomCards = new ArrayList<>();
 
-        majorKingdomCards.add(new DisplayedCard(new Village(), 10, applicationPlayer, 7));
-        majorKingdomCards.add(new DisplayedCard(new Smithy(), 10, applicationPlayer, 8));
+        // Top 5
+        majorKingdomCards.add(new DisplayedCard(new Smithy(), 10, applicationPlayer, 7));
+        majorKingdomCards.add(new DisplayedCard(new CouncilRoom(), 10, applicationPlayer, 8));
         majorKingdomCards.add(new DisplayedCard(new Laboratory(), 10, applicationPlayer, 9));
         majorKingdomCards.add(new DisplayedCard(new Market(), 10, applicationPlayer, 10));
         majorKingdomCards.add(new DisplayedCard(new Festival(), 10, applicationPlayer, 11));
+
+        // Bottom 5
         majorKingdomCards.add(new DisplayedCard(new Cellar(), 10, applicationPlayer, 12));
         majorKingdomCards.add(new DisplayedCard(new Chapel(), 10, applicationPlayer, 13));
+        majorKingdomCards.add(new DisplayedCard(new Village(), 10, applicationPlayer, 14));
+        majorKingdomCards.add(new DisplayedCard(new MoneyLender(), 10, applicationPlayer, 15));
+        majorKingdomCards.add(new DisplayedCard(new Gardens(), 4 * users.size(), applicationPlayer, 16));
+        majorPurchaseArea.setDisplayedCards(majorKingdomCards);
 
+        // Scores
         minorKingdomCards.add(new DisplayedCard(new Province(), 4 * users.size(), applicationPlayer, 0));
         minorKingdomCards.add(new DisplayedCard(new Duchy(), 4 * users.size(), applicationPlayer, 1));
         minorKingdomCards.add(new DisplayedCard(new Estate(), 4 * users.size(), applicationPlayer, 2));
-        minorKingdomCards.add(new DisplayedCard(new Curse(), 10 * users.size(), applicationPlayer, 3));
+        minorKingdomCards.add(new DisplayedCard(new Curse(), 10 * (users.size() - 1), applicationPlayer, 3));
         minorKingdomCards.add(new DisplayedCard(new Gold(), 30, applicationPlayer, 4));
         minorKingdomCards.add(new DisplayedCard(new Silver(), 40, applicationPlayer, 5));
         minorKingdomCards.add(new DisplayedCard(new Copper(), 60 - 7 * users.size(), applicationPlayer, 6));
-
-        majorPurchaseArea.setDisplayedCards(majorKingdomCards);
         minorPurchaseArea.setDisplayedCards(minorKingdomCards);
 
         // Set up game manager

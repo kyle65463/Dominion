@@ -45,11 +45,11 @@ public class HandCards implements HasUi {
         return null;
     }
 
-    public int getNumScores() {
+    public int getNumScores(Player player) {
         int numScores = 0;
         for (Card card : cards) {
             if (card instanceof Victory) {
-                numScores += ((Victory) card).getNumVictories();
+                numScores += ((Victory) card).getNumVictories(player);
             }
             else if(card instanceof Curses) {
                 numScores -= ((Curses) card).getNumCurses();

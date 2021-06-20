@@ -17,12 +17,14 @@ public class Festival extends Card implements Action {
 
     // Functions
     @Override
-    public void perform(Player performer) {
+    public void perform(Player performer, boolean decreaseNumActions) {
         performer.increaseNumActions(2);
         performer.increaseNumPurchases(1);
         performer.increaseNumCoins(2);
 
-        performer.decreaseNumActions();
+        if(decreaseNumActions) {
+            performer.decreaseNumActions();
+        }
         performer.checkActionCardsAndEndPlayingActionPhase();
     }
 }

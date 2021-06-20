@@ -17,11 +17,13 @@ public class Village extends Card implements Action {
 
     // Functions
     @Override
-    public void perform(Player performer) {
+    public void perform(Player performer, boolean decreaseNumActions) {
         performer.drawCards(1);
         performer.increaseNumActions(2);
 
-        performer.decreaseNumActions();
+        if(decreaseNumActions) {
+            performer.decreaseNumActions();
+        }
         performer.checkActionCardsAndEndPlayingActionPhase();
     }
 }

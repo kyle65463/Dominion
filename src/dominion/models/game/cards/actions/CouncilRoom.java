@@ -1,14 +1,15 @@
 package dominion.models.game.cards.actions;
 
+import dominion.game.GameManager;
 import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
 import dominion.utils.CardStyles;
 import dominion.utils.CardTypes;
 
-public class Market extends Card implements Action {
+public class CouncilRoom extends Card implements Action {
     // Constructor
-    public Market() {
-        name = "市集";
+    public CouncilRoom() {
+        name = "會議廳";
         description = "";
         style = CardStyles.white;
         type = CardTypes.action;
@@ -18,10 +19,13 @@ public class Market extends Card implements Action {
     // Functions
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.drawCards(1);
-        performer.increaseNumActions(2);
+        performer.drawCards(4);
         performer.increaseNumPurchases(1);
-        performer.increaseNumCoins(1);
+        for(Player player : GameManager.getPlayers()) {
+            if(player.getId() != performer.getId()){
+                player.drawCards(1);
+            }
+        }
 
         if(decreaseNumActions) {
             performer.decreaseNumActions();

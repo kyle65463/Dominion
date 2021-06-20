@@ -5,14 +5,14 @@ import dominion.models.game.cards.Card;
 import dominion.utils.CardStyles;
 import dominion.utils.CardTypes;
 
-public class Estate extends Card implements Victory{
+public class Gardens extends Card implements Victory{
     // Constructor
-    public Estate() {
-        name = "莊園";
+    public Gardens() {
+        name = "花園";
         description = "";
         style = CardStyles.green;
         type = CardTypes.victory;
-        numCost = 2;
+        numCost = 4;
         numVictories = 1;
     }
 
@@ -22,6 +22,6 @@ public class Estate extends Card implements Victory{
     // Functions
     @Override
     public int getNumVictories(Player player) {
-        return numVictories;
+        return  (player.getAllCards().size() / 10) * numVictories;
     }
 }

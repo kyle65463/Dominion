@@ -17,10 +17,12 @@ public class Smithy extends Card implements Action {
 
     // Functions
     @Override
-    public void perform(Player performer) {
+    public void perform(Player performer, boolean decreaseNumActions) {
         performer.drawCards(3);
 
-        performer.decreaseNumActions();
+        if(decreaseNumActions) {
+            performer.decreaseNumActions();
+        }
         performer.checkActionCardsAndEndPlayingActionPhase();
     }
 }

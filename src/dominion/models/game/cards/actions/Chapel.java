@@ -20,9 +20,13 @@ public class Chapel extends Card implements Action, HasSelection{
         numCost = 2;
     }
 
+    // Variables
+    private boolean decreaseNumActions = true;
+
     // Functions
     @Override
-    public void perform(Player performer) {
+    public void perform(Player performer, boolean decreaseNumActions) {
+        this.decreaseNumActions = decreaseNumActions;
         // Save the status of the performer
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
         performer.snapshotStatus();
@@ -41,8 +45,12 @@ public class Chapel extends Card implements Action, HasSelection{
     @Override
     public void performSelection(Player performer, List<Card> cards) {
         performer.trashHandCards(cards);
+        performer.recoverStatus();
 
-        performer.decreaseNumActions();
+        if(decreaseNumActions) {
+            performer.decreaseNumActions();
+        }
+        decreaseNumActions = true;
         performer.checkActionCardsAndEndPlayingActionPhase();
     }
 }

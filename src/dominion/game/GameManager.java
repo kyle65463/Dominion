@@ -58,6 +58,10 @@ public class GameManager {
     private static Random random;
 
     // Functions
+    public static List<Player> getPlayers () {
+        return new ArrayList<>(players);
+    }
+
     public static Phase getCurrentPhase() {
         return phases.peek();
     }

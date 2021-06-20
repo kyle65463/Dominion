@@ -92,6 +92,9 @@ public class Player {
     public void decreaseNumActions() {
         numActions--;
         setActionBarValues();
+        if (numActions <= 0) {
+            GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
+        }
     }
 
     public void increaseNumActions(int numIncrease) {
@@ -139,11 +142,20 @@ public class Player {
         setPlayerStatusValues();
     }
 
-    public List<Card> getCards() {
+    public List<Card> getHandCards() {
         return handCards.getCards();
     }
 
-    public void playCard(int cardId) {
+    public List<Card> getAllCards() {
+        List<Card> cards = new ArrayList<>();
+        cards.addAll(handCards.getCards());
+        cards.addAll(discardPile.getCards());
+        cards.addAll(deck.getCards());
+        cards.addAll(fieldCards.getCards());
+        return cards;
+    }
+
+    public void playCard(int cardId, boolean decreaseNumActions) {
         Card card = handCards.getCardByCardId(cardId);
         Logger.logPlayCard(this, card);
         handCards.removeCard(card);
@@ -151,7 +163,7 @@ public class Player {
         if (card instanceof Treasure) {
             numCoins += ((Treasure) card).getNumValue();
         } else if (card instanceof Action) {
-            ((Action) card).perform(this);
+            ((Action) card).perform(this, decreaseNumActions);
         }
 
         setPlayerStatusValues();
@@ -332,7 +344,7 @@ public class Player {
         playerStatus.setNumHandCards(numHandCards);
 
         // Update scores
-        numScores = handCards.getNumScores() + deck.getNumScores() + discardPile.getNumScores();
+        numScores = handCards.getNumScores(this) + deck.getNumScores(this) + discardPile.getNumScores(this);
         playerStatus.setScore(numScores);
     }
 

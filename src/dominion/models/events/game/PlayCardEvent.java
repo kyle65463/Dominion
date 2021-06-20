@@ -18,6 +18,6 @@ public class PlayCardEvent extends GameEvent {
     @Override
     public void perform() {
         Player player = GameManager.getPlayerById(playerId);
-        player.playCard(cardId);
+        player.playCard(cardId, true);
     }
 }
