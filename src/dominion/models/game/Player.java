@@ -1,6 +1,7 @@
 package dominion.models.game;
 
 import dominion.game.GameManager;
+import dominion.game.Logger;
 import dominion.models.User;
 import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
@@ -138,6 +139,7 @@ public class Player {
 
     public void playCard(int cardId) {
         Card card = handCards.getCardByCardId(cardId);
+        Logger.logPlayCard(this, card);
         handCards.removeCard(card);
         fieldCards.addCard(card);
         if (card instanceof Treasure) {
@@ -246,6 +248,9 @@ public class Player {
     }
 
     public void discardHandCards(List<Card> cards) {
+        for(Card card : cards) {
+            Logger.logDiscardCard(this, card);
+        }
         handCards.removeCards(cards);
         discardPile.addCards(cards);
         setPlayerStatusValues();
@@ -274,6 +279,7 @@ public class Player {
         }
 
         setPlayerStatusValues();
+        Logger.logDrawCard(this, numCards);
     }
 
     public int getNumScores() {

@@ -15,6 +15,9 @@ public class Game implements Runnable {
         while (true) {
             // New turn
             Player currentPlayer = GameManager.getCurrentPlayer();
+            Platform.runLater(() -> {
+                Logger.logStartTurn(currentPlayer);
+            });
             System.out.println("Player " + currentPlayer.getName() + "'s turn");
 
             // Playing action cards
@@ -25,13 +28,12 @@ public class Game implements Runnable {
                     currentPlayer.setActionBarButtonHandler((e) -> {
                         GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer.getId()));
                     });
-                    currentPlayer.setCardSelectedHandler((card)->{
-                        if(card instanceof Action) {
+                    currentPlayer.setCardSelectedHandler((card) -> {
+                        if (card instanceof Action) {
                             GameManager.sendEvent(new PlayCardEvent(currentPlayer.getId(), card.getId()));
                         }
                     });
-                }
-                else{
+                } else {
                     GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer.getId()));
                 }
             });
@@ -45,8 +47,8 @@ public class Game implements Runnable {
                 currentPlayer.setActionBarButtonHandler((e) -> {
                     GameManager.sendEvent(new EndBuyingPhaseEvent(currentPlayer.getId()));
                 });
-                currentPlayer.setCardSelectedHandler((card)->{
-                    if(card instanceof Treasure) {
+                currentPlayer.setCardSelectedHandler((card) -> {
+                    if (card instanceof Treasure) {
                         GameManager.sendEvent(new PlayCardEvent(currentPlayer.getId(), card.getId()));
                     }
                 });
@@ -63,6 +65,9 @@ public class Game implements Runnable {
                 currentPlayer.reset();
             });
 
+            Platform.runLater(() -> {
+                Logger.logEndTurn();
+            });
             GameManager.endTurn();
             GameManager.checkGameOver();
         }

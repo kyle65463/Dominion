@@ -32,12 +32,14 @@ public class GameManager {
         GameManager.majorPurchaseArea = majorPurchaseArea;
         GameManager.minorPurchaseArea = minorPurchaseArea;
         GameManager.gameScene = gameScene;
+        GameManager.applicationPlayer = applicationPlayer;
     }
 
     // Variables
     public static Lock lock = new ReentrantLock();
     private static Player currentPlayer;       // The player playing actions
     private static List<Player> players;       // All players
+    private static Player applicationPlayer;
     private static Connection connection;
     private static MajorPurchaseArea majorPurchaseArea;
     private static MinorPurchaseArea minorPurchaseArea;
@@ -92,12 +94,20 @@ public class GameManager {
 
     public static void sendEvent(EventAction event) {
         if (event instanceof GameEvent) {
-            connection.send(event);
+            if(((GameEvent) event).getPlayerId() == applicationPlayer.getId()) {
+                connection.send(event);
+            }
         }
     }
 
     private static void handleEvent(EventAction event) {
         if (event instanceof GameEvent) {
+            try {
+                Thread.sleep(30);
+            }
+            catch (Exception e) {
+
+            }
             ((GameEvent) event).perform();
         }
     }

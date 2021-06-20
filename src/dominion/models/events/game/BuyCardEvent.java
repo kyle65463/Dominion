@@ -1,6 +1,7 @@
 package dominion.models.events.game;
 
 import dominion.game.GameManager;
+import dominion.game.Logger;
 import dominion.models.game.DisplayedCard;
 import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
@@ -30,6 +31,9 @@ public class BuyCardEvent extends GameEvent{
                     player.decreaseNumPurchases();
                     player.decreaseNumCoins(card.getNumCost());
                     displayedCard.decreaseNumRemain();
+
+                    Logger.logBuyCard(player, newCard);
+
                 }
                 catch (Exception e) {
 
