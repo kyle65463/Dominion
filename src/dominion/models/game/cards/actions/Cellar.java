@@ -45,6 +45,7 @@ public class Cellar extends Card implements Action, HasSelection{
     public void performSelection(Player performer, List<Card> cards) {
         performer.discardHandCards(cards);
         performer.drawCards(cards.size());
+        performer.increaseNumActions(1);
         performer.recoverStatus();
 
         if(decreaseNumActions) {

@@ -31,8 +31,6 @@ public class GameManager {
         GameManager.minorPurchaseArea = minorPurchaseArea;
         GameManager.gameScene = gameScene;
         GameManager.applicationPlayer = applicationPlayer;
-        gameOver();
-
     }
 
     // Variables
@@ -179,9 +177,12 @@ public class GameManager {
                 winner = player;
             }
         }
-        WinnerDialog.setWinner(winner.getName());
-        gameScene.disable();
-        setCurrentPhase(Phase.GameOver);
+        Player finalWinner = winner;
+        Platform.runLater(() -> {
+            WinnerDialog.setWinner(finalWinner.getName());
+            gameScene.disable();
+            setCurrentPhase(Phase.GameOver);
+        });
     }
 
 }
