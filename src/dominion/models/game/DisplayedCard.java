@@ -3,6 +3,7 @@ package dominion.models.game;
 import dominion.controllers.components.DisplayedCardController;
 import dominion.game.GameManager;
 import dominion.models.events.game.BuyCardEvent;
+import dominion.models.events.game.SelectDisplayedCardEvent;
 import dominion.models.game.cards.Card;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -38,7 +39,12 @@ public class DisplayedCard implements HasUi {
             if (e instanceof MouseEvent) {
                 MouseButton button = ((MouseEvent) e).getButton();
                 if (button == MouseButton.PRIMARY) {
-                    GameManager.sendEvent(new BuyCardEvent(player.getId(), id));
+                    if(GameManager.getCurrentPhase() == GameManager.Phase.BuyingCards) {
+                        GameManager.sendEvent(new BuyCardEvent(player.getId(), id));
+                    }
+                    else if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
+                        GameManager.sendEvent(new SelectDisplayedCardEvent(player.getId(), id));
+                    }
                 } else if (button == MouseButton.SECONDARY) {
                     System.out.println("Show description");
                 }

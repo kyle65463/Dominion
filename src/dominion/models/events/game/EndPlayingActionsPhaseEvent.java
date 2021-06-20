@@ -13,8 +13,10 @@ public class EndPlayingActionsPhaseEvent extends GameEvent{
     @Override
     public void perform() {
         Player player = GameManager.getPlayerById(playerId);
-        if(player.getId() == GameManager.getCurrentPlayer().getId()){
-            GameManager.endPlayingActionsPhase();
+        if(GameManager.getCurrentPhase() == GameManager.Phase.PlayingActions) {
+            if (player.getId() == GameManager.getCurrentPlayer().getId()) {
+                GameManager.endPlayingActionsPhase();
+            }
         }
     }
 }

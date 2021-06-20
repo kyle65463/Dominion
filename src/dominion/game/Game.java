@@ -21,6 +21,7 @@ public class Game implements Runnable {
             System.out.println("Player " + currentPlayer.getName() + "'s turn");
 
             // Playing action cards
+            GameManager.setCurrentPhase(GameManager.Phase.PlayingActions);
             Platform.runLater(() -> {
                 if (currentPlayer.hasActionCards()) {
                     System.out.println("playing action cards phase");
@@ -41,6 +42,7 @@ public class Game implements Runnable {
             currentPlayer.removeCardSelectedHandler();
 
             // Buying cards
+            GameManager.setCurrentPhase(GameManager.Phase.BuyingCards);
             Platform.runLater(() -> {
                 System.out.println("buying cards phase");
                 currentPlayer.setActionBarStatus("你可以購買卡片", "結束購買");
@@ -57,6 +59,7 @@ public class Game implements Runnable {
             currentPlayer.removeCardSelectedHandler();
 
             // Reset
+            GameManager.setCurrentPhase(GameManager.Phase.Reset);
             Platform.runLater(() -> {
                 currentPlayer.discardAllHandCards();
                 currentPlayer.discardAllFieldCards();

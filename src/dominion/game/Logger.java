@@ -34,6 +34,10 @@ public class Logger {
         }
     }
 
+    public static void logTrashCard(Player player, Card card) {
+        addMessage(player.getName() + " 移除了 " + card.getName());
+    }
+
     public static void logBuyCard(Player player, Card card) {
         addMessage(player.getName() + " 購買了 " + card.getName());
     }
@@ -42,9 +46,9 @@ public class Logger {
 //        addMessage(player.getName() + " 選擇了 " + card.getName());
 //    }
 
-    public static void logDiscardCard(Player player, Card card) {
-        addMessage(player.getName() + " 丟棄了 " + card.getName());
-    }
+//    public static void logDiscardCard(Player player, Card card) {
+//        addMessage(player.getName() + " 丟棄了 " + card.getName());
+//    }
 
     public static void logStartTurn(Player player) {
         addMessage(player.getName() + "  的回合");

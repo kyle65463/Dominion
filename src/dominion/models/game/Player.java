@@ -49,7 +49,8 @@ public class Player {
     private ActionBar actionBar;
     private PlayerStatus playerStatus;
 
-    private List<Card> selectingCards = new ArrayList<>();
+    private int maxSelectedCard = Integer.MAX_VALUE;
+    private List<Card> selectedCards = new ArrayList<>();
 
     // Functions
     public PlayerStatus getPlayerStatus() {
@@ -91,9 +92,6 @@ public class Player {
     public void decreaseNumActions() {
         numActions--;
         setActionBarValues();
-        if (numActions <= 0) {
-            GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
-        }
     }
 
     public void increaseNumActions(int numIncrease) {
@@ -122,6 +120,14 @@ public class Player {
     public void decreaseNumCoins(int numDecreases) {
         numCoins -= numDecreases;
         setActionBarValues();
+    }
+
+    public void setMaxSelectingCards(int maxSelectingCards) {
+        this.maxSelectedCard = maxSelectingCards;
+    }
+
+    public void resetMaxSelectingCards() {
+        maxSelectedCard = Integer.MAX_VALUE;
     }
 
     public void setFieldCards(FieldCards fieldCards) {
@@ -182,31 +188,32 @@ public class Player {
         actionBar.setButtonOnPressed(eventHandler);
     }
 
-    public List<Card> getSelectingCards() {
-        return new ArrayList<>(selectingCards);
+    public List<Card> getSelectedCards() {
+        return new ArrayList<>(selectedCards);
     }
 
     public void selectCard(int cardId) {
         Card card = handCards.getCardByCardId(cardId);
-        if (selectingCards.contains(card)) {
+        if (selectedCards.contains(card)) {
             card.removeHighlight();
-            selectingCards.remove(card);
-        } else {
+            selectedCards.remove(card);
+        } else if(selectedCards.size() < maxSelectedCard){
             card.setHighlight();
-            selectingCards.add(card);
+            selectedCards.add(card);
         }
     }
 
     public void clearSelectingCards() {
-        for (Card card : selectingCards) {
+        for (Card card : selectedCards) {
             card.removeHighlight();
         }
-        selectingCards.clear();
+        selectedCards.clear();
     }
 
-    public void doneSelecting(int cardId) {
+    public void doneSelection(int cardId) {
         HasSelection card = (HasSelection) fieldCards.getCardByCardId(cardId);
-        card.performSelection(this, selectingCards);
+        card.performSelection(this, selectedCards);
+        resetMaxSelectingCards();
         clearSelectingCards();
     }
 
@@ -247,18 +254,38 @@ public class Player {
         setActionBarValues();
     }
 
-    public void discardHandCards(List<Card> cards) {
+    public void trashHandCards(List<Card> cards) {
         for(Card card : cards) {
-            Logger.logDiscardCard(this, card);
+            System.out.println(card);
+            Logger.logTrashCard(this, card);
         }
+        handCards.removeCards(cards);
+        for(Card card : cards) {
+            card.disableUi();
+        }
+        setPlayerStatusValues();
+    }
+
+    public void discardHandCards(List<Card> cards) {
+
         handCards.removeCards(cards);
         discardPile.addCards(cards);
         setPlayerStatusValues();
     }
 
+    public void gainCard(CardSelectedHandler cardSelectedHandler) {
+
+    }
+
     public void drawCards(int numCards) {
         // Check bounds
         if (numCards > discardPile.getNumCards() + deck.getNumCards()) {
+            List<Card> cards = deck.popCards(deck.getNumCards());
+            handCards.addCards(cards);
+            List<Card> newCards = discardPile.getCards();
+            discardPile.removeCards();
+            handCards.addCards(newCards);
+            Logger.logDrawCard(this, cards.size() + newCards.size());
             return;
         }
 
@@ -271,6 +298,7 @@ public class Player {
 
         // Draw cards from the deck
         List<Card> cards = deck.popCards(numCards);
+        Logger.logDrawCard(this, cards.size());
         handCards.addCards(cards);
 
         // Draw cards again if not enough
@@ -279,7 +307,6 @@ public class Player {
         }
 
         setPlayerStatusValues();
-        Logger.logDrawCard(this, numCards);
     }
 
     public int getNumScores() {

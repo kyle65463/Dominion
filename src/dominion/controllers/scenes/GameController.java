@@ -96,6 +96,7 @@ public class GameController {
         majorKingdomCards.add(new DisplayedCard(new Market(), 10, applicationPlayer, 10));
         majorKingdomCards.add(new DisplayedCard(new Festival(), 10, applicationPlayer, 11));
         majorKingdomCards.add(new DisplayedCard(new Cellar(), 10, applicationPlayer, 12));
+        majorKingdomCards.add(new DisplayedCard(new Chapel(), 10, applicationPlayer, 13));
 
         minorKingdomCards.add(new DisplayedCard(new Province(), 4 * users.size(), applicationPlayer, 0));
         minorKingdomCards.add(new DisplayedCard(new Duchy(), 4 * users.size(), applicationPlayer, 1));

@@ -13,8 +13,10 @@ public class EndBuyingPhaseEvent extends GameEvent{
     @Override
     public void perform() {
         Player player = GameManager.getPlayerById(playerId);
-        if(player.getId() == GameManager.getCurrentPlayer().getId()){
-            GameManager.endBuyingPhase();
+        if(GameManager.getCurrentPhase() == GameManager.Phase.BuyingCards) {
+            if (player.getId() == GameManager.getCurrentPlayer().getId()) {
+                GameManager.endBuyingPhase();
+            }
         }
     }
 }

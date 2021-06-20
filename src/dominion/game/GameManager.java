@@ -6,10 +6,7 @@ import dominion.models.events.game.GameEvent;
 import dominion.models.game.*;
 import javafx.application.Platform;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -20,6 +17,7 @@ public class GameManager {
                                   MajorPurchaseArea majorPurchaseArea, MinorPurchaseArea minorPurchaseArea,
                                   int randomSeed,
                                   GameScene gameScene) {
+        phases.push(Phase.Reset);
         GameManager.players = players;
         Collections.sort(players, (a, b) -> a.getId() - b.getId());
         currentPlayer = players.get(0);
@@ -44,6 +42,15 @@ public class GameManager {
     private static MajorPurchaseArea majorPurchaseArea;
     private static MinorPurchaseArea minorPurchaseArea;
     private static GameScene gameScene;
+    private static Stack<Phase> phases = new Stack<>();
+
+    public static enum Phase {
+        Reset,
+        PlayingActions,
+        BuyingCards,
+        SelectingHandCards,
+        SelectingDisplayedCards,
+    }
 
     private final static Condition isPlayingActionsPhaseEnd = lock.newCondition();
     private final static Condition isBuyingPhaseEnd = lock.newCondition();
@@ -51,6 +58,18 @@ public class GameManager {
     private static Random random;
 
     // Functions
+    public static Phase getCurrentPhase() {
+        return phases.peek();
+    }
+
+    public static void returnLastPhase() {
+        phases.pop();
+    }
+
+    public static void setCurrentPhase(Phase phase) {
+        phases.push(phase);
+    }
+
     public static GameScene getGameScene() {
         return gameScene;
     }

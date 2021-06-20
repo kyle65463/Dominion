@@ -21,22 +21,23 @@ public class BuyCardEvent extends GameEvent{
     public void perform() {
         Player player = GameManager.getPlayerById(playerId);
         DisplayedCard displayedCard = GameManager.getDisplayedCardById(displayedCardId);
-        if(player.getId() == GameManager.getCurrentPlayer().getId()){
-            Card card = displayedCard.getCard();
-            if(player.getNumCoins() >= card.getNumCost() && player.getNumPurchases() > 0 && displayedCard.getNumRemain() > 0) {
-                try {
-                    Card newCard = (Card) card.clone();
-                    newCard.setNumRemain(1);
-                    player.receiveNewCard(newCard);
-                    player.decreaseNumPurchases();
-                    player.decreaseNumCoins(card.getNumCost());
-                    displayedCard.decreaseNumRemain();
+        if(GameManager.getCurrentPhase() == GameManager.Phase.BuyingCards) {
+            if (player.getId() == GameManager.getCurrentPlayer().getId()) {
+                Card card = displayedCard.getCard();
+                if (player.getNumCoins() >= card.getNumCost() && player.getNumPurchases() > 0 && displayedCard.getNumRemain() > 0) {
+                    try {
+                        Card newCard = (Card) card.clone();
+                        newCard.setNumRemain(1);
+                        player.receiveNewCard(newCard);
+                        player.decreaseNumPurchases();
+                        player.decreaseNumCoins(card.getNumCost());
+                        displayedCard.decreaseNumRemain();
 
-                    Logger.logBuyCard(player, newCard);
+                        Logger.logBuyCard(player, newCard);
 
-                }
-                catch (Exception e) {
+                    } catch (Exception e) {
 
+                    }
                 }
             }
         }

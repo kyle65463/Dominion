@@ -10,10 +10,10 @@ import dominion.utils.CardTypes;
 
 import java.util.List;
 
-public class Cellar extends Card implements Action, HasSelection{
+public class Chapel extends Card implements Action, HasSelection{
     // Constructor
-    public Cellar() {
-        name = "地窖";
+    public Chapel() {
+        name = "禮拜堂";
         description = "";
         style = CardStyles.white;
         type = CardTypes.action;
@@ -24,10 +24,12 @@ public class Cellar extends Card implements Action, HasSelection{
     @Override
     public void perform(Player performer) {
         // Save the status of the performer
+        GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
         performer.snapshotStatus();
+        performer.setMaxSelectingCards(4);
 
         // Set new handlers
-        performer.setActionBarStatus("選擇要丟棄的牌", "完成");
+        performer.setActionBarStatus("選擇要移除的牌", "完成");
         performer.setCardSelectedHandler((card) -> {
             GameManager.sendEvent(new SelectHandCardEvent(performer.getId(), card.getId()));
         });
@@ -38,9 +40,7 @@ public class Cellar extends Card implements Action, HasSelection{
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.discardHandCards(cards);
-        performer.drawCards(cards.size());
-        performer.recoverStatus();
+        performer.trashHandCards(cards);
 
         performer.decreaseNumActions();
         performer.checkActionCardsAndEndPlayingActionPhase();
