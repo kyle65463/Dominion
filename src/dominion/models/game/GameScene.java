@@ -15,13 +15,17 @@ public class GameScene {
 
     private AnchorPane rootNode;
 
+    public void disable() {
+        rootNode.setDisable(true);
+    }
+
     public boolean contains(ComponentController controller) {
         return rootNode.getChildren().contains(controller.getRootNode());
     }
 
     public void setToTop(ComponentController controller) {
         Node node = controller.getRootNode();
-        if(contains(controller)) {
+        if (contains(controller)) {
             ObservableList<Node> nodes = FXCollections.observableArrayList(rootNode.getChildren());
             nodes.remove(node);
             nodes.add(node);
@@ -31,14 +35,14 @@ public class GameScene {
 
     public void add(ComponentController controller) {
         Node node = controller.getRootNode();
-        if(!contains(controller)) {
+        if (!contains(controller)) {
             rootNode.getChildren().add(node);
         }
     }
 
     public void delete(ComponentController controller) {
         Node node = controller.getRootNode();
-        if(contains(controller)) {
+        if (contains(controller)) {
             rootNode.getChildren().remove(node);
         }
     }

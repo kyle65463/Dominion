@@ -31,6 +31,8 @@ public class GameManager {
         GameManager.minorPurchaseArea = minorPurchaseArea;
         GameManager.gameScene = gameScene;
         GameManager.applicationPlayer = applicationPlayer;
+        gameOver();
+
     }
 
     // Variables
@@ -50,6 +52,7 @@ public class GameManager {
         BuyingCards,
         SelectingHandCards,
         SelectingDisplayedCards,
+        GameOver,
     }
 
     private final static Condition isPlayingActionsPhaseEnd = lock.newCondition();
@@ -58,7 +61,7 @@ public class GameManager {
     private static Random random;
 
     // Functions
-    public static List<Player> getPlayers () {
+    public static List<Player> getPlayers() {
         return new ArrayList<>(players);
     }
 
@@ -78,7 +81,7 @@ public class GameManager {
         return gameScene;
     }
 
-    public static int getRandomSeed(){
+    public static int getRandomSeed() {
         return randomSeed;
     }
 
@@ -87,7 +90,7 @@ public class GameManager {
         GameManager.random = new Random(randomSeed);
     }
 
-    public static int getRandomInt(){
+    public static int getRandomInt() {
         return random.nextInt(1000000);
     }
 
@@ -117,7 +120,7 @@ public class GameManager {
 
     public static void sendEvent(EventAction event) {
         if (event instanceof GameEvent) {
-            if(((GameEvent) event).getPlayerId() == applicationPlayer.getId()) {
+            if (((GameEvent) event).getPlayerId() == applicationPlayer.getId()) {
                 connection.send(event);
             }
         }
@@ -127,8 +130,7 @@ public class GameManager {
         if (event instanceof GameEvent) {
             try {
                 Thread.sleep(30);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
 
             }
             ((GameEvent) event).perform();
@@ -160,27 +162,26 @@ public class GameManager {
     }
 
     public static void checkGameOver() {
-        if(minorPurchaseArea.isGameOver()) {
+        if (minorPurchaseArea.isGameOver()) {
             gameOver();
-        }
-        else if(minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3){
+        } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
             gameOver();
         }
     }
 
-    private static void gameOver(){
+    private static void gameOver() {
         int maxNumScores = 0;
-        List<Player> winners = new ArrayList<>();
+        Player winner = currentPlayer;
         for (Player player : players) {
             int scores = player.getNumScores();
-            if(scores >= maxNumScores){
-                scores = maxNumScores;
-               winners.add(player);
+            if (scores > maxNumScores) {
+                maxNumScores = scores;
+                winner = player;
             }
         }
-        for (Player winner : winners) {
-            System.out.println(winner + "wins!");
-        }
+        WinnerDialog.setWinner(winner.getName());
+        gameScene.disable();
+        setCurrentPhase(Phase.GameOver);
     }
 
 }

@@ -17,6 +17,7 @@ import dominion.models.game.cards.victories.Estate;
 import dominion.models.game.cards.victories.Gardens;
 import dominion.models.game.cards.victories.Province;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -41,6 +42,10 @@ public class GameController {
     GridPane opponentsStatusBox;
     @FXML
     Pane playerStatusBox;
+    @FXML
+    Pane winnerBox;
+    @FXML
+    Label winnerLabel;
     GameScene gameScene;
 
     @FXML
@@ -50,6 +55,7 @@ public class GameController {
 
     public void initialize(List<User> users, User applicationUser, Connection connection, int randomSeed) {
         scrollPane.vvalueProperty().bind(messageBoxNode.heightProperty());
+        WinnerDialog.initialize(winnerBox, winnerLabel);
         Logger.initialize(messageBoxNode);
         GameManager.setRandomSeed(randomSeed);
         gameScene = new GameScene(rootNode);

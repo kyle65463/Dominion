@@ -89,7 +89,9 @@ public class RoomController {
                 GameController controller = loader.getController();
                 controller.initialize(users, applicationUser, connection, ((StartGameEvent) eventAction).getRandomSeed());
 
-                stage.setScene(new Scene(root));
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/resources/styles/game.css").toExternalForm());
+                stage.setScene(scene);
                 stage.show();
             }
             catch (Exception e) {
