@@ -27,6 +27,15 @@ public class FieldCards implements HasUi{
         return new ArrayList<>(cards);
     }
 
+    public Card getCardByCardId(int cardId) {
+        for(Card card : cards) {
+            if(card.getId() == cardId){
+                return card;
+            }
+        }
+        return null;
+    }
+
     public void removeCards() {
         cards.clear();
     }

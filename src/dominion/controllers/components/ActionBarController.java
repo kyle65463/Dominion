@@ -75,4 +75,16 @@ public class ActionBarController extends ComponentController{
             System.out.println(e);
         }
     }
+
+    public String getStatus() {
+        return statusLabel.getText();
+    }
+
+    public String getButtonText() {
+        return button.getText();
+    }
+
+    public EventHandler getButtonOnPressed() {
+        return button.getOnMousePressed();
+    }
 }

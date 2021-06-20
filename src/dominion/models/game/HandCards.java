@@ -66,7 +66,7 @@ public class HandCards implements HasUi {
         return new ArrayList<>(cards);
     }
 
-    public void removeCards() {
+    public void removeAllCards() {
         cards.clear();
         if (isEnableUi) {
             uiController.arrangeCardsPos(cards);
@@ -88,19 +88,23 @@ public class HandCards implements HasUi {
         return false;
     }
 
-    public void removeSelectingCards() {
+    public void removeCardSelectedHandler() {
         this.cardSelectedHandler = (card) -> {};
     }
 
     private CardSelectedHandler cardSelectedHandler = (card) -> {};
 
-    public void setSelectingCards(CardSelectedHandler cardSelectedHandler) {
+    public void setCardSelectedHandler(CardSelectedHandler cardSelectedHandler) {
         this.cardSelectedHandler = cardSelectedHandler;
         for (Card card : cards) {
             card.setOnPressed((e) -> {
                 cardSelectedHandler.onSelected(card);
             });
         }
+    }
+
+    public CardSelectedHandler getCardSelectedHandler() {
+        return cardSelectedHandler;
     }
 
     public void addCards(List<Card> cards) {
@@ -116,6 +120,12 @@ public class HandCards implements HasUi {
         });
         if (isEnableUi) {
             uiController.arrangeCardsPos(cards);
+        }
+    }
+
+    public void removeCards(List<Card> cards) {
+        for (Card card : cards) {
+            removeCard(card);
         }
     }
 

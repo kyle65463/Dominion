@@ -56,4 +56,25 @@ public class ActionBar implements HasUi{
             uiController.setButtonOnPressed(eventHandler);
         }
     }
+
+    public String getStatus() {
+        if(isEnableUi) {
+            return uiController.getStatus();
+        }
+        return "";
+    }
+
+    public String getButtonText() {
+        if(isEnableUi) {
+            return uiController.getButtonText();
+        }
+        return "";
+    }
+
+    public EventHandler getButtonOnPressed() {
+        if(isEnableUi) {
+            return uiController.getButtonOnPressed();
+        }
+        return (e)->{};
+    }
 }

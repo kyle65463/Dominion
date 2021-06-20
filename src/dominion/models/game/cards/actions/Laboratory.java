@@ -20,5 +20,8 @@ public class Laboratory extends Card implements Action {
     public void perform(Player performer) {
         performer.drawCards(2);
         performer.increaseNumActions(1);
+
+        performer.decreaseNumActions();
+        performer.checkActionCardsAndEndPlayingActionPhase();
     }
 }

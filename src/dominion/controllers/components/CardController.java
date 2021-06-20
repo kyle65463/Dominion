@@ -40,6 +40,7 @@ public class CardController extends ComponentController {
         rootNode.setStyle(card.getStyle());
     }
 
+
     public void setTypesLabel(String type) {
         typesLabel.setText(type);
     }
@@ -52,6 +53,14 @@ public class CardController extends ComponentController {
     public void setLayout(double x, double y) {
         rootNode.setTranslateX(x);
         rootNode.setTranslateY(y);
+    }
+
+    public void setHighlight() {
+        rootNode.setStyle(card.getStyle() + CardStyles.highlight);
+    }
+
+    public void removeHighlight() {
+        setStyle();
     }
 
     public void setOnPressed(EventHandler eventHandler) {

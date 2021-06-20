@@ -4,15 +4,17 @@ import dominion.game.GameManager;
 import dominion.models.User;
 import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
-import dominion.models.events.game.PlayCardEvent;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
+import dominion.models.game.cards.actions.HasSelection;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.event.EventHandler;
+import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Player  {
+public class Player {
     // Constructor
     public Player(User user) {
         this(user.getName(), user.getId());
@@ -46,8 +48,10 @@ public class Player  {
     private ActionBar actionBar;
     private PlayerStatus playerStatus;
 
+    private List<Card> selectingCards = new ArrayList<>();
+
     // Functions
-    public PlayerStatus getPlayerStatus(){
+    public PlayerStatus getPlayerStatus() {
         return playerStatus;
     }
 
@@ -86,7 +90,7 @@ public class Player  {
     public void decreaseNumActions() {
         numActions--;
         setActionBarValues();
-        if(numActions <= 0){
+        if (numActions <= 0) {
             GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
         }
     }
@@ -104,7 +108,7 @@ public class Player  {
     public void decreaseNumPurchases() {
         numPurchases--;
         setActionBarValues();
-        if(numPurchases <= 0){
+        if (numPurchases <= 0) {
             GameManager.sendEvent(new EndBuyingPhaseEvent(id));
         }
     }
@@ -136,19 +140,20 @@ public class Player  {
         Card card = handCards.getCardByCardId(cardId);
         handCards.removeCard(card);
         fieldCards.addCard(card);
-        if(card instanceof Treasure) {
+        if (card instanceof Treasure) {
             numCoins += ((Treasure) card).getNumValue();
-        }
-        else if(card instanceof Action){
+        } else if (card instanceof Action) {
             ((Action) card).perform(this);
-            decreaseNumActions();
-            if(!hasActionCards()) {
-                GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
-            }
         }
 
         setPlayerStatusValues();
         setActionBarValues();
+    }
+
+    public void checkActionCardsAndEndPlayingActionPhase() {
+        if(!hasActionCards()) {
+            GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
+        }
     }
 
     public boolean hasActionCards() {
@@ -156,33 +161,74 @@ public class Player  {
         return result;
     }
 
+    public Pair<String, String> getActionBarStatus() {
+        String originalStatus = actionBar.getStatus();
+        String originalButtonText = actionBar.getButtonText();
+        return new Pair<>(originalStatus, originalButtonText);
+    }
 
     public void setActionBarStatus(String status, String buttonText) {
         actionBar.setStatus(status);
         actionBar.setButtonText(buttonText);
     }
 
-    public void setActionBarButtonOnPressed(EventHandler eventHandler) {
+    public EventHandler getActionBarButtonOnPressed() {
+        return actionBar.getButtonOnPressed();
+    }
+
+    public void setActionBarButtonHandler(EventHandler eventHandler) {
         actionBar.setButtonOnPressed(eventHandler);
     }
 
-    public void selectCards(CardSelectedHandler cardSelectedHandler) {
-        handCards.setSelectingCards(cardSelectedHandler);
+    public List<Card> getSelectingCards() {
+        return new ArrayList<>(selectingCards);
     }
 
-    public void disableSelectingCards(){
-        handCards.removeSelectingCards();
+    public void selectCard(int cardId) {
+        Card card = handCards.getCardByCardId(cardId);
+        if (selectingCards.contains(card)) {
+            card.removeHighlight();
+            selectingCards.remove(card);
+        } else {
+            card.setHighlight();
+            selectingCards.add(card);
+        }
     }
 
-    public void discardHandCards() {
+    public void clearSelectingCards() {
+        for (Card card : selectingCards) {
+            card.removeHighlight();
+        }
+        selectingCards.clear();
+    }
+
+    public void doneSelecting(int cardId) {
+        HasSelection card = (HasSelection) fieldCards.getCardByCardId(cardId);
+        card.performSelection(this, selectingCards);
+        clearSelectingCards();
+    }
+
+    public CardSelectedHandler getCardSelectedHandler() {
+        return handCards.getCardSelectedHandler();
+    }
+
+    public void setCardSelectedHandler(CardSelectedHandler cardSelectedHandler) {
+        handCards.setCardSelectedHandler(cardSelectedHandler);
+    }
+
+    public void removeCardSelectedHandler() {
+        handCards.removeCardSelectedHandler();
+    }
+
+    public void discardAllHandCards() {
         // Discard all hand cards to discard pile
         List<Card> cards = handCards.getCards();
         discardPile.addCards(cards);
-        handCards.removeCards();
+        handCards.removeAllCards();
         setPlayerStatusValues();
     }
 
-    public void discardFieldCards() {
+    public void discardAllFieldCards() {
         // Discard all field cards to discard pile
         List<Card> cards = fieldCards.getCards();
         fieldCards.removeCards();
@@ -199,14 +245,20 @@ public class Player  {
         setActionBarValues();
     }
 
+    public void discardHandCards(List<Card> cards) {
+        handCards.removeCards(cards);
+        discardPile.addCards(cards);
+        setPlayerStatusValues();
+    }
+
     public void drawCards(int numCards) {
         // Check bounds
-        if(numCards > discardPile.getNumCards() + deck.getNumCards()){
+        if (numCards > discardPile.getNumCards() + deck.getNumCards()) {
             return;
         }
 
         // Refill the deck if it's empty
-        if(deck.isEmpty()){
+        if (deck.isEmpty()) {
             List<Card> newCards = discardPile.getCards();
             discardPile.removeCards();
             deck.addCards(newCards, true);
@@ -217,7 +269,7 @@ public class Player  {
         handCards.addCards(cards);
 
         // Draw cards again if not enough
-        if(cards.size() < numCards){
+        if (cards.size() < numCards) {
             drawCards(numCards - cards.size());
         }
 
@@ -249,5 +301,36 @@ public class Player  {
         // Update scores
         numScores = handCards.getNumScores() + deck.getNumScores() + discardPile.getNumScores();
         playerStatus.setScore(numScores);
+    }
+
+
+    class StatusSnapshot {
+        String buttonText;
+        String status;
+        EventHandler buttonHandler;
+        CardSelectedHandler cardSelectedHandler;
+
+        StatusSnapshot(String buttonText, String status, EventHandler buttonHandler, CardSelectedHandler cardSelectedHandler) {
+            this.buttonText = buttonText;
+            this.status = status;
+            this.buttonHandler = buttonHandler;
+            this.cardSelectedHandler = cardSelectedHandler;
+        }
+    }
+
+    private StatusSnapshot statusSnapshot;
+
+    public void snapshotStatus() {
+        statusSnapshot = new StatusSnapshot(actionBar.getButtonText(), actionBar.getStatus(),
+                actionBar.getButtonOnPressed(), handCards.getCardSelectedHandler());
+    }
+
+    public void recoverStatus() {
+        if (statusSnapshot != null) {
+            setActionBarStatus(statusSnapshot.status, statusSnapshot.buttonText);
+            setCardSelectedHandler(statusSnapshot.cardSelectedHandler);
+            setActionBarButtonHandler(statusSnapshot.buttonHandler);
+            statusSnapshot = null;
+        }
     }
 }

@@ -89,6 +89,7 @@ public class GameController {
         majorKingdomCards.add(new DisplayedCard(new Laboratory(), 10, applicationPlayer, 9));
         majorKingdomCards.add(new DisplayedCard(new Market(), 10, applicationPlayer, 10));
         majorKingdomCards.add(new DisplayedCard(new Festival(), 10, applicationPlayer, 11));
+        majorKingdomCards.add(new DisplayedCard(new Cellar(), 10, applicationPlayer, 12));
 
         minorKingdomCards.add(new DisplayedCard(new Province(), 4 * users.size(), applicationPlayer, 0));
         minorKingdomCards.add(new DisplayedCard(new Duchy(), 4 * users.size(), applicationPlayer, 1));
@@ -105,6 +106,7 @@ public class GameController {
         GameManager.initialize(players, connection, applicationPlayer, majorPurchaseArea, minorPurchaseArea, randomSeed, gameScene);
         for(Player player : players){
             player.drawCards(5);
+            player.setActionBarStatus("等待其他玩家的回合", "");
             player.reset();
         }
 

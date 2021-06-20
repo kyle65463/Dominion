@@ -22,10 +22,10 @@ public class Game implements Runnable {
                 if (currentPlayer.hasActionCards()) {
                     System.out.println("playing action cards phase");
                     currentPlayer.setActionBarStatus("你可以打出行動卡", "結束行動");
-                    currentPlayer.setActionBarButtonOnPressed((e) -> {
+                    currentPlayer.setActionBarButtonHandler((e) -> {
                         GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer.getId()));
                     });
-                    currentPlayer.selectCards((card)->{
+                    currentPlayer.setCardSelectedHandler((card)->{
                         if(card instanceof Action) {
                             GameManager.sendEvent(new PlayCardEvent(currentPlayer.getId(), card.getId()));
                         }
@@ -36,30 +36,30 @@ public class Game implements Runnable {
                 }
             });
             waitForPlayingActionsPhasesEnd();
-            currentPlayer.disableSelectingCards();
+            currentPlayer.removeCardSelectedHandler();
 
             // Buying cards
             Platform.runLater(() -> {
                 System.out.println("buying cards phase");
                 currentPlayer.setActionBarStatus("你可以購買卡片", "結束購買");
-                currentPlayer.setActionBarButtonOnPressed((e) -> {
+                currentPlayer.setActionBarButtonHandler((e) -> {
                     GameManager.sendEvent(new EndBuyingPhaseEvent(currentPlayer.getId()));
                 });
-                currentPlayer.selectCards((card)->{
+                currentPlayer.setCardSelectedHandler((card)->{
                     if(card instanceof Treasure) {
                         GameManager.sendEvent(new PlayCardEvent(currentPlayer.getId(), card.getId()));
                     }
                 });
             });
             waitForBuyingPhasesEnd();
-            currentPlayer.disableSelectingCards();
+            currentPlayer.removeCardSelectedHandler();
 
             // Reset
             Platform.runLater(() -> {
-                currentPlayer.discardHandCards();
-                currentPlayer.discardFieldCards();
+                currentPlayer.discardAllHandCards();
+                currentPlayer.discardAllFieldCards();
                 currentPlayer.drawCards(5);
-                currentPlayer.setActionBarStatus("等待其他人的回合", "");
+                currentPlayer.setActionBarStatus("等待其他玩家的回合", "");
                 currentPlayer.reset();
             });
 

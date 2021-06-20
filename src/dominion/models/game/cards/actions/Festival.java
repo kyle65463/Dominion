@@ -21,5 +21,8 @@ public class Festival extends Card implements Action {
         performer.increaseNumActions(2);
         performer.increaseNumPurchases(1);
         performer.increaseNumCoins(2);
+
+        performer.decreaseNumActions();
+        performer.checkActionCardsAndEndPlayingActionPhase();
     }
 }

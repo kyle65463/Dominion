@@ -9,4 +9,5 @@ public class CardStyles {
     public final static String gold = border + ";" + "-fx-background-color: lemonChiffon";
     public final static String blue = border + ";" + "-fx-background-color: lightSkyBlue";
     public final static String brown = border + ";" + "-fx-background-color: tan";
+    public final static String highlight = ";-fx-border-color: tomato";
 }

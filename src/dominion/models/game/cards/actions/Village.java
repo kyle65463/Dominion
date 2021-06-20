@@ -20,5 +20,8 @@ public class Village extends Card implements Action {
     public void perform(Player performer) {
         performer.drawCards(1);
         performer.increaseNumActions(2);
+
+        performer.decreaseNumActions();
+        performer.checkActionCardsAndEndPlayingActionPhase();
     }
 }

@@ -89,6 +89,18 @@ public abstract class Card implements HasUi, Cloneable{
         }
     }
 
+    public void setHighlight() {
+        if (isEnableUi) {
+            uiController.setHighlight();
+        }
+    }
+
+    public void removeHighlight() {
+        if (isEnableUi) {
+            uiController.removeHighlight();
+        }
+    }
+
     public void disableOnPressed() {
         if (isEnableUi) {
             uiController.setOnPressed((e -> {
