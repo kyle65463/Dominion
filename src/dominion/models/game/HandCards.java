@@ -2,14 +2,18 @@ package dominion.models.game;
 
 import dominion.controllers.components.HandCardsController;
 import dominion.game.GameManager;
+import dominion.models.events.game.BuyCardEvent;
 import dominion.models.events.game.GameEvent;
 import dominion.models.events.game.PlayCardEvent;
+import dominion.models.events.game.SelectDisplayedCardEvent;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.curses.Curses;
 import dominion.models.game.cards.treasures.Treasure;
 import dominion.models.game.cards.victories.Victory;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +48,6 @@ public class HandCards implements HasUi {
         }
         return null;
     }
-
     public int getNumScores(Player player) {
         int numScores = 0;
         for (Card card : cards) {

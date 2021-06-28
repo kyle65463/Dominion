@@ -3,6 +3,7 @@ package dominion.controllers.components;
 import dominion.models.game.cards.Card;
 import dominion.models.game.GameScene;
 import dominion.utils.Animator;
+import javafx.event.EventHandler;
 import javafx.util.Duration;
 
 import java.util.List;
@@ -33,7 +34,6 @@ public class HandCardsController extends ComponentController{
             x += paddingX + CardController.width;
         }
     }
-
     private double calculateFirstX(List<Card> cards) {
         double x = centerX - (cards.size() / 2) *  CardController.width - (cards.size() / 2) * paddingX;
         if (cards.size() % 2 == 0) {
@@ -43,4 +43,5 @@ public class HandCardsController extends ComponentController{
         }
         return x;
     }
+
 }

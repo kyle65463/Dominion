@@ -5,6 +5,8 @@ import dominion.game.GameManager;
 import dominion.models.game.HasUi;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -110,7 +112,16 @@ public abstract class Card implements HasUi, Cloneable{
 
     public void setOnPressed(EventHandler eventHandler) {
         if (isEnableUi) {
-            uiController.setOnPressed(eventHandler);
+            uiController.setOnPressed((e) -> {
+                if (e instanceof MouseEvent) {
+                    MouseButton button = ((MouseEvent) e).getButton();
+                    if (button == MouseButton.SECONDARY) {
+                        System.out.println("Show description");
+                    }else if(button == MouseButton.PRIMARY){
+                        eventHandler.handle(e);
+                    }
+                }
+            });
         }
     }
 

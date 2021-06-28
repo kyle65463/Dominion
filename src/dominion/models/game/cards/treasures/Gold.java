@@ -7,7 +7,7 @@ import dominion.utils.CardTypes;
 public class Gold extends Card implements Treasure{
     // Constructor
     public Gold() {
-        name = "金幣";
+        name = "黃金";
         description = "";
         style = CardStyles.gold;
         type = CardTypes.treasure;
