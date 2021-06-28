@@ -18,8 +18,8 @@ public class FieldCards implements HasUi{
     private List<Card> cards = new ArrayList<>();
 
     // Functions
-    public void enableUi(GameScene gameScene) {
-        this.uiController = new FieldCardsController(gameScene);
+    public void enableUi() {
+        this.uiController = new FieldCardsController();
         isEnableUi = true;
     }
 

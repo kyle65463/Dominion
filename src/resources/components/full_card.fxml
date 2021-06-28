@@ -29,7 +29,7 @@
             </Label>
          </children>
       </StackPane>
-      <Label id="content" alignment="CENTER" layoutX="17.0" layoutY="61.0" prefHeight="273.0" prefWidth="208.0" text="1塊錢很多很多的一塊錢嘻嘻嘻嘻嘻嘻1塊錢很多很多的一塊錢嘻嘻嘻嘻嘻嘻1塊錢很多很多的一塊錢嘻嘻嘻嘻嘻嘻1塊錢很多很多的一塊錢嘻嘻嘻嘻嘻嘻" textAlignment="CENTER" wrapText="true">
+      <Label id="description" alignment="CENTER" layoutX="17.0" layoutY="61.0" prefHeight="273.0" prefWidth="208.0" text="1塊錢很多很多的一塊錢嘻嘻嘻嘻嘻嘻1塊錢很多很多的一塊錢嘻嘻嘻嘻嘻嘻1塊錢很多很多的一塊錢嘻嘻嘻嘻嘻嘻1塊錢很多很多的一塊錢嘻嘻嘻嘻嘻嘻" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="20.0" />
          </font>

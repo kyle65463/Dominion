@@ -32,8 +32,8 @@ public class HandCards implements HasUi {
     private List<Card> cards = new ArrayList<>();
 
     // Functions
-    public void enableUi(GameScene gameScene) {
-        this.uiController = new HandCardsController(gameScene);
+    public void enableUi() {
+        this.uiController = new HandCardsController();
         isEnableUi = true;
         for (Card card : cards) {
             card.enableUi();

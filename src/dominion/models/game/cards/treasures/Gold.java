@@ -8,7 +8,7 @@ public class Gold extends Card implements Treasure{
     // Constructor
     public Gold() {
         name = "黃金";
-        description = "";
+        description = "3塊錢";
         style = CardStyles.gold;
         type = CardTypes.treasure;
         numCost = 6;

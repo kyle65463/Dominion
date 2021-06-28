@@ -20,8 +20,8 @@ public class DiscardPile implements HasUi{
     private DiscardPileController uiController;
 
     // Functions
-    public void enableUi(GameScene gameScene) {
-        this.uiController = new DiscardPileController(gameScene);
+    public void enableUi() {
+        this.uiController = new DiscardPileController();
         isEnableUi = true;
         for(Card card : cards) {
             card.enableUi();

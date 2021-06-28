@@ -77,11 +77,11 @@ public class Player {
         return numActions;
     }
 
-    public void enableUi(GameScene gameScene) {
-        deck.enableUi(gameScene);
-        discardPile.enableUi(gameScene);
-        handCards.enableUi(gameScene);
-        actionBar.enableUi(gameScene);
+    public void enableUi() {
+        deck.enableUi();
+        discardPile.enableUi();
+        handCards.enableUi();
+        actionBar.enableUi();
     }
 
     public void receiveNewCard(Card card) {

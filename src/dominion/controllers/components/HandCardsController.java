@@ -10,9 +10,6 @@ import java.util.List;
 
 public class HandCardsController extends ComponentController{
     // Constructor
-    public HandCardsController(GameScene gameScene) {
-        super(gameScene);
-    }
 
     // Variables
     private final double centerX = 560;
@@ -24,11 +21,11 @@ public class HandCardsController extends ComponentController{
         double x = calculateFirstX(cards);
         for (Card card : cards) {
             CardController cardController = card.getController();
-            if (!gameScene.contains(cardController)) {
+            if (!GameScene.contains(cardController)) {
                 cardController.setLayout(x, y);
-                gameScene.add(cardController);
+                GameScene.add(cardController);
             } else {
-                gameScene.setToTop(cardController);
+                GameScene.setToTop(cardController);
                 Animator.transitTo(cardController, x, y);
             }
             x += paddingX + CardController.width;
