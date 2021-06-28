@@ -57,6 +57,18 @@ public class ActionBar implements HasUi{
         }
     }
 
+    public void setAutoTreasureOnPressed(EventHandler eventHandler) {
+        if (isEnableUi) {
+            uiController.setAutoTreasureOnPressed(eventHandler);
+        }
+    }
+
+    public void setAutoTreasure(boolean b) {
+        if (isEnableUi) {
+            uiController.setAutoTreasure(b);
+        }
+    }
+
     public String getStatus() {
         if(isEnableUi) {
             return uiController.getStatus();

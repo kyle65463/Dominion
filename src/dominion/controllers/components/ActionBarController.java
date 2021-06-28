@@ -15,6 +15,7 @@ public class ActionBarController extends ComponentController{
 
     // Variables
     private Button button;
+    private Button autoTreasure;
     private Label statusLabel;
     private Label purchasesLabel;
     private Label actionsLabel;
@@ -53,6 +54,8 @@ public class ActionBarController extends ComponentController{
         button.setOnMousePressed(handler);
     }
 
+    public void setAutoTreasureOnPressed(EventHandler handler) { autoTreasure.setOnMousePressed(handler); }
+
     private void initialize() {
         try {
             rootNode = FXMLLoader.load(ActionBarController.class.getClassLoader().getResource("resources/components/action_bar.fxml"));
@@ -61,6 +64,7 @@ public class ActionBarController extends ComponentController{
             coinsLabel = (Label) rootNode.lookup("#num_coins");
             statusLabel = (Label) rootNode.lookup("#status");
             button = (Button) rootNode.lookup("#button");
+            autoTreasure = (Button) rootNode.lookup("#autoTreasure");
 
             setNumActions(1);
             setNumPurchases(1);
@@ -74,6 +78,11 @@ public class ActionBarController extends ComponentController{
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    public void setAutoTreasure(boolean b) {
+        autoTreasure.setDisable(!b);
+        autoTreasure.setVisible(b);
     }
 
     public String getStatus() {

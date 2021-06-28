@@ -200,6 +200,14 @@ public class Player {
         actionBar.setButtonOnPressed(eventHandler);
     }
 
+    public void setActionBarAutoTreasureHandler(EventHandler eventHandler) {
+        actionBar.setAutoTreasureOnPressed(eventHandler);
+    }
+
+    public void setActionBarAutoTreasure(boolean b) {
+        actionBar.setAutoTreasure(b);
+    }
+
     public List<Card> getSelectedCards() {
         return new ArrayList<>(selectedCards);
     }
