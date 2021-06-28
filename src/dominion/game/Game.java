@@ -4,9 +4,12 @@ import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
 import dominion.models.events.game.PlayCardEvent;
 import dominion.models.game.Player;
+import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.application.Platform;
+
+import java.util.List;
 
 
 public class Game implements Runnable {
@@ -49,6 +52,20 @@ public class Game implements Runnable {
                 currentPlayer.setActionBarButtonHandler((e) -> {
                     GameManager.sendEvent(new EndBuyingPhaseEvent(currentPlayer.getId()));
                 });
+                List<Card> cards = GameManager.getCurrentPlayer().getHandCards();
+                if (cards.stream().anyMatch(card -> card instanceof Treasure)) {
+                    currentPlayer.setActionBarAutoTreasure(true);
+                    currentPlayer.setActionBarAutoTreasureHandler((e) -> {
+                        for (Card card : cards) {
+                            if (card instanceof Treasure) {
+                                GameManager.sendEvent((new PlayCardEvent(currentPlayer.getId(), card.getId())));
+                            }
+                        }
+                    });
+                } else {
+                    currentPlayer.setActionBarAutoTreasure(false);
+//                    currentPlayer.setActionBarAutoTreasureHandler((e) -> {});
+                }
                 currentPlayer.setCardSelectedHandler((card) -> {
                     if (card instanceof Treasure) {
                         GameManager.sendEvent(new PlayCardEvent(currentPlayer.getId(), card.getId()));
@@ -57,6 +74,7 @@ public class Game implements Runnable {
             });
             waitForBuyingPhasesEnd();
             currentPlayer.removeCardSelectedHandler();
+            currentPlayer.setActionBarAutoTreasure(false);
 
             // Reset
             GameManager.setCurrentPhase(GameManager.Phase.Reset);
