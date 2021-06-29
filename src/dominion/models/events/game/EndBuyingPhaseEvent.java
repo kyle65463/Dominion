@@ -15,7 +15,7 @@ public class EndBuyingPhaseEvent extends GameEvent{
         Player player = GameManager.getPlayerById(playerId);
         if(GameManager.getCurrentPhase() == GameManager.Phase.BuyingCards) {
             if (player.getId() == GameManager.getCurrentPlayer().getId()) {
-                GameManager.endBuyingPhase();
+                GameManager.signalCondition(GameManager.isBuyingPhaseEnd, GameManager.gameLock);
             }
         }
     }

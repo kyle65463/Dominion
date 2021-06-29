@@ -3,7 +3,8 @@ package dominion.models.events.game;
 import dominion.game.GameManager;
 import dominion.models.game.Player;
 
-public class DoneSelectingReactionCardEvent extends GameEvent{    // Constructor
+public class DoneSelectingReactionCardEvent extends GameEvent {
+    // Constructor
     public DoneSelectingReactionCardEvent(int playerId) {
         super(playerId);
     }
@@ -11,9 +12,9 @@ public class DoneSelectingReactionCardEvent extends GameEvent{    // Constructor
     // Functions
     @Override
     public void perform() {
-        if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingReactionCard) {
+        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingReactionCard) {
             GameManager.returnLastPhase();
-            GameManager.signalCondition(GameManager.getIsDoneReacting(), GameManager.attackLock);
+            GameManager.signalCondition(GameManager.isDoneReacting, GameManager.attackLock);
         }
     }
 }

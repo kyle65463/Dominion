@@ -1,8 +1,8 @@
 package dominion.models.events.connections;
 
-import dominion.models.events.EventAction;
+import dominion.models.events.Event;
 
-public class ConnectionEvent extends EventAction {
+public class ConnectionEvent extends Event {
     public ConnectionEvent() {
     }
 }

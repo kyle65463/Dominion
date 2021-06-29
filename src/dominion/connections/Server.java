@@ -1,10 +1,9 @@
 package dominion.connections;
 
 import dominion.models.User;
-import dominion.models.events.EventAction;
+import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
 import dominion.models.events.connections.ConnectionRequest;
-import dominion.models.events.connections.ConnectionEvent;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,7 +22,7 @@ public class Server extends Connection {
             ServerSocket server = new ServerSocket(12478);
             User user = new User(0, name);
             users.add(user);
-            actionCallback.send(new ConnectionAccepted(user, users));
+            myEventHandler.handle(new ConnectionAccepted(user, users));
             while (true) {
                 Socket client = server.accept();
                 ActionSender sender = new ActionSender(client);
@@ -32,7 +31,7 @@ public class Server extends Connection {
                         processConnectionRequest((ConnectionRequest) action);
                     }
                     else {
-                        actionCallback.send(action);
+                        myEventHandler.handle(action);
                         sendClient(action);
                     }
                 });
@@ -57,28 +56,28 @@ public class Server extends Connection {
         }
         requestedUser.setId(maxId + 1);
         users.add(requestedUser);
-        actionCallback.send(new ConnectionAccepted(requestedUser, users));
+        myEventHandler.handle(new ConnectionAccepted(requestedUser, users));
         sendClient(new ConnectionAccepted(requestedUser, users));
     }
 
-    public void setActionCallback(ActionCallback callback) {
-        this.actionCallback = callback;
+    public void setEventHandler(MyEventHandler callback) {
+        this.myEventHandler = callback;
         for (ActionReceiver receiver : receivers) {
             receiver.setActionCallback((action) -> {
-                callback.send(action);
+                callback.handle(action);
                 sendClient(action);
             });
         }
     }
 
-    private void sendClient(EventAction eventAction) {
+    private void sendClient(Event event) {
         for (ActionSender sender : senders) {
-            sender.send(eventAction);
+            sender.send(event);
         }
     }
 
-    public void send(EventAction eventAction) {
-        sendClient(eventAction);
-        actionCallback.send(eventAction);
+    public void send(Event event) {
+        sendClient(event);
+        myEventHandler.handle(event);
     }
 }

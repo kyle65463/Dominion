@@ -41,12 +41,10 @@ public class Game implements Runnable {
                     GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer.getId()));
                 }
             });
-//            waitForPlayingActionsPhasesEnd();
-//            GameManager.waitCondition(GameManager.getIsPlayActionsPhaseEnd());
-            GameManager.waitConditionLock(GameManager.getIsPlayActionsPhaseEnd(), GameManager.gameLock);
+            GameManager.waitCondition(GameManager.isPlayingActionsPhaseEnd, GameManager.gameLock);
             currentPlayer.removeCardSelectedHandler();
 
-            // Buying cards
+            // Buying cards phase
             GameManager.setCurrentPhase(GameManager.Phase.BuyingCards);
             Platform.runLater(() -> {
                 System.out.println("buying cards phase");
@@ -74,13 +72,11 @@ public class Game implements Runnable {
                     }
                 });
             });
-//            waitForBuyingPhasesEnd();
-//            GameManager.waitCondition(GameManager.getIsBuyingPhaseEnd());
-            GameManager.waitConditionLock(GameManager.getIsBuyingPhaseEnd(), GameManager.gameLock);
+            GameManager.waitCondition(GameManager.isBuyingPhaseEnd, GameManager.gameLock);
             currentPlayer.removeCardSelectedHandler();
             currentPlayer.setActionBarAutoTreasure(false);
 
-            // Reset
+            // Reset phase
             GameManager.setCurrentPhase(GameManager.Phase.Reset);
             Platform.runLater(() -> {
                 currentPlayer.discardAllHandCards();
@@ -95,28 +91,6 @@ public class Game implements Runnable {
             });
             GameManager.endTurn();
             GameManager.checkGameOver();
-        }
-    }
-
-    private void waitForPlayingActionsPhasesEnd() {
-        GameManager.gameLock.lock();
-        try {
-            GameManager.getIsPlayActionsPhaseEnd().await();
-        } catch (Exception e) {
-
-        } finally {
-            GameManager.gameLock.unlock();
-        }
-    }
-
-    private void waitForBuyingPhasesEnd() {
-        GameManager.gameLock.lock();
-        try {
-            GameManager.getIsBuyingPhaseEnd().await();
-        } catch (Exception e) {
-
-        } finally {
-            GameManager.gameLock.unlock();
         }
     }
 }

@@ -2,29 +2,33 @@ package dominion.models.events.game;
 
 import dominion.game.GameManager;
 import dominion.models.game.Player;
+import dominion.models.game.cards.actions.Reaction;
 
 
 public class AttackEvent extends GameEvent{
+    // Constructor
     public AttackEvent(int playerId, int attackedId) {
         super(playerId);
         this.attackedId = attackedId;
     }
 
+    // Variables
     private int attackedId;
 
+    // Functions
     @Override
     public void perform() {
-//        inform the attacked one he/she is under attack
+        // Inform the attacked one is under attack
         Player attacked = GameManager.getPlayerById(attackedId);
         GameManager.setCurrentPhase(GameManager.Phase.SelectingReactionCard);
         attacked.snapshotStatus();
-
-        // Set new handlers
         attacked.setActionBarStatus("展示應對牌", "不展示");
         attacked.setCardSelectedHandler((card) -> {
-            GameManager.sendEvent(new SelectReactionCardEvent(attackedId, card.getId()));
-            attacked.recoverStatus();
-            GameManager.sendEvent(new DoneSelectingReactionCardEvent(attackedId));
+            if(card instanceof Reaction) {
+                GameManager.sendEvent(new SelectReactionCardEvent(attackedId, card.getId()));
+                attacked.recoverStatus();
+                GameManager.sendEvent(new DoneSelectingReactionCardEvent(attackedId));
+            }
         });
         attacked.setActionBarButtonHandler((e) -> {
             GameManager.sendEvent(new DoneSelectingReactionCardEvent(attackedId));

@@ -10,6 +10,6 @@ public class DoneAttackingEvent extends GameEvent {
     // Functions
     @Override
     public void perform() {
-        GameManager.signalCondition(GameManager.getIsDoneAttacking(), GameManager.attackLock);
+        GameManager.signalCondition(GameManager.isDoneAttacking, GameManager.attackLock);
     }
 }

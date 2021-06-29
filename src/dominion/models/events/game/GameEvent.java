@@ -1,9 +1,8 @@
 package dominion.models.events.game;
 
-import dominion.models.events.EventAction;
-import dominion.models.game.Player;
+import dominion.models.events.Event;
 
-public abstract class GameEvent extends EventAction {
+public abstract class GameEvent extends Event {
     // Constructor
     public GameEvent(int playerId) {
         this.playerId = playerId;

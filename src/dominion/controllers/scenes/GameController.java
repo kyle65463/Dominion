@@ -47,18 +47,14 @@ public class GameController {
     @FXML
     Label winnerLabel;
 
-
-    @FXML
-    void initialize() {
-
-    }
-
     public void initialize(List<User> users, User applicationUser, Connection connection, int randomSeed) {
-        scrollPane.vvalueProperty().bind(messageBoxNode.heightProperty());
-        WinnerDialog.initialize(winnerBox, winnerLabel);
-        Logger.initialize(messageBoxNode);
+        // Set up random seed
         GameManager.setRandomSeed(randomSeed);
+
+        // Set up UIs
         GameScene.initialize(rootNode);
+        WinnerDialog.initialize(winnerBox, winnerLabel);
+        Logger.initialize(scrollPane, messageBoxNode);
 
         // Set up players
         Player applicationPlayer = new Player(applicationUser);
@@ -117,25 +113,25 @@ public class GameController {
 
         // Scores
         minorKingdomCards.add(new DisplayedCard(new Province(), 4 * users.size(), applicationPlayer, 0));
-        minorKingdomCards.add(new DisplayedCard(new Duchy(), 4 * users.size(), applicationPlayer, 1));
-        minorKingdomCards.add(new DisplayedCard(new Estate(), 4 * users.size(), applicationPlayer, 2));
-        minorKingdomCards.add(new DisplayedCard(new Curse(), 10 * (users.size() - 1), applicationPlayer, 3));
         minorKingdomCards.add(new DisplayedCard(new Gold(), 30, applicationPlayer, 4));
+        minorKingdomCards.add(new DisplayedCard(new Duchy(), 4 * users.size(), applicationPlayer, 1));
         minorKingdomCards.add(new DisplayedCard(new Silver(), 40, applicationPlayer, 5));
+        minorKingdomCards.add(new DisplayedCard(new Estate(), 4 * users.size(), applicationPlayer, 2));
         minorKingdomCards.add(new DisplayedCard(new Copper(), 60 - 7 * users.size(), applicationPlayer, 6));
+        minorKingdomCards.add(new DisplayedCard(new Curse(), 10 * (users.size() - 1), applicationPlayer, 3));
         minorPurchaseArea.setDisplayedCards(minorKingdomCards);
 
         // Set up game manager
-        GameManager.initialize(players, connection, applicationPlayer, majorPurchaseArea, minorPurchaseArea, randomSeed);
+        GameManager.initialize(players, applicationPlayer, connection, majorPurchaseArea, minorPurchaseArea);
+
+        // Run the game
+        Game game = new Game();
+        Thread gameThread = new Thread(game);
         for(Player player : players){
             player.drawCards(5);
             player.setActionBarStatus("等待其他玩家的回合", "");
             player.reset();
         }
-
-        // Run the game
-        Game game = new Game();
-        Thread thread = new Thread(game);
-        thread.start();
+        gameThread.start();
     }
 }

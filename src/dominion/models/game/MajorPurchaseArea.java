@@ -7,57 +7,9 @@ import javafx.scene.layout.GridPane;
 
 import java.util.List;
 
-public class MajorPurchaseArea {
+public class MajorPurchaseArea extends PurchaseArea {
     // Constructor
     public MajorPurchaseArea(GridPane gridPane) {
-        this.gridPane = gridPane;
-    }
-
-    // Variables
-    GridPane gridPane;
-    List<DisplayedCard> displayedCards;
-
-    // Functions
-    public void setDisplayedCards(List<DisplayedCard> displayedCards) {
-        this.displayedCards = displayedCards;
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 5; j++) {
-                int index = i * 5 + j;
-                if (index >= displayedCards.size()){
-                    break;
-                }
-                DisplayedCard displayedCard = displayedCards.get(index);
-                DisplayedCardController displayedCardController = displayedCard.getController();
-                gridPane.add(displayedCardController.getRootNode(), j, i);
-            }
-        }
-    }
-
-    public DisplayedCard getDisplayedCardById(int id) {
-        for(DisplayedCard displayedCard : displayedCards){
-            if(displayedCard.getId() == id){
-                return  displayedCard;
-            }
-        }
-        return null;
-    }
-
-    public DisplayedCard getDisplayedCardByCard(Card card) {
-        for (DisplayedCard displayedCard : displayedCards) {
-            if (displayedCard.getCard().getName() == card.getName()) {
-                return displayedCard;
-            }
-        }
-        return null;
-    }
-
-        public int getNumNoneRemained() {
-        int numNoneRemained = 0;
-        for(DisplayedCard displayedCard : displayedCards){
-            if(displayedCard.getNumRemain() == 0){
-                numNoneRemained++;
-            }
-        }
-        return numNoneRemained;
+        super(gridPane, 2, 5);
     }
 }

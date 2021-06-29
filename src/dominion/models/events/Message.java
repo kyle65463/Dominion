@@ -1,6 +1,6 @@
 package dominion.models.events;
 
-public class Message extends EventAction {
+public class Message extends Event {
     // Constructor
     public Message(String username, String content) {
         this.username = username;

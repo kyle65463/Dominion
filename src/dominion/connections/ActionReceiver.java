@@ -1,6 +1,6 @@
 package dominion.connections;
 
-import dominion.models.events.EventAction;
+import dominion.models.events.Event;
 
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -8,40 +8,40 @@ import java.net.Socket;
 public class ActionReceiver{
     // Constructors
     public ActionReceiver() { }
-    public ActionReceiver(Socket client, ActionCallback setOutput) {
+    public ActionReceiver(Socket client, MyEventHandler eventHandler) {
         this.client = client;
-        this.setOutput = setOutput;
+        this.eventHandler = eventHandler;
     }
 
     // Variables
     private Socket client;
-    private ActionCallback setOutput;
+    private MyEventHandler eventHandler;
     private Receive receive = new Receive();
 
     // Functions
     public void start() {
-        receive = new Receive(client, setOutput);
+        receive = new Receive(client, eventHandler);
         Thread thread = new Thread(receive);
         thread.start();
     }
 
-    public void setActionCallback(ActionCallback setOutput) {
-        this.setOutput = setOutput;
+    public void setActionCallback(MyEventHandler setOutput) {
+        this.eventHandler = setOutput;
         receive.setOutputCallback(setOutput);
     }
 }
 
 class Receive implements Runnable {
     Receive() {}
-    Receive(Socket client, ActionCallback setOutput) {
+    Receive(Socket client, MyEventHandler eventHandler) {
         this.client = client;
-        this.setOutput = setOutput;
+        this.eventHandler = eventHandler;
     }
     private Socket client;
-    private ActionCallback setOutput;
+    private MyEventHandler eventHandler;
 
-    public void setOutputCallback(ActionCallback setOutput) {
-        this.setOutput = setOutput;
+    public void setOutputCallback(MyEventHandler eventHandler) {
+        this.eventHandler = eventHandler;
     }
 
     @Override
@@ -51,9 +51,8 @@ class Receive implements Runnable {
             boolean flag = true;
             while (flag) {
                 Object object = inputStream.readObject();
-                EventAction eventAction = (EventAction) object;
-                System.out.println("receive:" + eventAction);
-                setOutput.send(eventAction);
+                Event event = (Event) object;
+                eventHandler.handle(event);
             }
         }
         catch (Exception e) {

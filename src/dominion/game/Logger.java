@@ -5,24 +5,26 @@ import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Reaction;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class Logger {
     // Constructor
-    public static void initialize(VBox box) {
-        Logger.box = box;
+    public static void initialize(ScrollPane scrollPane, VBox messageBox) {
+        Logger.messageBox = messageBox;
+        scrollPane.vvalueProperty().bind(messageBox.heightProperty());
     }
 
     // Variables
-    private static VBox box;
+    private static VBox messageBox;
 
     // Functions
     public static void addMessage(String message) {
         Label label = new Label();
         label.setText(message);
         label.setFont(new Font(16));
-        box.getChildren().add(label);
+        messageBox.getChildren().add(label);
     }
 
     public static void logDrawCard(Player player, int numDrew) {

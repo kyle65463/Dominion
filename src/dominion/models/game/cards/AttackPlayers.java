@@ -40,7 +40,7 @@ public class AttackPlayers implements Runnable {
             if (attacked.getId() != performer.getId()){
                 if (attacked.hasReactionCards()) {
                     GameManager.sendEvent(new AttackEvent(performer.getId(), attacked.getId()));
-                    GameManager.waitConditionLock(GameManager.getIsDoneReacting(), GameManager.attackLock);
+                    GameManager.waitCondition(GameManager.isDoneReacting, GameManager.attackLock);
                 }
                 if (attacked.getImmuneNextAttack()) {
                     attacked.setImmuneNextAttack(false);
@@ -48,7 +48,7 @@ public class AttackPlayers implements Runnable {
                     Platform.runLater(() -> {
                         attackCard.performAttack(performer, attacked);
                     });
-                    GameManager.waitConditionLock(GameManager.getIsDoneAttacking(), GameManager.attackLock);
+                    GameManager.waitCondition(GameManager.isDoneAttacking, GameManager.attackLock);
                 }
             }
         }

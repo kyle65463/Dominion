@@ -15,7 +15,7 @@ public class EndPlayingActionsPhaseEvent extends GameEvent{
         Player player = GameManager.getPlayerById(playerId);
         if(GameManager.getCurrentPhase() == GameManager.Phase.PlayingActions) {
             if (player.getId() == GameManager.getCurrentPlayer().getId()) {
-                GameManager.endPlayingActionsPhase();
+                GameManager.signalCondition(GameManager.isPlayingActionsPhaseEnd, GameManager.gameLock);
             }
         }
     }
