@@ -9,6 +9,7 @@ import dominion.models.events.game.HasDisplayedSelection;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.actions.HasSelection;
+import dominion.models.game.cards.actions.Reaction;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.event.EventHandler;
 import javafx.util.Pair;
@@ -43,6 +44,7 @@ public class Player {
     private int numPurchases = 1;
 
     private boolean isEnableUi;
+    private boolean immuneNextAttack = false;
     private Deck deck;
     private DiscardPile discardPile;
     private FieldCards fieldCards;
@@ -54,10 +56,20 @@ public class Player {
     private List<Card> selected = new ArrayList<>();
     private List<DisplayedCard> selectedDisplayed = new ArrayList<>();
 
+    private int exactSelectingCards = 0;
+    private List<Card> selectedCards = new ArrayList<>();
 
     // Functions
     public PlayerStatus getPlayerStatus() {
         return playerStatus;
+    }
+
+    public void setImmuneNextAttack(boolean b) {
+        immuneNextAttack = b;
+    }
+
+    public boolean getImmuneNextAttack() {
+        return immuneNextAttack;
     }
 
     public String getName() {
@@ -80,11 +92,11 @@ public class Player {
         return numActions;
     }
 
-    public void enableUi(GameScene gameScene) {
-        deck.enableUi(gameScene);
-        discardPile.enableUi(gameScene);
-        handCards.enableUi(gameScene);
-        actionBar.enableUi(gameScene);
+    public void enableUi() {
+        deck.enableUi();
+        discardPile.enableUi();
+        handCards.enableUi();
+        actionBar.enableUi();
     }
 
     public void receiveNewCard(Card card) {
@@ -138,8 +150,18 @@ public class Player {
         this.maxSelectedCard = maxSelectingCards;
     }
 
+    public void setExactSelectingCards(int exactSelectingCards) {
+        this.exactSelectingCards = exactSelectingCards;
+        this.maxSelectedCard = exactSelectingCards;
+        actionBar.setButtonVisible(false);
+    }
+
     public void resetMaxSelectingCards() {
         maxSelectedCard = Integer.MAX_VALUE;
+    }
+
+    public void resetExactSelectingCards() {
+        exactSelectingCards = 0;
     }
 
     public void setFieldCards(FieldCards fieldCards) {
@@ -188,6 +210,18 @@ public class Player {
     public boolean hasActionCards() {
         boolean result = handCards.hasActionCards();
         return result;
+    }
+
+    public boolean hasReactionCards() {
+        boolean result = handCards.hasReactionCards();
+        return result;
+    }
+
+    public void react(int cardId) {
+        Card card = handCards.getCardByCardId(cardId);
+        Logger.logReactCard(this, card);
+        Reaction reactionCard = (Reaction) card;
+        reactionCard.performReaction(this);
     }
 
     public Pair<String, String> getActionBarStatus() {
@@ -239,6 +273,15 @@ public class Player {
         } else if(selectedDisplayed.size() < maxSelectedCard){
             selectedDisplayed.add(displayedCard);
         }
+
+        if(exactSelectingCards > 0) {
+            if(selectedCards.size() == exactSelectingCards){
+                actionBar.setButtonVisible(true);
+            }
+            else {
+                actionBar.setButtonVisible(false);
+            }
+        }
     }
 
     public void clearSelectingCards() {
@@ -256,6 +299,8 @@ public class Player {
         HasSelection card = (HasSelection) fieldCards.getCardByCardId(cardId);
         card.performSelection(this, selected);
         resetMaxSelectingCards();
+        resetExactSelectingCards();
+        actionBar.setButtonVisible(true);
         clearSelectingCards();
     }
 

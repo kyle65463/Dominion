@@ -1,31 +1,47 @@
 package dominion.models.game;
 
 import dominion.controllers.components.ComponentController;
+import dominion.models.game.cards.Card;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 import java.io.Serializable;
 
 public class GameScene {
-    public GameScene(AnchorPane rootNode) {
-        this.rootNode = rootNode;
+    public static void initialize(AnchorPane rootNode) {
+        GameScene.rootNode = rootNode;
+        GameScene.disableMask = (Pane) rootNode.lookup("#disable_mask");
+        disableMask.setVisible(false);
     }
 
-    private AnchorPane rootNode;
+    // Variables
+    private static AnchorPane rootNode;
+    private static Pane disableMask;
+    public static boolean isDisplayingDescription = false;
 
-    public void disable() {
-        rootNode.setDisable(true);
+    public static void disable() {
+        setToTop(disableMask);
+        disableMask.setVisible(true);
     }
 
-    public boolean contains(ComponentController controller) {
+    public static void enable() {
+        disableMask.setVisible(false);
+    }
+
+    public static boolean contains(Node node) {
+        return rootNode.getChildren().contains(node);
+    }
+
+    public static boolean contains(ComponentController controller) {
         return rootNode.getChildren().contains(controller.getRootNode());
     }
 
-    public void setToTop(ComponentController controller) {
-        Node node = controller.getRootNode();
-        if (contains(controller)) {
+    public static void setToTop(Node node) {
+        if (contains(node)) {
             ObservableList<Node> nodes = FXCollections.observableArrayList(rootNode.getChildren());
             nodes.remove(node);
             nodes.add(node);
@@ -33,17 +49,28 @@ public class GameScene {
         }
     }
 
-    public void add(ComponentController controller) {
+    public static void setToTop(ComponentController controller) {
+        Node node = controller.getRootNode();
+        setToTop(node);
+    }
+
+    public static void add(ComponentController controller) {
         Node node = controller.getRootNode();
         if (!contains(controller)) {
             rootNode.getChildren().add(node);
         }
     }
 
-    public void delete(ComponentController controller) {
+    public static void delete(ComponentController controller) {
         Node node = controller.getRootNode();
         if (contains(controller)) {
             rootNode.getChildren().remove(node);
         }
     }
+
+    public static void setOnPressed(EventHandler eventHandler){
+        rootNode.setOnMouseClicked(eventHandler);
+        disableMask.setOnMouseClicked(eventHandler);
+    }
+
 }

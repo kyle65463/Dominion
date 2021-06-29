@@ -2,7 +2,7 @@ package dominion.controllers.scenes;
 
 import dominion.connections.Server;
 import dominion.models.User;
-import dominion.models.events.EventAction;
+import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
 import dominion.models.events.Message;
 import dominion.connections.Connection;
@@ -62,7 +62,7 @@ public class RoomController {
         }
         nameLabel.setText(user.getName());
         this.connection = connection;
-        connection.setActionCallback((action) -> Platform.runLater(() -> handleAction(action)));
+        connection.setEventHandler((action) -> Platform.runLater(() -> handleEvent(action)));
         textField.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 onPressed();
@@ -74,20 +74,20 @@ public class RoomController {
         }
     }
 
-    public void handleAction(EventAction eventAction) {
-        if (eventAction instanceof Message) {
-            addMessage(((Message)eventAction).getUsername() + ": " + ((Message)eventAction).getContent());
+    public void handleEvent(Event event) {
+        if (event instanceof Message) {
+            addMessage(((Message) event).getUsername() + ": " + ((Message) event).getContent());
         }
-        if (eventAction instanceof ConnectionAccepted) {
-            User acceptedUser = ((ConnectionAccepted) eventAction).getAcceptedUser();
+        if (event instanceof ConnectionAccepted) {
+            User acceptedUser = ((ConnectionAccepted) event).getAcceptedUser();
             addUser(acceptedUser);
         }
-        if(eventAction instanceof StartGameEvent) {
+        if(event instanceof StartGameEvent) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/scenes/game.fxml"));
                 Parent root = loader.load();
                 GameController controller = loader.getController();
-                controller.initialize(users, applicationUser, connection, ((StartGameEvent) eventAction).getRandomSeed());
+                controller.initialize(users, applicationUser, connection, ((StartGameEvent) event).getRandomSeed());
 
                 Scene scene = new Scene(root);
                 scene.getStylesheets().add(getClass().getResource("/resources/styles/game.css").toExternalForm());

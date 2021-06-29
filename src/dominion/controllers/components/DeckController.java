@@ -6,9 +6,7 @@ import dominion.utils.Animator;
 
 public class DeckController extends ComponentController{
     // Constructor
-    public DeckController(GameScene gameScene) {
-        super(gameScene);
-    }
+
 
     // Variables
     private final double cardScale = 0.6;
@@ -18,14 +16,14 @@ public class DeckController extends ComponentController{
     // Functions
     public void addCard(Card card) {
         CardController cardController = card.getController();
-        if (!gameScene.contains(cardController)) {
+        if (!GameScene.contains(cardController)) {
             // Add the card to game scene
             cardController.setScale(cardScale);
             cardController.setLayout(x, y);
-            gameScene.add(cardController);
+            GameScene.add(cardController);
         } else {
 
-            gameScene.setToTop(cardController);
+            GameScene.setToTop(cardController);
             Animator.transitTo(cardController, x, y, cardScale);
         }
     }

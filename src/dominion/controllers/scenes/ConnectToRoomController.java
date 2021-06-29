@@ -1,7 +1,7 @@
 package dominion.controllers.scenes;
 
 import dominion.models.User;
-import dominion.models.events.EventAction;
+import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
 import dominion.connections.Connection;
 import dominion.utils.Navigator;
@@ -52,19 +52,19 @@ public abstract class ConnectToRoomController {
         }
     }
 
-    public void confirm(ActionEvent event) {
+    public void confirm(ActionEvent actionEvent) {
         if (ipField != null) {
             connection.setIp(ipField.getText());
         }
         connection.setName(nameField.getText());
-        connection.setActionCallback((m) -> Platform.runLater(() -> checkStatus(m, event)));
+        connection.setEventHandler((event) -> Platform.runLater(() -> handleEvent(event, actionEvent)));
         Thread connectionThread = new Thread(connection);
         connectionThread.start();
     }
 
-    public void checkStatus(EventAction eventAction, ActionEvent event) {
-        if(eventAction instanceof ConnectionAccepted) {
-            ConnectionAccepted accepted = ((ConnectionAccepted) eventAction);
+    public void handleEvent(Event event, ActionEvent actionEvent) {
+        if(event instanceof ConnectionAccepted) {
+            ConnectionAccepted accepted = ((ConnectionAccepted) event);
             User user = accepted.getAcceptedUser();
             List<User> users = accepted.getUsers();
             try {
@@ -72,12 +72,10 @@ public abstract class ConnectToRoomController {
                 Parent root = loader.load();
                 RoomController roomController = loader.getController();
                 roomController.initialize(user, users, connection);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
                 roomController.setStage(stage);
-
                 stage.show();
-
             }
             catch (Exception e) {
                 System.out.println(e);

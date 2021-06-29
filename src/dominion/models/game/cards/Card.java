@@ -1,15 +1,16 @@
 package dominion.models.game.cards;
 
 import dominion.controllers.components.CardController;
+import dominion.controllers.components.FullCardController;
 import dominion.game.GameManager;
+import dominion.models.game.GameScene;
 import dominion.models.game.HasUi;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
-import java.io.Serializable;
-import java.util.Random;
-
-public abstract class Card implements HasUi, Cloneable{
+public abstract class Card implements HasUi, Cloneable {
     // Constructor
     public Card() {
         disableUi();
@@ -29,6 +30,9 @@ public abstract class Card implements HasUi, Cloneable{
     /* UI */
     protected boolean isEnableUi = false;
     protected CardController uiController;
+    protected FullCardController descriptionController;
+
+    private boolean someCondition = false;
 
     // Function
     public String getStyle() {
@@ -47,7 +51,7 @@ public abstract class Card implements HasUi, Cloneable{
         return numCost;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -55,15 +59,19 @@ public abstract class Card implements HasUi, Cloneable{
         return id;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void disableUi() {
-        if(uiController != null) {
+        if (uiController != null) {
             uiController.deleteOnScene();
         }
         uiController = null;
         isEnableUi = false;
     }
 
-    public boolean getEnableUi () {
+    public boolean getEnableUi() {
         return isEnableUi;
     }
 
@@ -79,6 +87,9 @@ public abstract class Card implements HasUi, Cloneable{
             if (this instanceof Treasure) {
                 uiController.setNumValueLabel(((Treasure) this).getNumValue());
             }
+        }
+        if (descriptionController == null) {
+            descriptionController = new FullCardController(this);
         }
         isEnableUi = true;
     }
@@ -101,16 +112,30 @@ public abstract class Card implements HasUi, Cloneable{
         }
     }
 
-    public void disableOnPressed() {
-        if (isEnableUi) {
-            uiController.setOnPressed((e -> {
-            }));
-        }
-    }
-
     public void setOnPressed(EventHandler eventHandler) {
         if (isEnableUi) {
-            uiController.setOnPressed(eventHandler);
+            uiController.setOnPressed((e) -> {
+                if (e instanceof MouseEvent) {
+                    MouseButton button = ((MouseEvent) e).getButton();
+                    if (button == MouseButton.PRIMARY && GameScene.isDisplayingDescription == false) {
+                        eventHandler.handle(e);
+                    }
+                    else if (button == MouseButton.SECONDARY && GameScene.isDisplayingDescription == false) {
+                        displayDescription();
+                        GameScene.isDisplayingDescription = true;
+                        GameScene.setOnPressed((e1)->{
+                            if(e1 instanceof MouseEvent){
+                                if(((MouseEvent) e1).getButton() == MouseButton.PRIMARY &&  GameScene.isDisplayingDescription == true) {
+                                    hideDescription();
+                                    GameScene.isDisplayingDescription = false;
+                                    GameScene.setOnPressed((ee) -> {
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 
@@ -128,5 +153,15 @@ public abstract class Card implements HasUi, Cloneable{
 
     public CardController getController() {
         return uiController;
+    }
+
+    private void displayDescription() {
+        GameScene.disable();
+        GameScene.add(descriptionController);
+    }
+
+    private void hideDescription() {
+        GameScene.enable();
+        descriptionController.deleteOnScene();
     }
 }

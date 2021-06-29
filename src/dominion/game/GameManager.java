@@ -1,9 +1,10 @@
 package dominion.game;
 
 import dominion.connections.Connection;
-import dominion.models.events.EventAction;
+import dominion.models.events.Event;
 import dominion.models.events.game.GameEvent;
 import dominion.models.game.*;
+import dominion.models.game.cards.Card;
 import javafx.application.Platform;
 
 import java.util.*;
@@ -13,15 +14,14 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class GameManager {
     // Constructor
-    public static void initialize(List<Player> players, Connection connection, Player applicationPlayer,
-                                  MajorPurchaseArea majorPurchaseArea, MinorPurchaseArea minorPurchaseArea,
-                                  int randomSeed,
-                                  GameScene gameScene) {
+    public static void initialize(List<Player> players, Player applicationPlayer,
+                                  Connection connection,
+                                  MajorPurchaseArea majorPurchaseArea, MinorPurchaseArea minorPurchaseArea) {
         phases.push(Phase.Reset);
         GameManager.players = players;
         Collections.sort(players, (a, b) -> a.getId() - b.getId());
         currentPlayer = players.get(0);
-        connection.setActionCallback((e) -> {
+        connection.setEventHandler((e) -> {
             Platform.runLater(() -> {
                 handleEvent(e);
             });
@@ -29,34 +29,36 @@ public class GameManager {
         GameManager.connection = connection;
         GameManager.majorPurchaseArea = majorPurchaseArea;
         GameManager.minorPurchaseArea = minorPurchaseArea;
-        GameManager.gameScene = gameScene;
         GameManager.applicationPlayer = applicationPlayer;
     }
 
     // Variables
-    public static Lock lock = new ReentrantLock();
+    public final static Lock gameLock = new ReentrantLock();
+    public final static Lock attackLock = new ReentrantLock();
+    public final static Condition isPlayingActionsPhaseEnd = gameLock.newCondition();
+    public final static Condition isBuyingPhaseEnd = gameLock.newCondition();
+    public final static Condition isDoneReacting = attackLock.newCondition();
+    public final static Condition isDoneAttacking = attackLock.newCondition();
+
     private static Player currentPlayer;       // The player playing actions
     private static List<Player> players;       // All players
     private static Player applicationPlayer;
     private static Connection connection;
     private static MajorPurchaseArea majorPurchaseArea;
     private static MinorPurchaseArea minorPurchaseArea;
-    private static GameScene gameScene;
     private static Stack<Phase> phases = new Stack<>();
+    private static int randomSeed;
+    private static Random random;
 
-    public static enum Phase {
+    public enum Phase {
         Reset,
         PlayingActions,
         BuyingCards,
         SelectingHandCards,
         SelectingDisplayedCards,
+        SelectingReactionCard,
         GameOver,
     }
-
-    private final static Condition isPlayingActionsPhaseEnd = lock.newCondition();
-    private final static Condition isBuyingPhaseEnd = lock.newCondition();
-    private static int randomSeed;
-    private static Random random;
 
     // Functions
     public static List<Player> getPlayers() {
@@ -73,19 +75,6 @@ public class GameManager {
 
     public static void setCurrentPhase(Phase phase) {
         phases.push(phase);
-    }
-
-    public static GameScene getGameScene() {
-        return gameScene;
-    }
-
-    public static int getRandomSeed() {
-        return randomSeed;
-    }
-
-    public static void setRandomSeed(int randomSeed) {
-        GameManager.randomSeed = randomSeed;
-        GameManager.random = new Random(randomSeed);
     }
 
     public static int getRandomInt() {
@@ -108,49 +97,12 @@ public class GameManager {
         return displayedCard;
     }
 
-    public static Condition getIsPlayActionsPhaseEnd() {
-        return isPlayingActionsPhaseEnd;
-    }
-
-    public static Condition getIsBuyingPhaseEnd() {
-        return isBuyingPhaseEnd;
-    }
-
-    public static void sendEvent(EventAction event) {
-        if (event instanceof GameEvent) {
-            if (((GameEvent) event).getPlayerId() == applicationPlayer.getId()) {
-                connection.send(event);
-            }
+    public static DisplayedCard getDisplayCardByCard(Card card) {
+        DisplayedCard displayedCard = majorPurchaseArea.getDisplayedCardByCard(card);
+        if (displayedCard == null) {
+            displayedCard = minorPurchaseArea.getDisplayedCardByCard(card);
         }
-    }
-
-    private static void handleEvent(EventAction event) {
-        if (event instanceof GameEvent) {
-            try {
-                Thread.sleep(30);
-            } catch (Exception e) {
-
-            }
-            ((GameEvent) event).perform();
-        }
-    }
-
-    public static void endPlayingActionsPhase() {
-        lock.lock();
-        try {
-            isPlayingActionsPhaseEnd.signal();
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    public static void endBuyingPhase() {
-        lock.lock();
-        try {
-            isBuyingPhaseEnd.signal();
-        } finally {
-            lock.unlock();
-        }
+        return displayedCard;
     }
 
     public static void endTurn() {
@@ -180,9 +132,59 @@ public class GameManager {
         Player finalWinner = winner;
         Platform.runLater(() -> {
             WinnerDialog.setWinner(finalWinner.getName());
-            gameScene.disable();
+            GameScene.disable();
             setCurrentPhase(Phase.GameOver);
         });
     }
 
+    // Random seed
+    public static int getRandomSeed() {
+        return randomSeed;
+    }
+
+    public static void setRandomSeed(int randomSeed) {
+        GameManager.randomSeed = randomSeed;
+        GameManager.random = new Random(randomSeed);
+    }
+
+    // Conditions
+    public static void waitCondition(Condition condition, Lock lock) {
+        lock.lock();
+        try {
+            condition.await();
+        } catch (Exception e) {
+
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static void signalCondition(Condition condition, Lock lock) {
+        lock.lock();
+        try {
+            condition.signal();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    // Events
+    public static void sendEvent(Event event) {
+        if (event instanceof GameEvent) {
+            if (((GameEvent) event).getPlayerId() == applicationPlayer.getId()) {
+                connection.send(event);
+            }
+        }
+    }
+
+    private static void handleEvent(Event event) {
+        if (event instanceof GameEvent) {
+            try {
+                Thread.sleep(30);
+            } catch (Exception e) {
+
+            }
+            ((GameEvent) event).perform();
+        }
+    }
 }

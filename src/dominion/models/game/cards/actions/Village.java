@@ -9,7 +9,7 @@ public class Village extends Card implements Action {
     // Constructor
     public Village() {
         name = "村莊";
-        description = "";
+        description = "+1卡片\n+2行動";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 3;

@@ -16,8 +16,8 @@ public class ActionBar implements HasUi{
     private ActionBarController uiController;
 
     // Functions
-    public void enableUi(GameScene gameScene) {
-        this.uiController = new ActionBarController(gameScene);
+    public void enableUi() {
+        this.uiController = new ActionBarController();
         isEnableUi = true;
     }
 
@@ -66,6 +66,12 @@ public class ActionBar implements HasUi{
     public void setAutoTreasure(boolean b) {
         if (isEnableUi) {
             uiController.setAutoTreasure(b);
+        }
+    }
+
+    public void setButtonVisible(boolean b) {
+        if (isEnableUi) {
+            uiController.setButtonVisible(b);
         }
     }
 

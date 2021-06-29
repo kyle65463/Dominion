@@ -8,8 +8,7 @@ import javafx.scene.control.Label;
 
 public class ActionBarController extends ComponentController{
     // Constructor
-    public ActionBarController(GameScene gameScene) {
-        super(gameScene);
+    public ActionBarController() {
         initialize();
     }
 
@@ -75,7 +74,7 @@ public class ActionBarController extends ComponentController{
 
             rootNode.setLayoutX(x);
             rootNode.setLayoutY(y);
-            gameScene.add(this);
+            GameScene.add(this);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -84,6 +83,11 @@ public class ActionBarController extends ComponentController{
     public void setAutoTreasure(boolean b) {
         autoTreasure.setDisable(!b);
         autoTreasure.setVisible(b);
+    }
+
+    public void setButtonVisible(boolean b) {
+        button.setDisable(!b);
+        button.setVisible(b);
     }
 
     public String getStatus() {

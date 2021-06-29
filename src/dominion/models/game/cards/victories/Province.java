@@ -9,7 +9,7 @@ public class Province extends Card implements Victory{
     // Constructor
     public Province() {
         name = "行省";
-        description = "";
+        description = "+6分數";
         style = CardStyles.green;
         type = CardTypes.victory;
         numCost = 8;

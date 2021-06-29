@@ -2,14 +2,19 @@ package dominion.models.game;
 
 import dominion.controllers.components.HandCardsController;
 import dominion.game.GameManager;
+import dominion.models.events.game.BuyCardEvent;
 import dominion.models.events.game.GameEvent;
 import dominion.models.events.game.PlayCardEvent;
+import dominion.models.events.game.SelectDisplayedCardEvent;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
+import dominion.models.game.cards.actions.Reaction;
 import dominion.models.game.cards.curses.Curses;
 import dominion.models.game.cards.treasures.Treasure;
 import dominion.models.game.cards.victories.Victory;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +33,8 @@ public class HandCards implements HasUi {
     private List<Card> cards = new ArrayList<>();
 
     // Functions
-    public void enableUi(GameScene gameScene) {
-        this.uiController = new HandCardsController(gameScene);
+    public void enableUi() {
+        this.uiController = new HandCardsController();
         isEnableUi = true;
         for (Card card : cards) {
             card.enableUi();
@@ -37,8 +42,8 @@ public class HandCards implements HasUi {
     }
 
     public Card getCardByCardId(int cardId) {
-        for(Card card : cards) {
-            if(card.getId() == cardId){
+        for (Card card : cards) {
+            if (card.getId() == cardId) {
                 return card;
             }
         }
@@ -50,8 +55,7 @@ public class HandCards implements HasUi {
         for (Card card : cards) {
             if (card instanceof Victory) {
                 numScores += ((Victory) card).getNumVictories(player);
-            }
-            else if(card instanceof Curses) {
+            } else if (card instanceof Curses) {
                 numScores -= ((Curses) card).getNumCurses();
             }
         }
@@ -75,7 +79,9 @@ public class HandCards implements HasUi {
 
     public void disableAllCards() {
         for (Card card : cards) {
-            card.disableOnPressed();
+            card.setOnPressed((e) -> {
+
+            });
         }
     }
 
@@ -88,11 +94,22 @@ public class HandCards implements HasUi {
         return false;
     }
 
-    public void removeCardSelectedHandler() {
-        this.cardSelectedHandler = (card) -> {};
+    public boolean hasReactionCards() {
+        for (Card card : cards) {
+            if (card instanceof Reaction) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private CardSelectedHandler cardSelectedHandler = (card) -> {};
+    public void removeCardSelectedHandler() {
+        this.cardSelectedHandler = (card) -> {
+        };
+    }
+
+    private CardSelectedHandler cardSelectedHandler = (card) -> {
+    };
 
     public void setCardSelectedHandler(CardSelectedHandler cardSelectedHandler) {
         this.cardSelectedHandler = cardSelectedHandler;
@@ -134,7 +151,8 @@ public class HandCards implements HasUi {
     public void removeCard(Card card) {
         cards.remove(card);
         card.setNumRemain(0);
-        card.disableOnPressed();
+        card.setOnPressed((e) -> {
+        });
         if (isEnableUi) {
             uiController.arrangeCardsPos(cards);
         }

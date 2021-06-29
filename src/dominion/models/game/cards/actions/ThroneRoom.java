@@ -14,7 +14,7 @@ public class ThroneRoom extends Card implements Action, HasSelection{
     // Constructor
     public ThroneRoom() {
         name = "王座廳";
-        description = "";
+        description = "你可以將手上一張行動牌打出，並執行兩次效果。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 4;

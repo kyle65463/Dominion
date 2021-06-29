@@ -15,7 +15,7 @@ public class MoneyLender extends Card implements Action, HasSelection{
     // Constructor
     public MoneyLender() {
         name = "錢莊";
-        description = "";
+        description = "你可以移除手上一張銅幣換取3塊錢。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 4;
