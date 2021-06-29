@@ -8,7 +8,7 @@ public class Curse extends Card implements Curses{
     // Constructor
     public Curse() {
         name = "詛咒";
-        description = "";
+        description = "-1分數";
         style = CardStyles.purple;
         type = CardTypes.curse;
         numCost = 0;

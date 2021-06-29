@@ -55,7 +55,7 @@ public class DisplayedCard implements HasUi {
                         if(e1 instanceof MouseEvent){
                             MouseButton yangloo = ((MouseEvent) e1).getButton();
                             if(yangloo == MouseButton.PRIMARY &&  GameScene.ifDisplay == true) {
-                                this.descriptionController.deleteOnScene();
+                                displayCancel();
                                 GameScene.ifDisplay = false;
                                 GameScene.setOnPressed((ee) -> {
                                 });
@@ -96,5 +96,11 @@ public class DisplayedCard implements HasUi {
 
     public void displayDescription(){
         GameScene.add(this.descriptionController);
+        GameScene.add(this.descriptionController.hintController);
+    }
+
+    public void displayCancel(){
+        this.descriptionController.deleteOnScene();
+        this.descriptionController.hintController.deleteOnScene();
     }
 }

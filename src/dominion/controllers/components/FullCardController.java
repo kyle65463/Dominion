@@ -44,6 +44,7 @@ public class FullCardController extends ComponentController{
     }
     public void setDescriptionLabel(String description){ descriptionLabel.setText(description);}
     public String returnNameLabel(){return nameLabel.getText();}
+    public HintController hintController;
 
     private void initialize() {
         try {
@@ -57,8 +58,8 @@ public class FullCardController extends ComponentController{
             setNumCostLabel(card.getNumCost());
             setDescriptionLabel(card.getDescription());
             setStyle();
-//            setLayout(350,250);
-            setLayout(650,250);
+            setLayout(400,250);
+            hintController = new HintController();
         } catch (Exception e) {
 
         }
@@ -71,4 +72,6 @@ public class FullCardController extends ComponentController{
         rootNode.setTranslateX(x);
         rootNode.setTranslateY(y);
     }
+
+
 }

@@ -9,7 +9,7 @@ public class Market extends Card implements Action {
     // Constructor
     public Market() {
         name = "市集";
-        description = "";
+        description = "+1卡片\n+1行動\n+1購買\n+1塊錢";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 5;

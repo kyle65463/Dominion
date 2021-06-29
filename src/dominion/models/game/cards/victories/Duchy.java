@@ -9,7 +9,7 @@ public class Duchy extends Card implements Victory{
     // Constructor
     public Duchy() {
         name = "公國";
-        description = "";
+        description = "+3分數";
         style = CardStyles.green;
         type = CardTypes.victory;
         numCost = 5;
