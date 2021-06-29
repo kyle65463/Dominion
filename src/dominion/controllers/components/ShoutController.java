@@ -1,6 +1,7 @@
 package dominion.controllers.components;
 
 import dominion.game.GameManager;
+import dominion.game.Logger;
 import dominion.models.events.game.ShoutEvent;
 import dominion.models.events.game.TauntEvent;
 import dominion.models.game.cards.Card;

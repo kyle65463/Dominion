@@ -62,8 +62,8 @@ public class GameController {
         GameManager.setRandomSeed(randomSeed);
         GameScene.initialize(rootNode);
 
-        TauntController tau = new TauntController();
-        GameScene.add(tau);
+        TauntController con = new TauntController();
+        GameScene.add(con);
         ShoutController sho = new ShoutController();
         GameScene.add(sho);
 
