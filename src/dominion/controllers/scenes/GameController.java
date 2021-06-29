@@ -77,13 +77,13 @@ public class GameController {
 
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
-//                initialCards.add(new Copper());
-                initialCards.add(new Militia());
+                initialCards.add(new Copper());
+//                initialCards.add(new Militia());
 
             }
             for (int i = 0; i < 3; i++) {
-//                initialCards.add(new Estate());
-                initialCards.add(new Moat());
+                initialCards.add(new Estate());
+//                initialCards.add(new Moat());
             }
             player.setDeckCards(initialCards);
             player.setFieldCards(fieldCards);

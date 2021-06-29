@@ -9,8 +9,6 @@ import dominion.models.game.cards.Card;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
-import java.io.Serializable;
-
 public class DisplayedCard implements HasUi {
     // Constructor
     public DisplayedCard(Card card, int numRemain, Player player, int id) {
@@ -48,15 +46,14 @@ public class DisplayedCard implements HasUi {
                     else if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
                         GameManager.sendEvent(new SelectDisplayedCardEvent(player.getId(), id));
                     }
-                } else if (button == MouseButton.SECONDARY && GameScene.ifDisplay == false) {
+                } else if (button == MouseButton.SECONDARY && GameScene.isDisplayingDescription == false) {
                     displayDescription();
-                    GameScene.ifDisplay = true;
+                    GameScene.isDisplayingDescription = true;
                     GameScene.setOnPressed((e1)->{
                         if(e1 instanceof MouseEvent){
-                            MouseButton yangloo = ((MouseEvent) e1).getButton();
-                            if(yangloo == MouseButton.PRIMARY &&  GameScene.ifDisplay == true) {
-                                displayCancel();
-                                GameScene.ifDisplay = false;
+                            if(((MouseEvent) e1).getButton() == MouseButton.PRIMARY &&  GameScene.isDisplayingDescription == true) {
+                                hideDescription();
+                                GameScene.isDisplayingDescription = false;
                                 GameScene.setOnPressed((ee) -> {
                                 });
                             }
@@ -95,12 +92,12 @@ public class DisplayedCard implements HasUi {
     }
 
     public void displayDescription(){
-        GameScene.add(this.descriptionController);
-        GameScene.add(this.descriptionController.hintController);
+        GameScene.disable();
+        GameScene.add(descriptionController);
     }
 
-    public void displayCancel(){
-        this.descriptionController.deleteOnScene();
-        this.descriptionController.hintController.deleteOnScene();
+    public void hideDescription(){
+        GameScene.enable();
+        descriptionController.deleteOnScene();
     }
 }

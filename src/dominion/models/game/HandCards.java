@@ -42,20 +42,20 @@ public class HandCards implements HasUi {
     }
 
     public Card getCardByCardId(int cardId) {
-        for(Card card : cards) {
-            if(card.getId() == cardId){
+        for (Card card : cards) {
+            if (card.getId() == cardId) {
                 return card;
             }
         }
         return null;
     }
+
     public int getNumScores(Player player) {
         int numScores = 0;
         for (Card card : cards) {
             if (card instanceof Victory) {
                 numScores += ((Victory) card).getNumVictories(player);
-            }
-            else if(card instanceof Curses) {
+            } else if (card instanceof Curses) {
                 numScores -= ((Curses) card).getNumCurses();
             }
         }
@@ -79,7 +79,9 @@ public class HandCards implements HasUi {
 
     public void disableAllCards() {
         for (Card card : cards) {
-            card.disableOnPressed();
+            card.setOnPressed((e) -> {
+
+            });
         }
     }
 
@@ -102,10 +104,12 @@ public class HandCards implements HasUi {
     }
 
     public void removeCardSelectedHandler() {
-        this.cardSelectedHandler = (card) -> {};
+        this.cardSelectedHandler = (card) -> {
+        };
     }
 
-    private CardSelectedHandler cardSelectedHandler = (card) -> {};
+    private CardSelectedHandler cardSelectedHandler = (card) -> {
+    };
 
     public void setCardSelectedHandler(CardSelectedHandler cardSelectedHandler) {
         this.cardSelectedHandler = cardSelectedHandler;
@@ -145,7 +149,8 @@ public class HandCards implements HasUi {
     public void removeCard(Card card) {
         cards.remove(card);
         card.setNumRemain(0);
-        card.disableOnPressed();
+        card.setOnPressed((e) -> {
+        });
         if (isEnableUi) {
             uiController.arrangeCardsPos(cards);
         }

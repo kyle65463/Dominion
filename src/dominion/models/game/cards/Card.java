@@ -9,12 +9,8 @@ import dominion.models.game.cards.treasures.Treasure;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import java.util.concurrent.TimeUnit;
 
-import java.io.Serializable;
-import java.util.Random;
-
-public abstract class Card implements HasUi, Cloneable{
+public abstract class Card implements HasUi, Cloneable {
     // Constructor
     public Card() {
         disableUi();
@@ -37,6 +33,7 @@ public abstract class Card implements HasUi, Cloneable{
     protected FullCardController descriptionController;
 
     private boolean someCondition = false;
+
     // Function
     public String getStyle() {
         return style;
@@ -54,7 +51,7 @@ public abstract class Card implements HasUi, Cloneable{
         return numCost;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -62,17 +59,19 @@ public abstract class Card implements HasUi, Cloneable{
         return id;
     }
 
-    public String getDescription(){ return description;}
+    public String getDescription() {
+        return description;
+    }
 
     public void disableUi() {
-        if(uiController != null) {
+        if (uiController != null) {
             uiController.deleteOnScene();
         }
         uiController = null;
         isEnableUi = false;
     }
 
-    public boolean getEnableUi () {
+    public boolean getEnableUi() {
         return isEnableUi;
     }
 
@@ -89,7 +88,7 @@ public abstract class Card implements HasUi, Cloneable{
                 uiController.setNumValueLabel(((Treasure) this).getNumValue());
             }
         }
-        if (descriptionController == null){
+        if (descriptionController == null) {
             descriptionController = new FullCardController(this);
         }
         isEnableUi = true;
@@ -113,35 +112,27 @@ public abstract class Card implements HasUi, Cloneable{
         }
     }
 
-    public void disableOnPressed() {
-        if (isEnableUi) {
-            uiController.setOnPressed((e -> {
-            }));
-        }
-    }
-
     public void setOnPressed(EventHandler eventHandler) {
         if (isEnableUi) {
             uiController.setOnPressed((e) -> {
                 if (e instanceof MouseEvent) {
                     MouseButton button = ((MouseEvent) e).getButton();
-                    if (button == MouseButton.SECONDARY && GameScene.ifDisplay == false) {
+                    if (button == MouseButton.PRIMARY && GameScene.isDisplayingDescription == false) {
+                        eventHandler.handle(e);
+                    }
+                    else if (button == MouseButton.SECONDARY && GameScene.isDisplayingDescription == false) {
                         displayDescription();
-                        GameScene.ifDisplay = true;
+                        GameScene.isDisplayingDescription = true;
                         GameScene.setOnPressed((e1)->{
                             if(e1 instanceof MouseEvent){
-                                MouseButton yangloo = ((MouseEvent) e1).getButton();
-                                if(yangloo == MouseButton.PRIMARY &&  GameScene.ifDisplay == true) {
-//                                    this.descriptionController.deleteOnScene();
-                                    displayCancel();
-                                    GameScene.ifDisplay = false;
+                                if(((MouseEvent) e1).getButton() == MouseButton.PRIMARY &&  GameScene.isDisplayingDescription == true) {
+                                    hideDescription();
+                                    GameScene.isDisplayingDescription = false;
                                     GameScene.setOnPressed((ee) -> {
                                     });
                                 }
                             }
                         });
-                    }else if(button == MouseButton.PRIMARY && GameScene.ifDisplay == false){
-                        eventHandler.handle(e);
                     }
                 }
             });
@@ -164,15 +155,13 @@ public abstract class Card implements HasUi, Cloneable{
         return uiController;
     }
 
-    public void displayDescription(){
-        GameScene.add(this.descriptionController);
-        GameScene.add(this.descriptionController.hintController);
+    private void displayDescription() {
+        GameScene.disable();
+        GameScene.add(descriptionController);
     }
 
-    public void displayCancel(){
-        this.descriptionController.deleteOnScene();
-        this.descriptionController.hintController.deleteOnScene();
+    private void hideDescription() {
+        GameScene.enable();
+        descriptionController.deleteOnScene();
     }
-
-
 }

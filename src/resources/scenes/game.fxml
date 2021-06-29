@@ -67,5 +67,6 @@
             </Label>
          </children>
       </Pane>
+      <Pane id="disable_mask" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(50,50,50,0.5);" />
     </children>
 </AnchorPane>
