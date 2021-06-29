@@ -6,6 +6,9 @@ import dominion.models.events.game.PlayCardEvent;
 import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
+import dominion.models.game.cards.treasures.Copper;
+import dominion.models.game.cards.treasures.Gold;
+import dominion.models.game.cards.treasures.Silver;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.application.Platform;
 
@@ -56,8 +59,9 @@ public class Game implements Runnable {
                 if (cards.stream().anyMatch(card -> card instanceof Treasure)) {
                     currentPlayer.setActionBarAutoTreasure(true);
                     currentPlayer.setActionBarAutoTreasureHandler((e) -> {
-                        for (Card card : cards) {
-                            if (card instanceof Treasure) {
+                        List<Card> handCards= GameManager.getCurrentPlayer().getHandCards();
+                        for (Card card : handCards) {
+                            if (card instanceof Copper || card instanceof Silver || card instanceof Gold) {
                                 GameManager.sendEvent((new PlayCardEvent(currentPlayer.getId(), card.getId())));
                             }
                         }
