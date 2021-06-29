@@ -2,6 +2,7 @@ package dominion.models.game;
 
 import dominion.controllers.components.DisplayedCardController;
 import dominion.models.game.DisplayedCard;
+import dominion.models.game.cards.Card;
 import javafx.scene.layout.GridPane;
 
 import java.util.List;
@@ -41,7 +42,16 @@ public class MajorPurchaseArea {
         return null;
     }
 
-    public int getNumNoneRemained() {
+    public DisplayedCard getDisplayedCardByCard(Card card) {
+        for (DisplayedCard displayedCard : displayedCards) {
+            if (displayedCard.getCard().getName() == card.getName()) {
+                return displayedCard;
+            }
+        }
+        return null;
+    }
+
+        public int getNumNoneRemained() {
         int numNoneRemained = 0;
         for(DisplayedCard displayedCard : displayedCards){
             if(displayedCard.getNumRemain() == 0){

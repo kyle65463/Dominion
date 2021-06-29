@@ -8,7 +8,9 @@ import dominion.models.events.game.EndPlayingActionsPhaseEvent;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.actions.HasSelection;
+import dominion.models.game.cards.actions.Reaction;
 import dominion.models.game.cards.treasures.Treasure;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.util.Pair;
 
@@ -42,6 +44,7 @@ public class Player {
     private int numPurchases = 1;
 
     private boolean isEnableUi;
+    private boolean immuneNextAttack = false;
     private Deck deck;
     private DiscardPile discardPile;
     private FieldCards fieldCards;
@@ -55,6 +58,14 @@ public class Player {
     // Functions
     public PlayerStatus getPlayerStatus() {
         return playerStatus;
+    }
+
+    public void setImmuneNextAttack(boolean b) {
+        immuneNextAttack = b;
+    }
+
+    public boolean getImmuneNextAttack() {
+        return immuneNextAttack;
     }
 
     public String getName() {
@@ -179,6 +190,18 @@ public class Player {
     public boolean hasActionCards() {
         boolean result = handCards.hasActionCards();
         return result;
+    }
+
+    public boolean hasReactionCards() {
+        boolean result = handCards.hasReactionCards();
+        return result;
+    }
+
+    public void react(int cardId) {
+        Card card = handCards.getCardByCardId(cardId);
+        Logger.logReactCard(this, card);
+        Reaction reactionCard = (Reaction) card;
+        reactionCard.performReaction(this);
     }
 
     public Pair<String, String> getActionBarStatus() {

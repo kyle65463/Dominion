@@ -71,6 +71,7 @@ public class ActionBarController extends ComponentController{
             setNumCoins(3);
             setStatus("你可以購買卡片");
             setButtonText("結束購買");
+            setAutoTreasure(false);
 
             rootNode.setLayoutX(x);
             rootNode.setLayoutY(y);

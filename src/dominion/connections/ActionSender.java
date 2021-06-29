@@ -47,6 +47,7 @@ public class ActionSender {
     public void send(EventAction eventAction) {
         try {
             outputStream.writeObject(eventAction);
+            System.out.println("send:" + eventAction);
         } catch (Exception e) {
             System.out.println("Sender Error");
             System.out.println(e);

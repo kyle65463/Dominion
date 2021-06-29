@@ -6,7 +6,6 @@ import dominion.models.game.Player;
 public abstract class GameEvent extends EventAction {
     // Constructor
     public GameEvent(int playerId) {
-
         this.playerId = playerId;
     }
 

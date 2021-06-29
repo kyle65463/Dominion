@@ -2,6 +2,7 @@ package dominion.game;
 
 import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
+import dominion.models.game.cards.actions.Reaction;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -31,6 +32,12 @@ public class Logger {
     public static void logPlayCard(Player player, Card card) {
         if(!(card instanceof Treasure)) {
             addMessage(player.getName() + " 打出了 " + card.getName());
+        }
+    }
+
+    public static void logReactCard(Player player, Card card) {
+        if (card instanceof Reaction) {
+            addMessage(player.getName() + " 使用了 " + card.getName() + " 應對");
         }
     }
 

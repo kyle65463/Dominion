@@ -4,6 +4,7 @@ import dominion.connections.Connection;
 import dominion.models.events.EventAction;
 import dominion.models.events.game.GameEvent;
 import dominion.models.game.*;
+import dominion.models.game.cards.Card;
 import javafx.application.Platform;
 
 import java.util.*;
@@ -22,6 +23,7 @@ public class GameManager {
         Collections.sort(players, (a, b) -> a.getId() - b.getId());
         currentPlayer = players.get(0);
         connection.setActionCallback((e) -> {
+            System.out.println("setActionCallback:" + e);
             Platform.runLater(() -> {
                 handleEvent(e);
             });
@@ -34,7 +36,8 @@ public class GameManager {
     }
 
     // Variables
-    public static Lock lock = new ReentrantLock();
+    public static Lock gameLock = new ReentrantLock();
+    public static Lock attackLock = new ReentrantLock();
     private static Player currentPlayer;       // The player playing actions
     private static List<Player> players;       // All players
     private static Player applicationPlayer;
@@ -50,11 +53,13 @@ public class GameManager {
         BuyingCards,
         SelectingHandCards,
         SelectingDisplayedCards,
+        SelectingReactionCard,
         GameOver,
     }
 
-    private final static Condition isPlayingActionsPhaseEnd = lock.newCondition();
-    private final static Condition isBuyingPhaseEnd = lock.newCondition();
+    private final static Condition isPlayingActionsPhaseEnd = gameLock.newCondition();
+    private final static Condition isBuyingPhaseEnd = gameLock.newCondition();
+    private final static Condition isDoneReacting = attackLock.newCondition();
     private static int randomSeed;
     private static Random random;
 
@@ -108,6 +113,14 @@ public class GameManager {
         return displayedCard;
     }
 
+    public static DisplayedCard getDisplayCardByCard(Card card) {
+        DisplayedCard displayedCard = majorPurchaseArea.getDisplayedCardByCard(card);
+        if (displayedCard == null) {
+            displayedCard = minorPurchaseArea.getDisplayedCardByCard(card);
+        }
+        return displayedCard;
+    }
+
     public static Condition getIsPlayActionsPhaseEnd() {
         return isPlayingActionsPhaseEnd;
     }
@@ -115,6 +128,9 @@ public class GameManager {
     public static Condition getIsBuyingPhaseEnd() {
         return isBuyingPhaseEnd;
     }
+
+    public static Condition getIsDoneReacting() { return isDoneReacting; }
+
 
     public static void sendEvent(EventAction event) {
         if (event instanceof GameEvent) {
@@ -124,6 +140,11 @@ public class GameManager {
         }
     }
 
+    public static Player getApplicationPlayer() {
+        return applicationPlayer;
+    }
+
+
     private static void handleEvent(EventAction event) {
         if (event instanceof GameEvent) {
             try {
@@ -131,25 +152,28 @@ public class GameManager {
             } catch (Exception e) {
 
             }
+            System.out.printf("%s%n", event.getClass().getName());
             ((GameEvent) event).perform();
         }
     }
 
+//    public static void attack
+
     public static void endPlayingActionsPhase() {
-        lock.lock();
+        gameLock.lock();
         try {
             isPlayingActionsPhaseEnd.signal();
         } finally {
-            lock.unlock();
+            gameLock.unlock();
         }
     }
 
     public static void endBuyingPhase() {
-        lock.lock();
+        gameLock.lock();
         try {
             isBuyingPhaseEnd.signal();
         } finally {
-            lock.unlock();
+            gameLock.unlock();
         }
     }
 
@@ -185,4 +209,21 @@ public class GameManager {
         });
     }
 
+    public static void waitConditionLock(Condition condition, Lock lock) {
+//        GameManager.gameLock.lock();
+        lock.lock();
+        try {
+            condition.await();
+        } catch (Exception e) {
+
+        } finally {
+//            GameManager.gameLock.unlock();
+            lock.unlock();
+        }
+    }
+
+
+    public static void signalCondition(Condition condition) {
+        condition.signal();
+    }
 }

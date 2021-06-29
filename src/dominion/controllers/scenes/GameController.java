@@ -81,10 +81,13 @@ public class GameController {
 
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
-                initialCards.add(new Copper());
+//                initialCards.add(new Copper());
+                initialCards.add(new Witch());
+
             }
             for (int i = 0; i < 3; i++) {
-                initialCards.add(new Estate());
+//                initialCards.add(new Estate());
+                initialCards.add(new Moat());
             }
             player.setDeckCards(initialCards);
             player.setFieldCards(fieldCards);

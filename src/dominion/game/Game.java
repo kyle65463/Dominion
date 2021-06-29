@@ -41,7 +41,9 @@ public class Game implements Runnable {
                     GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer.getId()));
                 }
             });
-            waitForPlayingActionsPhasesEnd();
+//            waitForPlayingActionsPhasesEnd();
+//            GameManager.waitCondition(GameManager.getIsPlayActionsPhaseEnd());
+            GameManager.waitConditionLock(GameManager.getIsPlayActionsPhaseEnd(), GameManager.gameLock);
             currentPlayer.removeCardSelectedHandler();
 
             // Buying cards
@@ -72,7 +74,9 @@ public class Game implements Runnable {
                     }
                 });
             });
-            waitForBuyingPhasesEnd();
+//            waitForBuyingPhasesEnd();
+//            GameManager.waitCondition(GameManager.getIsBuyingPhaseEnd());
+            GameManager.waitConditionLock(GameManager.getIsBuyingPhaseEnd(), GameManager.gameLock);
             currentPlayer.removeCardSelectedHandler();
             currentPlayer.setActionBarAutoTreasure(false);
 
@@ -95,24 +99,24 @@ public class Game implements Runnable {
     }
 
     private void waitForPlayingActionsPhasesEnd() {
-        GameManager.lock.lock();
+        GameManager.gameLock.lock();
         try {
             GameManager.getIsPlayActionsPhaseEnd().await();
         } catch (Exception e) {
 
         } finally {
-            GameManager.lock.unlock();
+            GameManager.gameLock.unlock();
         }
     }
 
     private void waitForBuyingPhasesEnd() {
-        GameManager.lock.lock();
+        GameManager.gameLock.lock();
         try {
             GameManager.getIsBuyingPhaseEnd().await();
         } catch (Exception e) {
 
         } finally {
-            GameManager.lock.unlock();
+            GameManager.gameLock.unlock();
         }
     }
 }

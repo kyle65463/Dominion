@@ -6,6 +6,7 @@ import dominion.models.events.game.GameEvent;
 import dominion.models.events.game.PlayCardEvent;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
+import dominion.models.game.cards.actions.Reaction;
 import dominion.models.game.cards.curses.Curses;
 import dominion.models.game.cards.treasures.Treasure;
 import dominion.models.game.cards.victories.Victory;
@@ -82,6 +83,15 @@ public class HandCards implements HasUi {
     public boolean hasActionCards() {
         for (Card card : cards) {
             if (card instanceof Action) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasReactionCards() {
+        for (Card card : cards) {
+            if (card instanceof Reaction) {
                 return true;
             }
         }
