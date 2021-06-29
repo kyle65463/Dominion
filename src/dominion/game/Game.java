@@ -64,7 +64,6 @@ public class Game implements Runnable {
                     });
                 } else {
                     currentPlayer.setActionBarAutoTreasure(false);
-//                    currentPlayer.setActionBarAutoTreasureHandler((e) -> {});
                 }
                 currentPlayer.setCardSelectedHandler((card) -> {
                     if (card instanceof Treasure) {
