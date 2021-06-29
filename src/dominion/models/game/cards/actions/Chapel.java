@@ -14,7 +14,7 @@ public class Chapel extends Card implements Action, HasSelection{
     // Constructor
     public Chapel() {
         name = "禮拜堂";
-        description = "";
+        description = "移除你手上至多4張卡牌。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 2;

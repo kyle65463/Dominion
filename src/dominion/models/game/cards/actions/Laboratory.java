@@ -9,7 +9,7 @@ public class Laboratory extends Card implements Action {
     // Constructor
     public Laboratory() {
         name = "實驗室";
-        description = "";
+        description = "+2卡片\n+1行動";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 5;

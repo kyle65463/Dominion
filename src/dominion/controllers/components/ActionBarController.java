@@ -8,8 +8,7 @@ import javafx.scene.control.Label;
 
 public class ActionBarController extends ComponentController{
     // Constructor
-    public ActionBarController(GameScene gameScene) {
-        super(gameScene);
+    public ActionBarController() {
         initialize();
     }
 
@@ -75,7 +74,7 @@ public class ActionBarController extends ComponentController{
 
             rootNode.setLayoutX(x);
             rootNode.setLayoutY(y);
-            gameScene.add(this);
+            GameScene.add(this);
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -16,8 +16,8 @@ public class ActionBar implements HasUi{
     private ActionBarController uiController;
 
     // Functions
-    public void enableUi(GameScene gameScene) {
-        this.uiController = new ActionBarController(gameScene);
+    public void enableUi() {
+        this.uiController = new ActionBarController();
         isEnableUi = true;
     }
 

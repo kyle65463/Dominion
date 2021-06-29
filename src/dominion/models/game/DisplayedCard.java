@@ -1,6 +1,7 @@
 package dominion.models.game;
 
 import dominion.controllers.components.DisplayedCardController;
+import dominion.controllers.components.FullCardController;
 import dominion.game.GameManager;
 import dominion.models.events.game.BuyCardEvent;
 import dominion.models.events.game.SelectDisplayedCardEvent;
@@ -30,10 +31,12 @@ public class DisplayedCard implements HasUi {
     private int numRemain;
     private boolean isEnableUi;
     private DisplayedCardController uiController;
+    private FullCardController descriptionController;
 
     // Functions
     public void enableUi() {
         this.uiController = new DisplayedCardController(card);
+        this.descriptionController = new FullCardController(card);
         setNumRemain(numRemain);
         uiController.setOnPressed((e) -> {
             if (e instanceof MouseEvent) {
@@ -45,8 +48,20 @@ public class DisplayedCard implements HasUi {
                     else if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
                         GameManager.sendEvent(new SelectDisplayedCardEvent(player.getId(), id));
                     }
-                } else if (button == MouseButton.SECONDARY) {
-                    System.out.println("Show description");
+                } else if (button == MouseButton.SECONDARY && GameScene.ifDisplay == false) {
+                    displayDescription();
+                    GameScene.ifDisplay = true;
+                    GameScene.setOnPressed((e1)->{
+                        if(e1 instanceof MouseEvent){
+                            MouseButton yangloo = ((MouseEvent) e1).getButton();
+                            if(yangloo == MouseButton.PRIMARY &&  GameScene.ifDisplay == true) {
+                                displayCancel();
+                                GameScene.ifDisplay = false;
+                                GameScene.setOnPressed((ee) -> {
+                                });
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -77,5 +92,15 @@ public class DisplayedCard implements HasUi {
 
     public DisplayedCardController getController() {
         return uiController;
+    }
+
+    public void displayDescription(){
+        GameScene.add(this.descriptionController);
+        GameScene.add(this.descriptionController.hintController);
+    }
+
+    public void displayCancel(){
+        this.descriptionController.deleteOnScene();
+        this.descriptionController.hintController.deleteOnScene();
     }
 }

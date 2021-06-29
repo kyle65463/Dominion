@@ -10,7 +10,7 @@ public class CouncilRoom extends Card implements Action {
     // Constructor
     public CouncilRoom() {
         name = "會議廳";
-        description = "";
+        description = "+4卡牌\n+1購買\n其他玩家抽取一張卡片。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 5;

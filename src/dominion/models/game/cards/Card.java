@@ -1,10 +1,15 @@
 package dominion.models.game.cards;
 
 import dominion.controllers.components.CardController;
+import dominion.controllers.components.FullCardController;
 import dominion.game.GameManager;
+import dominion.models.game.GameScene;
 import dominion.models.game.HasUi;
 import dominion.models.game.cards.treasures.Treasure;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import java.util.concurrent.TimeUnit;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -29,7 +34,9 @@ public abstract class Card implements HasUi, Cloneable{
     /* UI */
     protected boolean isEnableUi = false;
     protected CardController uiController;
+    protected FullCardController descriptionController;
 
+    private boolean someCondition = false;
     // Function
     public String getStyle() {
         return style;
@@ -55,6 +62,8 @@ public abstract class Card implements HasUi, Cloneable{
         return id;
     }
 
+    public String getDescription(){ return description;}
+
     public void disableUi() {
         if(uiController != null) {
             uiController.deleteOnScene();
@@ -79,6 +88,9 @@ public abstract class Card implements HasUi, Cloneable{
             if (this instanceof Treasure) {
                 uiController.setNumValueLabel(((Treasure) this).getNumValue());
             }
+        }
+        if (descriptionController == null){
+            descriptionController = new FullCardController(this);
         }
         isEnableUi = true;
     }
@@ -110,7 +122,29 @@ public abstract class Card implements HasUi, Cloneable{
 
     public void setOnPressed(EventHandler eventHandler) {
         if (isEnableUi) {
-            uiController.setOnPressed(eventHandler);
+            uiController.setOnPressed((e) -> {
+                if (e instanceof MouseEvent) {
+                    MouseButton button = ((MouseEvent) e).getButton();
+                    if (button == MouseButton.SECONDARY && GameScene.ifDisplay == false) {
+                        displayDescription();
+                        GameScene.ifDisplay = true;
+                        GameScene.setOnPressed((e1)->{
+                            if(e1 instanceof MouseEvent){
+                                MouseButton yangloo = ((MouseEvent) e1).getButton();
+                                if(yangloo == MouseButton.PRIMARY &&  GameScene.ifDisplay == true) {
+//                                    this.descriptionController.deleteOnScene();
+                                    displayCancel();
+                                    GameScene.ifDisplay = false;
+                                    GameScene.setOnPressed((ee) -> {
+                                    });
+                                }
+                            }
+                        });
+                    }else if(button == MouseButton.PRIMARY && GameScene.ifDisplay == false){
+                        eventHandler.handle(e);
+                    }
+                }
+            });
         }
     }
 
@@ -129,4 +163,16 @@ public abstract class Card implements HasUi, Cloneable{
     public CardController getController() {
         return uiController;
     }
+
+    public void displayDescription(){
+        GameScene.add(this.descriptionController);
+        GameScene.add(this.descriptionController.hintController);
+    }
+
+    public void displayCancel(){
+        this.descriptionController.deleteOnScene();
+        this.descriptionController.hintController.deleteOnScene();
+    }
+
+
 }

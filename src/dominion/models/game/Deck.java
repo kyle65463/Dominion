@@ -23,8 +23,8 @@ public class Deck implements HasUi {
     private List<Card> cards = new ArrayList<>();
 
     // Functions
-    public void enableUi(GameScene gameScene) {
-        this.uiController = new DeckController(gameScene);
+    public void enableUi() {
+        this.uiController = new DeckController();
         isEnableUi = true;
         for (Card card : cards) {
             card.enableUi();

@@ -16,8 +16,7 @@ public class GameManager {
     // Constructor
     public static void initialize(List<Player> players, Connection connection, Player applicationPlayer,
                                   MajorPurchaseArea majorPurchaseArea, MinorPurchaseArea minorPurchaseArea,
-                                  int randomSeed,
-                                  GameScene gameScene) {
+                                  int randomSeed) {
         phases.push(Phase.Reset);
         GameManager.players = players;
         Collections.sort(players, (a, b) -> a.getId() - b.getId());
@@ -31,7 +30,6 @@ public class GameManager {
         GameManager.connection = connection;
         GameManager.majorPurchaseArea = majorPurchaseArea;
         GameManager.minorPurchaseArea = minorPurchaseArea;
-        GameManager.gameScene = gameScene;
         GameManager.applicationPlayer = applicationPlayer;
     }
 
@@ -44,7 +42,7 @@ public class GameManager {
     private static Connection connection;
     private static MajorPurchaseArea majorPurchaseArea;
     private static MinorPurchaseArea minorPurchaseArea;
-    private static GameScene gameScene;
+//    private static GameScene gameScene;
     private static Stack<Phase> phases = new Stack<>();
 
     public static enum Phase {
@@ -81,9 +79,9 @@ public class GameManager {
         phases.push(phase);
     }
 
-    public static GameScene getGameScene() {
-        return gameScene;
-    }
+//    public static GameScene getGameScene() {
+//        return gameScene;
+//    }
 
     public static int getRandomSeed() {
         return randomSeed;
@@ -207,7 +205,7 @@ public class GameManager {
         Player finalWinner = winner;
         Platform.runLater(() -> {
             WinnerDialog.setWinner(finalWinner.getName());
-            gameScene.disable();
+            GameScene.disable();
             setCurrentPhase(Phase.GameOver);
         });
     }

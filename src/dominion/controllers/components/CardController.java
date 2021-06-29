@@ -3,12 +3,14 @@ package dominion.controllers.components;
 import dominion.game.GameManager;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.treasures.Treasure;
+import dominion.models.game.GameScene;
 import dominion.utils.CardStyles;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+
 
 
 public class CardController extends ComponentController {
@@ -33,7 +35,7 @@ public class CardController extends ComponentController {
 
     // Functions
     public void deleteOnScene() {
-        GameManager.getGameScene().delete(this);
+        GameScene.delete(this);
     }
 
     private void setStyle() {

@@ -46,7 +46,7 @@ public class GameController {
     Pane winnerBox;
     @FXML
     Label winnerLabel;
-    GameScene gameScene;
+
 
     @FXML
     void initialize() {
@@ -58,20 +58,20 @@ public class GameController {
         WinnerDialog.initialize(winnerBox, winnerLabel);
         Logger.initialize(messageBoxNode);
         GameManager.setRandomSeed(randomSeed);
-        gameScene = new GameScene(rootNode);
+        GameScene.initialize(rootNode);
 
         // Set up players
         Player applicationPlayer = new Player(applicationUser);
         List<Player> players = new ArrayList<>();
         FieldCards fieldCards = new FieldCards();
-        fieldCards.enableUi(gameScene);
+        fieldCards.enableUi();
         int index = 0;
         for (User user : users) {
             Player player = new Player(user);
             PlayerStatus playerStatus = player.getPlayerStatus();
             if(user.getId() == applicationUser.getId()) {
                 applicationPlayer = player;
-                player.enableUi(gameScene);
+                player.enableUi();
                 playerStatusBox.getChildren().add(playerStatus.getController().getRootNode());
             }
             else {
@@ -126,7 +126,7 @@ public class GameController {
         minorPurchaseArea.setDisplayedCards(minorKingdomCards);
 
         // Set up game manager
-        GameManager.initialize(players, connection, applicationPlayer, majorPurchaseArea, minorPurchaseArea, randomSeed, gameScene);
+        GameManager.initialize(players, connection, applicationPlayer, majorPurchaseArea, minorPurchaseArea, randomSeed);
         for(Player player : players){
             player.drawCards(5);
             player.setActionBarStatus("等待其他玩家的回合", "");
