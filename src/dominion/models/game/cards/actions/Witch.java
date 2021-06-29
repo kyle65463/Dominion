@@ -1,17 +1,14 @@
 package dominion.models.game.cards.actions;
 
-import dominion.game.Game;
 import dominion.game.GameManager;
-import dominion.models.events.game.AttackEvent;
+import dominion.models.events.game.DoneAttackingEvent;
 import dominion.models.game.DisplayedCard;
 import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
+import dominion.models.game.cards.AttackPlayers;
 import dominion.models.game.cards.curses.Curse;
 import dominion.utils.CardStyles;
 import dominion.utils.CardTypes;
-import javafx.application.Platform;
-
-import java.util.List;
 
 public class Witch extends Card implements Action, Attack {
     public Witch() {
@@ -24,34 +21,8 @@ public class Witch extends Card implements Action, Attack {
 
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.drawCards(2);
-        Thread thread = new Thread(()-> {
-            Platform.exit();
-            List<Player> players = GameManager.getPlayers();
-            for (Player attacked : players) {
-                if (attacked.getId() == performer.getId()) {
-                    continue;
-                } else {
-                    if (attacked.hasReactionCards()) {
-                        GameManager.sendEvent(new AttackEvent(performer.getId(), attacked.getId()));
-                        GameManager.waitConditionLock(GameManager.getIsDoneReacting(), GameManager.attackLock);
-                    }
-                    if (attacked.getImmuneNextAttack()) {
-                        attacked.setImmuneNextAttack(false);
-                    } else {
-                        Platform.runLater(()-> {
-                            performAttack(performer, attacked);
-                        });
-                    }
-                }
-            }
-        });
-        thread.run();
-        System.out.println("after run");
-        if (decreaseNumActions) {
-            performer.decreaseNumActions();
-        }
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        Thread thread = new Thread(new AttackPlayers(performer, this, decreaseNumActions));
+        thread.start();
     }
 
     @Override
@@ -62,5 +33,11 @@ public class Witch extends Card implements Action, Attack {
             attacked.receiveNewCard(curse);
             card.decreaseNumRemain();
         }
+        GameManager.sendEvent(new DoneAttackingEvent(attacked.getId()));
+    }
+
+    @Override
+    public void performAfterAttack(Player performer) {
+        performer.drawCards(2);
     }
 }

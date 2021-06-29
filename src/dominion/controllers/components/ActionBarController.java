@@ -86,6 +86,11 @@ public class ActionBarController extends ComponentController{
         autoTreasure.setVisible(b);
     }
 
+    public void setButtonVisible(boolean b) {
+        button.setDisable(!b);
+        button.setVisible(b);
+    }
+
     public String getStatus() {
         return statusLabel.getText();
     }

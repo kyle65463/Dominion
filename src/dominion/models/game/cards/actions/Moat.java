@@ -9,7 +9,7 @@ public class Moat extends Card implements Action, Reaction{
     public Moat() {
         name = "護城河";
         description = "";
-        style = CardStyles.white;
+        style = CardStyles.blue;
         type = CardTypes.action;
         numCost = 2;
     }

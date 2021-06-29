@@ -60,6 +60,7 @@ public class GameManager {
     private final static Condition isPlayingActionsPhaseEnd = gameLock.newCondition();
     private final static Condition isBuyingPhaseEnd = gameLock.newCondition();
     private final static Condition isDoneReacting = attackLock.newCondition();
+    private final static Condition isDoneSelectingHandCards = attackLock.newCondition();
     private static int randomSeed;
     private static Random random;
 
@@ -130,6 +131,8 @@ public class GameManager {
     }
 
     public static Condition getIsDoneReacting() { return isDoneReacting; }
+
+    public static Condition getIsDoneAttacking() { return isDoneSelectingHandCards; }
 
 
     public static void sendEvent(EventAction event) {
@@ -210,20 +213,23 @@ public class GameManager {
     }
 
     public static void waitConditionLock(Condition condition, Lock lock) {
-//        GameManager.gameLock.lock();
         lock.lock();
         try {
             condition.await();
         } catch (Exception e) {
 
         } finally {
-//            GameManager.gameLock.unlock();
             lock.unlock();
         }
     }
 
 
-    public static void signalCondition(Condition condition) {
-        condition.signal();
+    public static void signalCondition(Condition condition, Lock lock) {
+        lock.lock();
+        try {
+            condition.signal();
+        } finally {
+            lock.unlock();
+        }
     }
 }

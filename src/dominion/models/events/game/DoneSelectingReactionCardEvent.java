@@ -13,7 +13,7 @@ public class DoneSelectingReactionCardEvent extends GameEvent{    // Constructor
     public void perform() {
         if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingReactionCard) {
             GameManager.returnLastPhase();
-            GameManager.signalCondition(GameManager.getIsDoneReacting());
+            GameManager.signalCondition(GameManager.getIsDoneReacting(), GameManager.attackLock);
         }
     }
 }

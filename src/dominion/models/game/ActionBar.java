@@ -69,6 +69,12 @@ public class ActionBar implements HasUi{
         }
     }
 
+    public void setButtonVisible(boolean b) {
+        if (isEnableUi) {
+            uiController.setButtonVisible(b);
+        }
+    }
+
     public String getStatus() {
         if(isEnableUi) {
             return uiController.getStatus();

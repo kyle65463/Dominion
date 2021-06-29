@@ -4,8 +4,8 @@ import dominion.game.GameManager;
 import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
 
-public class ReactionEvent extends GameEvent{
-    public ReactionEvent(int playerId, boolean useCard, int cardId) {
+public class PlayReactionEvent extends GameEvent{
+    public PlayReactionEvent(int playerId, boolean useCard, int cardId) {
         super(playerId);
         cardId = cardId;
         useCard = useCard;

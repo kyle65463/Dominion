@@ -82,7 +82,7 @@ public class GameController {
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
 //                initialCards.add(new Copper());
-                initialCards.add(new Witch());
+                initialCards.add(new Militia());
 
             }
             for (int i = 0; i < 3; i++) {

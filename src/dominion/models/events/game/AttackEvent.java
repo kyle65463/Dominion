@@ -20,7 +20,7 @@ public class AttackEvent extends GameEvent{
         attacked.snapshotStatus();
 
         // Set new handlers
-        attacked.setActionBarStatus("選擇應對牌:)", "完成");
+        attacked.setActionBarStatus("展示應對牌", "不展示");
         attacked.setCardSelectedHandler((card) -> {
             GameManager.sendEvent(new SelectReactionCardEvent(attackedId, card.getId()));
             attacked.recoverStatus();

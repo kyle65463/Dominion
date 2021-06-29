@@ -10,7 +10,6 @@ import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.actions.HasSelection;
 import dominion.models.game.cards.actions.Reaction;
 import dominion.models.game.cards.treasures.Treasure;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.util.Pair;
 
@@ -53,6 +52,7 @@ public class Player {
     private PlayerStatus playerStatus;
 
     private int maxSelectedCard = Integer.MAX_VALUE;
+    private int exactSelectingCards = 0;
     private List<Card> selectedCards = new ArrayList<>();
 
     // Functions
@@ -140,8 +140,18 @@ public class Player {
         this.maxSelectedCard = maxSelectingCards;
     }
 
+    public void setExactSelectingCards(int exactSelectingCards) {
+        this.exactSelectingCards = exactSelectingCards;
+        this.maxSelectedCard = exactSelectingCards;
+        actionBar.setButtonVisible(false);
+    }
+
     public void resetMaxSelectingCards() {
         maxSelectedCard = Integer.MAX_VALUE;
+    }
+
+    public void resetExactSelectingCards() {
+        exactSelectingCards = 0;
     }
 
     public void setFieldCards(FieldCards fieldCards) {
@@ -244,6 +254,15 @@ public class Player {
             card.setHighlight();
             selectedCards.add(card);
         }
+
+        if(exactSelectingCards > 0) {
+            if(selectedCards.size() == exactSelectingCards){
+                actionBar.setButtonVisible(true);
+            }
+            else {
+                actionBar.setButtonVisible(false);
+            }
+        }
     }
 
     public void clearSelectingCards() {
@@ -257,6 +276,8 @@ public class Player {
         HasSelection card = (HasSelection) fieldCards.getCardByCardId(cardId);
         card.performSelection(this, selectedCards);
         resetMaxSelectingCards();
+        resetExactSelectingCards();
+        actionBar.setButtonVisible(true);
         clearSelectingCards();
     }
 
