@@ -5,6 +5,7 @@ import dominion.game.Logger;
 import dominion.models.User;
 import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
+import dominion.models.events.game.HasDisplayedSelection;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.actions.HasSelection;
@@ -50,7 +51,9 @@ public class Player {
     private PlayerStatus playerStatus;
 
     private int maxSelectedCard = Integer.MAX_VALUE;
-    private List<Card> selectedCards = new ArrayList<>();
+    private List<Card> selected = new ArrayList<>();
+    private List<DisplayedCard> selectedDisplayed = new ArrayList<>();
+
 
     // Functions
     public PlayerStatus getPlayerStatus() {
@@ -86,6 +89,12 @@ public class Player {
 
     public void receiveNewCard(Card card) {
         discardPile.addCard(card);
+        setPlayerStatusValues();
+    }
+
+    public void receiveNewHandCard(Card card) {
+        handCards.addCard(card);
+        System.out.println("new hand card:" + card);
         setPlayerStatusValues();
     }
 
@@ -209,32 +218,53 @@ public class Player {
     }
 
     public List<Card> getSelectedCards() {
-        return new ArrayList<>(selectedCards);
+        return new ArrayList<>(selected);
     }
 
     public void selectCard(int cardId) {
         Card card = handCards.getCardByCardId(cardId);
-        if (selectedCards.contains(card)) {
+        if (selected.contains(card)) {
             card.removeHighlight();
-            selectedCards.remove(card);
-        } else if(selectedCards.size() < maxSelectedCard){
+            selected.remove(card);
+        } else if(selected.size() < maxSelectedCard){
             card.setHighlight();
-            selectedCards.add(card);
+            selected.add(card);
+        }
+    }
+
+    public void selectDisplayedCard(int displayedCardId) {
+        DisplayedCard displayedCard = GameManager.getDisplayedCardById(displayedCardId);
+        if (selectedDisplayed.contains(displayedCard)) {
+            selectedDisplayed.remove(displayedCard);
+        } else if(selectedDisplayed.size() < maxSelectedCard){
+            selectedDisplayed.add(displayedCard);
         }
     }
 
     public void clearSelectingCards() {
-        for (Card card : selectedCards) {
+        for (Card card : selected) {
             card.removeHighlight();
         }
-        selectedCards.clear();
+        selected.clear();
+    }
+
+    public void clearSelectingDisplayedCards() {
+        selectedDisplayed.clear();
     }
 
     public void doneSelection(int cardId) {
         HasSelection card = (HasSelection) fieldCards.getCardByCardId(cardId);
-        card.performSelection(this, selectedCards);
+        card.performSelection(this, selected);
         resetMaxSelectingCards();
         clearSelectingCards();
+    }
+
+
+    public void doneDisplayedSelection(int cardId) {
+        HasDisplayedSelection card = (HasDisplayedSelection) fieldCards.getCardByCardId(cardId);
+        card.performDisplayedSelection(this, selectedDisplayed);
+        resetMaxSelectingCards();
+        clearSelectingDisplayedCards();
     }
 
     public CardSelectedHandler getCardSelectedHandler() {

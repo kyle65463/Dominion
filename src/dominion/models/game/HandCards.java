@@ -115,10 +115,12 @@ public class HandCards implements HasUi {
 
     public void addCard(Card card) {
         cards.add(card);
-        card.setOnPressed((e) -> {
-            cardSelectedHandler.onSelected(card);
-        });
         if (isEnableUi) {
+            card.enableUi();
+            card.setOnPressed((e) -> {
+                cardSelectedHandler.onSelected(card);
+            });
+            System.out.println("enable ui: " + card.getEnableUi());
             uiController.arrangeCardsPos(cards);
         }
     }
