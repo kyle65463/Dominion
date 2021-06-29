@@ -1,21 +1,11 @@
 package dominion.controllers.components;
+import dominion.game.GameManager;
+import dominion.models.events.game.TauntEvent;
 import dominion.models.game.cards.Card;
-import dominion.models.game.cards.treasures.Treasure;
 import dominion.utils.TauntVoice;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class TauntController extends ComponentController{
     public TauntController(){initialize();}
@@ -25,10 +15,10 @@ public class TauntController extends ComponentController{
         try {
             rootNode = (Pane) FXMLLoader.load(Card.class.getClassLoader().getResource("resources/components/taunt_button.fxml"));
             tauntButton = (Button) rootNode.lookup("#tauntButton");
-            setLayout(10,400);
+            setLayout(10,440);
             TauntVoice.initialize();
             tauntButton.setOnMousePressed((e)->{
-                TauntVoice.playTauntVoice();
+                GameManager.sendVoiceEvent(new TauntEvent(0));
                 System.out.println("press");});
         } catch (Exception e) {
 
