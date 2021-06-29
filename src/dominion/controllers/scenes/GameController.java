@@ -1,6 +1,7 @@
 package dominion.controllers.scenes;
 
 import dominion.connections.Connection;
+import dominion.controllers.components.TauntController;
 import dominion.game.Game;
 import dominion.game.GameManager;
 import dominion.game.Logger;
@@ -59,6 +60,9 @@ public class GameController {
         Logger.initialize(messageBoxNode);
         GameManager.setRandomSeed(randomSeed);
         GameScene.initialize(rootNode);
+
+        TauntController con = new TauntController();
+        GameScene.add(con);
 
         // Set up players
         Player applicationPlayer = new Player(applicationUser);
