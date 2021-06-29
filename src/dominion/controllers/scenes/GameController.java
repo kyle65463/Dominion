@@ -1,8 +1,7 @@
 package dominion.controllers.scenes;
 
 import dominion.connections.Connection;
-import dominion.controllers.components.ShoutController;
-import dominion.controllers.components.TauntController;
+import dominion.controllers.components.VoiceController;
 import dominion.game.Game;
 import dominion.game.GameManager;
 import dominion.game.Logger;
@@ -58,10 +57,8 @@ public class GameController {
         WinnerDialog.initialize(winnerBox, winnerLabel);
         Logger.initialize(scrollPane, messageBoxNode);
 
-        TauntController con = new TauntController();
-        GameScene.add(con);
-        ShoutController sho = new ShoutController();
-        GameScene.add(sho);
+        VoiceController vb = new VoiceController();
+        GameScene.add(vb);
 
         // Set up players
         Player applicationPlayer = new Player(applicationUser);

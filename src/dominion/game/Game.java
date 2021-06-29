@@ -7,6 +7,7 @@ import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.treasures.Treasure;
+import dominion.utils.Voice;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class Game implements Runnable {
     public void run() {
         while (true) {
             // New turn
+            Voice.playVoice(2);
             Player currentPlayer = GameManager.getCurrentPlayer();
             Platform.runLater(() -> {
                 Logger.logStartTurn(currentPlayer);

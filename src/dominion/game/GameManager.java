@@ -3,8 +3,10 @@ package dominion.game;
 import dominion.connections.Connection;
 import dominion.models.events.Event;
 import dominion.models.events.game.GameEvent;
+import dominion.models.events.game.VoiceEvent;
 import dominion.models.game.*;
 import dominion.models.game.cards.Card;
+import dominion.utils.Voice;
 import javafx.application.Platform;
 
 import java.util.*;
@@ -174,14 +176,11 @@ public class GameManager {
             if (((GameEvent) event).getPlayerId() == applicationPlayer.getId()) {
                 connection.send(event);
             }
+        }else if(event instanceof VoiceEvent){
+            connection.send(event);
         }
     }
 
-    public static void sendVoiceEvent(Event event) {
-        if (event instanceof GameEvent) {
-                connection.send(event);
-        }
-    }
 
     private static void handleEvent(Event event) {
         if (event instanceof GameEvent) {
@@ -191,6 +190,13 @@ public class GameManager {
 
             }
             ((GameEvent) event).perform();
+        }else if(event instanceof VoiceEvent){
+            try {
+                Thread.sleep(30);
+            } catch (Exception e) {
+
+            }
+            ((VoiceEvent) event).perform();
         }
     }
 }
