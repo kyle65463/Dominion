@@ -129,7 +129,6 @@ public class GameController {
             player.setActionBarStatus("等待其他玩家的回合", "");
             player.reset();
         }
-
         // Run the game
         Game game = new Game();
         Thread thread = new Thread(game);

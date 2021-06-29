@@ -22,7 +22,7 @@ public class HintController extends ComponentController{
         try {
             rootNode = (Pane) FXMLLoader.load(Card.class.getClassLoader().getResource("resources/components/hint.fxml"));
             rootNode.setStyle(CardStyles.white);
-            setLayout(750,500);
+            setLayout(750,480);
         } catch (Exception e) {
         }
     }

@@ -5,6 +5,7 @@ import dominion.game.Logger;
 import dominion.models.User;
 import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
+import dominion.models.events.game.PlayCardEvent;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.actions.HasSelection;
@@ -317,7 +318,6 @@ public class Player {
         if (cards.size() < numCards) {
             drawCards(numCards - cards.size());
         }
-
         setPlayerStatusValues();
     }
 
