@@ -177,6 +177,12 @@ public class GameManager {
         }
     }
 
+    public static void sendVoiceEvent(Event event) {
+        if (event instanceof GameEvent) {
+                connection.send(event);
+        }
+    }
+
     private static void handleEvent(Event event) {
         if (event instanceof GameEvent) {
             try {
