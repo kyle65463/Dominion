@@ -105,7 +105,7 @@ public class GameController extends SceneController {
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
 //                initialCards.add(new Copper());
-                initialCards.add(new Workshop());
+                initialCards.add(new Poacher());
 
             }
             for (int i = 0; i < 3; i++) {
