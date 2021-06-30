@@ -18,8 +18,6 @@ public class Game implements Runnable {
     public void run() {
         while (true) {
             // New turn
-
-
             Player currentPlayer = GameManager.getCurrentPlayer();
             Player applicationPlayer = GameManager.getApplicationPlayer();
             if(applicationPlayer.getId() == currentPlayer.getId()){
