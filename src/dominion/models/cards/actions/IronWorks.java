@@ -59,6 +59,6 @@ public class IronWorks extends Card implements Action, HasDisplayedCardsSelectio
             performer.decreaseNumActions();
         }
         decreaseNumActions = true;
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 }

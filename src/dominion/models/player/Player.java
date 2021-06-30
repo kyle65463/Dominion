@@ -12,6 +12,7 @@ import dominion.models.cards.actions.HasHandCardsSelection;
 import dominion.models.cards.actions.Reaction;
 import dominion.models.cards.treasures.Treasure;
 import dominion.models.handlers.CardFilter;
+import dominion.models.handlers.CardNextMoveHandler;
 import dominion.models.handlers.CardSelectedHandler;
 import dominion.models.handlers.DisplayedCardFilter;
 import javafx.event.EventHandler;
@@ -94,9 +95,7 @@ public class Player {
         return numPurchases;
     }
 
-    public int getNumActions() {
-        return numActions;
-    }
+    public int getNumActions() { return numActions; }
 
     public void enableUi() {
         deck.enableUi();
@@ -176,7 +175,12 @@ public class Player {
         return cards;
     }
 
-    public void playCard(int cardId, boolean decreaseNumActions) {
+    public void retrieveHandCardFromFieldCards(Card card) {
+        fieldCards.removeCard(card);
+        handCards.addCard(card);
+    }
+
+    public void playCard(int cardId, boolean decreaseNumActions, CardNextMoveHandler nextMoveHandler) {
         Card card = handCards.getCardByCardId(cardId);
         LogBox.logPlayCard(this, card);
         handCards.removeCard(card);
@@ -184,6 +188,7 @@ public class Player {
         if (card instanceof Treasure) {
             numCoins += ((Treasure) card).getNumValue();
         } else if (card instanceof Action) {
+            card.setCardNextMove(nextMoveHandler == null ? ()->{ checkActionCardsAndEndPlayingActionPhase(); } : nextMoveHandler);
             ((Action) card).perform(this, decreaseNumActions);
         }
 
@@ -561,4 +566,11 @@ public class Player {
         handCards.removeCard(card);
         setPlayerStatusValues();
     }
+
+//    public List<Card> popDeckTop(int numCards) {
+//        List<Card> cards = new ArrayList<>();
+//        for (int i = 0; i < numCards; i++) {
+//            cards.add(deck.popCards())
+//        }
+//    }
 }

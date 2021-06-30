@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 public class GameManager {
     // Constructor
@@ -214,6 +215,10 @@ public class GameManager {
             } catch (Exception e) {
 
             }
+            System.err.println("handle event: " + event);
+            System.err.println("phase now: " + phases.stream().collect(Collectors.toList()).toString());
+            System.err.println();
+
             ((GameEvent) event).perform();
         }else if(event instanceof InterActiveEvent){
             try {

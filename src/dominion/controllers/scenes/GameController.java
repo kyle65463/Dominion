@@ -13,6 +13,7 @@ import dominion.models.areas.MinorPurchaseArea;
 import dominion.models.areas.WinnerDialog;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardList;
+import dominion.models.cards.actions.*;
 import dominion.models.cards.curses.Curses;
 import dominion.models.cards.treasures.Copper;
 import dominion.models.cards.treasures.Gold;
@@ -104,7 +105,6 @@ public class GameController extends SceneController {
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
                 initialCards.add(new Copper());
-
             }
             for (int i = 0; i < 3; i++) {
                 initialCards.add(new Estate());
@@ -126,7 +126,6 @@ public class GameController extends SceneController {
             int numRemain = 10;
             if (card instanceof Victory) {
                 numRemain = 4 * players.size();
-//                numRemain = 1;
             }
             if (card instanceof Copper) {
                 numRemain = 60 - 7 * players.size();

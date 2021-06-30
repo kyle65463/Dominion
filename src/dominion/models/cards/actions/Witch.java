@@ -45,6 +45,6 @@ public class Witch extends Card implements Action, Attack {
         if (decreaseNumActions) {
             performer.decreaseNumActions();
         }
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 }

@@ -52,6 +52,6 @@ public class Militia extends Card implements Action, Attack, HasHandCardsSelecti
         if (decreaseNumActions) {
             performer.decreaseNumActions();
         }
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 }

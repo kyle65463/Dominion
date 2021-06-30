@@ -39,6 +39,6 @@ public class Cellar extends Card implements Action, HasHandCardsSelection {
             performer.decreaseNumActions();
         }
         decreaseNumActions = true;
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 }

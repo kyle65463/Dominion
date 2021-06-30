@@ -43,6 +43,6 @@ public class MoneyLender extends Card implements Action, HasHandCardsSelection {
             performer.decreaseNumActions();
         }
         decreaseNumActions = true;
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 }

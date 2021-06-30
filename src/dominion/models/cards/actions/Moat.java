@@ -20,7 +20,7 @@ public class Moat extends Card implements Action, Reaction{
         if(decreaseNumActions) {
             performer.decreaseNumActions();
         }
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 
     @Override

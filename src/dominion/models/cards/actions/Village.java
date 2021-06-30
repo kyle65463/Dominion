@@ -24,6 +24,6 @@ public class Village extends Card implements Action {
         if(decreaseNumActions) {
             performer.decreaseNumActions();
         }
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 }

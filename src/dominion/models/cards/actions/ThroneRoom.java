@@ -1,8 +1,8 @@
 package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
-import dominion.models.events.game.DoneSelectingHandCardEvent;
-import dominion.models.events.game.SelectHandCardEvent;
+import dominion.models.events.game.EndPlayingActionsPhaseEvent;
+import dominion.models.handlers.CardNextMoveHandler;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
@@ -29,32 +29,32 @@ public class ThroneRoom extends Card implements Action, HasHandCardsSelection {
         this.decreaseNumActions = decreaseNumActions;
         // Save the status of the performer
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.snapshotStatus();
         performer.setMaxSelectingCards(1);
+        performer.setSelectingHandCardsFilter(card->card instanceof Action);
 
-        // Set new handlers
-        performer.setActionBarStatus("選擇要執行的牌", "完成");
-        performer.setCardSelectedHandler((card) -> {
-            if(card instanceof Action) {
-                GameManager.sendEvent(new SelectHandCardEvent(performer.getId(), card.getId()));
-            }
-        });
-        performer.setActionBarRightButtonHandler((e) -> {
-            GameManager.sendEvent(new DoneSelectingHandCardEvent(performer.getId(), id));
-        });
+        performer.startSelectingHandCards("選擇要執行的牌", id);
     }
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
         if(cards.size() > 0) {
-            performer.playCard(cards.get(0).getId(), false);
+            Card card = cards.get(0);
+            CardNextMoveHandler handler1 = ()->{
+                performer.retrieveHandCardFromFieldCards(card);
+                CardNextMoveHandler handler2 = ()->{
+                    card.clearCardNextMove();
+                    performer.checkActionCardsAndEndPlayingActionPhase();
+                };
+                performer.playCard(card.getId(), false, handler2);
+            };
+            performer.playCard(cards.get(0).getId(), false, handler1);
         }
-        performer.recoverStatus();
+        performer.setSelectingHandCardsFilter(null);
 
         if(decreaseNumActions) {
             performer.decreaseNumActions();
         }
         decreaseNumActions = true;
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 }

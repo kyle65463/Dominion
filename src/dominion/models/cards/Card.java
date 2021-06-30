@@ -6,6 +6,7 @@ import dominion.core.GameManager;
 import dominion.models.areas.GameScene;
 import dominion.models.HasUi;
 import dominion.models.cards.treasures.Treasure;
+import dominion.models.handlers.CardNextMoveHandler;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +33,7 @@ public abstract class Card implements HasUi, Cloneable {
     protected boolean isEnableUi = false;
     protected CardController uiController;
     protected FullCardController descriptionController;
+    protected CardNextMoveHandler nextMoveHandler = ()->{};
 
     public enum Expansion {
         Dominion,
@@ -97,6 +99,19 @@ public abstract class Card implements HasUi, Cloneable {
         }
         isEnableUi = true;
     }
+
+    public void setCardNextMove(CardNextMoveHandler handler) {
+        this.nextMoveHandler = handler;
+    }
+
+    public void clearCardNextMove() {
+        this.nextMoveHandler = null;
+    }
+
+    public void doNextMove() {
+        this.nextMoveHandler.perform();
+    }
+
 
     public void flipToBack() {
         if (isEnableUi) {
