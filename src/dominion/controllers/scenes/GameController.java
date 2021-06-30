@@ -160,7 +160,6 @@ public class GameController extends SceneController {
 
         // Set up game manager
         GameManager.initialize(players, applicationPlayer, connection, majorPurchaseArea, minorPurchaseArea);
-
         // Run the game
         Game game = new Game();
         Thread gameThread = new Thread(game);
@@ -169,6 +168,13 @@ public class GameController extends SceneController {
             player.setActionBarStatus("等待其他玩家的回合", "");
             player.reset();
         }
+
+        stage.setOnCloseRequest(e->{
+            GameManager.getApplicationPlayer().getUser().leave();
+
+        });
+
+
         gameThread.start();
     }
 

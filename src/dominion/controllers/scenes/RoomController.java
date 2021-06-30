@@ -86,6 +86,7 @@ public class RoomController extends SceneController {
             startGameButton.setVisible(false);
             startGameButton.setDisable(true);
         }
+        stage.setOnCloseRequest(e->System.out.println("halloo"));
     }
 
     public void receiveMessage(String message) {
