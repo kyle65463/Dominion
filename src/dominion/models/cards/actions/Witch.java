@@ -13,7 +13,7 @@ import dominion.models.cards.CardTypes;
 public class Witch extends Card implements Action, Attack {
     public Witch() {
         name = "女巫";
-        description = "";
+        description = "+2 卡片\n\n其他人獲得一張詛咒。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 5;

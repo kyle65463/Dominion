@@ -12,7 +12,7 @@ public class Cellar extends Card implements Action, HasSelection {
     // Constructor
     public Cellar() {
         name = "地窖";
-        description = "+1行動\n棄掉任意張數的卡牌，抽取相同數量的卡牌。";
+        description = "+1 行動\n\n棄掉任意張數的卡牌，抽取相同數量的卡牌。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 2;

@@ -12,7 +12,9 @@ import dominion.models.events.game.InterActiveEvent;
 import dominion.models.player.DisplayedCard;
 import dominion.models.player.Player;
 import dominion.utils.VoicePlayer;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.util.Duration;
 
 import java.util.*;
 import java.util.concurrent.locks.Condition;
@@ -149,8 +151,8 @@ public class GameManager {
         }
         Player finalWinner = winner;
         Platform.runLater(() -> {
-            WinnerDialog.setWinner(finalWinner.getName());
             GameScene.disable();
+            WinnerDialog.setWinner(finalWinner.getName());
             setCurrentPhase(Phase.GameOver);
         });
     }
