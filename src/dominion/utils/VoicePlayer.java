@@ -22,8 +22,8 @@ public class VoicePlayer {
     public static int soundEffectSize;
     public static int tauntIdx = 0;
     public static int shoutIdx = 0;
-    public static double volume = 100;
-    public static double effectVolume = 100;
+    public static double volume = 50;
+    public static double effectVolume = 25;
 
 
     public static void initialize(){

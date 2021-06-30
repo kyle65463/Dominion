@@ -9,7 +9,7 @@ public class Smithy extends Card implements Action {
     // Constructor
     public Smithy() {
         name = "鐵匠";
-        description = "+3卡片";
+        description = "+3 卡片";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 4;

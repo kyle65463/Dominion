@@ -27,6 +27,7 @@ import dominion.models.player.PlayerStatus;
 import dominion.params.GameSceneParams;
 import dominion.params.SceneParams;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -58,6 +59,7 @@ public class GameController extends SceneController {
     Pane winnerBox;
     @FXML
     Label winnerLabel;
+
 
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
@@ -114,6 +116,7 @@ public class GameController extends SceneController {
             player.setDeckCards(initialCards);
             player.setFieldCards(fieldCards);
             players.add(player);
+
         }
 
         // Set up purchase areas
@@ -126,6 +129,7 @@ public class GameController extends SceneController {
             int numRemain = 10;
             if (card instanceof Victory) {
                 numRemain = 4 * players.size();
+//                numRemain = 1;
             }
             if (card instanceof Copper) {
                 numRemain = 60 - 7 * players.size();

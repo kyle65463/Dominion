@@ -13,7 +13,7 @@ import java.util.List;
 public class Militia extends Card implements Action, Attack, HasHandCardsSelection {
     public Militia() {
         name = "義勇軍";
-        description = "";
+        description = "+2 塊錢\n\n其他玩家將手牌棄到剩3張卡。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 4;
