@@ -6,8 +6,10 @@ import dominion.game.GameManager;
 import dominion.models.events.game.BuyCardEvent;
 import dominion.models.events.game.SelectDisplayedCardEvent;
 import dominion.models.game.cards.Card;
+import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+
 
 public class DisplayedCard implements HasUi {
     // Constructor
@@ -30,13 +32,24 @@ public class DisplayedCard implements HasUi {
     private boolean isEnableUi;
     private DisplayedCardController uiController;
     private FullCardController descriptionController;
+    private EventHandler originalHandler;
 
     // Functions
+
+    public void setDisplayCardEventHandler(EventHandler handler) {
+        uiController.setOnPressed(handler);
+    }
+
+    public EventHandler getOriginalHandler() {
+        return originalHandler;
+    }
+
     public void enableUi() {
         this.uiController = new DisplayedCardController(card);
         this.descriptionController = new FullCardController(card);
         setNumRemain(numRemain);
-        uiController.setOnPressed((e) -> {
+        originalHandler= (e) -> {
+            System.out.println("original handler: " + this);
             if (e instanceof MouseEvent) {
                 MouseButton button = ((MouseEvent) e).getButton();
                 if (button == MouseButton.PRIMARY) {
@@ -61,7 +74,8 @@ public class DisplayedCard implements HasUi {
                     });
                 }
             }
-        });
+        };
+        uiController.setOnPressed(originalHandler);
         isEnableUi = true;
     }
 

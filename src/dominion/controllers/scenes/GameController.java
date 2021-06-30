@@ -77,7 +77,7 @@ public class GameController {
 
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
-                initialCards.add(new Copper());
+                initialCards.add(new Artisan());
 //                initialCards.add(new Militia());
 
             }
@@ -91,8 +91,8 @@ public class GameController {
         }
 
         // Set up purchase areas
-        MajorPurchaseArea majorPurchaseArea = new MajorPurchaseArea(majorKingdomCardsBoxNode);
-        MinorPurchaseArea minorPurchaseArea = new MinorPurchaseArea(minorKingdomCardsBoxNode);
+        MajorPurchaseArea.initialize(majorKingdomCardsBoxNode);
+        MinorPurchaseArea.initialize(minorKingdomCardsBoxNode);
         List<DisplayedCard> majorKingdomCards = new ArrayList<>();
         List<DisplayedCard> minorKingdomCards = new ArrayList<>();
 
@@ -109,7 +109,7 @@ public class GameController {
         majorKingdomCards.add(new DisplayedCard(new Village(), 10, applicationPlayer, 14));
         majorKingdomCards.add(new DisplayedCard(new MoneyLender(), 10, applicationPlayer, 15));
         majorKingdomCards.add(new DisplayedCard(new Gardens(), 4 * users.size(), applicationPlayer, 16));
-        majorPurchaseArea.setDisplayedCards(majorKingdomCards);
+        MajorPurchaseArea.setDisplayedCards(majorKingdomCards);
 
         // Scores
         minorKingdomCards.add(new DisplayedCard(new Province(), 4 * users.size(), applicationPlayer, 0));
@@ -119,10 +119,10 @@ public class GameController {
         minorKingdomCards.add(new DisplayedCard(new Estate(), 4 * users.size(), applicationPlayer, 2));
         minorKingdomCards.add(new DisplayedCard(new Copper(), 60 - 7 * users.size(), applicationPlayer, 6));
         minorKingdomCards.add(new DisplayedCard(new Curse(), 10 * (users.size() - 1), applicationPlayer, 3));
-        minorPurchaseArea.setDisplayedCards(minorKingdomCards);
+        MinorPurchaseArea.setDisplayedCards(minorKingdomCards);
 
         // Set up game manager
-        GameManager.initialize(players, applicationPlayer, connection, majorPurchaseArea, minorPurchaseArea);
+        GameManager.initialize(players, applicationPlayer, connection);
 
         // Run the game
         Game game = new Game();

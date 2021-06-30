@@ -14,9 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class GameManager {
     // Constructor
-    public static void initialize(List<Player> players, Player applicationPlayer,
-                                  Connection connection,
-                                  MajorPurchaseArea majorPurchaseArea, MinorPurchaseArea minorPurchaseArea) {
+    public static void initialize(List<Player> players, Player applicationPlayer, Connection connection ) {
         phases.push(Phase.Reset);
         GameManager.players = players;
         Collections.sort(players, (a, b) -> a.getId() - b.getId());
@@ -27,8 +25,6 @@ public class GameManager {
             });
         });
         GameManager.connection = connection;
-        GameManager.majorPurchaseArea = majorPurchaseArea;
-        GameManager.minorPurchaseArea = minorPurchaseArea;
         GameManager.applicationPlayer = applicationPlayer;
     }
 
