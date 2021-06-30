@@ -34,6 +34,9 @@ public class Poacher extends Card implements Action, HasHandCardsSelection {
             performer.setMaxSelectingCards(selectedNum);
             performer.startSelectingHandCards("選擇要棄掉的牌", id);
         } else {
+            if (decreaseNumActions) {
+                performer.decreaseNumActions();
+            }
             doNextMove();
         }
     }
@@ -47,7 +50,6 @@ public class Poacher extends Card implements Action, HasHandCardsSelection {
         if(decreaseNumActions) {
             performer.decreaseNumActions();
         }
-        decreaseNumActions = true;
         doNextMove();
     }
 }
