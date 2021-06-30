@@ -26,13 +26,17 @@ public abstract class Card implements HasUi, Cloneable {
     protected int numCost = 0;
     protected int numRemain = 0;
     protected int id = -1;
+    protected Expansion expansion = Expansion.Dominion;
 
     /* UI */
     protected boolean isEnableUi = false;
     protected CardController uiController;
     protected FullCardController descriptionController;
 
-    private boolean someCondition = false;
+    public enum Expansion {
+        Dominion,
+        Intrigue,
+    }
 
     // Function
     public String getStyle() {

@@ -11,16 +11,14 @@ import java.util.List;
 
 public class AttackPlayers implements Runnable {
     // Constructor
-    public AttackPlayers(Player performer, Attack attackCard, Boolean decreaseNumActions) {
+    public AttackPlayers(Player performer, Attack attackCard) {
         this.performer = performer;
         this.attackCard = attackCard;
-        this.decreaseNumActions = decreaseNumActions;
     }
 
     // Variables
-    private Boolean decreaseNumActions;
-    private Player performer;
-    private Attack attackCard;
+    private final Player performer;
+    private final Attack attackCard;
 
     // Functions
     @Override
@@ -56,10 +54,6 @@ public class AttackPlayers implements Runnable {
         Platform.runLater(() -> {
             performer.recoverStatus();
             attackCard.performAfterAttack(performer);
-            if (decreaseNumActions) {
-                performer.decreaseNumActions();
-            }
-            performer.checkActionCardsAndEndPlayingActionPhase();
         });
     }
 }

@@ -13,7 +13,6 @@ import dominion.models.areas.MinorPurchaseArea;
 import dominion.models.areas.WinnerDialog;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardList;
-import dominion.models.cards.actions.Artisan;
 import dominion.models.cards.curses.Curses;
 import dominion.models.cards.treasures.Copper;
 import dominion.models.cards.treasures.Gold;
@@ -27,7 +26,6 @@ import dominion.models.player.PlayerStatus;
 import dominion.params.GameSceneParams;
 import dominion.params.SceneParams;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -80,8 +78,6 @@ public class GameController extends SceneController {
         WinnerDialog.initialize(winnerBox, winnerLabel);
         LogBox.initialize(scrollPane, messageBoxNode);
 
-//        VoiceController vc = new VoiceController();
-//        GameScene.add(vc);
         ChoiceBoxController c = new ChoiceBoxController();
         GameScene.add(c);
         SettingButtonController s = new SettingButtonController();
@@ -113,6 +109,7 @@ public class GameController extends SceneController {
             for (int i = 0; i < 3; i++) {
                 initialCards.add(new Estate());
             }
+
             player.setDeckCards(initialCards);
             player.setFieldCards(fieldCards);
             players.add(player);
