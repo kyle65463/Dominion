@@ -5,6 +5,7 @@ import dominion.models.areas.LogBox;
 import dominion.models.player.DisplayedCard;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
+import dominion.utils.VoicePlayer;
 
 public class BuyCardEvent extends GameEvent{
     // Constructor
@@ -35,10 +36,10 @@ public class BuyCardEvent extends GameEvent{
 
                         LogBox.logBuyCard(player, newCard);
                         if(GameManager.getApplicationPlayer().getId() == GameManager.getCurrentPlayer().getId())
-                            Voice.playEffect(2);
+                            VoicePlayer.playEffect(2);
 
                     } catch (Exception e) {
-
+                        System.out.println("error");
                     }
                 }
             }

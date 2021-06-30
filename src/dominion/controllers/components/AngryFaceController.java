@@ -1,8 +1,7 @@
 package dominion.controllers.components;
 
-import dominion.models.game.GameScene;
-import dominion.models.game.cards.Card;
-import dominion.utils.CardStyles;
+import dominion.models.cards.Card;
+import dominion.models.cards.CardStyles;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;

@@ -1,12 +1,10 @@
 package dominion.controllers.components;
 
 
-import dominion.models.game.GameScene;
-import dominion.models.game.cards.Card;
-import dominion.utils.Voice;
+import dominion.models.areas.GameScene;
+import dominion.models.cards.Card;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.Pane;
 
 public class SettingButtonController extends ComponentController{

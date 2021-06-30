@@ -1,8 +1,8 @@
 package dominion.controllers.scenes;
 
 import dominion.connections.Connection;
-import dominion.controllers.components.ShoutController;
-import dominion.controllers.components.TauntController;
+import dominion.controllers.components.ChoiceBoxController;
+import dominion.controllers.components.SettingButtonController;
 import dominion.core.Game;
 import dominion.core.GameManager;
 import dominion.models.areas.LogBox;
@@ -13,14 +13,11 @@ import dominion.models.areas.MinorPurchaseArea;
 import dominion.models.areas.WinnerDialog;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardList;
-import dominion.models.cards.curses.Curse;
 import dominion.models.cards.curses.Curses;
 import dominion.models.cards.treasures.Copper;
 import dominion.models.cards.treasures.Gold;
 import dominion.models.cards.treasures.Silver;
-import dominion.models.cards.victories.Duchy;
 import dominion.models.cards.victories.Estate;
-import dominion.models.cards.victories.Province;
 import dominion.models.cards.victories.Victory;
 import dominion.models.player.DisplayedCard;
 import dominion.models.player.FieldCards;
@@ -142,6 +139,7 @@ public class GameController extends SceneController {
                 numRemain = 10 * (players.size() - 1);
             }
             minorKingdomCards.add(new DisplayedCard(card, numRemain, applicationPlayer, id));
+            id++;
         }
         minorPurchaseArea.setDisplayedCards(minorKingdomCards);
 
@@ -153,6 +151,7 @@ public class GameController extends SceneController {
                 numRemain = 4 * players.size();
             }
             majorKingdomCards.add(new DisplayedCard(card, numRemain, applicationPlayer, id));
+            id++;
         }
         Collections.rotate(majorKingdomCards, 5);
         majorPurchaseArea.setDisplayedCards(majorKingdomCards);

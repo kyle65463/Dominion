@@ -1,8 +1,8 @@
 package dominion.models.events.game;
 
 import dominion.controllers.components.AngryFaceController;
-import dominion.game.Logger;
-import dominion.models.game.GameScene;
+import dominion.models.areas.GameScene;
+import dominion.models.areas.LogBox;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
@@ -16,7 +16,7 @@ public class EmojiEvent extends InterActiveEvent{
         AngryFaceController afc = new AngryFaceController();
         afc.setName(name);
         GameScene.add(afc);
-        Logger.addMessage(name + " 生氣了");
+        LogBox.addMessage(name + " 生氣了");
         PauseTransition deleteEmoji = new PauseTransition(Duration.seconds(2));
         deleteEmoji.setOnFinished(e->GameScene.delete(afc));
         deleteEmoji.play();

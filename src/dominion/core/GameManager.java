@@ -8,8 +8,10 @@ import dominion.models.areas.WinnerDialog;
 import dominion.models.events.Event;
 import dominion.models.events.game.GameEvent;
 import dominion.models.cards.Card;
+import dominion.models.events.game.InterActiveEvent;
 import dominion.models.player.DisplayedCard;
 import dominion.models.player.Player;
+import dominion.utils.VoicePlayer;
 import javafx.application.Platform;
 
 import java.util.*;
@@ -127,10 +129,10 @@ public class GameManager {
 
     public static void checkGameOver() {
         if (minorPurchaseArea.isGameOver()) {
-            Voice.playEffect(1);
+            VoicePlayer.playEffect(1);
             gameOver();
         } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
-            Voice.playEffect(1);
+            VoicePlayer.playEffect(1);
             gameOver();
         }
     }

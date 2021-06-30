@@ -1,10 +1,7 @@
 package dominion.models.events.game;
 
-
-import dominion.game.GameManager;
-import dominion.game.Logger;
-import dominion.models.game.Player;
-import dominion.utils.Voice;
+import dominion.models.areas.LogBox;
+import dominion.utils.VoicePlayer;
 
 public class VoicesEvent extends InterActiveEvent{
     public VoicesEvent(int sel,String playername){selection = sel;name = playername;}
@@ -12,10 +9,10 @@ public class VoicesEvent extends InterActiveEvent{
     private String name;
     @Override
     public void perform() {
-        Voice.playVoice(selection);
+        VoicePlayer.playVoice(selection);
         if(selection == 0)
-            Logger.addMessage(name + " 發出了嘲諷");
+            LogBox.addMessage(name + " 發出了嘲諷");
         else
-            Logger.addMessage(name + " 發出了慘叫");
+            LogBox.addMessage(name + " 發出了慘叫");
     }
 }

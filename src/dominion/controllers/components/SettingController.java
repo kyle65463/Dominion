@@ -1,9 +1,9 @@
 package dominion.controllers.components;
 
-import dominion.models.game.GameScene;
-import dominion.models.game.cards.Card;
-import dominion.utils.CardStyles;
-import dominion.utils.Voice;
+import dominion.models.areas.GameScene;
+import dominion.models.cards.Card;
+import dominion.models.cards.CardStyles;
+import dominion.utils.VoicePlayer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -21,13 +21,13 @@ public class SettingController extends  ComponentController{
             confirmButton = (Button) rootNode.lookup("#confirmButton");
             volumeController = (Slider) rootNode.lookup("#volumeController");
             effectController = (Slider) rootNode.lookup("#effectController");
-            volumeController.setValue(Voice.getVolume());
-            effectController.setValue(Voice.getEffectVolume());
+            volumeController.setValue(VoicePlayer.getVolume());
+            effectController.setValue(VoicePlayer.getEffectVolume());
             setLayout(280,200);
             rootNode.setStyle(CardStyles.white);
             confirmButton.setOnMousePressed((e)->{
                 GameScene.delete(this);
-                Voice.setVolume(volumeController.getValue(),effectController.getValue());
+                VoicePlayer.setVolume(volumeController.getValue(),effectController.getValue());
                 GameScene.enable();
             });
 

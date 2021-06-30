@@ -1,22 +1,14 @@
 package dominion.controllers.components;
-import dominion.game.GameManager;
+import dominion.core.GameManager;
+import dominion.models.cards.Card;
 import dominion.models.events.game.EmojiEvent;
 import dominion.models.events.game.VoicesEvent;
-import dominion.models.game.GameScene;
-import dominion.models.game.Player;
-import dominion.models.game.cards.Card;
-import dominion.utils.Voice;
+import dominion.models.player.Player;
+import dominion.utils.VoicePlayer;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.Pane;
-
-import java.awt.*;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class ChoiceBoxController extends ComponentController{
     public ChoiceBoxController(){initialize();}
@@ -27,7 +19,7 @@ public class ChoiceBoxController extends ComponentController{
             rootNode = (Pane) FXMLLoader.load(Card.class.getClassLoader().getResource("resources/components/select_button.fxml"));
             choiceBox = (ChoiceBox<String>) rootNode.lookup("#choiceBox");
             setLayout(10,500);
-            Voice.initalize();
+            VoicePlayer.initialize();
             choiceBox.getItems().addAll(choices);
             choiceBox.setValue("選擇行動");
             choiceBox.setOnAction(this::choiceActivate);
