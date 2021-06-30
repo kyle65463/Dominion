@@ -19,6 +19,7 @@ import dominion.models.cards.treasures.Gold;
 import dominion.models.cards.treasures.Silver;
 import dominion.models.cards.victories.Estate;
 import dominion.models.cards.victories.Victory;
+import dominion.models.events.connections.GameLeaveEvent;
 import dominion.models.player.DisplayedCard;
 import dominion.models.player.FieldCards;
 import dominion.models.player.Player;

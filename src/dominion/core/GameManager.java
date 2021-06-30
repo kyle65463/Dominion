@@ -7,6 +7,7 @@ import dominion.models.areas.MinorPurchaseArea;
 import dominion.models.areas.WinnerDialog;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionEvent;
+import dominion.models.events.connections.LeaveEvent;
 import dominion.models.events.game.GameEvent;
 import dominion.models.cards.Card;
 import dominion.models.events.game.InterActiveEvent;
@@ -214,7 +215,7 @@ public class GameManager {
             } catch (Exception e) {
             }
             ((InterActiveEvent) event).perform();
-        }else if(event instanceof ConnectionEvent){
+        }else if(event instanceof LeaveEvent){
             try{
                 Thread.sleep(30);
             }catch (Exception e){
