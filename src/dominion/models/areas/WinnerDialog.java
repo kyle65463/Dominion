@@ -1,5 +1,6 @@
 package dominion.models.areas;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
@@ -13,6 +14,7 @@ public class WinnerDialog {
     private static Label winnerLabel;
 
     public static void setWinner(String name) {
+        GameScene.setToTop(winnerBox);
         winnerBox.setVisible(true);
         winnerLabel.setText(name);
     }

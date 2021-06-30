@@ -8,7 +8,7 @@ public class Copper extends Card implements Treasure{
     // Constructor
     public Copper() {
         name = "銅幣";
-        description = "1塊錢";
+        description = "1 塊錢";
         style = CardStyles.gold;
         type = CardTypes.treasure;
         numCost = 0;

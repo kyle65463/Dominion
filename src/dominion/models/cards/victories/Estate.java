@@ -9,7 +9,7 @@ public class Estate extends Card implements Victory{
     // Constructor
     public Estate() {
         name = "莊園";
-        description = "+1分數";
+        description = "+1 分數";
         style = CardStyles.green;
         type = CardTypes.victory;
         numCost = 2;

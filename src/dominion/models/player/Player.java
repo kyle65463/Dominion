@@ -169,10 +169,12 @@ public class Player {
 
     public List<Card> getAllCards() {
         List<Card> cards = new ArrayList<>();
+        if(fieldCards != null){
+            cards.addAll(fieldCards.getCards());
+        }
         cards.addAll(handCards.getCards());
         cards.addAll(discardPile.getCards());
         cards.addAll(deck.getCards());
-        cards.addAll(fieldCards.getCards());
         return cards;
     }
 
@@ -267,10 +269,6 @@ public class Player {
 
     public void enableLeftButton(boolean b) {
         actionBar.enableLeftButton(b);
-    }
-
-    public void clearSelectingDisplayedCards() {
-        this.selectedDisplayedCards.clear();
     }
 
     public CardSelectedHandler getCardSelectedHandler() {
@@ -444,16 +442,16 @@ public class Player {
         for (Card card : selectedCards) {
             card.removeHighlight();
         }
-        HasHandCardsSelection card = (HasHandCardsSelection) fieldCards.getCardByCardId(cardId);
-        card.performSelection(this, selectedCards);
         maxSelectedCard = Integer.MAX_VALUE;
         exactSelectingCards = 0;
         actionBar.enableRightButton(true);
         actionBar.enableLeftButton(false);
         selectingHandCardsFilter = null;
-        clearSelectedHandCards();
         recoverStatus();
 
+        HasHandCardsSelection card = (HasHandCardsSelection) fieldCards.getCardByCardId(cardId);
+        card.performSelection(this, selectedCards);
+        clearSelectedHandCards();
     }
 
     public void setSelectingHandCardsFilter(CardFilter filter) {
@@ -506,7 +504,6 @@ public class Player {
         if (exactSelectingCards > 0) {
             actionBar.enableRightButton(selectedCards.size() == exactSelectingCards);
         }
-
     }
 
     //    Select Displayed Card
@@ -536,19 +533,18 @@ public class Player {
         for (DisplayedCard displayedCard : selectedDisplayedCards) {
             displayedCard.removeHighlight();
         }
-        HasDisplayedCardsSelection card = (HasDisplayedCardsSelection) fieldCards.getCardByCardId(cardId);
         maxSelectedCard = Integer.MAX_VALUE;
         exactSelectingCards = 0;
         selectingDisplayedCardsFilter = null;
         actionBar.enableRightButton(true);
         actionBar.enableLeftButton(false);
-        card.performDisplayedSelection(this, selectedDisplayedCards);
-        clearSelectingDisplayedCards();
         PurchaseArea.setDisplayedCardSelectedHandler((displayedCard) -> {
             displayedCard.setDisplayCardEventHandler(displayedCard.getOriginalHandler());
         });
-        clearSelectedDisplayedCards();
         recoverStatus();
+        HasDisplayedCardsSelection card = (HasDisplayedCardsSelection) fieldCards.getCardByCardId(cardId);
+        card.performDisplayedSelection(this, selectedDisplayedCards);
+        clearSelectedDisplayedCards();
     }
 
     public void selectDisplayedCard(int displayedCardId) {
@@ -574,7 +570,6 @@ public class Player {
         if (exactSelectingCards > 0) {
             actionBar.enableRightButton(selectedDisplayedCards.size() == exactSelectingCards);
         }
-
     }
 
     public void receiveNewCardOnDeck(Card card) {

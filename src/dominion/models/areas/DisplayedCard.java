@@ -111,6 +111,7 @@ public class DisplayedCard implements HasUi {
         try {
             Card card = getCard();
             Card newCard = (Card) card.clone();
+            newCard.setId();
             newCard.setNumRemain(1);
             return newCard;
         }

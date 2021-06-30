@@ -59,6 +59,7 @@ public class GameController extends SceneController {
     @FXML
     Label winnerLabel;
 
+
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
         // Unpack parameters
@@ -78,8 +79,6 @@ public class GameController extends SceneController {
         WinnerDialog.initialize(winnerBox, winnerLabel);
         LogBox.initialize(scrollPane, messageBoxNode);
 
-//        VoiceController vc = new VoiceController();
-//        GameScene.add(vc);
         ChoiceBoxController c = new ChoiceBoxController();
         GameScene.add(c);
         SettingButtonController s = new SettingButtonController();
@@ -113,9 +112,11 @@ public class GameController extends SceneController {
 //                initialCards.add(new Estate());
                 initialCards.add(new Cellar());
             }
+
             player.setDeckCards(initialCards);
             player.setFieldCards(fieldCards);
             players.add(player);
+
         }
 
         // Set up purchase areas

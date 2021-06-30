@@ -13,15 +13,18 @@ import java.util.List;
 public class Militia extends Card implements Action, Attack, HasHandCardsSelection {
     public Militia() {
         name = "義勇軍";
-        description = "";
+        description = "+2 塊錢\n\n其他玩家將手牌棄到剩3張卡。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 4;
     }
 
+    boolean decreaseNumActions = true;
+
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        Thread thread = new Thread(new AttackPlayers(performer, this, decreaseNumActions));
+        this.decreaseNumActions = decreaseNumActions;
+        Thread thread = new Thread(new AttackPlayers(performer, this));
         thread.start();
     }
 
@@ -45,5 +48,10 @@ public class Militia extends Card implements Action, Attack, HasHandCardsSelecti
     @Override
     public void performAfterAttack(Player performer) {
         performer.increaseNumCoins(2);
+
+        if (decreaseNumActions) {
+            performer.decreaseNumActions();
+        }
+        performer.checkActionCardsAndEndPlayingActionPhase();
     }
 }

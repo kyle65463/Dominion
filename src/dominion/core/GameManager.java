@@ -1,6 +1,8 @@
 package dominion.core;
 
 import dominion.connections.Connection;
+import dominion.controllers.components.ReturnRoomController;
+import dominion.controllers.scenes.RoomController;
 import dominion.models.areas.GameScene;
 import dominion.models.areas.MajorPurchaseArea;
 import dominion.models.areas.MinorPurchaseArea;
@@ -12,7 +14,9 @@ import dominion.models.events.game.InterActiveEvent;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.player.Player;
 import dominion.utils.VoicePlayer;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.util.Duration;
 
 import java.util.*;
 import java.util.concurrent.locks.Condition;
@@ -34,6 +38,9 @@ public class GameManager {
         });
         GameManager.connection = connection;
         GameManager.applicationPlayer = applicationPlayer;
+        System.out.println(currentPlayer);
+        System.out.println(GameManager.applicationPlayer);
+
     }
 
     // Variables
@@ -124,14 +131,17 @@ public class GameManager {
         currentPlayer = players.get((currentPlayerIndex + 1) % players.size());
     }
 
-    public static void checkGameOver() {
+    public static boolean checkGameOver() {
         if (minorPurchaseArea.isGameOver()) {
             VoicePlayer.playEffect(1);
             gameOver();
+            return true;
         } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
             VoicePlayer.playEffect(1);
             gameOver();
+            return true;
         }
+        return false;
     }
 
     private static void gameOver() {
@@ -146,10 +156,13 @@ public class GameManager {
         }
         Player finalWinner = winner;
         Platform.runLater(() -> {
-            WinnerDialog.setWinner(finalWinner.getName());
             GameScene.disable();
+            WinnerDialog.setWinner(finalWinner.getName());
             setCurrentPhase(Phase.GameOver);
         });
+        PauseTransition returnRoom = new PauseTransition(Duration.seconds(3));
+        returnRoom.setOnFinished(e-> ReturnRoomController.navigateToRoomScene());
+        returnRoom.play();
     }
 
     // Random seed

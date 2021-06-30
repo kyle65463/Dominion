@@ -8,7 +8,7 @@ public class Silver extends Card implements Treasure{
     // Constructor
     public Silver() {
         name = "銀幣";
-        description = "+2塊錢";
+        description = "2 塊錢";
         style = CardStyles.gold;
         type = CardTypes.treasure;
         numCost = 3;

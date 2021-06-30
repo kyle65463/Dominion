@@ -13,15 +13,18 @@ import dominion.models.cards.CardTypes;
 public class Witch extends Card implements Action, Attack {
     public Witch() {
         name = "女巫";
-        description = "";
+        description = "+2 卡片\n\n其他人獲得一張詛咒。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 5;
     }
 
+    boolean decreaseNumActions;
+
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        Thread thread = new Thread(new AttackPlayers(performer, this, decreaseNumActions));
+        this.decreaseNumActions = decreaseNumActions;
+        Thread thread = new Thread(new AttackPlayers(performer, this));
         thread.start();
     }
 
@@ -39,5 +42,9 @@ public class Witch extends Card implements Action, Attack {
     @Override
     public void performAfterAttack(Player performer) {
         performer.drawCards(2);
+        if (decreaseNumActions) {
+            performer.decreaseNumActions();
+        }
+        performer.checkActionCardsAndEndPlayingActionPhase();
     }
 }

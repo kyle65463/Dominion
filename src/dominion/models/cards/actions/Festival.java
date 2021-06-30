@@ -9,7 +9,7 @@ public class Festival extends Card implements Action {
     // Constructor
     public Festival() {
         name = "慶典";
-        description = "+2行動\n+1購買\n+2塊錢";
+        description = "+2 行動\n+1 購買\n+2 塊錢";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 5;
