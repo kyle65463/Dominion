@@ -27,6 +27,8 @@ public abstract class ConnectToRoomController {
     @FXML
     protected TextField nameField;
     @FXML
+    protected TextField portField;
+    @FXML
     protected TextField ipField;
 
     // Variables
@@ -38,7 +40,7 @@ public abstract class ConnectToRoomController {
     public void setName(String name) {
         nameField.setText(name);
     }
-
+    public void setPort(String port){portField.setText(port);}
     public void cancel(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("resources/scenes/main.fxml"));
@@ -57,6 +59,7 @@ public abstract class ConnectToRoomController {
             connection.setIp(ipField.getText());
         }
         connection.setName(nameField.getText());
+        connection.setPort(portField.getText());
         connection.setEventHandler((event) -> Platform.runLater(() -> handleEvent(event, actionEvent)));
         Thread connectionThread = new Thread(connection);
         connectionThread.start();

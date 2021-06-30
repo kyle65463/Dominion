@@ -8,5 +8,6 @@ public class CreateRoomController extends ConnectToRoomController {
     public void initialize() {
         connection = new Server();
         nameField.setText("host");
+        portField.setText("1234");
     }
 }

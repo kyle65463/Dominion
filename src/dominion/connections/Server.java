@@ -19,7 +19,8 @@ public class Server extends Connection {
 
     public void run() {
         try {
-            ServerSocket server = new ServerSocket(12478);
+            ServerSocket server = new ServerSocket(Integer. valueOf(port));
+            System.out.println(port);
             User user = new User(0, name);
             users.add(user);
             myEventHandler.handle(new ConnectionAccepted(user, users));

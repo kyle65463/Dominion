@@ -42,5 +42,11 @@
             <Font size="24.0" />
          </font>
       </Label>
+      <TextField fx:id="portField" layoutX="132.0" layoutY="125.0" prefHeight="23.0" prefWidth="334.0" />
+      <Label layoutX="133.0" layoutY="96.0" text="Port">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

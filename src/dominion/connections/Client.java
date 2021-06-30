@@ -12,7 +12,7 @@ public class Client extends Connection {
 
     public void run() {
         try {
-            Socket client = new Socket(ip, 12478);
+            Socket client = new Socket(ip, Integer.valueOf(port));
             sender = new ActionSender(client);
             receiver = new ActionReceiver(client, myEventHandler);
             receiver.start();

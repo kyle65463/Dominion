@@ -16,6 +16,7 @@ public class MainController {
 
     // Variables
     private String name;
+    private String port;
 
     // Functions
     public void setName(String name) {
@@ -28,6 +29,7 @@ public class MainController {
             Parent root = loader.load();
             CreateRoomController createRoomController = loader.getController();
             createRoomController.setName(name);
+            createRoomController.setPort(port);
             Navigator.to(event, root);
         }
         catch (Exception e) {
@@ -41,6 +43,7 @@ public class MainController {
             Parent root = loader.load();
             EnterRoomController enterRoomController = loader.getController();
             enterRoomController.setName(name);
+            enterRoomController.setPort(port);
             Navigator.to(event, root);
         }
         catch (Exception e) {
