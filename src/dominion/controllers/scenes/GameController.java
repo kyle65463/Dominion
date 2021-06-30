@@ -105,12 +105,12 @@ public class GameController extends SceneController {
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
 //                initialCards.add(new Copper());
-                initialCards.add(new Poacher());
+                initialCards.add(new Merchant());
 
             }
             for (int i = 0; i < 3; i++) {
 //                initialCards.add(new Estate());
-                initialCards.add(new Cellar());
+                initialCards.add(new Silver());
             }
 
             player.setDeckCards(initialCards);
