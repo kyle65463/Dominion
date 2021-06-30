@@ -3,7 +3,7 @@ package dominion.game;
 import dominion.connections.Connection;
 import dominion.models.events.Event;
 import dominion.models.events.game.GameEvent;
-import dominion.models.events.game.VoiceEvent;
+import dominion.models.events.game.InterActiveEvent;
 import dominion.models.game.*;
 import dominion.models.game.cards.Card;
 import dominion.utils.Voice;
@@ -180,7 +180,7 @@ public class GameManager {
             if (((GameEvent) event).getPlayerId() == applicationPlayer.getId()) {
                 connection.send(event);
             }
-        }else if(event instanceof VoiceEvent){
+        }else if(event instanceof InterActiveEvent){
             connection.send(event);
         }
     }
@@ -194,13 +194,13 @@ public class GameManager {
 
             }
             ((GameEvent) event).perform();
-        }else if(event instanceof VoiceEvent){
+        }else if(event instanceof InterActiveEvent){
             try {
                 Thread.sleep(30);
             } catch (Exception e) {
 
             }
-            ((VoiceEvent) event).perform();
+            ((InterActiveEvent) event).perform();
         }
     }
 }

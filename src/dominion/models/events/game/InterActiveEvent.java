@@ -2,9 +2,9 @@ package dominion.models.events.game;
 
 import dominion.models.events.Event;
 
-public abstract class VoiceEvent extends Event {
+public abstract class InterActiveEvent extends Event {
     // Constructor
-    public VoiceEvent() { }
+    public InterActiveEvent() { }
 
     public abstract void perform();
 }

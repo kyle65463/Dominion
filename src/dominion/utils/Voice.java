@@ -23,6 +23,9 @@ public class Voice {
     public static int soundEffectSize;
     public static int tauntidx = 0;
     public static int shoutidx = 0;
+    public static double volume = 100;
+    public static double effectVolume = 100;
+
 //    public static int soundEffectidx = 0;
 
     public static void initalize(){
@@ -76,6 +79,7 @@ public class Voice {
             return;
         }
         mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(volume * 0.01);
         mediaPlayer.play();
         System.out.println("playVoice");
     }
@@ -84,8 +88,13 @@ public class Voice {
             return;
         media = new Media(soundEffects.get(idx).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(effectVolume * 0.01);
         mediaPlayer.play();
         if(idx == 2)
             System.out.println("playEffect");
     }
+    public static void setVolume(double v,double vv){volume = v;effectVolume = vv;}
+    public static double getVolume(){return volume;}
+    public static double getEffectVolume(){return effectVolume;}
+
 }

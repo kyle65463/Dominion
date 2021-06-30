@@ -1,7 +1,9 @@
 package dominion.controllers.scenes;
 
 import dominion.connections.Connection;
-import dominion.controllers.components.VoiceController;
+import dominion.controllers.components.ChoiceBoxController;
+//import dominion.controllers.components.VoiceController;
+import dominion.controllers.components.SettingButtonController;
 import dominion.game.Game;
 import dominion.game.GameManager;
 import dominion.game.Logger;
@@ -57,8 +59,12 @@ public class GameController {
         WinnerDialog.initialize(winnerBox, winnerLabel);
         Logger.initialize(scrollPane, messageBoxNode);
 
-        VoiceController vb = new VoiceController();
-        GameScene.add(vb);
+//        VoiceController vc = new VoiceController();
+//        GameScene.add(vc);
+        ChoiceBoxController c = new ChoiceBoxController();
+        GameScene.add(c);
+        SettingButtonController s = new SettingButtonController();
+        GameScene.add(s);
 
         // Set up players
         Player applicationPlayer = new Player(applicationUser);

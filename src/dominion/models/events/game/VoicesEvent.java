@@ -6,7 +6,7 @@ import dominion.game.Logger;
 import dominion.models.game.Player;
 import dominion.utils.Voice;
 
-public class VoicesEvent extends VoiceEvent{
+public class VoicesEvent extends InterActiveEvent{
     public VoicesEvent(int sel,String playername){selection = sel;name = playername;}
     private int selection;
     private String name;
