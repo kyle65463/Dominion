@@ -9,7 +9,6 @@ import dominion.models.events.Event;
 import dominion.models.events.game.GameEvent;
 import dominion.models.cards.Card;
 import dominion.models.events.game.InterActiveEvent;
-import dominion.models.player.DisplayedCard;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.player.Player;
 import dominion.utils.VoicePlayer;

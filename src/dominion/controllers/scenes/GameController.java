@@ -13,15 +13,13 @@ import dominion.models.areas.MinorPurchaseArea;
 import dominion.models.areas.WinnerDialog;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardList;
+import dominion.models.cards.actions.Artisan;
 import dominion.models.cards.curses.Curses;
 import dominion.models.cards.treasures.Copper;
 import dominion.models.cards.treasures.Gold;
 import dominion.models.cards.treasures.Silver;
 import dominion.models.cards.victories.Estate;
 import dominion.models.cards.victories.Victory;
-import dominion.models.player.DisplayedCard;
-import dominion.models.cards.victories.Gardens;
-import dominion.models.cards.victories.Province;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.player.FieldCards;
 import dominion.models.player.Player;
@@ -107,7 +105,7 @@ public class GameController extends SceneController {
 
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
-                initialCards.add(new Copper());
+                initialCards.add(new Artisan());
 
             }
             for (int i = 0; i < 3; i++) {
@@ -144,7 +142,7 @@ public class GameController extends SceneController {
             minorKingdomCards.add(new DisplayedCard(card, numRemain, applicationPlayer, id));
             id++;
         }
-        minorPurchaseArea.setDisplayedCards(minorKingdomCards);
+        MinorPurchaseArea.setDisplayedCards(minorKingdomCards);
 
         List<Card> enabledCards = randomSelectCards(allEnabledCards, 10);
         enabledCards.sort((a, b) -> a.getNumCost() - b.getNumCost());
@@ -157,7 +155,7 @@ public class GameController extends SceneController {
             id++;
         }
         Collections.rotate(majorKingdomCards, 5);
-        majorPurchaseArea.setDisplayedCards(majorKingdomCards);
+        MajorPurchaseArea.setDisplayedCards(majorKingdomCards);
 
         // Set up game manager
         GameManager.initialize(players, applicationPlayer, connection);

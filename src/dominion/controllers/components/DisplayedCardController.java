@@ -2,7 +2,7 @@ package dominion.controllers.components;
 
 import dominion.models.areas.DisplayedCard;
 import dominion.models.cards.Card;
-import dominion.utils.CardStyles;
+import dominion.models.cards.CardStyles;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;

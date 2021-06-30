@@ -44,7 +44,8 @@ public class CardList {
                 new Smithy(),
                 new ThroneRoom(),
                 new Village(),
-                new Witch()
+                new Witch(),
+                new Artisan()
         ));
         setCardIds(dominionCards);
     }

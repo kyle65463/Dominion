@@ -2,8 +2,8 @@ package dominion.controllers.scenes;
 
 import dominion.connections.Connection;
 import dominion.models.User;
+import dominion.models.areas.DisplayedCard;
 import dominion.models.cards.CardList;
-import dominion.models.player.DisplayedCard;
 import dominion.params.GameSettingsSceneParams;
 import dominion.params.RoomSceneParams;
 import dominion.params.SceneParams;

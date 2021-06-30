@@ -3,11 +3,11 @@ package dominion.models.cards.actions;
 import dominion.core.GameManager;
 import dominion.models.areas.PurchaseArea;
 import dominion.models.cards.Card;
+import dominion.models.cards.CardStyles;
+import dominion.models.cards.CardTypes;
 import dominion.models.events.game.*;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.player.Player;
-import dominion.utils.CardStyles;
-import dominion.utils.CardTypes;
 
 import java.util.List;
 

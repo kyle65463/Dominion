@@ -67,6 +67,7 @@ public class Game implements Runnable {
                 List<Card> cards = GameManager.getCurrentPlayer().getHandCards();
                 if (cards.stream().anyMatch(card -> card instanceof Treasure)) {
                     currentPlayer.enableLeftButton(true);
+                    currentPlayer.setActionBarLeftButtonText("自動打出錢幣卡");
                     currentPlayer.setActionBarLeftButtonHandler((e) -> {
                         List<Card> handCards= GameManager.getCurrentPlayer().getHandCards();
                         for (Card card : handCards) {
