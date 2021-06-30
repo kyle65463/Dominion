@@ -7,6 +7,7 @@ import dominion.models.HasUi;
 import dominion.models.areas.GameScene;
 import dominion.models.events.game.BuyCardEvent;
 import dominion.models.events.game.SelectDisplayedCardEvent;
+import dominion.models.handlers.DisplayedCardSelectedHandler;
 import dominion.models.player.Player;
 import javafx.event.EventHandler;
 import dominion.models.cards.Card;
@@ -19,7 +20,7 @@ public class DisplayedCard implements HasUi {
         this.card = card;
         this.numRemain = -1;
         card.disableUi();
-        enableUi();
+        enableUi(true);
     }
 
     public DisplayedCard(Card card, int numRemain, Player player, int id) {
@@ -30,7 +31,7 @@ public class DisplayedCard implements HasUi {
         card.disableUi();
 
         // Impossible with no ui
-        enableUi();
+        enableUi(false);
     }
 
     // Variables
@@ -44,7 +45,6 @@ public class DisplayedCard implements HasUi {
     private EventHandler originalHandler;
 
     // Functions
-
     public void setDisplayCardEventHandler(EventHandler handler) {
         uiController.setOnPressed(handler);
     }
@@ -65,26 +65,26 @@ public class DisplayedCard implements HasUi {
         }
     }
 
-    public void enableUi() {
+    public void enableUi(boolean inSettings) {
         this.uiController = new DisplayedCardController(card);
-        this.descriptionController = new FullCardController(card);
+        this.descriptionController = new FullCardController(card, inSettings);
         setNumRemain(numRemain);
         originalHandler= (e) -> {
             if (e instanceof MouseEvent) {
                 MouseButton button = ((MouseEvent) e).getButton();
-                if (button == MouseButton.PRIMARY) {
+                if (button == MouseButton.PRIMARY && player != null) {
                     if(GameManager.getCurrentPhase() == GameManager.Phase.BuyingCards) {
                         GameManager.sendEvent(new BuyCardEvent(player.getId(), id));
                     }
                     else if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
                         GameManager.sendEvent(new SelectDisplayedCardEvent(player.getId(), id));
                     }
-                } else if (button == MouseButton.SECONDARY && GameScene.isDisplayingDescription == false) {
+                } else if (button == MouseButton.SECONDARY && !GameScene.isDisplayingDescription) {
                     displayDescription();
                     GameScene.isDisplayingDescription = true;
                     GameScene.setOnPressed((e1)->{
                         if(e1 instanceof MouseEvent){
-                            if(((MouseEvent) e1).getButton() == MouseButton.PRIMARY &&  GameScene.isDisplayingDescription == true) {
+                            if(((MouseEvent) e1).getButton() == MouseButton.PRIMARY && GameScene.isDisplayingDescription) {
                                 hideDescription();
                                 GameScene.isDisplayingDescription = false;
                                 GameScene.setOnPressed((ee) -> {
@@ -125,6 +125,14 @@ public class DisplayedCard implements HasUi {
         return uiController;
     }
 
+    public void setDisable(boolean b) {
+        uiController.setDisable(b);
+    }
+
+    public boolean getDisable(){
+        return uiController.getDisable();
+    }
+
     public void displayDescription(){
         GameScene.disable();
         GameScene.add(descriptionController);
@@ -135,13 +143,13 @@ public class DisplayedCard implements HasUi {
         descriptionController.deleteOnScene();
     }
 
-    public void setOnPressed(EventHandler eventHandler) {
+    public void setOnPressed(DisplayedCardSelectedHandler handler) {
         if (isEnableUi) {
             uiController.setOnPressed((e)->{
                 if (e instanceof MouseEvent) {
                     MouseButton button = ((MouseEvent)e).getButton();
                     if (button == MouseButton.PRIMARY && !GameScene.isDisplayingDescription) {
-                        eventHandler.handle(e);
+                        handler.onSelected(this);
                     } else if (button == MouseButton.SECONDARY && !GameScene.isDisplayingDescription) {
                         displayDescription();
                         GameScene.isDisplayingDescription = true;

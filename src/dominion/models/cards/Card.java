@@ -89,7 +89,7 @@ public abstract class Card implements HasUi, Cloneable {
             }
         }
         if (descriptionController == null) {
-            descriptionController = new FullCardController(this);
+            descriptionController = new FullCardController(this, false);
         }
         isEnableUi = true;
     }

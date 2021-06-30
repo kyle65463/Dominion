@@ -21,6 +21,7 @@ public class DisplayedCardController extends ComponentController{
     private Label numRemainLabel;
     private Label numCostLabel;
     private StackPane numRemainedBox;
+    private boolean isDisable = false;
 
     // Functions
     public void setNumRemain(int numRemain) {
@@ -46,6 +47,20 @@ public class DisplayedCardController extends ComponentController{
 
     public void removeHighlight() {
         setStyle();
+    }
+
+    public void setDisable(boolean b) {
+        isDisable = b;
+        if(isDisable) {
+            rootNode.setStyle("-fx-opacity: 0.4;" + card.getStyle());
+        }
+        else{
+            setStyle();
+        }
+    }
+
+    public boolean getDisable() {
+        return isDisable;
     }
 
     private void setName(String name) {

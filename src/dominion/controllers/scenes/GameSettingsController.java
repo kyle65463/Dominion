@@ -3,6 +3,7 @@ package dominion.controllers.scenes;
 import dominion.connections.Connection;
 import dominion.models.User;
 import dominion.models.areas.DisplayedCard;
+import dominion.models.areas.GameScene;
 import dominion.models.cards.CardList;
 import dominion.params.GameSettingsSceneParams;
 import dominion.params.RoomSceneParams;
@@ -14,10 +15,14 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GameSettingsController extends SceneController {
     // FXML
+    @FXML
+    private AnchorPane rootNode;
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -31,7 +36,7 @@ public class GameSettingsController extends SceneController {
     private List<User> users;
     private Connection connection;
     private List<Integer> basicCardIds;
-    private List<Integer> allEnabledCardIds;
+    private Set<Integer> allEnabledCardIds;
 
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
@@ -42,8 +47,8 @@ public class GameSettingsController extends SceneController {
         this.users = params.users;
         this.connection = params.connection;
         this.basicCardIds = params.basicCardIds;
-        this.allEnabledCardIds = params.allEnabledCardIds;
-        allEnabledCardIds.clear();
+        this.allEnabledCardIds = new HashSet<>(params.allEnabledCardIds);
+        GameScene.initialize(rootNode);
 
         List<DisplayedCard> dominionCards = new ArrayList<>(CardList.getDominionCardList().stream().map(DisplayedCard::new).toList());
         dominionCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
@@ -59,9 +64,23 @@ public class GameSettingsController extends SceneController {
         }
         for (int i = 0; i < dominionCards.size(); i++) {
             DisplayedCard displayedCard = dominionCards.get(i);
+            Integer cardId = CardList.getCardId(displayedCard.getCard());
+            if(!allEnabledCardIds.contains(cardId)){
+                displayedCard.setDisable(true);
+            }
             displayedCard.getController().setScale(0.7);
+            displayedCard.setOnPressed((card) -> {
+                boolean isDisable = !card.getDisable();
+                System.out.println(card);
+                if(isDisable) {
+                    allEnabledCardIds.remove(cardId);
+                }
+                else{
+                    allEnabledCardIds.add(cardId);
+                }
+                card.setDisable(isDisable);
+            });
             gridPane.add(displayedCard.getController().getRootNode(), i % numCols, i / numCols);
-            allEnabledCardIds.add(CardList.getCardId(displayedCard.getCard()));
         }
     }
 
@@ -72,7 +91,7 @@ public class GameSettingsController extends SceneController {
     public void navigateToRoomScene() {
         RoomSceneParams parameters = new RoomSceneParams(
                 applicationUser, users, connection,
-                basicCardIds, allEnabledCardIds
+                basicCardIds, new ArrayList<>(allEnabledCardIds)
         );
         Navigator.to(stage, "resources/scenes/room.fxml", parameters);
     }

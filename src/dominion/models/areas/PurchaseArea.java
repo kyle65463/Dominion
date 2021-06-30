@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PurchaseArea {
-    private static DisplayedCardSelectedHandler displayedCardSelectedHandler = (displayedCard -> {});
+    private static DisplayedCardSelectedHandler displayedCardSelectedHandler = (displayedCard -> {
+    });
 
     public static List<DisplayedCard> getDisplayedCards() {
         return Stream.concat(MajorPurchaseArea.getDisplayedCards().stream(),
@@ -34,11 +35,10 @@ public class PurchaseArea {
         return null;
     }
 
-
     public static int getNumNoneRemained() {
         int numNoneRemained = 0;
-        for(DisplayedCard displayedCard : getDisplayedCards()){
-            if(displayedCard.getNumRemain() == 0){
+        for (DisplayedCard displayedCard : getDisplayedCards()) {
+            if (displayedCard.getNumRemain() == 0) {
                 numNoneRemained++;
             }
         }
@@ -48,19 +48,21 @@ public class PurchaseArea {
     public static void setDisplayedCardSelectedHandler(DisplayedCardSelectedHandler handler) {
         PurchaseArea.displayedCardSelectedHandler = handler;
         for (DisplayedCard displayedCard : getDisplayedCards()) {
-            displayedCard.setOnPressed((e)->{
-                PurchaseArea.displayedCardSelectedHandler.onSelected(displayedCard);
-            });
+            displayedCard.setOnPressed(
+                    PurchaseArea.displayedCardSelectedHandler
+            );
         }
-     }
+    }
 
-     public static void rearrange() {
+    public static void rearrange() {
         for (DisplayedCard displayedCard : getDisplayedCards()) {
             displayedCard.removeHighlight();
         }
-     }
+    }
 
 
     // Functions
-    public static boolean isGameOver() { return MinorPurchaseArea.isGameOver(); }
+    public static boolean isGameOver() {
+        return MinorPurchaseArea.isGameOver();
+    }
 }

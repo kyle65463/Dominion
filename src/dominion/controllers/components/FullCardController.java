@@ -8,9 +8,9 @@ import javafx.scene.layout.Pane;
 
 public class FullCardController extends ComponentController{
 
-    public FullCardController(Card card) {
+    public FullCardController(Card card, boolean inSettings) {
         this.card = card;
-        initialize();
+        initialize(inSettings);
     }
 
     public static final double width = 240;
@@ -38,7 +38,7 @@ public class FullCardController extends ComponentController{
     public void setDescriptionLabel(String description){ descriptionLabel.setText(description);}
     public String returnNameLabel(){return nameLabel.getText();}
 
-    private void initialize() {
+    private void initialize(boolean inSettings) {
         try {
             rootNode = (Pane) FXMLLoader.load(Card.class.getClassLoader().getResource("resources/components/full_card.fxml"));
             nameLabel = (Label) rootNode.lookup("#name");
@@ -50,7 +50,14 @@ public class FullCardController extends ComponentController{
             setNumCostLabel(card.getNumCost());
             setDescriptionLabel(card.getDescription());
             setStyle();
-            setLayout(400,250);
+            if(inSettings) {
+                setLayout(180, 20);
+                rootNode.setScaleX(0.7);
+                rootNode.setScaleY(0.7);
+            }
+            else{
+                setLayout(400, 250);
+            }
         } catch (Exception e) {
 
         }

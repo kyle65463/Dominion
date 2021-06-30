@@ -51,16 +51,6 @@ public class GameScene {
         setToTop(node);
     }
 
-    public static void setToBottom(ComponentController controller) {
-        Node node = controller.getRootNode();
-        if (contains(node)) {
-            ObservableList<Node> nodes = FXCollections.observableArrayList(rootNode.getChildren());
-            nodes.remove(node);
-            nodes.add(0, node);
-            rootNode.getChildren().setAll(nodes);
-        }
-    }
-
     public static void add(ComponentController controller) {
         Node node = controller.getRootNode();
         if (!contains(controller)) {

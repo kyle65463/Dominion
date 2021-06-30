@@ -18,7 +18,9 @@ public class Navigator {
             controller.initialize(stage, parameters);
 
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(Navigator.class.getClassLoader().getResource("resources/styles/game.css").toExternalForm());
+            if(fxml.contains("game.fxml")) {
+                scene.getStylesheets().add(Navigator.class.getClassLoader().getResource("resources/styles/game.css").toExternalForm());
+            }
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
