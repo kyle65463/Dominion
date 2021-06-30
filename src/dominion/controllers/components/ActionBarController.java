@@ -1,6 +1,6 @@
 package dominion.controllers.components;
 
-import dominion.models.game.GameScene;
+import dominion.models.areas.GameScene;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;

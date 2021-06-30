@@ -1,15 +1,9 @@
 package dominion.utils;
 
-import dominion.models.game.cards.Card;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
-import java.net.URL;
-import java.util.Random;
 import java.util.ArrayList;
 
 public class ShoutVoice {

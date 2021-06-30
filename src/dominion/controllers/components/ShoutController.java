@@ -1,12 +1,9 @@
 package dominion.controllers.components;
 
-import dominion.game.GameManager;
-import dominion.game.Logger;
+import dominion.core.GameManager;
 import dominion.models.events.game.ShoutEvent;
-import dominion.models.events.game.TauntEvent;
-import dominion.models.game.cards.Card;
+import dominion.models.cards.Card;
 import dominion.utils.ShoutVoice;
-import dominion.utils.TauntVoice;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;

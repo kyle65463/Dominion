@@ -1,7 +1,7 @@
 package dominion.models.events.game;
 
-import dominion.game.GameManager;
-import dominion.models.game.Player;
+import dominion.core.GameManager;
+import dominion.models.player.Player;
 
 public class SelectHandCardEvent extends GameEvent {
     // Constructor

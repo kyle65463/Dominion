@@ -1,9 +1,6 @@
 package dominion.controllers.components;
 
-import dominion.models.game.GameScene;
 import javafx.scene.Node;
-
-import java.io.Serializable;
 
 public class ComponentController {
     // Constructor

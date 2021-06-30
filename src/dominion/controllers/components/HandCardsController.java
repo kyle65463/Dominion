@@ -1,11 +1,8 @@
 package dominion.controllers.components;
 
-import dominion.models.game.cards.Card;
-import dominion.models.game.GameScene;
+import dominion.models.cards.Card;
+import dominion.models.areas.GameScene;
 import dominion.utils.Animator;
-import javafx.event.EventHandler;
-import javafx.util.Duration;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,6 @@
 package dominion.models.events.game;
 
-import dominion.game.GameManager;
-import dominion.models.game.Player;
+import dominion.core.GameManager;
 
 public class DoneSelectingReactionCardEvent extends GameEvent {
     // Constructor

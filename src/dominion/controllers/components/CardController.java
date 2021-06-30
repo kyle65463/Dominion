@@ -1,9 +1,8 @@
 package dominion.controllers.components;
 
-import dominion.game.GameManager;
-import dominion.models.game.cards.Card;
-import dominion.models.game.cards.treasures.Treasure;
-import dominion.models.game.GameScene;
+import dominion.models.cards.Card;
+import dominion.models.cards.treasures.Treasure;
+import dominion.models.areas.GameScene;
 import dominion.utils.CardStyles;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
