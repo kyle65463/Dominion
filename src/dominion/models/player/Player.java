@@ -11,10 +11,7 @@ import dominion.models.cards.actions.Action;
 import dominion.models.cards.actions.HasHandCardsSelection;
 import dominion.models.cards.actions.Reaction;
 import dominion.models.cards.treasures.Treasure;
-import dominion.models.handlers.CardFilter;
-import dominion.models.handlers.CardNextMoveHandler;
-import dominion.models.handlers.CardSelectedHandler;
-import dominion.models.handlers.DisplayedCardFilter;
+import dominion.models.handlers.*;
 import javafx.event.EventHandler;
 import javafx.util.Pair;
 
@@ -60,6 +57,7 @@ public class Player {
 
     private int maxSelectedCard = Integer.MAX_VALUE;
     private List<DisplayedCard> selectedDisplayedCards = new ArrayList<>();
+    private AfterPlayCardHandler afterPlayCardHandler = ()->{};
 
     private int exactSelectingCards = 0;
     private List<Card> selectedCards = new ArrayList<>();
@@ -67,6 +65,8 @@ public class Player {
     private DisplayedCardFilter selectingDisplayedCardsFilter;
 
     // Functions
+    public void setAfterPlayCardHandler(AfterPlayCardHandler handler) { afterPlayCardHandler = handler; }
+
     public PlayerStatus getPlayerStatus() {
         return playerStatus;
     }
@@ -162,6 +162,8 @@ public class Player {
         this.fieldCards = fieldCards;
     }
 
+    public FieldCards getFieldCards() { return this.fieldCards; }
+
     public void setDeckCards(List<Card> cards) {
         deck.addCards(cards, true);
         setPlayerStatusValues();
@@ -207,6 +209,9 @@ public class Player {
 
         setPlayerStatusValues();
         setActionBarValues();
+        if (this.afterPlayCardHandler != null) {
+            afterPlayCardHandler.perform();
+        }
     }
 
     public void checkActionCardsAndEndPlayingActionPhase() {
