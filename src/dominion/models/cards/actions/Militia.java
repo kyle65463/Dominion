@@ -23,6 +23,7 @@ public class Militia extends Card implements Action, Attack, HasHandCardsSelecti
 
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
+        performer.increaseNumCoins(2);
         this.decreaseNumActions = decreaseNumActions;
         Thread thread = new Thread(new AttackPlayers(performer, this));
         thread.start();
@@ -47,8 +48,6 @@ public class Militia extends Card implements Action, Attack, HasHandCardsSelecti
 
     @Override
     public void performAfterAttack(Player performer) {
-        performer.increaseNumCoins(2);
-
         if (decreaseNumActions) {
             performer.decreaseNumActions();
         }

@@ -9,6 +9,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+import java.util.List;
+
 public class LogBox {
     // Constructor
     public static void initialize(ScrollPane scrollPane, VBox box) {
@@ -29,6 +31,10 @@ public class LogBox {
 
     public static void logDrawCard(Player player, int numDrew) {
         addMessage(player.getName() + " 抽了 " + String.valueOf(numDrew) + " 張牌");
+    }
+
+    public static void logReceiveCard(Player player, Card card) {
+        addMessage(player.getName() + " 獲得了 " + card.getName());
     }
 
     public static void logPlayCard(Player player, Card card) {
@@ -58,6 +64,12 @@ public class LogBox {
 //    public static void logDiscardCard(Player player, Card card) {
 //        addMessage(player.getName() + " 丟棄了 " + card.getName());
 //    }
+
+    public static void logDisplayHandCards(Player player, List<Card> cards){
+        for(Card card : cards){
+            addMessage(player.getName() + " 展示了 " + card.getName());
+        }
+    }
 
     public static void logStartTurn(Player player) {
         addMessage(player.getName() + "  的回合");

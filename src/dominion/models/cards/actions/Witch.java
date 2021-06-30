@@ -1,6 +1,7 @@
 package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
+import dominion.models.areas.PurchaseArea;
 import dominion.models.events.game.DoneAttackingEvent;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.player.Player;
@@ -23,6 +24,7 @@ public class Witch extends Card implements Action, Attack {
 
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
+        performer.drawCards(2);
         this.decreaseNumActions = decreaseNumActions;
         Thread thread = new Thread(new AttackPlayers(performer, this));
         thread.start();
@@ -31,7 +33,7 @@ public class Witch extends Card implements Action, Attack {
     @Override
     public void performAttack(Player performer, Player attacked) {
         Card curse = new Curse();
-        DisplayedCard card = GameManager.getDisplayCardByCard(curse);
+        DisplayedCard card = PurchaseArea.getDisplayedCardByCard(curse);
         if (card.getNumRemain() > 0) {
             attacked.receiveNewCard(curse);
             card.decreaseNumRemain();
@@ -41,7 +43,6 @@ public class Witch extends Card implements Action, Attack {
 
     @Override
     public void performAfterAttack(Player performer) {
-        performer.drawCards(2);
         if (decreaseNumActions) {
             performer.decreaseNumActions();
         }

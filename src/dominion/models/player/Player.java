@@ -104,14 +104,21 @@ public class Player {
         actionBar.enableUi();
     }
 
+    public void buyNewCard(Card card) {
+        LogBox.logBuyCard(this, card);
+        discardPile.addCard(card);
+        setPlayerStatusValues();
+    }
+
     public void receiveNewCard(Card card) {
+        LogBox.logReceiveCard(this, card);
         discardPile.addCard(card);
         setPlayerStatusValues();
     }
 
     public void receiveNewHandCard(Card card) {
+        LogBox.logReceiveCard(this, card);
         handCards.addCard(card);
-        System.out.println("new hand card:" + card);
         setPlayerStatusValues();
     }
 
@@ -162,6 +169,10 @@ public class Player {
 
     public List<Card> getHandCards() {
         return handCards.getCards();
+    }
+
+    public void displayHandCards() {
+        LogBox.logDisplayHandCards(this, handCards.getCards());
     }
 
     public List<Card> getAllCards() {
@@ -293,9 +304,15 @@ public class Player {
         setActionBarValues();
     }
 
+    public void trashHandCard(Card card) {
+        LogBox.logTrashCard(this, card);
+        handCards.removeCard(card);
+        card.disableUi();
+        setPlayerStatusValues();
+    }
+
     public void trashHandCards(List<Card> cards) {
         for (Card card : cards) {
-            System.out.println(card);
             LogBox.logTrashCard(this, card);
         }
         handCards.removeCards(cards);
@@ -559,6 +576,7 @@ public class Player {
 
     public void receiveNewCardOnDeck(Card card) {
         deck.addCard(card);
+        LogBox.logReceiveCard(this, card);
         setPlayerStatusValues();
     }
 

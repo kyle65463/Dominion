@@ -11,11 +11,11 @@ import java.util.List;
 public class Salvager extends Card implements Action, HasHandCardsSelection {
     // Constructor
     public Salvager() {
-        name = "禮拜堂";
-        description = "移除你手上至多4張卡牌。";
+        name = "打撈員";
+        description = "移除手上的一張卡片，那張卡片每價值1，你就加1塊錢。";
         style = CardStyles.white;
         type = CardTypes.action;
-        numCost = 2;
+        numCost = 4;
     }
 
     // Variables
@@ -25,14 +25,20 @@ public class Salvager extends Card implements Action, HasHandCardsSelection {
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
+        performer.increaseNumPurchases(1);
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
+        performer.setMaxSelectingCards(1);
         performer.startSelectingHandCards("選擇要移除的牌", id);
-        performer.setMaxSelectingCards(4);
+
     }
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.trashHandCards(cards);
+        if(cards.size() > 0) {
+            Card card = cards.get(0);
+            performer.increaseNumCoins(card.getNumCost());
+            performer.trashHandCards(cards);
+        }
 
         if (decreaseNumActions) {
             performer.decreaseNumActions();

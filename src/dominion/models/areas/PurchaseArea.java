@@ -63,6 +63,6 @@ public class PurchaseArea {
 
     // Functions
     public static boolean isGameOver() {
-        return MinorPurchaseArea.isGameOver();
+        return MinorPurchaseArea.isGameOver() || PurchaseArea.getNumNoneRemained() >= 3;
     }
 }

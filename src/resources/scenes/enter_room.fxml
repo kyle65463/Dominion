@@ -22,6 +22,11 @@
                <children>
                   <TextField fx:id="ipField" layoutY="3.0" prefHeight="26.0" prefWidth="217.0" />
                   <TextField fx:id="portField" layoutX="237.0" layoutY="3.0" prefHeight="26.0" prefWidth="96.0" />
+                  <Label layoutX="224.0" layoutY="3.0" prefHeight="10.0" prefWidth="13.0" text=":">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children></Pane>
             <Label text="暱稱">
                <font>

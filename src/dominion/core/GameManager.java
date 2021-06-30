@@ -2,16 +2,10 @@ package dominion.core;
 
 import dominion.connections.Connection;
 import dominion.controllers.components.ReturnRoomController;
-import dominion.controllers.scenes.RoomController;
-import dominion.models.areas.GameScene;
-import dominion.models.areas.MajorPurchaseArea;
-import dominion.models.areas.MinorPurchaseArea;
-import dominion.models.areas.WinnerDialog;
+import dominion.models.areas.*;
 import dominion.models.events.Event;
 import dominion.models.events.game.GameEvent;
-import dominion.models.cards.Card;
 import dominion.models.events.game.InterActiveEvent;
-import dominion.models.areas.DisplayedCard;
 import dominion.models.player.Player;
 import dominion.utils.VoicePlayer;
 import javafx.animation.PauseTransition;
@@ -55,8 +49,6 @@ public class GameManager {
     private static List<Player> players;       // All players
     private static Player applicationPlayer;
     private static Connection connection;
-    private static MajorPurchaseArea majorPurchaseArea;
-    private static MinorPurchaseArea minorPurchaseArea;
     private static Stack<Phase> phases = new Stack<>();
     private static int randomSeed;
     private static Random random;
@@ -109,22 +101,6 @@ public class GameManager {
         return players.get(id);
     }
 
-    public static DisplayedCard getDisplayedCardById(int displayedCardId) {
-        DisplayedCard displayedCard = majorPurchaseArea.getDisplayedCardById(displayedCardId);
-        if (displayedCard == null) {
-            displayedCard = minorPurchaseArea.getDisplayedCardById(displayedCardId);
-        }
-        return displayedCard;
-    }
-
-    public static DisplayedCard getDisplayCardByCard(Card card) {
-        DisplayedCard displayedCard = majorPurchaseArea.getDisplayedCardByCard(card);
-        if (displayedCard == null) {
-            displayedCard = minorPurchaseArea.getDisplayedCardByCard(card);
-        }
-        return displayedCard;
-    }
-
     public static void endTurn() {
         // Get next player
         int currentPlayerIndex = players.indexOf(currentPlayer);
@@ -132,11 +108,7 @@ public class GameManager {
     }
 
     public static boolean checkGameOver() {
-        if (minorPurchaseArea.isGameOver()) {
-            VoicePlayer.playEffect(1);
-            gameOver();
-            return true;
-        } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
+        if (PurchaseArea.isGameOver()) {
             VoicePlayer.playEffect(1);
             gameOver();
             return true;
@@ -215,9 +187,6 @@ public class GameManager {
             } catch (Exception e) {
 
             }
-            System.err.println("handle event: " + event);
-            System.err.println("phase now: " + phases.stream().collect(Collectors.toList()).toString());
-            System.err.println();
 
             ((GameEvent) event).perform();
         }else if(event instanceof InterActiveEvent){

@@ -2,6 +2,7 @@ package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
 import dominion.models.areas.DisplayedCard;
+import dominion.models.areas.PurchaseArea;
 import dominion.models.cards.AttackPlayers;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
@@ -91,7 +92,7 @@ public class Replace extends Card implements Action, Attack, HasHandCardsSelecti
     @Override
     public void performAttack(Player performer, Player attacked) {
         Card curse = new Curse();
-        DisplayedCard card = GameManager.getDisplayCardByCard(curse);
+        DisplayedCard card = PurchaseArea.getDisplayedCardByCard(curse);
         if (card.getNumRemain() > 0) {
             attacked.receiveNewCard(curse);
             card.decreaseNumRemain();
