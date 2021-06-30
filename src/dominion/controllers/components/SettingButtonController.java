@@ -20,7 +20,7 @@ public class SettingButtonController extends ComponentController{
                 GameScene.disable();
                 GameScene.add(sc);
             });
-            setLayout(790,18);
+            setLayout(820,3);
         } catch (Exception e) {
 
         }

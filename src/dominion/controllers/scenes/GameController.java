@@ -2,6 +2,7 @@ package dominion.controllers.scenes;
 
 import dominion.connections.Connection;
 import dominion.controllers.components.ChoiceBoxController;
+import dominion.controllers.components.LeaveController;
 import dominion.controllers.components.SettingButtonController;
 import dominion.core.Game;
 import dominion.core.GameManager;
@@ -25,8 +26,8 @@ import dominion.models.player.Player;
 import dominion.models.player.PlayerStatus;
 import dominion.params.GameSceneParams;
 import dominion.params.SceneParams;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -38,6 +39,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 
 public class GameController extends SceneController {
     @FXML
@@ -170,8 +172,7 @@ public class GameController extends SceneController {
         }
 
         stage.setOnCloseRequest(e->{
-            GameManager.getApplicationPlayer().getUser().leave();
-
+            Platform.exit();
         });
 
 

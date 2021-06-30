@@ -6,15 +6,14 @@ import dominion.models.areas.MajorPurchaseArea;
 import dominion.models.areas.MinorPurchaseArea;
 import dominion.models.areas.WinnerDialog;
 import dominion.models.events.Event;
+import dominion.models.events.connections.ConnectionEvent;
 import dominion.models.events.game.GameEvent;
 import dominion.models.cards.Card;
 import dominion.models.events.game.InterActiveEvent;
 import dominion.models.player.DisplayedCard;
 import dominion.models.player.Player;
 import dominion.utils.VoicePlayer;
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.util.Duration;
 
 import java.util.*;
 import java.util.concurrent.locks.Condition;
@@ -155,6 +154,7 @@ public class GameManager {
             WinnerDialog.setWinner(finalWinner.getName());
             setCurrentPhase(Phase.GameOver);
         });
+
     }
 
     // Random seed
@@ -212,9 +212,14 @@ public class GameManager {
             try {
                 Thread.sleep(30);
             } catch (Exception e) {
-
             }
             ((InterActiveEvent) event).perform();
+        }else if(event instanceof ConnectionEvent){
+            try{
+                Thread.sleep(30);
+            }catch (Exception e){
+
+            }
         }
     }
 }
