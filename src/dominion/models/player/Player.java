@@ -19,6 +19,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Player {
     // Constructor
@@ -47,6 +48,7 @@ public class Player {
     private int numPurchases = 1;
 
     private boolean isEnableUi;
+    private boolean actionChainEnd = true;
     private boolean immuneNextAttack = false;
 
     /* Components */
@@ -78,6 +80,8 @@ public class Player {
         return immuneNextAttack;
     }
 
+    public void setActionChainEnd(boolean b) { actionChainEnd = b; }
+
     public String getName() {
         return name;
     }
@@ -94,9 +98,7 @@ public class Player {
         return numPurchases;
     }
 
-    public int getNumActions() {
-        return numActions;
-    }
+    public int getNumActions() { return numActions; }
 
     public void enableUi() {
         deck.enableUi();
@@ -175,6 +177,22 @@ public class Player {
     }
 
     public void playCard(int cardId, boolean decreaseNumActions) {
+        playCard(cardId, decreaseNumActions, 1);
+//        Card card = handCards.getCardByCardId(cardId);
+//        LogBox.logPlayCard(this, card);
+//        handCards.removeCard(card);
+//        fieldCards.addCard(card);
+//        if (card instanceof Treasure) {
+//            numCoins += ((Treasure) card).getNumValue();
+//        } else if (card instanceof Action) {
+//            ((Action) card).perform(this, decreaseNumActions);
+//        }
+//
+//        setPlayerStatusValues();
+//        setActionBarValues();
+    }
+
+    public void playCard(int cardId, boolean decreaseNumActions, int times) {
         Card card = handCards.getCardByCardId(cardId);
         LogBox.logPlayCard(this, card);
         handCards.removeCard(card);
@@ -182,7 +200,9 @@ public class Player {
         if (card instanceof Treasure) {
             numCoins += ((Treasure) card).getNumValue();
         } else if (card instanceof Action) {
-            ((Action) card).perform(this, decreaseNumActions);
+            for (int i = 0; i < times; i++) {
+                ((Action) card).perform(this, decreaseNumActions);
+            }
         }
 
         setPlayerStatusValues();
@@ -190,7 +210,7 @@ public class Player {
     }
 
     public void checkActionCardsAndEndPlayingActionPhase() {
-        if (!hasActionCards()) {
+        if (!hasActionCards() && actionChainEnd) {
             GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
         }
     }
