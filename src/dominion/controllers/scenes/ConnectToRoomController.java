@@ -27,6 +27,8 @@ public abstract class ConnectToRoomController extends SceneController{
     @FXML
     protected TextField nameField;
     @FXML
+    protected TextField portField;
+    @FXML
     protected TextField ipField;
 
     // Variables
@@ -55,6 +57,7 @@ public abstract class ConnectToRoomController extends SceneController{
         }
         connection.setName(nameField.getText());
         connection.setEventHandler((event) -> Platform.runLater(() -> handleEvent(event)));
+        connection.setPort(portField.getText());
         Thread connectionThread = new Thread(connection);
         connectionThread.start();
     }

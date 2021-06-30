@@ -34,6 +34,8 @@ public class BuyCardEvent extends GameEvent{
                         displayedCard.decreaseNumRemain();
 
                         LogBox.logBuyCard(player, newCard);
+                        if(GameManager.getApplicationPlayer().getId() == GameManager.getCurrentPlayer().getId())
+                            Voice.playEffect(2);
 
                     } catch (Exception e) {
 

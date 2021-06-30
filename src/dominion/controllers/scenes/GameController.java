@@ -80,10 +80,12 @@ public class GameController extends SceneController {
         WinnerDialog.initialize(winnerBox, winnerLabel);
         LogBox.initialize(scrollPane, messageBoxNode);
 
-        TauntController con = new TauntController();
-        GameScene.add(con);
-        ShoutController sho = new ShoutController();
-        GameScene.add(sho);
+//        VoiceController vc = new VoiceController();
+//        GameScene.add(vc);
+        ChoiceBoxController c = new ChoiceBoxController();
+        GameScene.add(c);
+        SettingButtonController s = new SettingButtonController();
+        GameScene.add(s);
 
         // Set up players
         Player applicationPlayer = new Player(applicationUser);

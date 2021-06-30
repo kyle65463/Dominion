@@ -66,6 +66,8 @@ public class GameManager {
     }
 
     // Functions
+    public static Player getApplicationPlayer(){return applicationPlayer;}
+
     public static List<Player> getPlayers() {
         return new ArrayList<>(players);
     }
@@ -125,8 +127,10 @@ public class GameManager {
 
     public static void checkGameOver() {
         if (minorPurchaseArea.isGameOver()) {
+            Voice.playEffect(1);
             gameOver();
         } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
+            Voice.playEffect(1);
             gameOver();
         }
     }
@@ -186,14 +190,11 @@ public class GameManager {
             if (((GameEvent) event).getPlayerId() == applicationPlayer.getId()) {
                 connection.send(event);
             }
-        }
-    }
-
-    public static void sendVoiceEvent(Event event) {
-        if (event instanceof GameEvent) {
+        }else if(event instanceof InterActiveEvent){
             connection.send(event);
         }
     }
+
 
     private static void handleEvent(Event event) {
         if (event instanceof GameEvent) {
@@ -203,6 +204,13 @@ public class GameManager {
 
             }
             ((GameEvent) event).perform();
+        }else if(event instanceof InterActiveEvent){
+            try {
+                Thread.sleep(30);
+            } catch (Exception e) {
+
+            }
+            ((InterActiveEvent) event).perform();
         }
     }
 }

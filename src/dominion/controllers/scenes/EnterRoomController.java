@@ -14,5 +14,6 @@ public class EnterRoomController extends ConnectToRoomController {
         connection = new Client();
         nameField.setText(defaultName);
         ipField.setText(defaultIp);
+        portField.setText("1234");
     }
 }

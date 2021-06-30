@@ -13,13 +13,21 @@
    <children>
       <VBox layoutX="133.0" layoutY="133.0" prefHeight="170.0" prefWidth="334.0">
          <children>
-            <Label text="IP 地址">
+            <Label text="IP 地址 : Port">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="ipField" prefHeight="26.0" prefWidth="275.0" />
-            <Pane prefHeight="200.0" prefWidth="334.0" />
+            <Pane prefHeight="200.0" prefWidth="334.0">
+               <children>
+                  <TextField fx:id="ipField" layoutY="3.0" prefHeight="22.0" prefWidth="138.0" />
+                  <Label layoutX="163.0" layoutY="-7.0" prefHeight="39.0" prefWidth="7.0" text=":">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="portField" layoutX="196.0" layoutY="3.0" prefHeight="24.0" prefWidth="138.0" />
+               </children></Pane>
             <Label text="暱稱">
                <font>
                   <Font size="18.0" />
