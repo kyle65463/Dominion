@@ -19,6 +19,7 @@ public class Game implements Runnable {
         while (true) {
             // New turn
 
+
             Player currentPlayer = GameManager.getCurrentPlayer();
             Player applicationPlayer = GameManager.getApplicationPlayer();
             if(applicationPlayer.getId() == currentPlayer.getId()){
@@ -96,7 +97,8 @@ public class Game implements Runnable {
                 LogBox.logEndTurn();
             });
             GameManager.endTurn();
-            GameManager.checkGameOver();
+            if(GameManager.checkGameOver())
+                break;
         }
     }
 }

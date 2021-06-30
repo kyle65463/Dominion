@@ -1,6 +1,8 @@
 package dominion.core;
 
 import dominion.connections.Connection;
+import dominion.controllers.components.ReturnRoomController;
+import dominion.controllers.scenes.RoomController;
 import dominion.models.areas.GameScene;
 import dominion.models.areas.MajorPurchaseArea;
 import dominion.models.areas.MinorPurchaseArea;
@@ -39,6 +41,9 @@ public class GameManager {
         GameManager.majorPurchaseArea = majorPurchaseArea;
         GameManager.minorPurchaseArea = minorPurchaseArea;
         GameManager.applicationPlayer = applicationPlayer;
+        System.out.println(currentPlayer);
+        System.out.println(GameManager.applicationPlayer);
+
     }
 
     // Variables
@@ -129,14 +134,17 @@ public class GameManager {
         currentPlayer = players.get((currentPlayerIndex + 1) % players.size());
     }
 
-    public static void checkGameOver() {
+    public static boolean checkGameOver() {
         if (minorPurchaseArea.isGameOver()) {
             VoicePlayer.playEffect(1);
             gameOver();
+            return true;
         } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
             VoicePlayer.playEffect(1);
             gameOver();
+            return true;
         }
+        return false;
     }
 
     private static void gameOver() {
@@ -155,6 +163,9 @@ public class GameManager {
             WinnerDialog.setWinner(finalWinner.getName());
             setCurrentPhase(Phase.GameOver);
         });
+        PauseTransition returnRoom = new PauseTransition(Duration.seconds(2));
+        returnRoom.setOnFinished(e-> ReturnRoomController.navigateToRoomScene());
+        returnRoom.play();
     }
 
     // Random seed

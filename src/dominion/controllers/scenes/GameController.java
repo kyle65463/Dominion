@@ -115,6 +115,7 @@ public class GameController extends SceneController {
             player.setDeckCards(initialCards);
             player.setFieldCards(fieldCards);
             players.add(player);
+
         }
 
         // Set up purchase areas
