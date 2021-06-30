@@ -85,6 +85,8 @@ public class RoomController extends SceneController {
         if (!(connection instanceof Server)) {
             startGameButton.setVisible(false);
             startGameButton.setDisable(true);
+            settingsButton.setVisible(false);
+            settingsButton.setDisable(true);
         }
     }
 
