@@ -1,16 +1,17 @@
 package dominion.models.events.connections;
 
+import java.util.List;
+
 public class StartGameEvent extends ConnectionEvent{
     // Constructor
-    public StartGameEvent(int randomSeed) {
+    public StartGameEvent(int randomSeed, List<Integer> basicCardIds, List<Integer> allEnabledCardIds) {
         this.randomSeed = randomSeed;
+        this.basicCardIds = basicCardIds;
+        this.allEnabledCardIds = allEnabledCardIds;
     }
 
     // Variables
-    private int randomSeed;
-
-    // Functions
-    public int getRandomSeed() {
-        return randomSeed;
-    }
+    public final int randomSeed;
+    public final List<Integer> basicCardIds;
+    public final List<Integer> allEnabledCardIds;
 }

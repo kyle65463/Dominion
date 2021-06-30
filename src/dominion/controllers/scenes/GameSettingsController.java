@@ -1,9 +1,13 @@
 package dominion.controllers.scenes;
 
+import dominion.connections.Connection;
+import dominion.models.User;
 import dominion.models.cards.CardList;
 import dominion.models.player.DisplayedCard;
 import dominion.params.GameSettingsSceneParams;
+import dominion.params.RoomSceneParams;
 import dominion.params.SceneParams;
+import dominion.utils.Navigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
@@ -21,9 +25,26 @@ public class GameSettingsController extends SceneController {
     @FXML
     private VBox collectionList;
 
+    // Variables
+    private Stage stage;
+    private User applicationUser;
+    private List<User> users;
+    private Connection connection;
+    private List<Integer> basicCardIds;
+    private List<Integer> allEnabledCardIds;
+
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
-        GameSettingsSceneParams parameters = (GameSettingsSceneParams) sceneParams;
+        // Unpack parameters
+        GameSettingsSceneParams params = (GameSettingsSceneParams) sceneParams;
+        this.stage = stage;
+        this.applicationUser = params.applicationUser;
+        this.users = params.users;
+        this.connection = params.connection;
+        this.basicCardIds = params.basicCardIds;
+        this.allEnabledCardIds = params.allEnabledCardIds;
+        allEnabledCardIds.clear();
+
         List<DisplayedCard> dominionCards = new ArrayList<>(CardList.getDominionCardList().stream().map(DisplayedCard::new).toList());
         dominionCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
         int numCols = 5;
@@ -40,6 +61,19 @@ public class GameSettingsController extends SceneController {
             DisplayedCard displayedCard = dominionCards.get(i);
             displayedCard.getController().setScale(0.7);
             gridPane.add(displayedCard.getController().getRootNode(), i % numCols, i / numCols);
+            allEnabledCardIds.add(CardList.getCardId(displayedCard.getCard()));
         }
+    }
+
+    public void confirm() {
+        navigateToRoomScene();
+    }
+
+    public void navigateToRoomScene() {
+        RoomSceneParams parameters = new RoomSceneParams(
+                applicationUser, users, connection,
+                basicCardIds, allEnabledCardIds
+        );
+        Navigator.to(stage, "resources/scenes/room.fxml", parameters);
     }
 }

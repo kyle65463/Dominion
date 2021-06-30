@@ -12,14 +12,16 @@ import dominion.models.areas.MajorPurchaseArea;
 import dominion.models.areas.MinorPurchaseArea;
 import dominion.models.areas.WinnerDialog;
 import dominion.models.cards.Card;
-import dominion.models.cards.actions.*;
+import dominion.models.cards.CardList;
 import dominion.models.cards.curses.Curse;
+import dominion.models.cards.curses.Curses;
 import dominion.models.cards.treasures.Copper;
 import dominion.models.cards.treasures.Gold;
 import dominion.models.cards.treasures.Silver;
 import dominion.models.cards.victories.Duchy;
 import dominion.models.cards.victories.Estate;
 import dominion.models.cards.victories.Province;
+import dominion.models.cards.victories.Victory;
 import dominion.models.player.DisplayedCard;
 import dominion.models.player.FieldCards;
 import dominion.models.player.Player;
@@ -36,6 +38,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GameController extends SceneController {
@@ -63,9 +66,11 @@ public class GameController extends SceneController {
         // Unpack parameters
         GameSceneParams params = (GameSceneParams) sceneParams;
         List<User> users = params.users;
-        User applicationUser =  params.applicationUser;
+        User applicationUser = params.applicationUser;
         Connection connection = params.connection;
         int randomSeed = params.randomSeed;
+        List<Card> basicCards = CardList.getCardsById(params.basicCardIds);
+        List<Card> allEnabledCards = CardList.getCardsById(params.allEnabledCardIds);
 
         // Set up random seed
         GameManager.setRandomSeed(randomSeed);
@@ -89,12 +94,11 @@ public class GameController extends SceneController {
         for (User user : users) {
             Player player = new Player(user);
             PlayerStatus playerStatus = player.getPlayerStatus();
-            if(user.getId() == applicationUser.getId()) {
+            if (user.getId() == applicationUser.getId()) {
                 applicationPlayer = player;
                 player.enableUi();
                 playerStatusBox.getChildren().add(playerStatus.getController().getRootNode());
-            }
-            else {
+            } else {
                 opponentsStatusBox.add(playerStatus.getController().getRootNode(), index, 0);
                 index++;
             }
@@ -102,12 +106,10 @@ public class GameController extends SceneController {
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
                 initialCards.add(new Copper());
-//                initialCards.add(new Militia());
 
             }
             for (int i = 0; i < 3; i++) {
                 initialCards.add(new Estate());
-//                initialCards.add(new Moat());
             }
             player.setDeckCards(initialCards);
             player.setFieldCards(fieldCards);
@@ -119,31 +121,39 @@ public class GameController extends SceneController {
         MinorPurchaseArea minorPurchaseArea = new MinorPurchaseArea(minorKingdomCardsBoxNode);
         List<DisplayedCard> majorKingdomCards = new ArrayList<>();
         List<DisplayedCard> minorKingdomCards = new ArrayList<>();
-
-        // Top 5
-        majorKingdomCards.add(new DisplayedCard(new Smithy(), 10, applicationPlayer, 7));
-        majorKingdomCards.add(new DisplayedCard(new CouncilRoom(), 10, applicationPlayer, 8));
-        majorKingdomCards.add(new DisplayedCard(new Laboratory(), 10, applicationPlayer, 9));
-        majorKingdomCards.add(new DisplayedCard(new Market(), 10, applicationPlayer, 10));
-        majorKingdomCards.add(new DisplayedCard(new Festival(), 10, applicationPlayer, 11));
-
-        // Bottom 5
-        majorKingdomCards.add(new DisplayedCard(new Cellar(), 10, applicationPlayer, 12));
-        majorKingdomCards.add(new DisplayedCard(new Chapel(), 10, applicationPlayer, 13));
-        majorKingdomCards.add(new DisplayedCard(new Moat(), 10, applicationPlayer, 14));
-        majorKingdomCards.add(new DisplayedCard(new MoneyLender(), 10, applicationPlayer, 15));
-        majorKingdomCards.add(new DisplayedCard(new Militia(), 4 * users.size(), applicationPlayer, 16));
-        majorPurchaseArea.setDisplayedCards(majorKingdomCards);
-
-        // Scores
-        minorKingdomCards.add(new DisplayedCard(new Province(), 4 * users.size(), applicationPlayer, 0));
-        minorKingdomCards.add(new DisplayedCard(new Gold(), 30, applicationPlayer, 4));
-        minorKingdomCards.add(new DisplayedCard(new Duchy(), 4 * users.size(), applicationPlayer, 1));
-        minorKingdomCards.add(new DisplayedCard(new Silver(), 40, applicationPlayer, 5));
-        minorKingdomCards.add(new DisplayedCard(new Estate(), 4 * users.size(), applicationPlayer, 2));
-        minorKingdomCards.add(new DisplayedCard(new Copper(), 60 - 7 * users.size(), applicationPlayer, 6));
-        minorKingdomCards.add(new DisplayedCard(new Curse(), 10 * (users.size() - 1), applicationPlayer, 3));
+        int id = 0;
+        for (Card card : basicCards) {
+            int numRemain = 10;
+            if (card instanceof Victory) {
+                numRemain = 4 * players.size();
+            }
+            if (card instanceof Copper) {
+                numRemain = 60 - 7 * players.size();
+            }
+            if (card instanceof Silver) {
+                numRemain = 40;
+            }
+            if (card instanceof Gold) {
+                numRemain = 30;
+            }
+            if (card instanceof Curses) {
+                numRemain = 10 * (players.size() - 1);
+            }
+            minorKingdomCards.add(new DisplayedCard(card, numRemain, applicationPlayer, id));
+        }
         minorPurchaseArea.setDisplayedCards(minorKingdomCards);
+
+        List<Card> enabledCards = randomSelectCards(allEnabledCards, 10);
+        enabledCards.sort((a, b) -> a.getNumCost() - b.getNumCost());
+        for (Card card : enabledCards) {
+            int numRemain = 10;
+            if (card instanceof Victory) {
+                numRemain = 4 * players.size();
+            }
+            majorKingdomCards.add(new DisplayedCard(card, numRemain, applicationPlayer, id));
+        }
+        Collections.rotate(majorKingdomCards, 5);
+        majorPurchaseArea.setDisplayedCards(majorKingdomCards);
 
         // Set up game manager
         GameManager.initialize(players, applicationPlayer, connection, majorPurchaseArea, minorPurchaseArea);
@@ -151,11 +161,23 @@ public class GameController extends SceneController {
         // Run the game
         Game game = new Game();
         Thread gameThread = new Thread(game);
-        for(Player player : players){
+        for (Player player : players) {
             player.drawCards(5);
             player.setActionBarStatus("等待其他玩家的回合", "");
             player.reset();
         }
         gameThread.start();
+    }
+
+    public List<Card> randomSelectCards(List<Card> list, int numCards) {
+        List<Card> cards = new ArrayList<>();
+        for (int i = 0; i < numCards; i++) {
+            int randomIndex = GameManager.getRandomInt(list.size());
+            while (cards.contains(list.get(randomIndex))) {
+                randomIndex = GameManager.getRandomInt(list.size());
+            }
+            cards.add(list.get(randomIndex));
+        }
+        return cards;
     }
 }

@@ -2,6 +2,7 @@ package dominion.controllers.scenes;
 
 import dominion.connections.Server;
 import dominion.models.User;
+import dominion.models.cards.CardList;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
 import dominion.models.events.Message;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class RoomController extends SceneController{
+public class RoomController extends SceneController {
     @FXML
     Label nameLabel;
     @FXML
@@ -48,15 +49,25 @@ public class RoomController extends SceneController{
     private User applicationUser;
     private List<User> users = new ArrayList<>();
     private Connection connection;
+    private List<Integer> basicCardIds;
+    private List<Integer> allEnabledCardIds;
 
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
         // Unpack parameters
         this.stage = stage;
-        RoomSceneParams parameters = (RoomSceneParams) sceneParams;
-        List<User> users = parameters.users;
-        User applicationUser =  parameters.applicationUser;
-        Connection connection = parameters.connection;
+        RoomSceneParams params = (RoomSceneParams) sceneParams;
+        List<User> users = params.users;
+        User applicationUser = params.applicationUser;
+        Connection connection = params.connection;
+        this.basicCardIds = params.basicCardIds;
+        this.allEnabledCardIds = params.allEnabledCardIds;
+        if(basicCardIds.isEmpty()) {
+            basicCardIds = CardList.getCardIds(CardList.getBasicCardList());
+        }
+        if(allEnabledCardIds.isEmpty()) {
+            allEnabledCardIds = CardList.getCardIds(CardList.getDominionCardList());
+        }
 
         // Set up UIs
         this.applicationUser = applicationUser;
@@ -91,7 +102,7 @@ public class RoomController extends SceneController{
 
     public void sendStartGame(ActionEvent event) {
         int randomSeed = new Random().nextInt(10000);
-        connection.send(new StartGameEvent(randomSeed));
+        connection.send(new StartGameEvent(randomSeed, basicCardIds, allEnabledCardIds));
     }
 
     public void addUser(User newUser) {
@@ -119,18 +130,24 @@ public class RoomController extends SceneController{
             addUser(acceptedUser);
         }
         if (event instanceof StartGameEvent) {
-            navigateToGameScene(((StartGameEvent) event).getRandomSeed());
+            StartGameEvent startGameEvent = (StartGameEvent) event;
+            navigateToGameScene(startGameEvent.randomSeed, startGameEvent.basicCardIds, startGameEvent.allEnabledCardIds);
         }
     }
 
     public void navigateToGameSettingsScene(ActionEvent event) {
-        GameSettingsSceneParams parameters = new GameSettingsSceneParams();
-        Navigator.to(stage, "resources/scenes/game_settings.fxml", parameters);
+        GameSettingsSceneParams params = new GameSettingsSceneParams(
+                applicationUser, users, connection,
+                basicCardIds, allEnabledCardIds
+        );
+        Navigator.to(stage, "resources/scenes/game_settings.fxml", params);
     }
 
-    public void navigateToGameScene(int randomSeed) {
-        GameSceneParams parameters = new GameSceneParams(
-                applicationUser, users, connection, randomSeed);
-        Navigator.to(stage, "resources/scenes/game.fxml", parameters);
+    public void navigateToGameScene(int randomSeed, List<Integer> basicCardIds, List<Integer> allEnabledCardIds) {
+        GameSceneParams params = new GameSceneParams(
+                applicationUser, users, connection, randomSeed,
+                basicCardIds, allEnabledCardIds
+        );
+        Navigator.to(stage, "resources/scenes/game.fxml", params);
     }
 }

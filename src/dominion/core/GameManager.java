@@ -83,8 +83,12 @@ public class GameManager {
     }
 
     public static int getRandomInt() {
-        if(random != null) {
-            return random.nextInt(1000000);
+        return getRandomInt(1000000);
+    }
+
+    public static int getRandomInt(int num) {
+        if (random != null) {
+            return random.nextInt(num);
         }
         return 0;
     }
@@ -187,7 +191,7 @@ public class GameManager {
 
     public static void sendVoiceEvent(Event event) {
         if (event instanceof GameEvent) {
-                connection.send(event);
+            connection.send(event);
         }
     }
 

@@ -3,6 +3,7 @@ package dominion;
 import dominion.controllers.scenes.GameController;
 import dominion.controllers.scenes.MainController;
 import dominion.models.User;
+import dominion.models.cards.CardList;
 import dominion.params.MainSceneParams;
 import dominion.utils.Navigator;
 import javafx.application.Application;
@@ -17,6 +18,7 @@ import java.util.List;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+        CardList.initialize();
         Stage stage = new Stage();
         stage.setTitle("Dominion");
         stage.setResizable(false);

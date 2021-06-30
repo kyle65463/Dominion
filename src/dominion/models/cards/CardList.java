@@ -1,19 +1,37 @@
 package dominion.models.cards;
 
 import dominion.models.cards.actions.*;
+import dominion.models.cards.curses.Curse;
+import dominion.models.cards.treasures.Copper;
+import dominion.models.cards.treasures.Gold;
+import dominion.models.cards.treasures.Silver;
+import dominion.models.cards.victories.Duchy;
+import dominion.models.cards.victories.Estate;
 import dominion.models.cards.victories.Province;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class CardList {
     // Variables
-    private static List<Card> cardList = new ArrayList<>();
+    private static Map<Integer, Card> cardsMap = new HashMap<>();
+    private static List<Card> basicCards = new ArrayList<>();
+    private static List<Card> dominionCards = new ArrayList<>();
+    private static int id = 0;
 
     // Functions
-    public static List<Card> getDominionCardList() {
-        cardList = new ArrayList<>(Arrays.asList(
+    public static void initialize() {
+        basicCards = new ArrayList<>(Arrays.asList(
+                new Province(),
+                new Gold(),
+                new Duchy(),
+                new Silver(),
+                new Estate(),
+                new Copper(),
+                new Curse()
+        ));
+        setCardIds(basicCards);
+
+        dominionCards = new ArrayList<>(Arrays.asList(
                 new Cellar(),
                 new Chapel(),
                 new CouncilRoom(),
@@ -28,6 +46,46 @@ public class CardList {
                 new Village(),
                 new Witch()
         ));
-        return new ArrayList<>(cardList);
+        setCardIds(dominionCards);
+    }
+
+    public static List<Card> getBasicCardList() {
+        return new ArrayList<>(basicCards);
+    }
+
+    public static List<Card> getDominionCardList() {
+        return new ArrayList<>(dominionCards);
+    }
+
+    public static List<Card> getCardsById(List<Integer> ids) {
+        List<Card> cards = new ArrayList<>();
+        for (Integer id : ids) {
+            cards.add(cardsMap.get(id));
+        }
+        return cards;
+    }
+
+    public static int getCardId(Card card) {
+        for (Map.Entry<Integer, Card> pair : cardsMap.entrySet()) {
+            if (pair.getValue().getName().equals(card.getName())) {
+                return pair.getKey();
+            }
+        }
+        return 0;
+    }
+
+    public static List<Integer> getCardIds(List<Card> cards) {
+        List<Integer> ids = new ArrayList<>();
+        for (Card card : cards) {
+            ids.add(getCardId(card));
+        }
+        return ids;
+    }
+
+    private static void setCardIds(List<Card> cards) {
+        for (Card card : cards) {
+            cardsMap.put(id, card);
+            id++;
+        }
     }
 }
