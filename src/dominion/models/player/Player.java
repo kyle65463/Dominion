@@ -276,6 +276,11 @@ public class Player {
         setPlayerStatusValues();
     }
 
+    public void discardHandCard(Card card) {
+        discardPile.addCard(card);
+        handCards.removeCard(card);
+    }
+
     public void discardAllFieldCards() {
         // Discard all field cards to discard pile
         List<Card> cards = fieldCards.getCards();
@@ -567,10 +572,9 @@ public class Player {
         setPlayerStatusValues();
     }
 
-//    public List<Card> popDeckTop(int numCards) {
-//        List<Card> cards = new ArrayList<>();
-//        for (int i = 0; i < numCards; i++) {
-//            cards.add(deck.popCards())
-//        }
-//    }
+    public List<Card> popDeckTop(int numCards) {
+        List<Card> ret = deck.popCards(numCards);
+        setPlayerStatusValues();
+        return ret;
+    }
 }
