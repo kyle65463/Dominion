@@ -1,14 +1,18 @@
 package dominion.utils;
 
+import dominion.models.game.cards.Card;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
+
+
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Voice {
-    public static File directory;
-    public static File[] files;
+    public static File file;
+    public static URL url;
     public static ArrayList<File> taunts;
     public static ArrayList<File> shouts;
     public static ArrayList<File> soundEffects;
@@ -19,41 +23,44 @@ public class Voice {
     public static int soundEffectSize;
     public static int tauntidx = 0;
     public static int shoutidx = 0;
-    public static int soundEffectidx = 0;
+//    public static int soundEffectidx = 0;
 
     public static void initalize(){
         try{
             taunts = new ArrayList<>();
             shouts = new ArrayList<>();
             soundEffects = new ArrayList<>();
-            directory = new File("src/voice/taunt");
-//            directory = new File("C:\\Users\\user\\Desktop\\voice\\taunt");
-            files = directory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    taunts.add(file);
-                }
-            }
-            tauntSize = files.length;
-            directory = new File("src/voice/shout");
-//            directory = new File("C:\\Users\\user\\Desktop\\voice\\shout");
-            files = directory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    shouts.add(file);
-                }
-            }
-            shoutSize = files.length;
-            directory = new File("src/voice/soundEffect");
-//            directory = new File("C:\\Users\\user\\Desktop\\voice\\soundEffect");
-            files = directory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    soundEffects.add(file);
-                }
-            }
-            soundEffectSize = files.length;
+            url = Voice.class.getClassLoader().getResource("voice/shout/shout1.mp3");
+            file = new File(url.getPath());
+            shouts.add(file);
+            url = Voice.class.getClassLoader().getResource("voice/shout/shout2.mp3");
+            file = new File(url.getPath());
+            shouts.add(file);
+            url = Voice.class.getClassLoader().getResource("voice/shout/shout3.mp3");
+            file = new File(url.getPath());
+            shouts.add(file);
+            shoutSize = shouts.size();
+            url = Voice.class.getClassLoader().getResource("voice/taunt/taunt1.mp3");
+            file = new File(url.getPath());
+            taunts.add(file);
+            url = Voice.class.getClassLoader().getResource("voice/taunt/taunt2.mp3");
+            file = new File(url.getPath());
+            taunts.add(file);
+            url = Voice.class.getClassLoader().getResource("voice/taunt/taunt3.mp3");
+            file = new File(url.getPath());
+            taunts.add(file);
+            tauntSize = taunts.size();
+            url = Voice.class.getClassLoader().getResource("voice/soundEffect/soundEffect1.mp3");
+            file = new File(url.getPath());
+            soundEffects.add(file);
+            url = Voice.class.getClassLoader().getResource("voice/soundEffect/soundEffect2.mp3");
+            file = new File(url.getPath());
+            soundEffects.add(file);
+            url = Voice.class.getClassLoader().getResource("voice/soundEffect/soundEffect3.mp3");
+            file = new File(url.getPath());
+            soundEffects.add(file);
 
+            soundEffectSize = soundEffects.size();
         }catch(Exception e){
 
         }
@@ -66,10 +73,19 @@ public class Voice {
             media = new Media(shouts.get(shoutidx).toURI().toString());
             shoutidx = (shoutidx + 1)%shoutSize;
         }else{
-            media = new Media(soundEffects.get(soundEffectidx).toURI().toString());
-            System.out.println("play");
+            return;
         }
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
+        System.out.println("playVoice");
+    }
+    public static void playEffect(int idx){
+        if(idx >= soundEffectSize)
+            return;
+        media = new Media(soundEffects.get(idx).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        if(idx == 2)
+            System.out.println("playEffect");
     }
 }

@@ -18,8 +18,11 @@ public class Game implements Runnable {
     public void run() {
         while (true) {
             // New turn
-            Voice.playVoice(2);
             Player currentPlayer = GameManager.getCurrentPlayer();
+            Player applicationPlayer = GameManager.getApplicationPlayer();
+            if(applicationPlayer.getId() == currentPlayer.getId()){
+                Voice.playEffect(0);
+            }
             Platform.runLater(() -> {
                 Logger.logStartTurn(currentPlayer);
             });

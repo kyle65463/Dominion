@@ -1,7 +1,9 @@
 package dominion.controllers.components;
 
 import dominion.game.GameManager;
+import dominion.game.Logger;
 import dominion.models.events.game.VoicesEvent;
+import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
 import dominion.utils.Voice;
 import javafx.fxml.FXMLLoader;
@@ -23,10 +25,14 @@ public class VoiceController extends ComponentController {
             setLayout(10, 440);
             Voice.initalize();
             tauntButton.setOnMousePressed((e) -> {
-                GameManager.sendEvent(new VoicesEvent(0));
+                Player applicationPlayer = GameManager.getApplicationPlayer();
+                String name = applicationPlayer.getName();
+                GameManager.sendEvent(new VoicesEvent(0,name));
             });
             shoutButton.setOnMousePressed((e)->{
-                GameManager.sendEvent(new VoicesEvent(1));
+                Player applicationPlayer = GameManager.getApplicationPlayer();
+                String name = applicationPlayer.getName();
+                GameManager.sendEvent(new VoicesEvent(1,name));
             });
         } catch (Exception e) {
 

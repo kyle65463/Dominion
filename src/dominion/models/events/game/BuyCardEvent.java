@@ -5,6 +5,7 @@ import dominion.game.Logger;
 import dominion.models.game.DisplayedCard;
 import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
+import dominion.utils.Voice;
 
 public class BuyCardEvent extends GameEvent{
     // Constructor
@@ -32,7 +33,8 @@ public class BuyCardEvent extends GameEvent{
                         player.decreaseNumPurchases();
                         player.decreaseNumCoins(card.getNumCost());
                         displayedCard.decreaseNumRemain();
-
+                        if(GameManager.getApplicationPlayer().getId() == GameManager.getCurrentPlayer().getId())
+                            Voice.playEffect(2);
                         Logger.logBuyCard(player, newCard);
 
                     } catch (Exception e) {

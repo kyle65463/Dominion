@@ -63,6 +63,8 @@ public class GameManager {
     }
 
     // Functions
+    public static Player getApplicationPlayer(){return applicationPlayer;}
+
     public static List<Player> getPlayers() {
         return new ArrayList<>(players);
     }
@@ -115,8 +117,10 @@ public class GameManager {
 
     public static void checkGameOver() {
         if (minorPurchaseArea.isGameOver()) {
+            Voice.playEffect(1);
             gameOver();
         } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
+            Voice.playEffect(1);
             gameOver();
         }
     }
