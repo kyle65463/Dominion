@@ -60,6 +60,7 @@ public class GameManager {
         SelectingHandCards,
         SelectingDisplayedCards,
         SelectingReactionCard,
+        SelectingOptions,
         GameOver,
     }
 
