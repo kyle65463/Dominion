@@ -88,7 +88,7 @@ public class Deck implements HasUi {
         addCards(cards, false);
     }
 
-    private void addCard(Card card) {
+    public void addCard(Card card) {
         cards.add(card);
         if (isEnableUi) {
             card.enableUi();

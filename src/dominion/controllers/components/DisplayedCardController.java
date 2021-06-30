@@ -1,7 +1,8 @@
 package dominion.controllers.components;
 
-import dominion.models.player.DisplayedCard;
+import dominion.models.areas.DisplayedCard;
 import dominion.models.cards.Card;
+import dominion.utils.CardStyles;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -39,6 +40,12 @@ public class DisplayedCardController extends ComponentController{
 
     private void setStyle() {
         rootNode.setStyle(card.getStyle());
+    }
+
+    public void setHighlight() { rootNode.setStyle(card.getStyle() + CardStyles.highlight); }
+
+    public void removeHighlight() {
+        setStyle();
     }
 
     private void setName(String name) {

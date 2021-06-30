@@ -10,6 +10,7 @@ import dominion.models.events.game.GameEvent;
 import dominion.models.cards.Card;
 import dominion.models.events.game.InterActiveEvent;
 import dominion.models.player.DisplayedCard;
+import dominion.models.areas.DisplayedCard;
 import dominion.models.player.Player;
 import dominion.utils.VoicePlayer;
 import javafx.application.Platform;
@@ -21,9 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class GameManager {
     // Constructor
-    public static void initialize(List<Player> players, Player applicationPlayer,
-                                  Connection connection,
-                                  MajorPurchaseArea majorPurchaseArea, MinorPurchaseArea minorPurchaseArea) {
+    public static void initialize(List<Player> players, Player applicationPlayer, Connection connection ) {
         phases.push(Phase.Reset);
         GameManager.players = players;
         Collections.sort(players, (a, b) -> a.getId() - b.getId());
@@ -34,8 +33,6 @@ public class GameManager {
             });
         });
         GameManager.connection = connection;
-        GameManager.majorPurchaseArea = majorPurchaseArea;
-        GameManager.minorPurchaseArea = minorPurchaseArea;
         GameManager.applicationPlayer = applicationPlayer;
     }
 

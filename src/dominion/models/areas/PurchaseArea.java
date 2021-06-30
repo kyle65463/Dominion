@@ -1,70 +1,66 @@
 package dominion.models.areas;
 
-import dominion.controllers.components.DisplayedCardController;
+
 import dominion.models.cards.Card;
-import dominion.models.player.DisplayedCard;
-import javafx.scene.layout.GridPane;
+import dominion.models.handlers.DisplayedCardSelectedHandler;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public abstract class PurchaseArea {
-    // Constructor
-    public PurchaseArea(GridPane gridPane, int numRows, int numCols){
-        this.gridPane = gridPane;
-        this.numRows = numRows;
-        this.numCols = numCols;
+public class PurchaseArea {
+    private static DisplayedCardSelectedHandler displayedCardSelectedHandler = (displayedCard -> {});
+
+    public static List<DisplayedCard> getDisplayedCards() {
+        return Stream.concat(MajorPurchaseArea.getDisplayedCards().stream(),
+                MinorPurchaseArea.getDisplayedCards().stream()).collect(Collectors.toList());
     }
 
-    // Variables
-    private final int numRows;
-    private final int numCols;
-    protected List<DisplayedCard> displayedCards;
-    protected GridPane gridPane;
-
-    // Functions
-    public void setDisplayedCards(List<DisplayedCard> displayedCards) {
-        this.displayedCards = displayedCards;
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                int index = i * numCols + j;
-                if (index >= displayedCards.size()){
-                    break;
-                }
-                DisplayedCard displayedCard = displayedCards.get(index);
-                DisplayedCardController displayedCardController = displayedCard.getController();
-                if(numCols == 2) {
-                    displayedCardController.setScale(0.7);
-                }
-                gridPane.add(displayedCardController.getRootNode(), j, i);
-            }
-        }
-    }
-
-    public DisplayedCard getDisplayedCardById(int id) {
-        for(DisplayedCard displayedCard : displayedCards){
-            if(displayedCard.getId() == id){
-                return  displayedCard;
-            }
-        }
-        return null;
-    }
-
-    public DisplayedCard getDisplayedCardByCard(Card card) {
-        for (DisplayedCard displayedCard : displayedCards) {
-            if (displayedCard.getCard().getName() == card.getName()) {
+    public static DisplayedCard getDisplayedCardById(int id) {
+        for (DisplayedCard displayedCard : getDisplayedCards()) {
+            if (displayedCard.getId() == id) {
                 return displayedCard;
             }
         }
         return null;
     }
 
-    public int getNumNoneRemained() {
+    public static DisplayedCard getDisplayedCardByCard(Card card) {
+        for (DisplayedCard displayedCard : getDisplayedCards()) {
+            if (displayedCard.getCard().getName().equals(card.getName())) {
+                return displayedCard;
+            }
+        }
+        return null;
+    }
+
+
+    public static int getNumNoneRemained() {
         int numNoneRemained = 0;
-        for(DisplayedCard displayedCard : displayedCards){
+        for(DisplayedCard displayedCard : getDisplayedCards()){
             if(displayedCard.getNumRemain() == 0){
                 numNoneRemained++;
             }
         }
         return numNoneRemained;
     }
+
+    public static void setDisplayedCardSelectedHandler(DisplayedCardSelectedHandler handler) {
+        PurchaseArea.displayedCardSelectedHandler = handler;
+        for (DisplayedCard displayedCard : getDisplayedCards()) {
+            displayedCard.setOnPressed((e)->{
+                PurchaseArea.displayedCardSelectedHandler.onSelected(displayedCard);
+            });
+        }
+     }
+
+     public static void rearrange() {
+        for (DisplayedCard displayedCard : getDisplayedCards()) {
+            displayedCard.removeHighlight();
+        }
+     }
+
+
+    // Functions
+    public static boolean isGameOver() { return MinorPurchaseArea.isGameOver(); }
 }

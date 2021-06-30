@@ -20,6 +20,9 @@ import dominion.models.cards.treasures.Silver;
 import dominion.models.cards.victories.Estate;
 import dominion.models.cards.victories.Victory;
 import dominion.models.player.DisplayedCard;
+import dominion.models.cards.victories.Gardens;
+import dominion.models.cards.victories.Province;
+import dominion.models.areas.DisplayedCard;
 import dominion.models.player.FieldCards;
 import dominion.models.player.Player;
 import dominion.models.player.PlayerStatus;
@@ -116,8 +119,8 @@ public class GameController extends SceneController {
         }
 
         // Set up purchase areas
-        MajorPurchaseArea majorPurchaseArea = new MajorPurchaseArea(majorKingdomCardsBoxNode);
-        MinorPurchaseArea minorPurchaseArea = new MinorPurchaseArea(minorKingdomCardsBoxNode);
+        MajorPurchaseArea.initialize(majorKingdomCardsBoxNode);
+        MinorPurchaseArea.initialize(minorKingdomCardsBoxNode);
         List<DisplayedCard> majorKingdomCards = new ArrayList<>();
         List<DisplayedCard> minorKingdomCards = new ArrayList<>();
         int id = 0;
@@ -157,7 +160,7 @@ public class GameController extends SceneController {
         majorPurchaseArea.setDisplayedCards(majorKingdomCards);
 
         // Set up game manager
-        GameManager.initialize(players, applicationPlayer, connection, majorPurchaseArea, minorPurchaseArea);
+        GameManager.initialize(players, applicationPlayer, connection);
 
         // Run the game
         Game game = new Game();

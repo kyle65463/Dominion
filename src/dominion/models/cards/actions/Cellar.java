@@ -26,7 +26,7 @@ public class Cellar extends Card implements Action, HasSelection {
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.startSelectingHandCards("選擇要移除的牌", id);
+        performer.startSelectingHandCards("選擇要棄掉的牌", id);
     }
 
     @Override
