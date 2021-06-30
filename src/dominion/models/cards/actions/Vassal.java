@@ -19,38 +19,47 @@ public class Vassal extends Card implements Action{
 
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        if(decreaseNumActions) {
-            performer.decreaseNumActions();
-        }
         performer.increaseNumCoins(2);
         List<Card> cards = performer.popDeckTop(1);
         if (cards.size() > 0) {
-            GameManager.setCurrentPhase(GameManager.Phase.SelectingOptions);
             Card card = cards.get(0);
-            System.out.println("top card: " + card);
             if (card instanceof Action) {
+                GameManager.setCurrentPhase(GameManager.Phase.SelectingOptions);
                 performer.snapshotStatus();
+                performer.setCardSelectedHandler((card1)->{});
                 performer.setActionBarStatus("你可以打出 " + card.getName(), "打出", "不打出");
                 performer.enableLeftButton(true);
                 performer.setActionBarRightButtonHandler((e)->{
-                    card.enableUi();
                     performer.receiveNewHandCard(card);
-                    performer.playCard(card.getId(), false, null);
                     performer.recoverStatus();
                     performer.enableLeftButton(false);
-                    doNextMove();
+                    GameManager.returnLastPhase();
+                    if(decreaseNumActions) {
+                        performer.decreaseNumActions();
+                    }
+                    performer.playCard(card.getId(), false, null);
                 });
                 performer.setActionBarLeftButtonHandler((e)->{
+                    performer.addCardsToDiscardPile(cards);
                     performer.recoverStatus();
                     performer.enableLeftButton(false);
+                    GameManager.returnLastPhase();
+                    if(decreaseNumActions) {
+                        performer.decreaseNumActions();
+                    }
                     doNextMove();
                 });
             } else {
-                performer.receiveNewHandCard(card);
-                performer.removeHandCard(card);
+                performer.addCardsToDiscardPile(cards);
+                if(decreaseNumActions) {
+                    performer.decreaseNumActions();
+                }
                 doNextMove();
             }
         } else {
+            if(decreaseNumActions) {
+                performer.decreaseNumActions();
+            }
             doNextMove();
         }
     }

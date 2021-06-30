@@ -43,8 +43,6 @@ public class WareHouse extends Card implements Action, HasHandCardsSelection {
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        // TODO ensure all set exact selecting card
-        // TODO PLAYER::REMOVE hand card
         performer.discardHandCards(cards);
 
         if (decreaseNumActions) {

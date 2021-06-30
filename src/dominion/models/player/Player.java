@@ -199,7 +199,9 @@ public class Player {
         if (card instanceof Treasure) {
             numCoins += ((Treasure) card).getNumValue();
         } else if (card instanceof Action) {
-            card.setCardNextMove(nextMoveHandler == null ? ()->{ checkActionCardsAndEndPlayingActionPhase(); } : nextMoveHandler);
+            card.setCardNextMove(nextMoveHandler == null ? ()->{
+                checkActionCardsAndEndPlayingActionPhase();
+            } : nextMoveHandler);
             ((Action) card).perform(this, decreaseNumActions);
         }
 
@@ -208,7 +210,7 @@ public class Player {
     }
 
     public void checkActionCardsAndEndPlayingActionPhase() {
-        if (!hasActionCards()) {
+        if (!hasActionCards() || numActions == 0) {
             GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
         }
     }
@@ -287,13 +289,8 @@ public class Player {
         setPlayerStatusValues();
     }
 
-    public void discardHandCard(Card card) {
-        discardPile.addCard(card);
-        handCards.removeCard(card);
-    }
-
     public void discardAllFieldCards() {
-        // Discard all field cards to discard pile
+        // Discard all field cards to discard `pile
         List<Card> cards = fieldCards.getCards();
         fieldCards.removeCards();
         discardPile.addCards(cards);
@@ -324,6 +321,12 @@ public class Player {
         for (Card card : cards) {
             card.disableUi();
         }
+        setPlayerStatusValues();
+    }
+
+    public void discardHandCard(Card card) {
+        handCards.removeCard(card);
+        discardPile.addCard(card);
         setPlayerStatusValues();
     }
 
