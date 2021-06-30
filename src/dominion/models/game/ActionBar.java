@@ -1,10 +1,7 @@
 package dominion.models.game;
 
 import dominion.controllers.components.ActionBarController;
-import dominion.models.game.GameScene;
 import javafx.event.EventHandler;
-
-import java.io.Serializable;
 
 public class ActionBar implements HasUi{
     // Constructor
@@ -45,33 +42,39 @@ public class ActionBar implements HasUi{
         }
     }
 
-    public void setButtonText(String text) {
+    public void setRightButtonText(String text) {
         if(isEnableUi) {
-            uiController.setButtonText(text);
+            uiController.setRightButtonText(text);
         }
     }
 
-    public void setButtonOnPressed(EventHandler eventHandler) {
+    public void setLeftButtonText(String text) {
         if(isEnableUi) {
-            uiController.setButtonOnPressed(eventHandler);
+            uiController.setLeftButtonText(text);
         }
     }
 
-    public void setAutoTreasureOnPressed(EventHandler eventHandler) {
-        if (isEnableUi) {
-            uiController.setAutoTreasureOnPressed(eventHandler);
+    public void setRightButtonOnPressed(EventHandler eventHandler) {
+        if(isEnableUi) {
+            uiController.setRightButtonOnPressed(eventHandler);
         }
     }
 
-    public void setAutoTreasure(boolean b) {
+    public void setLeftButtonOnPressed(EventHandler eventHandler) {
         if (isEnableUi) {
-            uiController.setAutoTreasure(b);
+            uiController.setLeftButtonOnPressed(eventHandler);
         }
     }
 
-    public void setButtonVisible(boolean b) {
+    public void enableRightButton(boolean b) {
         if (isEnableUi) {
-            uiController.setButtonVisible(b);
+            uiController.enableRightButton(b);
+        }
+    }
+
+    public void enableLeftButton(boolean b) {
+        if (isEnableUi) {
+            uiController.enableLeftButton(b);
         }
     }
 
@@ -82,16 +85,16 @@ public class ActionBar implements HasUi{
         return "";
     }
 
-    public String getButtonText() {
+    public String getRightButtonText() {
         if(isEnableUi) {
-            return uiController.getButtonText();
+            return uiController.getRightButtonText();
         }
         return "";
     }
 
-    public EventHandler getButtonOnPressed() {
+    public EventHandler getRightButtonOnPressed() {
         if(isEnableUi) {
-            return uiController.getButtonOnPressed();
+            return uiController.getRightButtonOnPressed();
         }
         return (e)->{};
     }

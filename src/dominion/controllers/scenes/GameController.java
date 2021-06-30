@@ -113,9 +113,9 @@ public class GameController {
         // Bottom 5
         majorKingdomCards.add(new DisplayedCard(new Cellar(), 10, applicationPlayer, 12));
         majorKingdomCards.add(new DisplayedCard(new Chapel(), 10, applicationPlayer, 13));
-        majorKingdomCards.add(new DisplayedCard(new Village(), 10, applicationPlayer, 14));
+        majorKingdomCards.add(new DisplayedCard(new Moat(), 10, applicationPlayer, 14));
         majorKingdomCards.add(new DisplayedCard(new MoneyLender(), 10, applicationPlayer, 15));
-        majorKingdomCards.add(new DisplayedCard(new Gardens(), 4 * users.size(), applicationPlayer, 16));
+        majorKingdomCards.add(new DisplayedCard(new Militia(), 4 * users.size(), applicationPlayer, 16));
         majorPurchaseArea.setDisplayedCards(majorKingdomCards);
 
         // Scores

@@ -28,21 +28,10 @@ public class MoneyLender extends Card implements Action, HasSelection{
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
-        // Save the status of the performer
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.snapshotStatus();
-        performer.setMaxSelectingCards(1);
-
-        // Set new handlers
-        performer.setActionBarStatus("選擇要移除的牌", "完成");
-        performer.setCardSelectedHandler((card) -> {
-            if(card instanceof Copper) {
-                GameManager.sendEvent(new SelectHandCardEvent(performer.getId(), card.getId()));
-            }
-        });
-        performer.setActionBarButtonHandler((e) -> {
-            GameManager.sendEvent(new DoneSelectingHandCardEvent(performer.getId(), id));
-        });
+        performer.startSelectingHandCards("選擇要移除的牌", id);
+        performer.setMaxSelectingHandCards(1);
+        performer.setSelectingHandCardsFilter(card -> card instanceof Copper);
     }
 
     @Override
@@ -51,7 +40,6 @@ public class MoneyLender extends Card implements Action, HasSelection{
             performer.trashHandCards(cards);
             performer.increaseNumCoins(3);
         }
-        performer.recoverStatus();
 
         if(decreaseNumActions) {
             performer.decreaseNumActions();

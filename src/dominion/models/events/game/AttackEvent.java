@@ -30,7 +30,7 @@ public class AttackEvent extends GameEvent{
                 GameManager.sendEvent(new DoneSelectingReactionCardEvent(attackedId));
             }
         });
-        attacked.setActionBarButtonHandler((e) -> {
+        attacked.setActionBarRightButtonHandler((e) -> {
             GameManager.sendEvent(new DoneSelectingReactionCardEvent(attackedId));
             attacked.recoverStatus();
         });

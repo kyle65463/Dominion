@@ -26,7 +26,7 @@
          </children>
       </StackPane>
       <Label id="types" alignment="CENTER" layoutX="3.0" layoutY="165.0" prefHeight="17.0" prefWidth="120.0" text="錢幣卡" />
-      <Label id="name" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="81.0" prefHeight="29.0" prefWidth="120.0" text="銅幣" textAlignment="CENTER">
+      <Label id="name" alignment="CENTER" contentDisplay="CENTER" layoutY="81.0" prefHeight="29.0" prefWidth="120.0" text="銅幣" textAlignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
@@ -37,6 +37,16 @@
             <Label id="value" alignment="CENTER" prefHeight="16.0" prefWidth="17.0" text="10" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </StackPane>
+      <StackPane id="num_selected_box" layoutX="43.0" layoutY="78.0" prefHeight="25.0" prefWidth="25.0">
+         <children>
+            <Circle fill="#ff6347" radius="17.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.5" />
+            <Label id="num_selected" alignment="CENTER" prefHeight="16.0" prefWidth="17.0" text="3" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
          </children>

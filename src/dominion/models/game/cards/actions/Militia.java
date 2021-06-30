@@ -30,17 +30,9 @@ public class Militia extends Card implements Action, Attack, HasSelection {
     @Override
     public void performAttack(Player performer, Player attacked) {
         if (attacked.getHandCards().size() > 3) {
-            attacked.snapshotStatus();
-            attacked.setActionBarStatus("丟棄至三張牌", "完成");
-            attacked.setExactSelectingCards(attacked.getHandCards().size() - 3);
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-            attacked.setCardSelectedHandler((card) -> {
-                GameManager.sendEvent(new SelectHandCardEvent(attacked.getId(), card.getId()));
-            });
-            attacked.setActionBarButtonHandler((e) -> {
-                GameManager.sendEvent(new DoneSelectingHandCardEvent(attacked.getId(), id));
-
-            });
+            attacked.startSelectingHandCards("丟棄至三張牌", id);
+            attacked.setExactSelectingHandCards(attacked.getHandCards().size() - 3);
         } else {
             GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
         }
@@ -49,7 +41,6 @@ public class Militia extends Card implements Action, Attack, HasSelection {
     @Override
     public void performSelection(Player performer, List<Card> cards) {
         performer.discardHandCards(cards);
-        performer.recoverStatus();
         GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
     }
 

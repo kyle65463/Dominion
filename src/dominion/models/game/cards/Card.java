@@ -117,15 +117,14 @@ public abstract class Card implements HasUi, Cloneable {
             uiController.setOnPressed((e) -> {
                 if (e instanceof MouseEvent) {
                     MouseButton button = ((MouseEvent) e).getButton();
-                    if (button == MouseButton.PRIMARY && GameScene.isDisplayingDescription == false) {
+                    if (button == MouseButton.PRIMARY && !GameScene.isDisplayingDescription) {
                         eventHandler.handle(e);
-                    }
-                    else if (button == MouseButton.SECONDARY && GameScene.isDisplayingDescription == false) {
+                    } else if (button == MouseButton.SECONDARY && !GameScene.isDisplayingDescription) {
                         displayDescription();
                         GameScene.isDisplayingDescription = true;
-                        GameScene.setOnPressed((e1)->{
-                            if(e1 instanceof MouseEvent){
-                                if(((MouseEvent) e1).getButton() == MouseButton.PRIMARY &&  GameScene.isDisplayingDescription == true) {
+                        GameScene.setOnPressed((e1) -> {
+                            if (e1 instanceof MouseEvent) {
+                                if (((MouseEvent) e1).getButton() == MouseButton.PRIMARY && GameScene.isDisplayingDescription) {
                                     hideDescription();
                                     GameScene.isDisplayingDescription = false;
                                     GameScene.setOnPressed((ee) -> {
@@ -148,6 +147,19 @@ public abstract class Card implements HasUi, Cloneable {
     public void setNumRemain(int numRemain) {
         if (isEnableUi) {
             uiController.setNumRemainLabel(numRemain);
+        }
+    }
+
+    public int getNumSelected() {
+        if (isEnableUi) {
+            return uiController.getNumSelected();
+        }
+        return 0;
+    }
+
+    public void setNumSelected(int numSelected) {
+        if (isEnableUi) {
+            uiController.setNumSelected(numSelected);
         }
     }
 

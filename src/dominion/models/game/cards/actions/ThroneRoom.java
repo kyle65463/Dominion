@@ -30,7 +30,7 @@ public class ThroneRoom extends Card implements Action, HasSelection{
         // Save the status of the performer
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
         performer.snapshotStatus();
-        performer.setMaxSelectingCards(1);
+        performer.setMaxSelectingHandCards(1);
 
         // Set new handlers
         performer.setActionBarStatus("選擇要執行的牌", "完成");
@@ -39,7 +39,7 @@ public class ThroneRoom extends Card implements Action, HasSelection{
                 GameManager.sendEvent(new SelectHandCardEvent(performer.getId(), card.getId()));
             }
         });
-        performer.setActionBarButtonHandler((e) -> {
+        performer.setActionBarRightButtonHandler((e) -> {
             GameManager.sendEvent(new DoneSelectingHandCardEvent(performer.getId(), id));
         });
     }

@@ -11,7 +11,6 @@ import javafx.application.Platform;
 
 import java.util.List;
 
-
 public class Game implements Runnable {
     // Functions
     public void run() {
@@ -29,7 +28,7 @@ public class Game implements Runnable {
                 if (currentPlayer.hasActionCards()) {
                     System.out.println("playing action cards phase");
                     currentPlayer.setActionBarStatus("你可以打出行動卡", "結束行動");
-                    currentPlayer.setActionBarButtonHandler((e) -> {
+                    currentPlayer.setActionBarRightButtonHandler((e) -> {
                         GameManager.sendEvent(new EndPlayingActionsPhaseEvent(currentPlayer.getId()));
                     });
                     currentPlayer.setCardSelectedHandler((card) -> {
@@ -49,13 +48,14 @@ public class Game implements Runnable {
             Platform.runLater(() -> {
                 System.out.println("buying cards phase");
                 currentPlayer.setActionBarStatus("你可以購買卡片", "結束購買");
-                currentPlayer.setActionBarButtonHandler((e) -> {
+                currentPlayer.setActionBarRightButtonHandler((e) -> {
                     GameManager.sendEvent(new EndBuyingPhaseEvent(currentPlayer.getId()));
                 });
                 List<Card> cards = GameManager.getCurrentPlayer().getHandCards();
                 if (cards.stream().anyMatch(card -> card instanceof Treasure)) {
-                    currentPlayer.setActionBarAutoTreasure(true);
-                    currentPlayer.setActionBarAutoTreasureHandler((e) -> {
+                    currentPlayer.setActionBarLeftButtonText("自動打出錢幣");
+                    currentPlayer.enableLeftButton(true);
+                    currentPlayer.setActionBarLeftButtonHandler((e) -> {
                         for (Card card : cards) {
                             if (card instanceof Treasure) {
                                 GameManager.sendEvent((new PlayCardEvent(currentPlayer.getId(), card.getId())));
@@ -63,7 +63,7 @@ public class Game implements Runnable {
                         }
                     });
                 } else {
-                    currentPlayer.setActionBarAutoTreasure(false);
+                    currentPlayer.enableLeftButton(false);
                 }
                 currentPlayer.setCardSelectedHandler((card) -> {
                     if (card instanceof Treasure) {
@@ -73,7 +73,7 @@ public class Game implements Runnable {
             });
             GameManager.waitCondition(GameManager.isBuyingPhaseEnd, GameManager.gameLock);
             currentPlayer.removeCardSelectedHandler();
-            currentPlayer.setActionBarAutoTreasure(false);
+            currentPlayer.enableLeftButton(false);
 
             // Reset phase
             GameManager.setCurrentPhase(GameManager.Phase.Reset);

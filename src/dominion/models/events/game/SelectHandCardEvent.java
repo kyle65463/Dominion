@@ -18,7 +18,7 @@ public class SelectHandCardEvent extends GameEvent {
     public void perform() {
         if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
             Player player = GameManager.getPlayerById(playerId);
-            player.selectCard(cardId);
+            player.selectHandCard(cardId);
         }
     }
 }

@@ -155,4 +155,39 @@ public class HandCards implements HasUi {
             uiController.arrangeCardsPos(cards);
         }
     }
+
+    public void rearrange() {
+        if (isEnableUi) {
+            for(Card card : cards){
+                card.removeHighlight();
+
+            }
+            uiController.arrangeCardsPos(cards);
+        }
+    }
+
+    public void setToBottom(Card card) {
+        if(isEnableUi) {
+            if(cards.contains(card)) {
+                int numSelected = 0;
+                for(int i = 0; i < cards.size(); i++) {
+                    if(cards.get(i).getName().equals(card.getName())) {
+                        cards.remove(card);
+                        cards.add(i, card);
+                        numSelected = card.getNumSelected() + 1;
+                        card.removeHighlight();
+                        break;
+                    }
+                }
+                for(int i = cards.size() - 1; i >= 0; i--) {
+                    if(cards.get(i).getName().equals(card.getName())) {
+                        cards.get(i).setHighlight();
+                        cards.get(i).setNumSelected(numSelected);
+                        break;
+                    }
+                }
+                uiController.arrangeCardsPos(cards);
+            }
+        }
+    }
 }

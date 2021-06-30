@@ -30,7 +30,7 @@ public class AttackPlayers implements Runnable {
             performer.setActionBarStatus("等待其他玩家應對", "");
             performer.setCardSelectedHandler((card) -> {
             });
-            performer.setActionBarButtonHandler((e) -> {
+            performer.setActionBarRightButtonHandler((e) -> {
             });
         });
 

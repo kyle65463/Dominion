@@ -3,9 +3,7 @@ package dominion.models.game;
 import dominion.game.GameManager;
 import dominion.game.Logger;
 import dominion.models.User;
-import dominion.models.events.game.EndBuyingPhaseEvent;
-import dominion.models.events.game.EndPlayingActionsPhaseEvent;
-import dominion.models.events.game.PlayCardEvent;
+import dominion.models.events.game.*;
 import dominion.models.game.cards.Card;
 import dominion.models.game.cards.actions.Action;
 import dominion.models.game.cards.actions.HasSelection;
@@ -45,24 +43,27 @@ public class Player {
 
     private boolean isEnableUi;
     private boolean immuneNextAttack = false;
-    private Deck deck;
-    private DiscardPile discardPile;
+
+    /* Components */
+    private final Deck deck;
+    private final DiscardPile discardPile;
     private FieldCards fieldCards;
-    private HandCards handCards;
-    private ActionBar actionBar;
-    private PlayerStatus playerStatus;
+    private final HandCards handCards;
+    private final ActionBar actionBar;
+    private final PlayerStatus playerStatus;
 
     private int maxSelectedCard = Integer.MAX_VALUE;
     private int exactSelectingCards = 0;
     private List<Card> selectedCards = new ArrayList<>();
+    private CardFilter selectingHandCardsFilter;
 
     // Functions
-    public PlayerStatus getPlayerStatus() {
-        return playerStatus;
-    }
-
     public void setImmuneNextAttack(boolean b) {
         immuneNextAttack = b;
+    }
+
+    public PlayerStatus getPlayerStatus() {
+        return playerStatus;
     }
 
     public boolean getImmuneNextAttack() {
@@ -137,24 +138,6 @@ public class Player {
         setActionBarValues();
     }
 
-    public void setMaxSelectingCards(int maxSelectingCards) {
-        this.maxSelectedCard = maxSelectingCards;
-    }
-
-    public void setExactSelectingCards(int exactSelectingCards) {
-        this.exactSelectingCards = exactSelectingCards;
-        this.maxSelectedCard = exactSelectingCards;
-        actionBar.setButtonVisible(false);
-    }
-
-    public void resetMaxSelectingCards() {
-        maxSelectedCard = Integer.MAX_VALUE;
-    }
-
-    public void resetExactSelectingCards() {
-        exactSelectingCards = 0;
-    }
-
     public void setFieldCards(FieldCards fieldCards) {
         this.fieldCards = fieldCards;
     }
@@ -193,7 +176,7 @@ public class Player {
     }
 
     public void checkActionCardsAndEndPlayingActionPhase() {
-        if(!hasActionCards()) {
+        if (!hasActionCards()) {
             GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
         }
     }
@@ -217,73 +200,39 @@ public class Player {
 
     public Pair<String, String> getActionBarStatus() {
         String originalStatus = actionBar.getStatus();
-        String originalButtonText = actionBar.getButtonText();
+        String originalButtonText = actionBar.getRightButtonText();
         return new Pair<>(originalStatus, originalButtonText);
     }
 
-    public void setActionBarStatus(String status, String buttonText) {
+    public void setActionBarStatus(String status, String rightButtonText, String leftButtonText) {
         actionBar.setStatus(status);
-        actionBar.setButtonText(buttonText);
+        actionBar.setRightButtonText(rightButtonText);
+        actionBar.setLeftButtonText(leftButtonText);
+    }
+
+    public void setActionBarStatus(String status, String rightButtonText) {
+        actionBar.setStatus(status);
+        actionBar.setRightButtonText(rightButtonText);
     }
 
     public EventHandler getActionBarButtonOnPressed() {
-        return actionBar.getButtonOnPressed();
+        return actionBar.getRightButtonOnPressed();
     }
 
-    public void setActionBarButtonHandler(EventHandler eventHandler) {
-        actionBar.setButtonOnPressed(eventHandler);
+    public void setActionBarRightButtonHandler(EventHandler eventHandler) {
+        actionBar.setRightButtonOnPressed(eventHandler);
     }
 
-    public void setActionBarAutoTreasureHandler(EventHandler eventHandler) {
-        actionBar.setAutoTreasureOnPressed(eventHandler);
+    public void setActionBarLeftButtonHandler(EventHandler eventHandler) {
+        actionBar.setLeftButtonOnPressed(eventHandler);
     }
 
-    public void setActionBarAutoTreasure(boolean b) {
-        actionBar.setAutoTreasure(b);
+    public void setActionBarLeftButtonText(String text) {
+        actionBar.setLeftButtonText(text);
     }
 
-    public List<Card> getSelectedCards() {
-        return new ArrayList<>(selectedCards);
-    }
-
-    public void selectCard(int cardId) {
-        Card card = handCards.getCardByCardId(cardId);
-        if (selectedCards.contains(card)) {
-            card.removeHighlight();
-            selectedCards.remove(card);
-        } else if(selectedCards.size() < maxSelectedCard){
-            card.setHighlight();
-            selectedCards.add(card);
-        }
-
-        if(exactSelectingCards > 0) {
-            if(selectedCards.size() == exactSelectingCards){
-                actionBar.setButtonVisible(true);
-            }
-            else {
-                actionBar.setButtonVisible(false);
-            }
-        }
-    }
-
-    public void clearSelectingCards() {
-        for (Card card : selectedCards) {
-            card.removeHighlight();
-        }
-        selectedCards.clear();
-    }
-
-    public void doneSelection(int cardId) {
-        HasSelection card = (HasSelection) fieldCards.getCardByCardId(cardId);
-        card.performSelection(this, selectedCards);
-        resetMaxSelectingCards();
-        resetExactSelectingCards();
-        actionBar.setButtonVisible(true);
-        clearSelectingCards();
-    }
-
-    public CardSelectedHandler getCardSelectedHandler() {
-        return handCards.getCardSelectedHandler();
+    public void enableLeftButton(boolean b) {
+        actionBar.enableLeftButton(b);
     }
 
     public void setCardSelectedHandler(CardSelectedHandler cardSelectedHandler) {
@@ -320,26 +269,21 @@ public class Player {
     }
 
     public void trashHandCards(List<Card> cards) {
-        for(Card card : cards) {
+        for (Card card : cards) {
             System.out.println(card);
             Logger.logTrashCard(this, card);
         }
         handCards.removeCards(cards);
-        for(Card card : cards) {
+        for (Card card : cards) {
             card.disableUi();
         }
         setPlayerStatusValues();
     }
 
     public void discardHandCards(List<Card> cards) {
-
         handCards.removeCards(cards);
         discardPile.addCards(cards);
         setPlayerStatusValues();
-    }
-
-    public void gainCard(CardSelectedHandler cardSelectedHandler) {
-
     }
 
     public void drawCards(int numCards) {
@@ -418,16 +362,98 @@ public class Player {
     private StatusSnapshot statusSnapshot;
 
     public void snapshotStatus() {
-        statusSnapshot = new StatusSnapshot(actionBar.getButtonText(), actionBar.getStatus(),
-                actionBar.getButtonOnPressed(), handCards.getCardSelectedHandler());
+        statusSnapshot = new StatusSnapshot(actionBar.getRightButtonText(), actionBar.getStatus(),
+                actionBar.getRightButtonOnPressed(), handCards.getCardSelectedHandler());
     }
 
     public void recoverStatus() {
         if (statusSnapshot != null) {
             setActionBarStatus(statusSnapshot.status, statusSnapshot.buttonText);
             setCardSelectedHandler(statusSnapshot.cardSelectedHandler);
-            setActionBarButtonHandler(statusSnapshot.buttonHandler);
+            setActionBarRightButtonHandler(statusSnapshot.buttonHandler);
             statusSnapshot = null;
+        }
+    }
+
+    /* Hand Cards Selection*/
+    public void startSelectingHandCards(String statusText, int cardId) {
+        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
+            snapshotStatus();
+            setActionBarStatus(statusText, "完成", "重新選擇");
+            setCardSelectedHandler((card) -> {
+                if (selectingHandCardsFilter == null || selectingHandCardsFilter.filter(card)) {
+                    GameManager.sendEvent(new SelectHandCardEvent(id, card.getId()));
+                }
+            });
+            setActionBarLeftButtonHandler((e) -> {
+                GameManager.sendEvent(new ClearSelectedHandCardsEvent(id));
+            });
+            setActionBarRightButtonHandler((e) -> {
+                GameManager.sendEvent(new DoneSelectingHandCardEvent(id, cardId));
+            });
+            actionBar.enableLeftButton(false);
+        }
+    }
+
+    public void doneHandCardsSelection(int cardId) {
+        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
+            for (Card card : selectedCards) {
+                card.removeHighlight();
+            }
+            HasSelection card = (HasSelection) fieldCards.getCardByCardId(cardId);
+            card.performSelection(this, selectedCards);
+            maxSelectedCard = Integer.MAX_VALUE;
+            exactSelectingCards = 0;
+            actionBar.enableRightButton(true);
+            selectingHandCardsFilter = null;
+            clearSelectedHandCards();
+            recoverStatus();
+        }
+    }
+
+    public void setSelectingHandCardsFilter(CardFilter filter) {
+        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
+            this.selectingHandCardsFilter = filter;
+        }
+    }
+
+    public void setMaxSelectingHandCards(int maxSelectingCards) {
+        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
+            this.maxSelectedCard = maxSelectingCards;
+        }
+    }
+
+    public void setExactSelectingHandCards(int exactSelectingCards) {
+        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
+            this.exactSelectingCards = exactSelectingCards;
+            this.maxSelectedCard = exactSelectingCards;
+            actionBar.enableRightButton(false);
+        }
+    }
+
+    public void selectHandCard(int cardId) {
+        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
+            Card card = handCards.getCardByCardId(cardId);
+            if (!selectedCards.contains(card) && selectedCards.size() < maxSelectedCard) {
+                card.setHighlight();
+                selectedCards.add(card);
+                handCards.setToBottom(card);
+            }
+            actionBar.enableLeftButton(selectedCards.size() > 0);
+            if (exactSelectingCards > 0) {
+                actionBar.enableRightButton(selectedCards.size() == exactSelectingCards);
+            }
+        }
+    }
+
+    public void clearSelectedHandCards() {
+        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
+            selectedCards.clear();
+            handCards.rearrange();
+            actionBar.enableLeftButton(false);
+            if (exactSelectingCards > 0) {
+                actionBar.enableRightButton(selectedCards.size() == exactSelectingCards);
+            }
         }
     }
 }

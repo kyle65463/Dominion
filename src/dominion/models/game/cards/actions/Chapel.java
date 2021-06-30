@@ -10,7 +10,7 @@ import dominion.utils.CardTypes;
 
 import java.util.List;
 
-public class Chapel extends Card implements Action, HasSelection{
+public class Chapel extends Card implements Action, HasSelection {
     // Constructor
     public Chapel() {
         name = "禮拜堂";
@@ -27,27 +27,16 @@ public class Chapel extends Card implements Action, HasSelection{
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
-        // Save the status of the performer
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.snapshotStatus();
-        performer.setMaxSelectingCards(4);
-
-        // Set new handlers
-        performer.setActionBarStatus("選擇要移除的牌", "完成");
-        performer.setCardSelectedHandler((card) -> {
-            GameManager.sendEvent(new SelectHandCardEvent(performer.getId(), card.getId()));
-        });
-        performer.setActionBarButtonHandler((e) -> {
-            GameManager.sendEvent(new DoneSelectingHandCardEvent(performer.getId(), id));
-        });
+        performer.startSelectingHandCards("選擇要移除的牌", id);
+        performer.setMaxSelectingHandCards(4);
     }
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
         performer.trashHandCards(cards);
-        performer.recoverStatus();
 
-        if(decreaseNumActions) {
+        if (decreaseNumActions) {
             performer.decreaseNumActions();
         }
         decreaseNumActions = true;
