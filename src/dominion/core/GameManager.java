@@ -135,16 +135,18 @@ public class GameManager {
     }
 
     public static boolean checkGameOver() {
-        if (minorPurchaseArea.isGameOver()) {
-            VoicePlayer.playEffect(1);
-            gameOver();
-            return true;
-        } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
-            VoicePlayer.playEffect(1);
-            gameOver();
-            return true;
-        }
-        return false;
+        gameOver();
+        return true;
+//        if (minorPurchaseArea.isGameOver()) {
+//            VoicePlayer.playEffect(1);
+//            gameOver();
+//            return true;
+//        } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
+//            VoicePlayer.playEffect(1);
+//            gameOver();
+//            return true;
+//        }
+//        return false;
     }
 
     private static void gameOver() {
@@ -163,7 +165,7 @@ public class GameManager {
             WinnerDialog.setWinner(finalWinner.getName());
             setCurrentPhase(Phase.GameOver);
         });
-        PauseTransition returnRoom = new PauseTransition(Duration.seconds(2));
+        PauseTransition returnRoom = new PauseTransition(Duration.seconds(3));
         returnRoom.setOnFinished(e-> ReturnRoomController.navigateToRoomScene());
         returnRoom.play();
     }

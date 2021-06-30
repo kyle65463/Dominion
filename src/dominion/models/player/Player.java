@@ -53,13 +53,15 @@ public class Player {
     private final HandCards handCards;
     private final ActionBar actionBar;
     private final PlayerStatus playerStatus;
-
+    private User user;
     private int maxSelectedCard = Integer.MAX_VALUE;
     private int exactSelectingCards = 0;
     private List<Card> selectedCards = new ArrayList<>();
     private CardFilter selectingHandCardsFilter;
 
     // Functions
+    public User getUser(){return user;}
+
     public void setImmuneNextAttack(boolean b) {
         immuneNextAttack = b;
     }
