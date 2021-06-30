@@ -6,6 +6,7 @@ import dominion.models.cards.treasures.Copper;
 import dominion.models.cards.treasures.Gold;
 import dominion.models.cards.treasures.Silver;
 import dominion.models.cards.victories.Duchy;
+import dominion.models.cards.victories.Duke;
 import dominion.models.cards.victories.Estate;
 import dominion.models.cards.victories.Province;
 
@@ -16,6 +17,8 @@ public class CardList {
     private static Map<Integer, Card> cardsMap = new HashMap<>();
     private static List<Card> basicCards = new ArrayList<>();
     private static List<Card> dominionCards = new ArrayList<>();
+    private static List<Card> intrigueCards = new ArrayList<>();
+    private static List<Card> seaSideCards = new ArrayList<>();
     private static int id = 0;
 
     // Functions
@@ -48,6 +51,18 @@ public class CardList {
                 new Artisan()
         ));
         setCardIds(dominionCards);
+
+        intrigueCards = new ArrayList<>(Arrays.asList(
+                new CountryYard(),
+                new Duke(),
+                new IronWorks(),
+                new Replace()
+        ));
+        setCardIds(intrigueCards);
+
+        seaSideCards = new ArrayList<>(Arrays.asList(
+        ));
+        setCardIds(seaSideCards);
     }
 
     public static List<Card> getBasicCardList() {
@@ -56,6 +71,14 @@ public class CardList {
 
     public static List<Card> getDominionCardList() {
         return new ArrayList<>(dominionCards);
+    }
+
+    public static List<Card> getSeaSideCardList() {
+        return new ArrayList<>(seaSideCards);
+    }
+
+    public static List<Card> getIntrigueCardList() {
+        return new ArrayList<>(intrigueCards);
     }
 
     public static List<Card> getCardsById(List<Integer> ids) {

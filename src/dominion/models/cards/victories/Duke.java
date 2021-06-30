@@ -14,7 +14,7 @@ public class Duke extends Card implements Victory{
         description = "遊戲結束時，每一張公國都會讓你遊戲結束多1分。";
         style = CardStyles.green;
         type = CardTypes.victory;
-        numCost = 2;
+        numCost = 5;
         expansion = Expansion.Intrigue;
     }
 

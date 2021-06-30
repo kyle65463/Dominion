@@ -10,6 +10,7 @@ import dominion.params.RoomSceneParams;
 import dominion.params.SceneParams;
 import dominion.utils.Navigator;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -29,6 +30,12 @@ public class GameSettingsController extends SceneController {
     private GridPane gridPane;
     @FXML
     private VBox collectionList;
+    @FXML
+    private Label dominionTab;
+    @FXML
+    private Label intrigueTab;
+    @FXML
+    private Label seaSideTab;
 
     // Variables
     private Stage stage;
@@ -37,6 +44,11 @@ public class GameSettingsController extends SceneController {
     private Connection connection;
     private List<Integer> basicCardIds;
     private Set<Integer> allEnabledCardIds;
+
+    private List<DisplayedCard> dominionCards;
+    private List<DisplayedCard> intrigueCards;
+    private List<DisplayedCard> seaSideCards;
+
 
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
@@ -50,10 +62,46 @@ public class GameSettingsController extends SceneController {
         this.allEnabledCardIds = new HashSet<>(params.allEnabledCardIds);
         GameScene.initialize(rootNode);
 
-        List<DisplayedCard> dominionCards = new ArrayList<>(CardList.getDominionCardList().stream().map(DisplayedCard::new).toList());
+        dominionCards = new ArrayList<>(CardList.getDominionCardList().stream().map(DisplayedCard::new).toList());
         dominionCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
-        int numCols = 5;
-        int numRows = (int) Math.ceil(dominionCards.size() / (double) numCols);
+
+        intrigueCards = new ArrayList<>(CardList.getIntrigueCardList().stream().map(DisplayedCard::new).toList());
+        intrigueCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
+
+        seaSideCards = new ArrayList<>(CardList.getSeaSideCardList().stream().map(DisplayedCard::new).toList());
+        seaSideCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
+
+        dominionTab.setOnMouseClicked((e) -> {
+            displayDominionCards();
+        });
+
+        intrigueTab.setOnMouseClicked((e) -> {
+            displayIntrigueCards();
+        });
+
+        seaSideTab.setOnMouseClicked((e) -> {
+            displaySeaSideCards();
+        });
+
+        displayDominionCards();
+    }
+
+    private void displayDominionCards() {
+        display(dominionCards);
+    }
+
+    private void displayIntrigueCards() {
+        display(intrigueCards);
+    }
+
+    private void displaySeaSideCards() {
+        display(seaSideCards);
+    }
+
+    private void display(List<DisplayedCard> cards) {
+        int numCols = Math.min(5, cards.size());
+        int numRows = (int) Math.ceil(cards.size() / (double) numCols);
+        gridPane.getChildren().clear();
         gridPane.getRowConstraints().clear();
         for (int i = 0; i < numRows; i++) {
             gridPane.getRowConstraints().add(new RowConstraints(70));
@@ -62,8 +110,8 @@ public class GameSettingsController extends SceneController {
         for (int i = 0; i < numCols; i++) {
             gridPane.getColumnConstraints().add(new ColumnConstraints(84));
         }
-        for (int i = 0; i < dominionCards.size(); i++) {
-            DisplayedCard displayedCard = dominionCards.get(i);
+        for (int i = 0; i < cards.size(); i++) {
+            DisplayedCard displayedCard = cards.get(i);
             Integer cardId = CardList.getCardId(displayedCard.getCard());
             if(!allEnabledCardIds.contains(cardId)){
                 displayedCard.setDisable(true);

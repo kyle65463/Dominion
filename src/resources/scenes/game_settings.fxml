@@ -17,9 +17,21 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <VBox fx:id="collectionList" layoutX="19.0" layoutY="98.0" prefHeight="238.0" prefWidth="81.0">
+      <VBox fx:id="collectionList" layoutX="19.0" layoutY="98.0" prefHeight="238.0" prefWidth="80.0">
          <children>
-            <Label alignment="CENTER" prefHeight="3.0" prefWidth="81.0" text="皇輿爭霸">
+            <Label fx:id="dominionTab" alignment="CENTER" prefHeight="40.0" prefWidth="80.0" text="皇輿爭霸">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Line endX="31.5" endY="35.0" startX="-47.5" startY="35.0" />
+            <Label fx:id="intrigueTab" alignment="CENTER" prefHeight="40.0" prefWidth="80.0" text="暗潮洶湧">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Line endX="31.5" endY="35.0" startX="-47.5" startY="35.0" />
+            <Label fx:id="seaSideTab" alignment="CENTER" prefHeight="40.0" prefWidth="80.0" text="海國圖誌">
                <font>
                   <Font size="16.0" />
                </font>
