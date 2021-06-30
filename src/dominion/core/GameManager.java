@@ -90,9 +90,9 @@ public class GameManager {
         return getRandomInt(1000000);
     }
 
-    public static int getRandomInt(int num) {
+    public static int getRandomInt(int upperBound) {
         if (random != null) {
-            return random.nextInt(num);
+            return random.nextInt(upperBound);
         }
         return 0;
     }

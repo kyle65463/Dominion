@@ -28,6 +28,7 @@ public class BuyCardEvent extends GameEvent{
                 if (player.getNumCoins() >= card.getNumCost() && player.getNumPurchases() > 0 && displayedCard.getNumRemain() > 0) {
                     try {
                         Card newCard = (Card) card.clone();
+                        newCard.setId();
                         newCard.setNumRemain(1);
                         player.receiveNewCard(newCard);
                         player.decreaseNumPurchases();

@@ -14,7 +14,7 @@ public abstract class Card implements HasUi, Cloneable {
     // Constructor
     public Card() {
         disableUi();
-        setId(GameManager.getRandomInt());
+        setId();
     }
 
     // Variables
@@ -51,8 +51,8 @@ public abstract class Card implements HasUi, Cloneable {
         return numCost;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId() {
+        this.id = GameManager.getRandomInt();
     }
 
     public int getId() {

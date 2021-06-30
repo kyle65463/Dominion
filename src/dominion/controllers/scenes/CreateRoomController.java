@@ -11,6 +11,6 @@ public class CreateRoomController extends ConnectToRoomController {
         super.initialize(stage, sceneParams);
         connection = new Server();
         nameField.setText(defaultName);
-        portField.setText("1234");
+        portField.setText(defaultPort);
     }
 }
