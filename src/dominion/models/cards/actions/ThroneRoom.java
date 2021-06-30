@@ -2,6 +2,7 @@ package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
+import dominion.models.handlers.CardNextMoveHandler;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
@@ -28,7 +29,6 @@ public class ThroneRoom extends Card implements Action, HasHandCardsSelection {
         this.decreaseNumActions = decreaseNumActions;
         // Save the status of the performer
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.snapshotStatus();
         performer.setMaxSelectingCards(1);
         performer.setSelectingHandCardsFilter(card->card instanceof Action);
 
@@ -39,15 +39,15 @@ public class ThroneRoom extends Card implements Action, HasHandCardsSelection {
     public void performSelection(Player performer, List<Card> cards) {
         if(cards.size() > 0) {
             Card card = cards.get(0);
-            performer.setActionChainEnd(false);
-            card.setCardNextMove(()->{
-                card.setCardNextMove(()->{
-                    performer.setActionChainEnd(true);
+            CardNextMoveHandler handler1 = ()->{
+                performer.retrieveHandCardFromFieldCards(card);
+                CardNextMoveHandler handler2 = ()->{
+                    card.clearCardNextMove();
                     performer.checkActionCardsAndEndPlayingActionPhase();
-                });
-                performer.playCard(card.getId(), false);
-            });
-            performer.playCard(cards.get(0).getId(), false, 1);
+                };
+                performer.playCard(card.getId(), false, handler2);
+            };
+            performer.playCard(cards.get(0).getId(), false, handler1);
         }
         performer.setSelectingHandCardsFilter(null);
 
@@ -55,8 +55,6 @@ public class ThroneRoom extends Card implements Action, HasHandCardsSelection {
             performer.decreaseNumActions();
         }
         decreaseNumActions = true;
-        performer.setActionBarRightButtonHandler((e)->{
-            GameManager.sendEvent(new EndPlayingActionsPhaseEvent(performer.getId()));
-        });
+        doNextMove();
     }
 }

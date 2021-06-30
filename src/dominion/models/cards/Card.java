@@ -109,7 +109,6 @@ public abstract class Card implements HasUi, Cloneable {
     }
 
     public void doNextMove() {
-        System.out.println("in doNextMove");
         this.nextMoveHandler.perform();
     }
 

@@ -40,6 +40,10 @@ public class FieldCards implements HasUi {
         cards.clear();
     }
 
+    public void removeCard(Card card) {
+        cards.remove(card);
+    }
+
     public void addCard(Card card) {
         cards.add(card);
         if(isEnableUi) {

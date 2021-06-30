@@ -17,6 +17,6 @@ public class PlayCardEvent extends GameEvent {
     @Override
     public void perform() {
         Player player = GameManager.getPlayerById(playerId);
-        player.playCard(cardId, true);
+        player.playCard(cardId, true, null);
     }
 }

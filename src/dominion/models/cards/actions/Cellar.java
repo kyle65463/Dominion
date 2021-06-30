@@ -31,7 +31,6 @@ public class Cellar extends Card implements Action, HasHandCardsSelection {
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        System.out.println("here");
         performer.discardHandCards(cards);
         performer.drawCards(cards.size());
         performer.increaseNumActions(1);
@@ -41,6 +40,5 @@ public class Cellar extends Card implements Action, HasHandCardsSelection {
         }
         decreaseNumActions = true;
         doNextMove();
-        performer.checkActionCardsAndEndPlayingActionPhase();
     }
 }

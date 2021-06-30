@@ -12,6 +12,7 @@ import dominion.models.cards.actions.HasHandCardsSelection;
 import dominion.models.cards.actions.Reaction;
 import dominion.models.cards.treasures.Treasure;
 import dominion.models.handlers.CardFilter;
+import dominion.models.handlers.CardNextMoveHandler;
 import dominion.models.handlers.CardSelectedHandler;
 import dominion.models.handlers.DisplayedCardFilter;
 import javafx.event.EventHandler;
@@ -48,7 +49,6 @@ public class Player {
     private int numPurchases = 1;
 
     private boolean isEnableUi;
-    private boolean actionChainEnd = true;
     private boolean immuneNextAttack = false;
 
     /* Components */
@@ -79,8 +79,6 @@ public class Player {
     public boolean getImmuneNextAttack() {
         return immuneNextAttack;
     }
-
-    public void setActionChainEnd(boolean b) { actionChainEnd = b; }
 
     public String getName() {
         return name;
@@ -178,23 +176,12 @@ public class Player {
         return cards;
     }
 
-    public void playCard(int cardId, boolean decreaseNumActions) {
-        playCard(cardId, decreaseNumActions, 1);
-//        Card card = handCards.getCardByCardId(cardId);
-//        LogBox.logPlayCard(this, card);
-//        handCards.removeCard(card);
-//        fieldCards.addCard(card);
-//        if (card instanceof Treasure) {
-//            numCoins += ((Treasure) card).getNumValue();
-//        } else if (card instanceof Action) {
-//            ((Action) card).perform(this, decreaseNumActions);
-//        }
-//
-//        setPlayerStatusValues();
-//        setActionBarValues();
+    public void retrieveHandCardFromFieldCards(Card card) {
+        fieldCards.removeCard(card);
+        handCards.addCard(card);
     }
 
-    public void playCard(int cardId, boolean decreaseNumActions, int times) {
+    public void playCard(int cardId, boolean decreaseNumActions, CardNextMoveHandler nextMoveHandler) {
         Card card = handCards.getCardByCardId(cardId);
         LogBox.logPlayCard(this, card);
         handCards.removeCard(card);
@@ -202,9 +189,8 @@ public class Player {
         if (card instanceof Treasure) {
             numCoins += ((Treasure) card).getNumValue();
         } else if (card instanceof Action) {
-            for (int i = 0; i < times; i++) {
-                ((Action) card).perform(this, decreaseNumActions);
-            }
+            card.setCardNextMove(nextMoveHandler == null ? ()->{ checkActionCardsAndEndPlayingActionPhase(); } : nextMoveHandler);
+            ((Action) card).perform(this, decreaseNumActions);
         }
 
         setPlayerStatusValues();
@@ -212,7 +198,7 @@ public class Player {
     }
 
     public void checkActionCardsAndEndPlayingActionPhase() {
-        if (!hasActionCards() && actionChainEnd) {
+        if (!hasActionCards()) {
             GameManager.sendEvent(new EndPlayingActionsPhaseEvent(id));
         }
     }
