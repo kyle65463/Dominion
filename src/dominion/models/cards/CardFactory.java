@@ -12,7 +12,7 @@ import dominion.models.cards.victories.Province;
 
 import java.util.*;
 
-public class CardList {
+public class CardFactory {
     // Variables
     private static Map<Integer, Card> cardsMap = new HashMap<>();
     private static List<Card> basicCards = new ArrayList<>();

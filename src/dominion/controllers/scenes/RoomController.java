@@ -1,8 +1,9 @@
 package dominion.controllers.scenes;
 
 import dominion.connections.Server;
+import dominion.controllers.components.ReturnRoomController;
 import dominion.models.User;
-import dominion.models.cards.CardList;
+import dominion.models.cards.CardFactory;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
 import dominion.models.events.Message;
@@ -64,10 +65,10 @@ public class RoomController extends SceneController {
         this.basicCardIds = params.basicCardIds;
         this.allEnabledCardIds = params.allEnabledCardIds;
         if(basicCardIds.isEmpty()) {
-            basicCardIds = CardList.getCardIds(CardList.getBasicCardList());
+            basicCardIds = CardFactory.getCardIds(CardFactory.getBasicCardList());
         }
         if(allEnabledCardIds.isEmpty()) {
-            allEnabledCardIds = CardList.getCardIds(CardList.getDominionCardList());
+            allEnabledCardIds = CardFactory.getCardIds(CardFactory.getDominionCardList());
         }
 
         // Set up UIs

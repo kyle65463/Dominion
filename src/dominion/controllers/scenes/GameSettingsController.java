@@ -4,7 +4,7 @@ import dominion.connections.Connection;
 import dominion.models.User;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.areas.GameScene;
-import dominion.models.cards.CardList;
+import dominion.models.cards.CardFactory;
 import dominion.params.GameSettingsSceneParams;
 import dominion.params.RoomSceneParams;
 import dominion.params.SceneParams;
@@ -62,13 +62,13 @@ public class GameSettingsController extends SceneController {
         this.allEnabledCardIds = new HashSet<>(params.allEnabledCardIds);
         GameScene.initialize(rootNode);
 
-        dominionCards = new ArrayList<>(CardList.getDominionCardList().stream().map(DisplayedCard::new).toList());
+        dominionCards = new ArrayList<>(CardFactory.getDominionCardList().stream().map(DisplayedCard::new).toList());
         dominionCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
 
-        intrigueCards = new ArrayList<>(CardList.getIntrigueCardList().stream().map(DisplayedCard::new).toList());
+        intrigueCards = new ArrayList<>(CardFactory.getIntrigueCardList().stream().map(DisplayedCard::new).toList());
         intrigueCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
 
-        seaSideCards = new ArrayList<>(CardList.getSeaSideCardList().stream().map(DisplayedCard::new).toList());
+        seaSideCards = new ArrayList<>(CardFactory.getSeaSideCardList().stream().map(DisplayedCard::new).toList());
         seaSideCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
 
         dominionTab.setOnMouseClicked((e) -> {
@@ -112,7 +112,7 @@ public class GameSettingsController extends SceneController {
         }
         for (int i = 0; i < cards.size(); i++) {
             DisplayedCard displayedCard = cards.get(i);
-            Integer cardId = CardList.getCardId(displayedCard.getCard());
+            Integer cardId = CardFactory.getCardId(displayedCard.getCard());
             if(!allEnabledCardIds.contains(cardId)){
                 displayedCard.setDisable(true);
             }

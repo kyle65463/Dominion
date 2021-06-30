@@ -2,7 +2,6 @@ package dominion.controllers.scenes;
 
 import dominion.connections.Connection;
 import dominion.controllers.components.ChoiceBoxController;
-import dominion.controllers.components.LeaveController;
 import dominion.controllers.components.SettingButtonController;
 import dominion.core.Game;
 import dominion.core.GameManager;
@@ -13,8 +12,7 @@ import dominion.models.areas.MajorPurchaseArea;
 import dominion.models.areas.MinorPurchaseArea;
 import dominion.models.areas.WinnerDialog;
 import dominion.models.cards.Card;
-import dominion.models.cards.CardList;
-import dominion.models.cards.actions.*;
+import dominion.models.cards.CardFactory;
 import dominion.models.cards.curses.Curses;
 import dominion.models.cards.treasures.Copper;
 import dominion.models.cards.treasures.Gold;
@@ -70,8 +68,8 @@ public class GameController extends SceneController {
         User applicationUser = params.applicationUser;
         Connection connection = params.connection;
         int randomSeed = params.randomSeed;
-        List<Card> basicCards = CardList.getCardsById(params.basicCardIds);
-        List<Card> allEnabledCards = CardList.getCardsById(params.allEnabledCardIds);
+        List<Card> basicCards = CardFactory.getCardsById(params.basicCardIds);
+        List<Card> allEnabledCards = CardFactory.getCardsById(params.allEnabledCardIds);
 
         // Set up random seed
         GameManager.setRandomSeed(randomSeed);

@@ -1,19 +1,10 @@
 package dominion.controllers.components;
 
 import dominion.connections.Connection;
-import dominion.connections.Server;
-import dominion.core.GameManager;
 import dominion.models.User;
-import dominion.models.cards.CardList;
 import dominion.params.RoomSceneParams;
 import dominion.params.SceneParams;
 import dominion.utils.Navigator;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;

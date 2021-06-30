@@ -64,17 +64,13 @@ class Receive implements Runnable {
         catch (Exception e) {
             System.out.println("Receiver Error");
             System.out.println(e);
-            Runnable updater = new Runnable() {
-                @Override
-                public void run() {
-                    GameScene.disable();
-                    GameScene.add(new LeaveController());
-                    PauseTransition exit = new PauseTransition(Duration.seconds(3));
-                    exit.setOnFinished(ee->Platform.exit());
-                    exit.play();
-                }
-            };
-            Platform.runLater(updater);
+            Platform.runLater(()->{
+                GameScene.disable();
+                GameScene.add(new LeaveController());
+                PauseTransition exit = new PauseTransition(Duration.seconds(2));
+                exit.setOnFinished(ee->Platform.exit());
+                exit.play();
+            });
         }
     }
 }
