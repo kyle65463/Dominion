@@ -39,6 +39,9 @@ public class Merchant extends Card implements Action {
                 }
             }
         });
+        if (decreaseNumActions) {
+            performer.decreaseNumActions();
+        }
         doNextMove();
     }
 }
