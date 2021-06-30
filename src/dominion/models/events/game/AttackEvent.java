@@ -1,8 +1,8 @@
 package dominion.models.events.game;
 
-import dominion.game.GameManager;
-import dominion.models.game.Player;
-import dominion.models.game.cards.actions.Reaction;
+import dominion.core.GameManager;
+import dominion.models.player.Player;
+import dominion.models.cards.actions.Reaction;
 
 
 public class AttackEvent extends GameEvent{
@@ -30,7 +30,7 @@ public class AttackEvent extends GameEvent{
                 GameManager.sendEvent(new DoneSelectingReactionCardEvent(attackedId));
             }
         });
-        attacked.setActionBarButtonHandler((e) -> {
+        attacked.setActionBarRightButtonHandler((e) -> {
             GameManager.sendEvent(new DoneSelectingReactionCardEvent(attackedId));
             attacked.recoverStatus();
         });

@@ -1,8 +1,7 @@
 package dominion.models.events.game;
 
-import dominion.game.GameManager;
-import dominion.models.game.Player;
-import dominion.models.game.cards.Card;
+import dominion.core.GameManager;
+import dominion.models.player.Player;
 
 public class DoneSelectingHandCardEvent extends GameEvent {
     // Constructor
@@ -18,9 +17,9 @@ public class DoneSelectingHandCardEvent extends GameEvent {
     @Override
     public void perform() {
         if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
-            GameManager.returnLastPhase();
             Player player = GameManager.getPlayerById(playerId);
-            player.doneSelection(cardId);
+            player.doneHandCardsSelection(cardId);
+            GameManager.returnLastPhase();
         }
     }
 }

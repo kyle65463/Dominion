@@ -1,8 +1,7 @@
 package dominion.models.events.game;
 
-import dominion.game.GameManager;
-import dominion.models.game.Player;
-import dominion.models.game.cards.Card;
+import dominion.core.GameManager;
+import dominion.models.player.Player;
 
 public class PlayCardEvent extends GameEvent {
     // Constructor

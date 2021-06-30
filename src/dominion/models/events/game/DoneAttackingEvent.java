@@ -1,6 +1,6 @@
 package dominion.models.events.game;
 
-import dominion.game.GameManager;
+import dominion.core.GameManager;
 
 public class DoneAttackingEvent extends GameEvent {
     public DoneAttackingEvent(int playerId) {

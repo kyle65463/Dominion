@@ -1,6 +1,6 @@
 package dominion.controllers.components;
 
-import dominion.models.game.GameScene;
+import dominion.models.areas.GameScene;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -13,8 +13,8 @@ public class ActionBarController extends ComponentController{
     }
 
     // Variables
-    private Button button;
-    private Button autoTreasure;
+    private Button rightButton;
+    private Button leftButton;
     private Label statusLabel;
     private Label purchasesLabel;
     private Label actionsLabel;
@@ -35,25 +35,25 @@ public class ActionBarController extends ComponentController{
         coinsLabel.setText(String.valueOf(numCoins));
     }
 
-    public void setButtonText(String buttonText) {
-        button.setText(buttonText);
-        if(buttonText.isEmpty()){
-            button.setVisible(false);
-        }
-        else{
-            button.setVisible(true);
-        }
+    public void setRightButtonText(String buttonText) {
+        rightButton.setText(buttonText);
+        rightButton.setVisible(!buttonText.isEmpty());
+    }
+
+    public void setLeftButtonText(String buttonText) {
+        leftButton.setText(buttonText);
+        leftButton.setVisible(!buttonText.isEmpty());
     }
 
     public void setStatus(String status) {
         statusLabel.setText(status);
     }
 
-    public void setButtonOnPressed(EventHandler handler) {
-        button.setOnMousePressed(handler);
+    public void setRightButtonOnPressed(EventHandler handler) {
+        rightButton.setOnMousePressed(handler);
     }
 
-    public void setAutoTreasureOnPressed(EventHandler handler) { autoTreasure.setOnMousePressed(handler); }
+    public void setLeftButtonOnPressed(EventHandler handler) { leftButton.setOnMousePressed(handler); }
 
     private void initialize() {
         try {
@@ -62,15 +62,16 @@ public class ActionBarController extends ComponentController{
             purchasesLabel = (Label) rootNode.lookup("#num_purchases");
             coinsLabel = (Label) rootNode.lookup("#num_coins");
             statusLabel = (Label) rootNode.lookup("#status");
-            button = (Button) rootNode.lookup("#button");
-            autoTreasure = (Button) rootNode.lookup("#autoTreasure");
+            rightButton = (Button) rootNode.lookup("#button");
+            leftButton = (Button) rootNode.lookup("#autoTreasure");
 
             setNumActions(1);
             setNumPurchases(1);
             setNumCoins(3);
             setStatus("你可以購買卡片");
-            setButtonText("結束購買");
-            setAutoTreasure(false);
+            setRightButtonText("結束購買");
+            enableLeftButton(false);
+            enableRightButton(true);
 
             rootNode.setLayoutX(x);
             rootNode.setLayoutY(y);
@@ -80,25 +81,25 @@ public class ActionBarController extends ComponentController{
         }
     }
 
-    public void setAutoTreasure(boolean b) {
-        autoTreasure.setDisable(!b);
-        autoTreasure.setVisible(b);
+    public void enableLeftButton(boolean b) {
+        leftButton.setDisable(!b);
+        leftButton.setVisible(b);
     }
 
-    public void setButtonVisible(boolean b) {
-        button.setDisable(!b);
-        button.setVisible(b);
+    public void enableRightButton(boolean b) {
+        rightButton.setDisable(!b);
+        rightButton.setVisible(b);
     }
 
     public String getStatus() {
         return statusLabel.getText();
     }
 
-    public String getButtonText() {
-        return button.getText();
+    public String getRightButtonText() {
+        return rightButton.getText();
     }
 
-    public EventHandler getButtonOnPressed() {
-        return button.getOnMousePressed();
+    public EventHandler getRightButtonOnPressed() {
+        return rightButton.getOnMousePressed();
     }
 }

@@ -1,6 +1,6 @@
 package dominion.controllers.components;
 
-import dominion.models.game.PlayerStatus;
+import dominion.models.player.PlayerStatus;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 

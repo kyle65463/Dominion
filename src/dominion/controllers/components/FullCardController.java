@@ -1,13 +1,10 @@
 package dominion.controllers.components;
 
-import dominion.models.game.GameScene;
-import dominion.models.game.cards.Card;
-import dominion.models.game.cards.treasures.Treasure;
-import javafx.event.EventHandler;
+import dominion.models.areas.GameScene;
+import dominion.models.cards.Card;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
 public class FullCardController extends ComponentController{
 

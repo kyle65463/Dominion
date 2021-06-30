@@ -1,10 +1,10 @@
 package dominion.models.events.game;
 
-import dominion.game.GameManager;
-import dominion.game.Logger;
-import dominion.models.game.DisplayedCard;
-import dominion.models.game.Player;
-import dominion.models.game.cards.Card;
+import dominion.core.GameManager;
+import dominion.models.areas.LogBox;
+import dominion.models.player.DisplayedCard;
+import dominion.models.player.Player;
+import dominion.models.cards.Card;
 
 public class BuyCardEvent extends GameEvent{
     // Constructor
@@ -33,7 +33,7 @@ public class BuyCardEvent extends GameEvent{
                         player.decreaseNumCoins(card.getNumCost());
                         displayedCard.decreaseNumRemain();
 
-                        Logger.logBuyCard(player, newCard);
+                        LogBox.logBuyCard(player, newCard);
 
                     } catch (Exception e) {
 

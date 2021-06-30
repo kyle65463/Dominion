@@ -1,8 +1,5 @@
 package dominion.models.events.game;
 
-import dominion.game.GameManager;
-import dominion.models.game.Player;
-
 public class SelectDisplayedCardEvent extends GameEvent {
     // Constructor
     public SelectDisplayedCardEvent(int playerId, int displayedCardId) {

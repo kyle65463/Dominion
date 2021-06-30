@@ -1,9 +1,8 @@
 package dominion.controllers.components;
 
-import dominion.game.GameManager;
-import dominion.models.game.cards.Card;
-import dominion.models.game.cards.treasures.Treasure;
-import dominion.models.game.GameScene;
+import dominion.models.cards.Card;
+import dominion.models.cards.treasures.Treasure;
+import dominion.models.areas.GameScene;
 import dominion.utils.CardStyles;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -25,11 +24,13 @@ public class CardController extends ComponentController {
     public static final double height = 190;
     private Card card;
     private StackPane numRemainBox;
+    private StackPane numSelectedBox;
     private StackPane valueBox;
     private StackPane costBox;
     private Label nameLabel;
     private Label numCostLabel;
     private Label numRemainLabel;
+    private Label numSelectedLabel;
     private Label typesLabel;
     private Label numValueLabel;
 
@@ -41,7 +42,6 @@ public class CardController extends ComponentController {
     private void setStyle() {
         rootNode.setStyle(card.getStyle());
     }
-
 
     public void setTypesLabel(String type) {
         typesLabel.setText(type);
@@ -61,8 +61,18 @@ public class CardController extends ComponentController {
         rootNode.setStyle(card.getStyle() + CardStyles.highlight);
     }
 
+    public void setNumSelected(int numSelected) {
+        numSelectedBox.setVisible(numSelected > 0);
+        numSelectedLabel.setText(String.valueOf(numSelected));
+    }
+
+    public int getNumSelected() {
+        return Integer.parseInt(numSelectedLabel.getText());
+    }
+
     public void removeHighlight() {
         setStyle();
+        setNumSelected(0);
     }
 
     public void setOnPressed(EventHandler eventHandler) {
@@ -120,8 +130,10 @@ public class CardController extends ComponentController {
             typesLabel = (Label) rootNode.lookup("#types");
             numCostLabel = (Label) rootNode.lookup("#cost");
             numRemainLabel = (Label) rootNode.lookup("#remain");
+            numSelectedLabel = (Label) rootNode.lookup("#num_selected");
             numValueLabel = (Label) rootNode.lookup("#value");
             numRemainBox = (StackPane) rootNode.lookup("#remain_box");
+            numSelectedBox = (StackPane) rootNode.lookup("#num_selected_box");
             valueBox = (StackPane) rootNode.lookup("#value_box");
             costBox = (StackPane) rootNode.lookup("#cost_box");
 
@@ -129,6 +141,7 @@ public class CardController extends ComponentController {
             setTypesLabel(card.getType());
             setNumRemainLabel(0);
             setNumCostLabel(card.getNumCost());
+            setNumSelected(0);
             if (card instanceof Treasure) {
                 setNumValueLabel(((Treasure) card).getNumValue());
             } else {

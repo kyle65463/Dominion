@@ -1,7 +1,7 @@
 package dominion.controllers.components;
 
-import dominion.models.game.cards.Card;
-import dominion.models.game.GameScene;
+import dominion.models.cards.Card;
+import dominion.models.areas.GameScene;
 import dominion.utils.Animator;
 
 public class DeckController extends ComponentController{
