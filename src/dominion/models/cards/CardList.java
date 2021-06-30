@@ -48,7 +48,8 @@ public class CardList {
                 new ThroneRoom(),
                 new Village(),
                 new Witch(),
-                new Artisan()
+                new Artisan(),
+                new Vassal()
         ));
         setCardIds(dominionCards);
 
@@ -61,6 +62,12 @@ public class CardList {
         setCardIds(intrigueCards);
 
         seaSideCards = new ArrayList<>(Arrays.asList(
+                new WareHouse(),
+                new TreasureMap(),
+                new CutPurse(),
+                new Bazaar(),
+                new SeaHag(),
+                new Salvager()
         ));
         setCardIds(seaSideCards);
     }

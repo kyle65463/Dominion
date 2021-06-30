@@ -71,15 +71,29 @@ public class GameSettingsController extends SceneController {
         seaSideCards = new ArrayList<>(CardList.getSeaSideCardList().stream().map(DisplayedCard::new).toList());
         seaSideCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
 
+        String style = "-fx-text-fill: Sienna;";
+        dominionTab.setStyle(style);
+        intrigueTab.setStyle("");
+        seaSideTab.setStyle("");
+        
         dominionTab.setOnMouseClicked((e) -> {
+            dominionTab.setStyle(style);
+            intrigueTab.setStyle("");
+            seaSideTab.setStyle("");
             displayDominionCards();
         });
 
         intrigueTab.setOnMouseClicked((e) -> {
+            intrigueTab.setStyle(style);
+            dominionTab.setStyle("");
+            seaSideTab.setStyle("");
             displayIntrigueCards();
         });
 
         seaSideTab.setOnMouseClicked((e) -> {
+            seaSideTab.setStyle(style);
+            intrigueTab.setStyle("");
+            dominionTab.setStyle("");
             displaySeaSideCards();
         });
 
