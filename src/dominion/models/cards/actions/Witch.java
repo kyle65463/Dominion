@@ -2,7 +2,7 @@ package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
 import dominion.models.events.game.DoneAttackingEvent;
-import dominion.models.player.DisplayedCard;
+import dominion.models.areas.DisplayedCard;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.AttackPlayers;

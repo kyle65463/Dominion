@@ -8,7 +8,7 @@ import dominion.models.areas.WinnerDialog;
 import dominion.models.events.Event;
 import dominion.models.events.game.GameEvent;
 import dominion.models.cards.Card;
-import dominion.models.player.DisplayedCard;
+import dominion.models.areas.DisplayedCard;
 import dominion.models.player.Player;
 import javafx.application.Platform;
 
@@ -191,6 +191,7 @@ public class GameManager {
             } catch (Exception e) {
 
             }
+            System.err.println("handle event: " + event);
             ((GameEvent) event).perform();
         }
     }

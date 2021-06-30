@@ -27,8 +27,8 @@ public class MoneyLender extends Card implements Action, HasSelection{
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
+        performer.setMaxSelectingCards(1);
         performer.startSelectingHandCards("選擇要移除的牌", id);
-        performer.setMaxSelectingHandCards(1);
         performer.setSelectingHandCardsFilter(card -> card instanceof Copper);
     }
 

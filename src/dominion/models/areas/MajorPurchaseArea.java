@@ -1,9 +1,7 @@
-package dominion.models.game;
+package dominion.models.areas;
 
 import dominion.controllers.components.DisplayedCardController;
-import dominion.models.game.DisplayedCard;
-import dominion.models.game.cards.Card;
-import javafx.event.EventHandler;
+import dominion.models.cards.Card;
 import javafx.scene.layout.GridPane;
 
 import java.util.List;

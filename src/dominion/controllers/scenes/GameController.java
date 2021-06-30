@@ -19,8 +19,9 @@ import dominion.models.cards.treasures.Gold;
 import dominion.models.cards.treasures.Silver;
 import dominion.models.cards.victories.Duchy;
 import dominion.models.cards.victories.Estate;
+import dominion.models.cards.victories.Gardens;
 import dominion.models.cards.victories.Province;
-import dominion.models.player.DisplayedCard;
+import dominion.models.areas.DisplayedCard;
 import dominion.models.player.FieldCards;
 import dominion.models.player.Player;
 import dominion.models.player.PlayerStatus;
@@ -91,12 +92,10 @@ public class GameController {
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
                 initialCards.add(new Artisan());
-//                initialCards.add(new Militia());
 
             }
             for (int i = 0; i < 3; i++) {
                 initialCards.add(new Estate());
-//                initialCards.add(new Moat());
             }
             player.setDeckCards(initialCards);
             player.setFieldCards(fieldCards);

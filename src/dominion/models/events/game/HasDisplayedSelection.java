@@ -1,7 +1,8 @@
 package dominion.models.events.game;
 
-import dominion.models.game.DisplayedCard;
-import dominion.models.game.Player;
+
+import dominion.models.areas.DisplayedCard;
+import dominion.models.player.Player;
 
 import java.util.List;
 

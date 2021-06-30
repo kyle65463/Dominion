@@ -30,7 +30,7 @@ public class Militia extends Card implements Action, Attack, HasSelection {
         if (attacked.getHandCards().size() > 3) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             attacked.startSelectingHandCards("丟棄至三張牌", id);
-            attacked.setExactSelectingHandCards(attacked.getHandCards().size() - 3);
+            attacked.setExactSelectingCards(attacked.getHandCards().size() - 3);
         } else {
             GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
         }

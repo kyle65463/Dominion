@@ -1,13 +1,16 @@
 package dominion.core;
 
 import dominion.models.areas.LogBox;
+import dominion.models.cards.Card;
+import dominion.models.cards.actions.Action;
+import dominion.models.cards.treasures.Copper;
+import dominion.models.cards.treasures.Gold;
+import dominion.models.cards.treasures.Silver;
+import dominion.models.cards.treasures.Treasure;
 import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
 import dominion.models.events.game.PlayCardEvent;
 import dominion.models.player.Player;
-import dominion.models.cards.Card;
-import dominion.models.cards.actions.Action;
-import dominion.models.cards.treasures.Treasure;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -55,8 +58,8 @@ public class Game implements Runnable {
                 });
                 List<Card> cards = GameManager.getCurrentPlayer().getHandCards();
                 if (cards.stream().anyMatch(card -> card instanceof Treasure)) {
-                    currentPlayer.setActionBarAutoTreasure(true);
-                    currentPlayer.setActionBarAutoTreasureHandler((e) -> {
+                    currentPlayer.enableLeftButton(true);
+                    currentPlayer.setActionBarLeftButtonHandler((e) -> {
                         List<Card> handCards= GameManager.getCurrentPlayer().getHandCards();
                         for (Card card : handCards) {
                             if (card instanceof Copper || card instanceof Silver || card instanceof Gold) {
