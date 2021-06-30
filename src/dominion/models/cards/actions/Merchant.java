@@ -39,5 +39,6 @@ public class Merchant extends Card implements Action {
                 }
             }
         });
+        doNextMove();
     }
 }
