@@ -43,18 +43,13 @@ public class Artisan extends Card implements Action, HasSelection, HasDisplayedS
 
     @Override
     public void performDisplayedSelection(Player performer, List<DisplayedCard> displayedCards) {
-        try {
-            DisplayedCard displayedCard = displayedCards.get(0);
-            Card card = displayedCard.getCard();
-            Card newCard = (Card) card.clone();
-            newCard.setNumRemain(1);
-            performer.receiveNewHandCard(newCard);
-            displayedCard.decreaseNumRemain();
-        } catch (Exception e) {
+        DisplayedCard displayedCard = displayedCards.get(0);
+        Card card = displayedCard.instantiateNewCard();
+        performer.receiveNewHandCard(card);
+        displayedCard.decreaseNumRemain();
 
-        }
-        PurchaseArea.setDisplayedCardSelectedHandler((displayedCard) -> {
-            displayedCard.setDisplayCardEventHandler(displayedCard.getOriginalHandler());
+        PurchaseArea.setDisplayedCardSelectedHandler((c) -> {
+            c.setDisplayCardEventHandler(c.getOriginalHandler());
         });
         performer.removeCardSelectedHandler();
 

@@ -107,6 +107,20 @@ public class DisplayedCard implements HasUi {
         return card;
     }
 
+    public Card instantiateNewCard(){
+        try {
+            Card card = getCard();
+            Card newCard = (Card) card.clone();
+            newCard.setNumRemain(1);
+            return newCard;
+        }
+        catch (Exception e){
+            System.out.println("instantiate error");
+        }
+        return null;
+    }
+
+
     public int getNumRemain() {
         return numRemain;
     }

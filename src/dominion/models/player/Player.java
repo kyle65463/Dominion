@@ -249,14 +249,6 @@ public class Player {
         actionBar.enableLeftButton(b);
     }
 
-    public void doneDisplayedSelection(int cardId) {
-        HasDisplayedSelection card = (HasDisplayedSelection) fieldCards.getCardByCardId(cardId);
-        maxSelectedCard = Integer.MAX_VALUE;
-        card.performDisplayedSelection(this, selectedDisplayedCards);
-
-        clearSelectingDisplayedCards();
-    }
-
     public void clearSelectingDisplayedCards() {
         this.selectedDisplayedCards.clear();
     }
@@ -519,6 +511,13 @@ public class Player {
         }
     }
 
+    public void doneDisplayedSelection(int cardId) {
+        HasDisplayedSelection card = (HasDisplayedSelection) fieldCards.getCardByCardId(cardId);
+        maxSelectedCard = Integer.MAX_VALUE;
+        card.performDisplayedSelection(this, selectedDisplayedCards);
+        clearSelectingDisplayedCards();
+    }
+
     public void doneDisplayedCardsSelection(int cardId) {
         if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
             for (DisplayedCard displayedCard : selectedDisplayedCards) {
@@ -539,7 +538,9 @@ public class Player {
         if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
             DisplayedCard displayedCard = PurchaseArea.getDisplayedCardById(displayedCardId);
             if (!selectedDisplayedCards.contains(displayedCard) && selectedDisplayedCards.size() < maxSelectedCard) {
-                displayedCard.setHighlight();
+                if(id == GameManager.getApplicationPlayer().getId() && displayedCard != null) {
+                    displayedCard.setHighlight();
+                }
                 selectedDisplayedCards.add(displayedCard);
             }
             actionBar.enableLeftButton(selectedDisplayedCards.size() > 0);
