@@ -2,8 +2,8 @@ package dominion.models.cards.actions;
 
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
-import dominion.utils.CardStyles;
-import dominion.utils.CardTypes;
+import dominion.models.cards.CardStyles;
+import dominion.models.cards.CardTypes;
 
 public class Market extends Card implements Action {
     // Constructor

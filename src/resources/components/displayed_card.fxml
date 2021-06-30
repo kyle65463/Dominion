@@ -14,7 +14,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <StackPane layoutX="5.0" layoutY="5.0" prefHeight="25.0" prefWidth="25.0">
+      <StackPane id="num_remained_box" layoutX="5.0" layoutY="5.0" prefHeight="25.0" prefWidth="25.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c1c1c1" height="25.0" stroke="#00000080" strokeType="INSIDE" strokeWidth="0.5" width="25.0" />
             <Label fx:id="remain" alignment="CENTER" prefHeight="17.0" prefWidth="27.0" text="10" />

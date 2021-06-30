@@ -36,6 +36,7 @@
       </VBox>
       <Label layoutX="251.0" layoutY="62.0" prefHeight="7.0" prefWidth="39.0" text="玩家" />
       <Line endX="246.0" layoutX="352.0" layoutY="82.0" startX="-100.0" stroke="#00000031" />
-      <Button fx:id="startGameButton" layoutX="87.0" layoutY="351.0" mnemonicParsing="false" onAction="#startGame" text="開始遊戲" />
+      <Button fx:id="startGameButton" layoutX="51.0" layoutY="352.0" mnemonicParsing="false" onAction="#sendStartGame" text="開始遊戲" />
+      <Button fx:id="settingsButton" layoutX="156.0" layoutY="352.0" mnemonicParsing="false" onAction="#navigateToGameSettingsScene" text="設定" />
    </children>
 </AnchorPane>

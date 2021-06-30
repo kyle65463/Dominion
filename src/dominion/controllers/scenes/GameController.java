@@ -24,6 +24,8 @@ import dominion.models.player.DisplayedCard;
 import dominion.models.player.FieldCards;
 import dominion.models.player.Player;
 import dominion.models.player.PlayerStatus;
+import dominion.params.GameSceneParams;
+import dominion.params.SceneParams;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -31,11 +33,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameController {
+public class GameController extends SceneController {
     @FXML
     AnchorPane rootNode;
     @FXML
@@ -55,7 +58,15 @@ public class GameController {
     @FXML
     Label winnerLabel;
 
-    public void initialize(List<User> users, User applicationUser, Connection connection, int randomSeed) {
+    // Functions
+    public void initialize(Stage stage, SceneParams sceneParams) {
+        // Unpack parameters
+        GameSceneParams params = (GameSceneParams) sceneParams;
+        List<User> users = params.users;
+        User applicationUser =  params.applicationUser;
+        Connection connection = params.connection;
+        int randomSeed = params.randomSeed;
+
         // Set up random seed
         GameManager.setRandomSeed(randomSeed);
 

@@ -3,7 +3,7 @@ package dominion.controllers.components;
 import dominion.models.cards.Card;
 import dominion.models.cards.treasures.Treasure;
 import dominion.models.areas.GameScene;
-import dominion.utils.CardStyles;
+import dominion.models.cards.CardStyles;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;

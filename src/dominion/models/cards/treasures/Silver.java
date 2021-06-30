@@ -1,8 +1,8 @@
 package dominion.models.cards.treasures;
 
 import dominion.models.cards.Card;
-import dominion.utils.CardStyles;
-import dominion.utils.CardTypes;
+import dominion.models.cards.CardStyles;
+import dominion.models.cards.CardTypes;
 
 public class Silver extends Card implements Treasure{
     // Constructor

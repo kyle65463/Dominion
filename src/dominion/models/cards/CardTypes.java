@@ -1,4 +1,4 @@
-package dominion.utils;
+package dominion.models.cards;
 
 import java.util.stream.Stream;
 

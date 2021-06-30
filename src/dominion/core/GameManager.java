@@ -83,7 +83,10 @@ public class GameManager {
     }
 
     public static int getRandomInt() {
-        return random.nextInt(1000000);
+        if(random != null) {
+            return random.nextInt(1000000);
+        }
+        return 0;
     }
 
     public static Player getCurrentPlayer() {

@@ -4,21 +4,21 @@ import dominion.models.User;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
 import dominion.connections.Connection;
+import dominion.params.ConnectToRoomSceneParams;
+import dominion.params.MainSceneParams;
+import dominion.params.RoomSceneParams;
+import dominion.params.SceneParams;
 import dominion.utils.Navigator;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.List;
 
-public abstract class ConnectToRoomController {
+public abstract class ConnectToRoomController extends SceneController{
     // FXML Components
     @FXML
     protected Button cancelButton;
@@ -30,56 +30,51 @@ public abstract class ConnectToRoomController {
     protected TextField ipField;
 
     // Variables
+    protected Stage stage;
     protected Connection connection;
+    protected String defaultName;
+    protected String defaultPort;
+    protected String defaultIp;
 
     // Functions
-    public abstract void initialize();
-
-    public void setName(String name) {
-        nameField.setText(name);
+    public void initialize(Stage stage, SceneParams sceneParams) {
+        ConnectToRoomSceneParams params = (ConnectToRoomSceneParams) sceneParams;
+        this.stage = stage;
+        this.defaultName = params.defaultName;
+        this.defaultPort = params.defaultPort;
+        this.defaultIp = params.defaultIp;
     }
 
-    public void cancel(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("resources/scenes/main.fxml"));
-            Parent root = loader.load();
-            MainController mainController = loader.getController();
-            mainController.setName(nameField.getText());
-            Navigator.to(event, root);
-        }
-        catch (Exception e) {
-
-        }
+    public void cancel(ActionEvent e) {
+       navigateToMainScene();
     }
 
-    public void confirm(ActionEvent actionEvent) {
+    public void confirm(ActionEvent e) {
         if (ipField != null) {
             connection.setIp(ipField.getText());
         }
         connection.setName(nameField.getText());
-        connection.setEventHandler((event) -> Platform.runLater(() -> handleEvent(event, actionEvent)));
+        connection.setEventHandler((event) -> Platform.runLater(() -> handleEvent(event)));
         Thread connectionThread = new Thread(connection);
         connectionThread.start();
     }
 
-    public void handleEvent(Event event, ActionEvent actionEvent) {
-        if(event instanceof ConnectionAccepted) {
-            ConnectionAccepted accepted = ((ConnectionAccepted) event);
+    public void handleEvent(Event event) {
+        if(event instanceof ConnectionAccepted accepted) {
             User user = accepted.getAcceptedUser();
             List<User> users = accepted.getUsers();
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("resources/scenes/room.fxml"));
-                Parent root = loader.load();
-                RoomController roomController = loader.getController();
-                roomController.initialize(user, users, connection);
-                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                roomController.setStage(stage);
-                stage.show();
-            }
-            catch (Exception e) {
-                System.out.println(e);
-            }
+            navigateToRoomScene(user, users);
         }
+    }
+
+    /* Navigation */
+    public void navigateToRoomScene(User applicationUser, List<User> users) {
+        RoomSceneParams parameters = new RoomSceneParams(applicationUser, users, connection);
+        Navigator.to(stage, "resources/scenes/room.fxml", parameters);
+    }
+
+    public void navigateToMainScene() {
+        MainSceneParams parameters = new MainSceneParams(defaultName, defaultIp, defaultPort);
+        Navigator.to(stage, "resources/scenes/main.fxml", parameters);
     }
 }

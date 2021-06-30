@@ -5,6 +5,7 @@ import dominion.models.cards.Card;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 
 public class DisplayedCardController extends ComponentController{
     // Constructor
@@ -18,9 +19,11 @@ public class DisplayedCardController extends ComponentController{
     private Label nameLabel;
     private Label numRemainLabel;
     private Label numCostLabel;
+    private StackPane numRemainedBox;
 
     // Functions
     public void setNumRemain(int numRemain) {
+        numRemainedBox.setVisible(numRemain >= 0);
         numRemainLabel.setText(String.valueOf(numRemain));
     }
 
@@ -52,6 +55,7 @@ public class DisplayedCardController extends ComponentController{
             nameLabel = (Label) rootNode.lookup("#name");
             numRemainLabel = (Label) rootNode.lookup("#remain");
             numCostLabel = (Label) rootNode.lookup("#cost");
+            numRemainedBox = (StackPane) rootNode.lookup("#num_remained_box");
 
             setName(card.getName());
             setNumCost(card.getNumCost());

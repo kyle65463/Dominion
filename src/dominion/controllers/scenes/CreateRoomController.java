@@ -1,12 +1,15 @@
 package dominion.controllers.scenes;
 
 import dominion.connections.Server;
-import javafx.fxml.FXML;
+import dominion.params.SceneParams;
+import javafx.stage.Stage;
 
 public class CreateRoomController extends ConnectToRoomController {
-    @FXML
-    public void initialize() {
+    // Functions
+    @Override
+    public void initialize(Stage stage, SceneParams sceneParams) {
+        super.initialize(stage, sceneParams);
         connection = new Server();
-        nameField.setText("host");
+        nameField.setText(defaultName);
     }
 }

@@ -1,5 +1,7 @@
 package dominion.utils;
 
+import dominion.controllers.scenes.SceneController;
+import dominion.params.SceneParams;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,26 +10,20 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Navigator {
-    public static void to(ActionEvent event, String fxml) {
+    public static void to(Stage stage, String fxml, SceneParams parameters) {
         try {
-            Parent root = FXMLLoader.load(Navigator.class.getClassLoader().getResource(fxml));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception ee) {
-            System.out.println("Navigator Error");
-            System.out.println(ee);
-        }
-    }
+            FXMLLoader loader = new FXMLLoader(Navigator.class.getClassLoader().getResource(fxml));
+            Parent root = loader.load();
+            SceneController controller = (SceneController)loader.getController();
+            controller.initialize(stage, parameters);
 
-    public static void to(ActionEvent event, Parent root) {
-        try {
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(Navigator.class.getClassLoader().getResource("resources/styles/game.css").toExternalForm());
+            stage.setScene(scene);
             stage.show();
-        } catch (Exception ee) {
+        } catch (Exception e) {
             System.out.println("Navigator Error");
-            System.out.println(ee);
+            System.out.println(e);
         }
     }
 }

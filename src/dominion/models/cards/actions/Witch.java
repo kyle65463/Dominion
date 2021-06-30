@@ -7,8 +7,8 @@ import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.AttackPlayers;
 import dominion.models.cards.curses.Curse;
-import dominion.utils.CardStyles;
-import dominion.utils.CardTypes;
+import dominion.models.cards.CardStyles;
+import dominion.models.cards.CardTypes;
 
 public class Witch extends Card implements Action, Attack {
     public Witch() {

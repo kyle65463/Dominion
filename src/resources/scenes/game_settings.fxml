@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dominion.controllers.scenes.GameSettingsController">
+   <children>
+      <Label fx:id="nameLabel" layoutX="14.0" layoutY="14.0" text="遊戲設定">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <VBox fx:id="collectionList" layoutY="58.0" prefHeight="342.0" prefWidth="129.0" />
+      <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="129.0" layoutY="58.0" prefHeight="315.0" prefWidth="448.0" style="-fx-border-width: 0; -fx-background-color: transparent;" vbarPolicy="NEVER">
+         <content>
+            <GridPane fx:id="gridPane" alignment="CENTER" hgap="3.5" prefHeight="306.0" prefWidth="452.0" vgap="3.5">
+            </GridPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
