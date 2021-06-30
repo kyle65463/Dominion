@@ -128,6 +128,7 @@ public class GameController extends SceneController {
             int numRemain = 10;
             if (card instanceof Victory) {
                 numRemain = 4 * players.size();
+//                numRemain = 1;
             }
             if (card instanceof Copper) {
                 numRemain = 60 - 7 * players.size();

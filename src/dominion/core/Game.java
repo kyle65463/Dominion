@@ -1,5 +1,6 @@
 package dominion.core;
 
+import dominion.controllers.components.ReturnRoomController;
 import dominion.models.areas.LogBox;
 import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
@@ -9,7 +10,9 @@ import dominion.models.cards.Card;
 import dominion.models.cards.actions.Action;
 import dominion.models.cards.treasures.Treasure;
 import dominion.utils.VoicePlayer;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.util.Duration;
 
 import java.util.List;
 
@@ -99,4 +102,5 @@ public class Game implements Runnable {
                 break;
         }
     }
+
 }

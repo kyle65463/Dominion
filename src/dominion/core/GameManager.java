@@ -135,18 +135,16 @@ public class GameManager {
     }
 
     public static boolean checkGameOver() {
-        gameOver();
-        return true;
-//        if (minorPurchaseArea.isGameOver()) {
-//            VoicePlayer.playEffect(1);
-//            gameOver();
-//            return true;
-//        } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
-//            VoicePlayer.playEffect(1);
-//            gameOver();
-//            return true;
-//        }
-//        return false;
+        if (minorPurchaseArea.isGameOver()) {
+            VoicePlayer.playEffect(1);
+            gameOver();
+            return true;
+        } else if (minorPurchaseArea.getNumNoneRemained() + majorPurchaseArea.getNumNoneRemained() >= 3) {
+            VoicePlayer.playEffect(1);
+            gameOver();
+            return true;
+        }
+        return false;
     }
 
     private static void gameOver() {
