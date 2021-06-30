@@ -10,7 +10,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class ThroneRoom extends Card implements Action, HasSelection{
+public class ThroneRoom extends Card implements Action, HasHandCardsSelection {
     // Constructor
     public ThroneRoom() {
         name = "王座廳";

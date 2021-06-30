@@ -8,7 +8,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class Chapel extends Card implements Action, HasSelection {
+public class Chapel extends Card implements Action, HasHandCardsSelection {
     // Constructor
     public Chapel() {
         name = "禮拜堂";

@@ -17,9 +17,9 @@ public class DoneSelectingHandCardEvent extends GameEvent {
     @Override
     public void perform() {
         if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
+            GameManager.returnLastPhase();
             Player player = GameManager.getPlayerById(playerId);
             player.doneHandCardsSelection(cardId);
-            GameManager.returnLastPhase();
         }
     }
 }

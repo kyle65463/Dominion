@@ -8,7 +8,7 @@ import dominion.models.areas.PurchaseArea;
 import dominion.models.events.game.*;
 import dominion.models.cards.Card;
 import dominion.models.cards.actions.Action;
-import dominion.models.cards.actions.HasSelection;
+import dominion.models.cards.actions.HasHandCardsSelection;
 import dominion.models.cards.actions.Reaction;
 import dominion.models.cards.treasures.Treasure;
 import dominion.models.handlers.CardFilter;
@@ -421,19 +421,19 @@ public class Player {
     }
 
     public void doneHandCardsSelection(int cardId) {
-        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
-            for (Card card : selectedCards) {
-                card.removeHighlight();
-            }
-            HasSelection card = (HasSelection) fieldCards.getCardByCardId(cardId);
-            card.performSelection(this, selectedCards);
-            maxSelectedCard = Integer.MAX_VALUE;
-            exactSelectingCards = 0;
-            actionBar.enableRightButton(true);
-            selectingHandCardsFilter = null;
-            clearSelectedHandCards();
-            recoverStatus();
+        for (Card card : selectedCards) {
+            card.removeHighlight();
         }
+        HasHandCardsSelection card = (HasHandCardsSelection) fieldCards.getCardByCardId(cardId);
+        card.performSelection(this, selectedCards);
+        maxSelectedCard = Integer.MAX_VALUE;
+        exactSelectingCards = 0;
+        actionBar.enableRightButton(true);
+        actionBar.enableLeftButton(false);
+        selectingHandCardsFilter = null;
+        clearSelectedHandCards();
+        recoverStatus();
+
     }
 
     public void setSelectingHandCardsFilter(CardFilter filter) {
@@ -450,14 +450,14 @@ public class Player {
 
     public void setMaxSelectingCards(int maxSelectingCards) {
         if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards ||
-            GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
+                GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
             this.maxSelectedCard = maxSelectingCards;
         }
     }
 
     public void setExactSelectingCards(int exactSelectingCards) {
         if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards ||
-            GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
+                GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
             this.exactSelectingCards = exactSelectingCards;
             this.maxSelectedCard = exactSelectingCards;
             actionBar.enableRightButton(false);
@@ -480,65 +480,62 @@ public class Player {
     }
 
     public void clearSelectedHandCards() {
-        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
-            selectedCards.clear();
-            handCards.rearrange();
-            actionBar.enableLeftButton(false);
-            if (exactSelectingCards > 0) {
-                actionBar.enableRightButton(selectedCards.size() == exactSelectingCards);
-            }
+        selectedCards.clear();
+        handCards.rearrange();
+        actionBar.enableLeftButton(false);
+        if (exactSelectingCards > 0) {
+            actionBar.enableRightButton(selectedCards.size() == exactSelectingCards);
         }
+
     }
 
-//    Select Displayed Card
+    //    Select Displayed Card
     public void startSelectingDisplayedCards(String statusText, int cardId) {
         if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
             snapshotStatus();
             setActionBarStatus(statusText, "完成", "重新選擇");
-            PurchaseArea.setDisplayedCardSelectedHandler((displayedCard)-> {
+            PurchaseArea.setDisplayedCardSelectedHandler((displayedCard) -> {
                 if (selectingDisplayedCardsFilter == null || selectingDisplayedCardsFilter.filter(displayedCard)) {
                     GameManager.sendEvent(new SelectDisplayedCardEvent(id, displayedCard.getId()));
                 }
             });
-            setActionBarLeftButtonHandler((e)-> {
+            setActionBarLeftButtonHandler((e) -> {
                 GameManager.sendEvent(new ClearSelectedDisplayedCardsEvent(id));
             });
-            setActionBarRightButtonHandler((e)->{
+            setActionBarRightButtonHandler((e) -> {
                 PurchaseArea.rearrange();
-                GameManager.sendEvent(new DoneSelectingDisplayedCardEvent(id ,cardId));
+                GameManager.sendEvent(new DoneSelectingDisplayedCardEvent(id, cardId));
             });
+            setCardSelectedHandler(((card) -> {
+            }));
             actionBar.enableLeftButton(false);
         }
     }
 
-    public void doneDisplayedSelection(int cardId) {
-        HasDisplayedSelection card = (HasDisplayedSelection) fieldCards.getCardByCardId(cardId);
+    public void doneDisplayedCardsSelection(int cardId) {
+        for (DisplayedCard displayedCard : selectedDisplayedCards) {
+            displayedCard.removeHighlight();
+        }
+        HasDisplayedCardsSelection card = (HasDisplayedCardsSelection) fieldCards.getCardByCardId(cardId);
         maxSelectedCard = Integer.MAX_VALUE;
+        exactSelectingCards = 0;
+        selectingDisplayedCardsFilter = null;
+        actionBar.enableRightButton(true);
+        actionBar.enableLeftButton(false);
         card.performDisplayedSelection(this, selectedDisplayedCards);
         clearSelectingDisplayedCards();
-    }
-
-    public void doneDisplayedCardsSelection(int cardId) {
-        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
-            for (DisplayedCard displayedCard : selectedDisplayedCards) {
-                displayedCard.removeHighlight();
-            }
-            HasDisplayedSelection card = (HasDisplayedSelection) fieldCards.getCardByCardId(cardId);
-            card.performDisplayedSelection(this, selectedDisplayedCards);
-            maxSelectedCard = Integer.MAX_VALUE;
-            exactSelectingCards = 0;
-            actionBar.enableRightButton(true);
-            selectingDisplayedCardsFilter = null;
-            clearSelectedDisplayedCards();
-            recoverStatus();
-        }
+        PurchaseArea.setDisplayedCardSelectedHandler((displayedCard) -> {
+            displayedCard.setDisplayCardEventHandler(displayedCard.getOriginalHandler());
+        });
+        clearSelectedDisplayedCards();
+        recoverStatus();
     }
 
     public void selectDisplayedCard(int displayedCardId) {
         if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
             DisplayedCard displayedCard = PurchaseArea.getDisplayedCardById(displayedCardId);
             if (!selectedDisplayedCards.contains(displayedCard) && selectedDisplayedCards.size() < maxSelectedCard) {
-                if(id == GameManager.getApplicationPlayer().getId() && displayedCard != null) {
+                if (id == GameManager.getApplicationPlayer().getId() && displayedCard != null) {
                     displayedCard.setHighlight();
                 }
                 selectedDisplayedCards.add(displayedCard);
@@ -551,17 +548,16 @@ public class Player {
     }
 
     public void clearSelectedDisplayedCards() {
-        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
-            selectedDisplayedCards.clear();
-            PurchaseArea.rearrange();
-            actionBar.enableLeftButton(false);
-            if (exactSelectingCards > 0) {
-                actionBar.enableRightButton(selectedDisplayedCards.size() == exactSelectingCards);
-            }
+        selectedDisplayedCards.clear();
+        PurchaseArea.rearrange();
+        actionBar.enableLeftButton(false);
+        if (exactSelectingCards > 0) {
+            actionBar.enableRightButton(selectedDisplayedCards.size() == exactSelectingCards);
         }
+
     }
 
-    public void gainCardOntoDeck(Card card) {
+    public void receiveNewCardOnDeck(Card card) {
         deck.addCard(card);
         setPlayerStatusValues();
     }

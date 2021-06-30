@@ -20,7 +20,7 @@ public class DoneSelectingDisplayedCardEvent extends GameEvent{
         if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
             GameManager.returnLastPhase();
             Player player = GameManager.getPlayerById(playerId);
-            player.doneDisplayedSelection(cardId);
+            player.doneDisplayedCardsSelection(cardId);
         }
     }
 }

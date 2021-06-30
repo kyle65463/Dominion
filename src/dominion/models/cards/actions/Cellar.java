@@ -8,7 +8,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class Cellar extends Card implements Action, HasSelection {
+public class Cellar extends Card implements Action, HasHandCardsSelection {
     // Constructor
     public Cellar() {
         name = "地窖";

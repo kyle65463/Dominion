@@ -10,7 +10,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class Militia extends Card implements Action, Attack, HasSelection {
+public class Militia extends Card implements Action, Attack, HasHandCardsSelection {
     public Militia() {
         name = "義勇軍";
         description = "";

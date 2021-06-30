@@ -9,7 +9,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class MoneyLender extends Card implements Action, HasSelection{
+public class MoneyLender extends Card implements Action, HasHandCardsSelection {
     // Constructor
     public MoneyLender() {
         name = "錢莊";

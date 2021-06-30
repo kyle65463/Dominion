@@ -5,6 +5,6 @@ import dominion.models.cards.Card;
 
 import java.util.List;
 
-public interface HasSelection {
+public interface HasHandCardsSelection {
     public void performSelection(Player performer, List<Card> cards);
 }
