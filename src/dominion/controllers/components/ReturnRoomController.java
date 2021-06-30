@@ -30,7 +30,6 @@ public class ReturnRoomController {
     public static void getParams(Stage stage,SceneParams sceneParams){
         ReturnRoomController.stage = stage;
         RoomSceneParams params = (RoomSceneParams) sceneParams;
-
         ReturnRoomController.users = params.users;
 
         ReturnRoomController.applicationUser = params.applicationUser;
@@ -40,6 +39,12 @@ public class ReturnRoomController {
     }
 
     public static void navigateToRoomScene() {
+        List<User> existUsers = new ArrayList<>();
+        for(int i = 0;i < UsrExistController.users.size();i++){
+            if(UsrExistController.users.get(i).isExist())
+                existUsers.add(UsrExistController.users.get(i));
+        }
+        users = existUsers;
         RoomSceneParams parameters = new RoomSceneParams(
                 applicationUser, users, connection,
                 basicCardIds, allEnabledCardIds

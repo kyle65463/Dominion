@@ -1,5 +1,6 @@
 package dominion;
 
+import dominion.controllers.components.ReturnMainController;
 import dominion.controllers.scenes.GameController;
 import dominion.controllers.scenes.MainController;
 import dominion.models.User;
@@ -23,6 +24,7 @@ public class Main extends Application {
         stage.setTitle("Dominion");
         stage.setResizable(false);
         MainSceneParams params = new MainSceneParams("kyle15989", "localhost", "9999");
+        ReturnMainController.setStage(stage);
         Navigator.to(stage, "resources/scenes/main.fxml", params);
     }
 

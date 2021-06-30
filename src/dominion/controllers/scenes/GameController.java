@@ -2,7 +2,6 @@ package dominion.controllers.scenes;
 
 import dominion.connections.Connection;
 import dominion.controllers.components.ChoiceBoxController;
-import dominion.controllers.components.LeaveController;
 import dominion.controllers.components.SettingButtonController;
 import dominion.core.Game;
 import dominion.core.GameManager;

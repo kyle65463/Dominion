@@ -1,5 +1,6 @@
 package dominion.connections;
 
+import dominion.controllers.components.ReturnMainController;
 import dominion.models.User;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
@@ -20,6 +21,7 @@ public class Server extends Connection {
     public void run() {
         try {
             ServerSocket server = new ServerSocket(Integer. valueOf(port));
+            ReturnMainController.setServerSocket(server);
             User user = new User(0, name);
             users.add(user);
             myEventHandler.handle(new ConnectionAccepted(user, users));

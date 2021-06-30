@@ -1,7 +1,7 @@
 package dominion.connections;
 
-import dominion.controllers.components.LeaveController;
-import dominion.controllers.components.ReturnRoomController;
+import dominion.controllers.components.*;
+import dominion.models.User;
 import dominion.models.areas.GameScene;
 import dominion.models.events.Event;
 import javafx.animation.PauseTransition;
@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.util.Duration;
 
 import java.io.ObjectInputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ActionReceiver{
@@ -67,11 +68,30 @@ class Receive implements Runnable {
             Runnable updater = new Runnable() {
                 @Override
                 public void run() {
-                    GameScene.disable();
-                    GameScene.add(new LeaveController());
-                    PauseTransition exit = new PauseTransition(Duration.seconds(3));
-                    exit.setOnFinished(ee->Platform.exit());
-                    exit.play();
+                    if(LeaveController.getEvent()){
+                        if(CheckLeaveUserController.isServer()){
+                            ServerSocket server = ReturnMainController.getServerSocket();
+                            try{
+                                server.close();
+                            }catch(Exception e){}
+                            LeaveController.setEvent(false);
+                            ReturnMainController.returnMain();
+                        }
+                    }else{
+                        GameScene.disable();
+                        GameScene.add(new GameLeaveController());
+                        PauseTransition exit = new PauseTransition(Duration.seconds(2));
+                        exit.setOnFinished(ee->{
+                            ServerSocket server = ReturnMainController.getServerSocket();
+                            try{
+                                server.close();
+                            }catch(Exception e){}
+                            LeaveController.setEvent(false);
+                            Platform.exit();
+//                            ReturnMainController.returnMain();
+                        });
+                        exit.play();
+                    }
                 }
             };
             Platform.runLater(updater);

@@ -2,13 +2,13 @@ package dominion.controllers.scenes;
 
 import dominion.connections.Server;
 import dominion.controllers.components.ReturnRoomController;
+import dominion.controllers.components.UsrExistController;
 import dominion.models.User;
 import dominion.models.cards.CardList;
 import dominion.models.events.Event;
-import dominion.models.events.connections.ConnectionAccepted;
+import dominion.models.events.connections.*;
 import dominion.models.events.Message;
 import dominion.connections.Connection;
-import dominion.models.events.connections.StartGameEvent;
 import dominion.params.GameSceneParams;
 import dominion.params.GameSettingsSceneParams;
 import dominion.params.RoomSceneParams;
@@ -88,7 +88,17 @@ public class RoomController extends SceneController {
             startGameButton.setVisible(false);
             startGameButton.setDisable(true);
         }
-        stage.setOnCloseRequest(e->{Platform.exit();System.out.println("why are we still here");});
+        UsrExistController.setUsers(this.users);
+        stage.setOnCloseRequest(e->{
+            boolean isServer = false;
+            if(this.connection instanceof Server){
+                this.connection.send(new RoomServerDisconnect());
+            }else{
+                int id = this.applicationUser.getId();
+                this.connection.send(new RoomClientDisconnect(id));
+            }
+            Platform.exit();
+        });
     }
 
     public void receiveMessage(String message) {
@@ -135,6 +145,9 @@ public class RoomController extends SceneController {
         if (event instanceof StartGameEvent) {
             StartGameEvent startGameEvent = (StartGameEvent) event;
             navigateToGameScene(startGameEvent.randomSeed, startGameEvent.basicCardIds, startGameEvent.allEnabledCardIds);
+        }
+        if (event instanceof LeaveEvent){
+            ((LeaveEvent) event).perform();
         }
     }
 

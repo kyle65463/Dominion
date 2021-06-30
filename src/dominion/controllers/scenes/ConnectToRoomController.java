@@ -4,6 +4,7 @@ import dominion.models.User;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
 import dominion.connections.Connection;
+import dominion.models.events.connections.LeaveEvent;
 import dominion.params.ConnectToRoomSceneParams;
 import dominion.params.MainSceneParams;
 import dominion.params.RoomSceneParams;

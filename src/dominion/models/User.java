@@ -12,6 +12,7 @@ public class User implements Serializable {
     // Variables
     private String name;
     private int id;
+    private boolean exist = true;
     // Functions
     public String getName() {
         return name;
@@ -25,5 +26,6 @@ public class User implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
+    public void leave(){exist = false;}
+    public boolean isExist(){return exist;}
 }
