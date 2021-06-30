@@ -1,6 +1,8 @@
 package dominion.controllers.components;
 import dominion.game.GameManager;
+import dominion.models.events.game.EmojiEvent;
 import dominion.models.events.game.VoicesEvent;
+import dominion.models.game.GameScene;
 import dominion.models.game.Player;
 import dominion.models.game.cards.Card;
 import dominion.utils.Voice;
@@ -19,7 +21,7 @@ import java.util.ResourceBundle;
 public class ChoiceBoxController extends ComponentController{
     public ChoiceBoxController(){initialize();}
     private ChoiceBox<String> choiceBox;
-    private String[] choices = {"選擇行動","嘲諷","慘叫"};
+    private String[] choices = {"選擇行動","嘲諷","慘叫","憤怒"};
     private void initialize() {
         try {
             rootNode = (Pane) FXMLLoader.load(Card.class.getClassLoader().getResource("resources/components/select_button.fxml"));
@@ -48,6 +50,11 @@ public class ChoiceBoxController extends ComponentController{
             Player applicationPlayer = GameManager.getApplicationPlayer();
             String name = applicationPlayer.getName();
             GameManager.sendEvent(new VoicesEvent(1,name));
+            choiceBox.setValue("選擇行動");
+        }else if(choice == "憤怒"){
+            Player applicationPlayer = GameManager.getApplicationPlayer();
+            String name = applicationPlayer.getName();
+            GameManager.sendEvent(new EmojiEvent(name));
             choiceBox.setValue("選擇行動");
         }
     }
