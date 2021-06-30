@@ -4,13 +4,12 @@ import dominion.connections.Connection;
 import dominion.controllers.components.ReturnRoomController;
 import dominion.models.areas.*;
 import dominion.models.events.Event;
+import dominion.models.events.connections.ConnectionEvent;
 import dominion.models.events.game.GameEvent;
 import dominion.models.events.game.InterActiveEvent;
 import dominion.models.player.Player;
 import dominion.utils.VoicePlayer;
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.util.Duration;
 
 import java.util.*;
 import java.util.concurrent.locks.Condition;
@@ -188,15 +187,19 @@ public class GameManager {
             } catch (Exception e) {
 
             }
-
             ((GameEvent) event).perform();
         }else if(event instanceof InterActiveEvent){
             try {
                 Thread.sleep(30);
             } catch (Exception e) {
-
             }
             ((InterActiveEvent) event).perform();
+        }else if(event instanceof ConnectionEvent){
+            try{
+                Thread.sleep(30);
+            }catch (Exception e){
+
+            }
         }
     }
 }

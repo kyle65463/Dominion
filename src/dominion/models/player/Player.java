@@ -21,10 +21,10 @@ import java.util.List;
 public class Player {
     // Constructor
     public Player(User user) {
-        this(user.getName(), user.getId());
+        this(user.getName(), user.getId(),user);
     }
 
-    public Player(String name, int id) {
+    public Player(String name, int id,User user) {
         this.name = name;
         this.id = id;
         deck = new Deck();
@@ -33,6 +33,7 @@ public class Player {
         actionBar = new ActionBar();
         playerStatus = new PlayerStatus();
         playerStatus.setName(name);
+        this.user = user;
     }
 
     // Variables
@@ -47,6 +48,7 @@ public class Player {
     private boolean isEnableUi;
     private boolean immuneNextAttack = false;
 
+    private User user;
     /* Components */
     private final Deck deck;
     private final DiscardPile discardPile;
@@ -65,14 +67,15 @@ public class Player {
     private DisplayedCardFilter selectingDisplayedCardsFilter;
 
     // Functions
+    public User getUser(){return user;}
+
+    public void setImmuneNextAttack(boolean b) {
+        immuneNextAttack = b;
+    }
     public void setAfterPlayCardHandler(AfterPlayCardHandler handler) { afterPlayCardHandler = handler; }
 
     public PlayerStatus getPlayerStatus() {
         return playerStatus;
-    }
-
-    public void setImmuneNextAttack(boolean b) {
-        immuneNextAttack = b;
     }
 
     public boolean getImmuneNextAttack() {

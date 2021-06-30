@@ -27,10 +27,12 @@ public class ReturnRoomController {
     public static List<Integer> basicCardIds;
     public static List<Integer> allEnabledCardIds;
 
-    public static void getParms(Stage stage,SceneParams sceneParams){
+    public static void getParams(Stage stage,SceneParams sceneParams){
         ReturnRoomController.stage = stage;
         RoomSceneParams params = (RoomSceneParams) sceneParams;
+
         ReturnRoomController.users = params.users;
+
         ReturnRoomController.applicationUser = params.applicationUser;
         ReturnRoomController.connection = params.connection;
         ReturnRoomController.basicCardIds = params.basicCardIds;

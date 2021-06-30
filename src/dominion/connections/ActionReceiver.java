@@ -1,6 +1,12 @@
 package dominion.connections;
 
+import dominion.controllers.components.LeaveController;
+import dominion.controllers.components.ReturnRoomController;
+import dominion.models.areas.GameScene;
 import dominion.models.events.Event;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.util.Duration;
 
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -58,6 +64,17 @@ class Receive implements Runnable {
         catch (Exception e) {
             System.out.println("Receiver Error");
             System.out.println(e);
+            Runnable updater = new Runnable() {
+                @Override
+                public void run() {
+                    GameScene.disable();
+                    GameScene.add(new LeaveController());
+                    PauseTransition exit = new PauseTransition(Duration.seconds(3));
+                    exit.setOnFinished(ee->Platform.exit());
+                    exit.play();
+                }
+            };
+            Platform.runLater(updater);
         }
     }
 }

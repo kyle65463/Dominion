@@ -2,6 +2,7 @@ package dominion.controllers.scenes;
 
 import dominion.connections.Connection;
 import dominion.controllers.components.ChoiceBoxController;
+import dominion.controllers.components.LeaveController;
 import dominion.controllers.components.SettingButtonController;
 import dominion.core.Game;
 import dominion.core.GameManager;
@@ -26,6 +27,7 @@ import dominion.models.player.Player;
 import dominion.models.player.PlayerStatus;
 import dominion.params.GameSceneParams;
 import dominion.params.SceneParams;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -168,6 +170,12 @@ public class GameController extends SceneController {
             player.setActionBarStatus("等待其他玩家的回合", "");
             player.reset();
         }
+
+        stage.setOnCloseRequest(e->{
+            Platform.exit();
+        });
+
+
         gameThread.start();
     }
 

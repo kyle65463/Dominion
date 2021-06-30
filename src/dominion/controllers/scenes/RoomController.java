@@ -1,7 +1,6 @@
 package dominion.controllers.scenes;
 
 import dominion.connections.Server;
-import dominion.controllers.components.ReturnRoomController;
 import dominion.models.User;
 import dominion.models.cards.CardList;
 import dominion.models.events.Event;
@@ -56,7 +55,7 @@ public class RoomController extends SceneController {
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
         // Unpack parameters
-        ReturnRoomController.getParms(stage,sceneParams);
+        ReturnRoomController.getParams(stage,sceneParams);
         this.stage = stage;
         RoomSceneParams params = (RoomSceneParams) sceneParams;
         List<User> users = params.users;
@@ -90,6 +89,7 @@ public class RoomController extends SceneController {
             settingsButton.setVisible(false);
             settingsButton.setDisable(true);
         }
+        stage.setOnCloseRequest(e->{Platform.exit();System.out.println("why are we still here");});
     }
 
     public void receiveMessage(String message) {

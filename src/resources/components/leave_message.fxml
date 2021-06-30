@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="228.0" prefWidth="378.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" layoutX="-1.0" layoutY="42.0" prefHeight="58.0" prefWidth="378.0" text="Oof!有人中離了!">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <Circle fill="DODGERBLUE" layoutX="155.0" layoutY="132.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="DODGERBLUE" layoutX="202.0" layoutY="132.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+      <Line endX="-63.399993896484375" endY="-11.199996948242188" layoutX="242.0" layoutY="175.0" startX="-96.99996948242188" startY="14.400009155273438" />
+      <Line endX="7.600006103515625" endY="23.199996948242188" layoutX="203.0" layoutY="163.0" startX="-23.692901611328125" startY="0.0929107666015625" />
+   </children>
+</AnchorPane>
