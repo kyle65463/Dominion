@@ -29,7 +29,6 @@ public class Salvager extends Card implements Action, HasHandCardsSelection {
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
         performer.setMaxSelectingCards(1);
         performer.startSelectingHandCards("選擇要移除的牌", id);
-
     }
 
     @Override

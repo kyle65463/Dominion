@@ -29,9 +29,17 @@ public class CountryYard extends Card implements Action, HasHandCardsSelection {
         this.decreaseNumActions = decreaseNumActions;
         performer.drawCards(3);
 
-        GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.setExactSelectingCards(1);
-        performer.startSelectingHandCards("選擇放回牌庫頂的牌", id);
+        if(performer.getHandCards().size() > 0) {
+            GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
+            performer.setExactSelectingCards(1);
+            performer.startSelectingHandCards("選擇放回牌庫頂的牌", id);
+        }
+        else{
+            if(decreaseNumActions) {
+                performer.decreaseNumActions();
+            }
+            doNextMove();
+        }
     }
 
     @Override

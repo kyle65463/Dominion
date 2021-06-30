@@ -11,6 +11,8 @@ import dominion.models.cards.curses.Curse;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 
+import java.util.List;
+
 public class SeaHag extends Card implements Action, Attack {
     public SeaHag() {
         name = "海巫";
@@ -31,7 +33,11 @@ public class SeaHag extends Card implements Action, Attack {
 
     @Override
     public void performAttack(Player performer, Player attacked) {
-        // TODO pop a card from deck
+        // Pop a card from deck
+        List<Card> cards = attacked.popDeckTop(1);
+        attacked.addCardsToDiscardPile(cards);
+
+        // Get a curse
         Card curse = new Curse();
         DisplayedCard card = PurchaseArea.getDisplayedCardByCard(curse);
         if (card.getNumRemain() > 0) {

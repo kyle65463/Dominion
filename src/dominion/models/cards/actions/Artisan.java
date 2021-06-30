@@ -44,9 +44,17 @@ public class Artisan extends Card implements Action, HasHandCardsSelection, HasD
         }
 
         // Select the card that placed back to deck
-        GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.setExactSelectingCards(1);
-        performer.startSelectingHandCards("選擇放回牌庫頂的牌", id);
+        if(performer.getHandCards().size() > 0) {
+            GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
+            performer.setExactSelectingCards(1);
+            performer.startSelectingHandCards("選擇放回牌庫頂的牌", id);
+        }
+        else{
+            if (decreaseNumActions) {
+                performer.decreaseNumActions();
+            }
+            doNextMove();
+        }
     }
 
     @Override

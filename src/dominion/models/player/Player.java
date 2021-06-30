@@ -595,4 +595,9 @@ public class Player {
         setPlayerStatusValues();
         return ret;
     }
+
+    public void addCardsToDiscardPile(List<Card> cards){
+        discardPile.addCards(cards);
+        setPlayerStatusValues();
+    }
 }

@@ -32,7 +32,6 @@ public class CutPurse extends Card implements Action, Attack, HasHandCardsSelect
 
     @Override
     public void performAttack(Player performer, Player attacked) {
-        // TODO check done attacking
         if (attacked.getHandCards().size() > 3) {
             if (attacked.getHandCards().stream().anyMatch(card -> card instanceof Copper)) {
                 GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
@@ -41,9 +40,12 @@ public class CutPurse extends Card implements Action, Attack, HasHandCardsSelect
                 attacked.startSelectingHandCards("棄掉一張銅幣", id);
             } else {
                 attacked.displayHandCards();
+                GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
             }
         }
-        GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
+        else{
+            GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
+        }
     }
 
     @Override

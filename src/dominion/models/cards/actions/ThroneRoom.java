@@ -1,7 +1,6 @@
 package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
-import dominion.models.events.game.EndPlayingActionsPhaseEvent;
 import dominion.models.handlers.CardNextMoveHandler;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
@@ -27,12 +26,19 @@ public class ThroneRoom extends Card implements Action, HasHandCardsSelection {
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
-        // Save the status of the performer
-        GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.setMaxSelectingCards(1);
-        performer.setSelectingHandCardsFilter(card->card instanceof Action);
 
-        performer.startSelectingHandCards("選擇要執行的牌", id);
+        if(performer.getHandCards().stream().anyMatch(card -> card instanceof Action)) {
+            GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
+            performer.setMaxSelectingCards(1);
+            performer.setSelectingHandCardsFilter(card -> card instanceof Action);
+            performer.startSelectingHandCards("選擇要執行的牌", id);
+        }
+        else{
+            if (decreaseNumActions) {
+                performer.decreaseNumActions();
+            }
+            doNextMove();
+        }
     }
 
     @Override
