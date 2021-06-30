@@ -51,7 +51,7 @@ public class Replace extends Card implements Action, Attack, HasHandCardsSelecti
                 performer.decreaseNumActions();
             }
             decreaseNumActions = true;
-            performer.checkActionCardsAndEndPlayingActionPhase();
+            doNextMove();
         }
     }
 
@@ -76,7 +76,7 @@ public class Replace extends Card implements Action, Attack, HasHandCardsSelecti
                     performer.decreaseNumActions();
                 }
                 decreaseNumActions = true;
-                performer.checkActionCardsAndEndPlayingActionPhase();
+                doNextMove();
             }
         }
         else {
@@ -84,7 +84,7 @@ public class Replace extends Card implements Action, Attack, HasHandCardsSelecti
                 performer.decreaseNumActions();
             }
             decreaseNumActions = true;
-            performer.checkActionCardsAndEndPlayingActionPhase();
+            doNextMove();
         }
     }
 
@@ -105,6 +105,6 @@ public class Replace extends Card implements Action, Attack, HasHandCardsSelecti
             performer.decreaseNumActions();
         }
         decreaseNumActions = true;
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 }

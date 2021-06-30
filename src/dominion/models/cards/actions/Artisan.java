@@ -60,6 +60,6 @@ public class Artisan extends Card implements Action, HasHandCardsSelection, HasD
         if (decreaseNumActions) {
             performer.decreaseNumActions();
         }
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 }

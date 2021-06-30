@@ -46,6 +46,6 @@ public class CountryYard extends Card implements Action, HasHandCardsSelection {
             performer.decreaseNumActions();
         }
         decreaseNumActions = true;
-        performer.checkActionCardsAndEndPlayingActionPhase();
+        doNextMove();
     }
 }

@@ -20,7 +20,6 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class Player {
     // Constructor
@@ -567,4 +566,11 @@ public class Player {
         handCards.removeCard(card);
         setPlayerStatusValues();
     }
+
+//    public List<Card> popDeckTop(int numCards) {
+//        List<Card> cards = new ArrayList<>();
+//        for (int i = 0; i < numCards; i++) {
+//            cards.add(deck.popCards())
+//        }
+//    }
 }
