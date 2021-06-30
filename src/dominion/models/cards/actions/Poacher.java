@@ -12,7 +12,7 @@ import java.util.List;
 public class Poacher extends Card implements Action, HasHandCardsSelection {
     public Poacher() {
         name = "盜獵者";
-        description = "+1卡片\n+1行動\n+1塊錢\n供應區每有一張空的牌堆，你就必須棄掉一張手牌。";
+        description = "+1 卡片\n+1 行動\n+1 塊錢\n\n供應區每有一張空的牌堆，你就必須棄掉一張手牌。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 4;
@@ -31,7 +31,6 @@ public class Poacher extends Card implements Action, HasHandCardsSelection {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             int selectedNum = Math.min(PurchaseArea.getNumNoneRemained(), performer.getHandCards().size());
             performer.setExactSelectingCards(selectedNum);
-            performer.setMaxSelectingCards(selectedNum);
             performer.startSelectingHandCards("選擇要棄掉的牌", id);
         } else {
             if (decreaseNumActions) {
@@ -44,7 +43,7 @@ public class Poacher extends Card implements Action, HasHandCardsSelection {
     @Override
     public void performSelection(Player performer, List<Card> cards) {
         if (cards.size() > 0) {
-            performer.trashHandCards(cards);
+            performer.discardHandCards(cards);
         }
 
         if(decreaseNumActions) {

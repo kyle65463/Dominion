@@ -12,7 +12,7 @@ public class Merchant extends Card implements Action {
     // Constructor
     public Merchant() {
             name = "商人";
-            description = "+1卡片\n+1行動\n此回合第一次打出銀幣的時候+1塊。";
+            description = "+1 卡片\n+1 行動\n\n此回合第一次打出銀幣的時候+1塊。";
             style = CardStyles.white;
             type = CardTypes.action;
             numCost = 3;

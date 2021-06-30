@@ -49,7 +49,10 @@ public class CardFactory {
                 new Village(),
                 new Witch(),
                 new Artisan(),
-                new Vassal()
+                new Vassal(),
+                new Merchant(),
+                new Poacher(),
+                new Mine()
         ));
         setCardIds(dominionCards);
 

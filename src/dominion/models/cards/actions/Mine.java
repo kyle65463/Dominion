@@ -38,9 +38,7 @@ public class Mine extends Card implements Action, HasHandCardsSelection, HasDisp
 
             GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
             performer.setExactSelectingCards(1);
-            performer.setSelectingDisplayedCardsFilter( (displayedCard) -> {
-                return displayedCard.getCard().getNumCost() <= 3 + card.getNumCost() && displayedCard.getCard() instanceof Treasure;
-            });
+            performer.setSelectingDisplayedCardsFilter( (displayedCard) -> displayedCard.getCard().getNumCost() <= 3 + card.getNumCost() && displayedCard.getCard() instanceof Treasure);
             performer.startSelectingDisplayedCards("選擇要加到手牌的錢幣卡", id);
         } else {
             if (decreaseNumActions) {

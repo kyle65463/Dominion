@@ -89,12 +89,14 @@ public class Game implements Runnable {
                 });
             });
             GameManager.waitCondition(GameManager.isBuyingPhaseEnd, GameManager.gameLock);
-            currentPlayer.removeCardSelectedHandler();
-            currentPlayer.enableLeftButton(false);
+
 
             // Reset phase
             GameManager.setCurrentPhase(GameManager.Phase.Reset);
             Platform.runLater(() -> {
+                currentPlayer.removeCardSelectedHandler();
+                currentPlayer.setAfterPlayCardHandler(()->{});
+                currentPlayer.enableLeftButton(false);
                 currentPlayer.discardAllHandCards();
                 currentPlayer.discardAllFieldCards();
                 currentPlayer.drawCards(5);
