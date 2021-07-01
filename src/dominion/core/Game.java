@@ -11,6 +11,9 @@ import dominion.models.events.game.EndBuyingPhaseEvent;
 import dominion.models.events.game.EndPlayingActionsPhaseEvent;
 import dominion.models.events.game.PlayCardEvent;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.DiscardAllFieldCards;
+import dominion.models.player.PlayerAction.DiscardAllHandCards;
+import dominion.models.player.PlayerAction.DrawCards;
 import dominion.utils.UiThread;
 import dominion.utils.VoicePlayer;
 
@@ -124,9 +127,10 @@ public class Game implements Runnable {
             currentPlayer.setAfterPlayerActionHandler(() -> {
             });
             currentPlayer.enableLeftButton(false);
-            currentPlayer.discardAllHandCards();
-            currentPlayer.discardAllFieldCards();
-            currentPlayer.drawCards(5);
+            currentPlayer.performPlayerAction(new DiscardAllHandCards());
+            currentPlayer.performPlayerAction(new DiscardAllFieldCards());
+            currentPlayer.performPlayerAction(new DrawCards(5));
+
             currentPlayer.setActionBarStatus("等待其他玩家的回合", "");
             currentPlayer.resetActionBarValues();
         });

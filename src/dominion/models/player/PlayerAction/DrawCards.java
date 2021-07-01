@@ -11,15 +11,14 @@ import dominion.models.player.container.HandCards;
 import java.util.List;
 
 public class DrawCards extends PlayerAction {
-    public DrawCards(Player player, int numCards){
-        this.player= player;
+    public DrawCards(int numCards){
         this.numCards = numCards;
     }
 
     private int numCards;
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         // Check bounds
         if (numCards > discardPile.getNumCards() + deck.getNumCards()) {
             List<Card> cards = deck.popTopCards(deck.getNumCards());
@@ -45,8 +44,7 @@ public class DrawCards extends PlayerAction {
 
         // Draw cards again if not enough
         if (cards.size() < numCards) {
-            new DrawCards(player, numCards - cards.size());
-            player.performPlayerAction(new DrawCards(player, numCards - cards.size()));
+            player.performPlayerAction(new DrawCards(numCards - cards.size()));
         }
     }
 }

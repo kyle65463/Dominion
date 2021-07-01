@@ -7,6 +7,9 @@ import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.DiscardHandCards;
+import dominion.models.player.PlayerAction.DrawCards;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
 
 import java.util.List;
 
@@ -24,7 +27,7 @@ public class Poacher extends Card implements Dominion, Action, HasHandCardsSelec
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
-        performer.drawCards(1);
+        performer.performPlayerAction(new DrawCards(1));
         performer.increaseNumActions(1);
         performer.increaseNumCoins(1);
 
@@ -32,7 +35,7 @@ public class Poacher extends Card implements Dominion, Action, HasHandCardsSelec
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             int selectedNum = Math.min(PurchaseArea.getNumNoneRemained(), performer.getHandCards().size());
             performer.setExactSelectedCards(selectedNum);
-            performer.startSelectingHandCards("選擇要棄掉的牌", id);
+            performer.performPlayerAction(new StartSelectingHandCards("選擇要棄掉的牌", id));
         } else {
             if (decreaseNumActions) {
                 performer.decreaseNumActions();
@@ -44,7 +47,7 @@ public class Poacher extends Card implements Dominion, Action, HasHandCardsSelec
     @Override
     public void performSelection(Player performer, List<Card> cards) {
         if (cards.size() > 0) {
-            performer.discardHandCards(cards);
+            performer.performPlayerAction(new DiscardHandCards(cards));
         }
 
         if(decreaseNumActions) {

@@ -6,6 +6,7 @@ import dominion.models.cards.CardTypes;
 import dominion.models.cards.treasures.Silver;
 import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.DrawCards;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class Merchant extends Card implements Dominion, Action {
 
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.drawCards(1);
+        performer.performPlayerAction(new DrawCards(1));
         performer.increaseNumActions(1);
 
         performer.setAfterPlayCardHandler(()->{

@@ -8,6 +8,8 @@ import dominion.models.cards.Card;
 import dominion.models.cards.AttackPlayers;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.DiscardHandCards;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
 
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class Militia extends Card implements Dominion, Action, Attack, HasHandCa
     public void performAttack(Player performer, Player attacked) {
         if (attacked.getHandCards().size() > 3) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-            attacked.startSelectingHandCards("丟棄至三張牌", id);
+            attacked.performPlayerAction(new StartSelectingHandCards("丟棄至三張牌", id));
             attacked.setExactSelectedCards(attacked.getHandCards().size() - 3);
         } else {
             GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
@@ -43,7 +45,7 @@ public class Militia extends Card implements Dominion, Action, Attack, HasHandCa
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.discardHandCards(cards);
+        performer.performPlayerAction(new DiscardHandCards(cards));
         GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
     }
 

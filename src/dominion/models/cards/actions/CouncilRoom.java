@@ -6,6 +6,7 @@ import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.DrawCards;
 
 public class CouncilRoom extends Card implements Dominion, Action {
     // Constructor
@@ -20,11 +21,11 @@ public class CouncilRoom extends Card implements Dominion, Action {
     // Functions
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.drawCards(4);
+        performer.performPlayerAction(new DrawCards(4));
         performer.increaseNumPurchases(1);
         for(Player player : GameManager.getPlayers()) {
             if(player.getId() != performer.getId()){
-                player.drawCards(1);
+                player.performPlayerAction(new DrawCards(1));
             }
         }
 

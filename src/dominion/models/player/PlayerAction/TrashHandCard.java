@@ -9,15 +9,14 @@ import dominion.models.player.container.FieldCards;
 import dominion.models.player.container.HandCards;
 
 public class TrashHandCard extends PlayerAction{
-    public TrashHandCard(Player player, Card card) {
-        this.player = player;
+    public TrashHandCard(Card card) {
         trashedCard = card;
     }
 
     private Card trashedCard;
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         LogBox.logTrashCard(player, trashedCard);
         handCards.removeCard(trashedCard);
         trashedCard.disableUi();

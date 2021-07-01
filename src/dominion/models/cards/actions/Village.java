@@ -5,6 +5,7 @@ import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.DrawCards;
 
 public class Village extends Card implements Dominion, Action {
     // Constructor
@@ -19,7 +20,7 @@ public class Village extends Card implements Dominion, Action {
     // Functions
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.drawCards(1);
+        performer.performPlayerAction(new DrawCards(1));
         performer.increaseNumActions(2);
 
         if(decreaseNumActions) {

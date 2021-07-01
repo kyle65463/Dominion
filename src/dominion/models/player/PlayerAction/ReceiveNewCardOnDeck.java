@@ -9,8 +9,7 @@ import dominion.models.player.container.FieldCards;
 import dominion.models.player.container.HandCards;
 
 public class ReceiveNewCardOnDeck extends PlayerAction {
-    public ReceiveNewCardOnDeck(Player player, Card card) {
-        this.player = player;
+    public ReceiveNewCardOnDeck(Card card) {
         this.receivedCard = card;
     }
 
@@ -18,7 +17,7 @@ public class ReceiveNewCardOnDeck extends PlayerAction {
 
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         deck.addCard(receivedCard);
         LogBox.logReceiveCard(player, receivedCard);
     }

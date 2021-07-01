@@ -6,6 +6,8 @@ import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
+import dominion.models.player.PlayerAction.TrashHandCards;
 
 import java.util.List;
 
@@ -28,12 +30,12 @@ public class Chapel extends Card implements Dominion, Action, HasHandCardsSelect
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
         performer.setMaxSelectedCards(4);
-        performer.startSelectingHandCards("選擇要移除的牌", id);
+        performer.performPlayerAction(new StartSelectingHandCards("選擇要移除的牌", id));
     }
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.trashHandCards(cards);
+        performer.performPlayerAction(new TrashHandCards(cards));
 
         if (decreaseNumActions) {
             performer.decreaseNumActions();

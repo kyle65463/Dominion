@@ -10,15 +10,14 @@ import dominion.models.player.container.HandCards;
 import java.util.List;
 
 public class DiscardHandCards extends PlayerAction {
-    public DiscardHandCards(Player player, List<Card> cards) {
-        this.player = player;
+    public DiscardHandCards(List<Card> cards) {
         this.discardedHandCards = cards;
     }
 
     private List<Card> discardedHandCards;
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         handCards.removeCards(discardedHandCards);
         discardPile.addCards(discardedHandCards);
     }

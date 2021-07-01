@@ -6,6 +6,9 @@ import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.AddCardsToDiscardPile;
+import dominion.models.player.PlayerAction.PlayCard;
+import dominion.models.player.PlayerAction.ReceiveNewHandCard;
 
 import java.util.List;
 
@@ -31,17 +34,17 @@ public class Vassal extends Card implements Dominion, Action{
                 performer.setActionBarStatus("你可以打出 " + card.getName(), "打出", "不打出");
                 performer.enableLeftButton(true);
                 performer.setActionBarRightButtonHandler((e)->{
-                    performer.receiveNewHandCard(card);
+                    performer.performPlayerAction(new ReceiveNewHandCard(card));
                     performer.recoverStatus();
                     performer.enableLeftButton(false);
                     GameManager.returnLastPhase();
                     if(decreaseNumActions) {
                         performer.decreaseNumActions();
                     }
-                    performer.playCard(card.getId(), false, null);
+                    performer.performPlayerAction(new PlayCard(card.getId(), false, null));
                 });
                 performer.setActionBarLeftButtonHandler((e)->{
-                    performer.addCardsToDiscardPile(cards);
+                    performer.performPlayerAction(new AddCardsToDiscardPile(cards));
                     performer.recoverStatus();
                     performer.enableLeftButton(false);
                     GameManager.returnLastPhase();
@@ -51,7 +54,7 @@ public class Vassal extends Card implements Dominion, Action{
                     doNextMove();
                 });
             } else {
-                performer.addCardsToDiscardPile(cards);
+                performer.performPlayerAction(new AddCardsToDiscardPile(cards));
                 if(decreaseNumActions) {
                     performer.decreaseNumActions();
                 }

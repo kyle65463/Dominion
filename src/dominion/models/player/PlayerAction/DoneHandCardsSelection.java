@@ -9,8 +9,7 @@ import dominion.models.player.container.FieldCards;
 import dominion.models.player.container.HandCards;
 
 public class DoneHandCardsSelection extends PlayerAction {
-    public DoneHandCardsSelection(Player player, int cardId) {
-        this.player = player;
+    public DoneHandCardsSelection(int cardId) {
         this.cardId = cardId;
     }
 
@@ -18,7 +17,7 @@ public class DoneHandCardsSelection extends PlayerAction {
 
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         for (Card card : player.getSelectedCards()) {
             card.removeHighlight();
         }
@@ -31,6 +30,6 @@ public class DoneHandCardsSelection extends PlayerAction {
 
         HasHandCardsSelection card = (HasHandCardsSelection) fieldCards.getCardByCardId(cardId);
         card.performSelection(player, player.getSelectedCards());
-        player.clearSelectedHandCards();
+        player.performPlayerAction(new ClearSelectedHandCards());
     }
 }

@@ -7,6 +7,8 @@ import dominion.models.cards.Card;
 import dominion.models.cards.treasures.Copper;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
+import dominion.models.player.PlayerAction.TrashHandCards;
 
 import java.util.List;
 
@@ -29,14 +31,14 @@ public class MoneyLender extends Card implements Dominion, Action, HasHandCardsS
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
         performer.setMaxSelectedCards(1);
-        performer.startSelectingHandCards("選擇要移除的牌", id);
+        performer.performPlayerAction(new StartSelectingHandCards("選擇要移除的牌", id));
         performer.setSelectingHandCardsFilter(card -> card instanceof Copper);
     }
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
         if(cards.size() > 0) {
-            performer.trashHandCards(cards);
+            performer.performPlayerAction(new TrashHandCards(cards));
             performer.increaseNumCoins(3);
         }
 

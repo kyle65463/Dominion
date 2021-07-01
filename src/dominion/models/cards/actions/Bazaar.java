@@ -5,6 +5,7 @@ import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 import dominion.models.expansions.SeaSide;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.DrawCards;
 
 public class Bazaar extends Card implements SeaSide, Action {
     // Constructor
@@ -19,7 +20,7 @@ public class Bazaar extends Card implements SeaSide, Action {
     // Functions
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.drawCards(1);
+        performer.performPlayerAction(new DrawCards(1));
         performer.increaseNumActions(2);
         performer.increaseNumCoins(1);
 

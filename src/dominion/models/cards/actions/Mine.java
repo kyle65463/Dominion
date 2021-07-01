@@ -9,6 +9,10 @@ import dominion.models.cards.treasures.Treasure;
 import dominion.models.events.game.HasDisplayedCardsSelection;
 import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.ReceiveNewHandCard;
+import dominion.models.player.PlayerAction.StartSelectingDisplayedCards;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
+import dominion.models.player.PlayerAction.TrashHandCards;
 
 import java.util.List;
 
@@ -30,7 +34,7 @@ public class Mine extends Card implements Dominion, Action, HasHandCardsSelectio
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             performer.setExactSelectedCards(1);
             performer.setSelectingHandCardsFilter(card -> card instanceof Treasure);
-            performer.startSelectingHandCards("選擇要移除的錢幣卡", id);
+            performer.performPlayerAction(new StartSelectingHandCards("選擇要移除的錢幣卡", id));
         }
         else{
             if (decreaseNumActions) {
@@ -44,12 +48,12 @@ public class Mine extends Card implements Dominion, Action, HasHandCardsSelectio
     public void performSelection(Player performer, List<Card> cards) {
         if (cards.size() > 0) {
             Card card = cards.get(0);
-            performer.trashHandCards(cards);
+            performer.performPlayerAction(new TrashHandCards(cards));
 
             GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
             performer.setExactSelectedCards(1);
             performer.setSelectingDisplayedCardsFilter( (displayedCard) -> displayedCard.getCard().getNumCost() <= 3 + card.getNumCost() && displayedCard.getCard() instanceof Treasure);
-            performer.startSelectingDisplayedCards("選擇要加到手牌的錢幣卡", id);
+            performer.performPlayerAction(new StartSelectingDisplayedCards("選擇要加到手牌的錢幣卡", id));
         } else {
             if (decreaseNumActions) {
                 performer.decreaseNumActions();
@@ -63,7 +67,7 @@ public class Mine extends Card implements Dominion, Action, HasHandCardsSelectio
         if (displayedCards.size() > 0) {
             DisplayedCard displayedCard = displayedCards.get(0);
             Card card = displayedCard.instantiateNewCard();
-            performer.receiveNewHandCard(card);
+            performer.performPlayerAction(new ReceiveNewHandCard(card));
             displayedCard.decreaseNumRemain();
         }
 

@@ -2,6 +2,7 @@ package dominion.models.events.game;
 
 import dominion.core.GameManager;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.PlayCard;
 
 public class PlayCardEvent extends GameEvent {
     // Constructor
@@ -17,6 +18,6 @@ public class PlayCardEvent extends GameEvent {
     @Override
     public void perform() {
         Player player = GameManager.getPlayerById(playerId);
-        player.playCard(cardId, true, null);
+        player.performPlayerAction(new PlayCard(cardId, true, null));
     }
 }

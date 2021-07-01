@@ -11,8 +11,7 @@ import dominion.models.player.container.FieldCards;
 import dominion.models.player.container.HandCards;
 
 public class StartSelectingHandCards extends PlayerAction {
-    public StartSelectingHandCards(Player player, String statusText, int cardId) {
-        this.player = player;
+    public StartSelectingHandCards(String statusText, int cardId) {
         this.statusText = statusText;
         this.cardId = cardId;
     }
@@ -22,7 +21,7 @@ public class StartSelectingHandCards extends PlayerAction {
 
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
             player.snapshotStatus();
             player.setActionBarStatus(statusText, "完成", "重新選擇");

@@ -3,6 +3,7 @@ package dominion.models.events.game;
 
 import dominion.core.GameManager;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.DoneDisplayedCardsSelection;
 
 public class DoneSelectingDisplayedCardEvent extends GameEvent{
     // Constructor
@@ -20,7 +21,7 @@ public class DoneSelectingDisplayedCardEvent extends GameEvent{
         if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
             GameManager.returnLastPhase();
             Player player = GameManager.getPlayerById(playerId);
-            player.doneDisplayedCardsSelection(cardId);
+            player.performPlayerAction(new DoneDisplayedCardsSelection(cardId));
         }
     }
 }

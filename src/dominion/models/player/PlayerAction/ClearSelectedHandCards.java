@@ -10,13 +10,13 @@ import dominion.models.player.container.HandCards;
 import java.util.List;
 
 public class ClearSelectedHandCards extends PlayerAction {
-    public ClearSelectedHandCards(Player player) {
-        this.player = player;
+    public ClearSelectedHandCards() {
+
     }
 
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         List<Card> selectedCards = player.getSelectedCards();
         selectedCards.clear();
         handCards.rearrange();

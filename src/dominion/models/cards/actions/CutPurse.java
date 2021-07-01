@@ -9,6 +9,8 @@ import dominion.models.cards.Card;
 import dominion.models.cards.AttackPlayers;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.DiscardHandCards;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class CutPurse extends Card implements SeaSide, Action, Attack, HasHandCa
                 GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
                 attacked.setSelectingHandCardsFilter(card -> card instanceof Copper);
                 attacked.setExactSelectedCards(1);
-                attacked.startSelectingHandCards("棄掉一張銅幣", id);
+                attacked.performPlayerAction(new StartSelectingHandCards("棄掉一張銅幣", id));
             } else {
                 attacked.displayHandCards();
                 GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
@@ -51,7 +53,7 @@ public class CutPurse extends Card implements SeaSide, Action, Attack, HasHandCa
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.discardHandCards(cards);
+        performer.performPlayerAction(new DiscardHandCards(cards));
         GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
     }
 

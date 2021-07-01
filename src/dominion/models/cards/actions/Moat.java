@@ -5,6 +5,7 @@ import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.DrawCards;
 
 public class Moat extends Card implements Dominion, Action, Reaction{
     public Moat() {
@@ -17,7 +18,7 @@ public class Moat extends Card implements Dominion, Action, Reaction{
 
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.drawCards(2);
+        performer.performPlayerAction(new DrawCards(2));
         if(decreaseNumActions) {
             performer.decreaseNumActions();
         }

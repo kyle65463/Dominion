@@ -6,6 +6,7 @@ import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 import dominion.models.expansions.Intrigue;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.*;
 
 import java.util.List;
 
@@ -26,12 +27,12 @@ public class CountryYard extends Card implements Intrigue, Action, HasHandCardsS
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
-        performer.drawCards(3);
+        performer.performPlayerAction(new DrawCards(3));
 
         if(performer.getHandCards().size() > 0) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             performer.setExactSelectedCards(1);
-            performer.startSelectingHandCards("選擇放回牌庫頂的牌", id);
+            performer.performPlayerAction(new StartSelectingHandCards("選擇放回牌庫頂的牌", id));
         }
         else{
             if(decreaseNumActions) {
@@ -45,8 +46,8 @@ public class CountryYard extends Card implements Intrigue, Action, HasHandCardsS
     public void performSelection(Player performer, List<Card> cards) {
         if(cards.size() > 0) {
             Card card = cards.get(0);
-            performer.removeHandCard(card);
-            performer.receiveNewCardOnDeck(card);
+            performer.performPlayerAction(new RemoveHandCard(card));
+            performer.performPlayerAction(new ReceiveNewCardOnDeck(card));
         }
 
         if(decreaseNumActions) {

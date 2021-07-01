@@ -11,6 +11,8 @@ import dominion.models.cards.AttackPlayers;
 import dominion.models.cards.curses.Curse;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.AddCardsToDiscardPile;
+import dominion.models.player.PlayerAction.ReceiveNewCardOnDeck;
 
 import java.util.List;
 
@@ -36,13 +38,13 @@ public class SeaHag extends Card implements SeaSide, Action, Attack {
     public void performAttack(Player performer, Player attacked) {
         // Pop a card from deck
         List<Card> cards = attacked.popDeckTop(1);
-        attacked.addCardsToDiscardPile(cards);
+        attacked.performPlayerAction(new AddCardsToDiscardPile(cards));
 
         // Get a curse
         Card curse = new Curse();
         DisplayedCard card = PurchaseArea.getDisplayedCardByCard(curse);
         if (card.getNumRemain() > 0) {
-            attacked.receiveNewCardOnDeck(curse);
+            attacked.performPlayerAction(new ReceiveNewCardOnDeck(curse));
             card.decreaseNumRemain();
         }
         GameManager.sendEvent(new DoneAttackingEvent(attacked.getId()));

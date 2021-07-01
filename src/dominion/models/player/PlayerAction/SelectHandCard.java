@@ -11,15 +11,14 @@ import dominion.models.player.container.HandCards;
 import java.util.List;
 
 public class SelectHandCard extends PlayerAction {
-    public SelectHandCard(Player player, int cardId) {
-        this.player = player;
+    public SelectHandCard(int cardId) {
         this.cardId = cardId;
     }
 
     private int cardId;
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
             Card card = handCards.getCardByCardId(cardId);
             List<Card> selectedCards = player.getSelectedCards();

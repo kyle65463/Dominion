@@ -10,6 +10,9 @@ import dominion.models.cards.victories.Victory;
 import dominion.models.events.game.HasDisplayedCardsSelection;
 import dominion.models.expansions.Intrigue;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.DrawCards;
+import dominion.models.player.PlayerAction.ReceiveNewHandCard;
+import dominion.models.player.PlayerAction.StartSelectingDisplayedCards;
 
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class IronWorks extends Card implements Intrigue, Action, HasDisplayedCar
         GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
         performer.setMaxSelectedCards(1);
         performer.setSelectingDisplayedCardsFilter(displayedCard -> displayedCard.getCard().getNumCost() <= 4);
-        performer.startSelectingDisplayedCards("選擇要加到手牌的牌", id);
+        performer.performPlayerAction(new StartSelectingDisplayedCards("選擇要加到手牌的牌", id));
     }
 
     @Override
@@ -42,7 +45,7 @@ public class IronWorks extends Card implements Intrigue, Action, HasDisplayedCar
         if(displayedCards.size() > 0) {
             DisplayedCard displayedCard = displayedCards.get(0);
             Card card = displayedCard.instantiateNewCard();
-            performer.receiveNewHandCard(card);
+            performer.performPlayerAction(new ReceiveNewHandCard(card));
             displayedCard.decreaseNumRemain();
 
             if(card instanceof Action){
@@ -52,7 +55,7 @@ public class IronWorks extends Card implements Intrigue, Action, HasDisplayedCar
                 performer.increaseNumCoins(1);
             }
             if(card instanceof Victory){
-                performer.drawCards(1);
+                performer.performPlayerAction(new DrawCards(1));
             }
         }
 

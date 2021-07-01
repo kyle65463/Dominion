@@ -7,6 +7,9 @@ import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.PlayCard;
+import dominion.models.player.PlayerAction.RetrieveHandCardFromFieldCards;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
 
 import java.util.List;
 
@@ -32,7 +35,7 @@ public class ThroneRoom extends Card implements Dominion, Action, HasHandCardsSe
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             performer.setMaxSelectedCards(1);
             performer.setSelectingHandCardsFilter(card -> card instanceof Action);
-            performer.startSelectingHandCards("選擇要執行的牌", id);
+            performer.performPlayerAction(new StartSelectingHandCards("選擇要執行的牌", id));
         }
         else{
             if (decreaseNumActions) {
@@ -47,14 +50,14 @@ public class ThroneRoom extends Card implements Dominion, Action, HasHandCardsSe
         if(cards.size() > 0) {
             Card card = cards.get(0);
             CardNextMoveHandler handler1 = ()->{
-                performer.retrieveHandCardFromFieldCards(card);
+                performer.performPlayerAction(new RetrieveHandCardFromFieldCards(card));
                 CardNextMoveHandler handler2 = ()->{
                     card.clearCardNextMove();
                     performer.checkActionCardsAndEndPlayingActionPhase();
                 };
-                performer.playCard(card.getId(), false, handler2);
+                performer.performPlayerAction(new PlayCard(card.getId(), false, handler2));
             };
-            performer.playCard(cards.get(0).getId(), false, handler1);
+            performer.performPlayerAction(new PlayCard(cards.get(0).getId(), false, handler1));
         }
         performer.setSelectingHandCardsFilter(null);
 

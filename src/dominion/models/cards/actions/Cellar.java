@@ -6,6 +6,9 @@ import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.DiscardHandCards;
+import dominion.models.player.PlayerAction.DrawCards;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
 
 import java.util.List;
 
@@ -27,13 +30,13 @@ public class Cellar extends Card implements Dominion, Action, HasHandCardsSelect
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.startSelectingHandCards("選擇要棄掉的牌", id);
+        performer.performPlayerAction(new StartSelectingHandCards("選擇要棄掉的牌", id));
     }
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.discardHandCards(cards);
-        performer.drawCards(cards.size());
+        performer.performPlayerAction(new DiscardHandCards(cards));
+        performer.performPlayerAction(new DrawCards(cards.size()));
         performer.increaseNumActions(1);
 
         if (decreaseNumActions) {

@@ -21,6 +21,7 @@ import dominion.models.cards.treasures.Silver;
 import dominion.models.cards.victories.Estate;
 import dominion.models.cards.victories.Victory;
 import dominion.models.areas.DisplayedCard;
+import dominion.models.player.PlayerAction.DrawCards;
 import dominion.models.player.container.FieldCards;
 import dominion.models.player.Player;
 import dominion.models.player.PlayerStatus;
@@ -105,12 +106,10 @@ public class GameController extends SceneController {
 
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
-//                initialCards.add(new Copper());
-                initialCards.add(new Vassal());
+                initialCards.add(new Copper());
             }
             for (int i = 0; i < 3; i++) {
                 initialCards.add(new Estate());
-
             }
 
             player.setDeckCards(initialCards);
@@ -167,7 +166,7 @@ public class GameController extends SceneController {
         Game game = new Game();
         Thread gameThread = new Thread(game);
         for (Player player : players) {
-            player.drawCards(5);
+            player.performPlayerAction(new DrawCards(5));
             player.setActionBarStatus("等待其他玩家的回合", "");
             player.resetActionBarValues();
         }

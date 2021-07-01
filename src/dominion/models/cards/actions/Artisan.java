@@ -8,6 +8,7 @@ import dominion.models.events.game.*;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.*;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Artisan extends Card implements Dominion, Action, HasHandCardsSelec
         GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
         performer.setMaxSelectedCards(1);
         performer.setSelectingDisplayedCardsFilter(displayedCard -> displayedCard.getCard().getNumCost() <= 5);
-        performer.startSelectingDisplayedCards("選擇要加到手牌的牌", id);
+        performer.performPlayerAction(new StartSelectingDisplayedCards("選擇要加到手牌的牌", id));
     }
 
     @Override
@@ -40,7 +41,7 @@ public class Artisan extends Card implements Dominion, Action, HasHandCardsSelec
         if(displayedCards.size() > 0) {
             DisplayedCard displayedCard = displayedCards.get(0);
             Card card = displayedCard.instantiateNewCard();
-            performer.receiveNewHandCard(card);
+            performer.performPlayerAction(new ReceiveNewHandCard(card));
             displayedCard.decreaseNumRemain();
         }
 
@@ -48,7 +49,7 @@ public class Artisan extends Card implements Dominion, Action, HasHandCardsSelec
         if(performer.getHandCards().size() > 0) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             performer.setExactSelectedCards(1);
-            performer.startSelectingHandCards("選擇放回牌庫頂的牌", id);
+            performer.performPlayerAction(new StartSelectingHandCards("選擇放回牌庫頂的牌", id));
         }
         else{
             if (decreaseNumActions) {
@@ -62,8 +63,8 @@ public class Artisan extends Card implements Dominion, Action, HasHandCardsSelec
     public void performSelection(Player performer, List<Card> cards) {
         if(cards.size() > 0) {
             Card card = cards.get(0);
-            performer.removeHandCard(card);
-            performer.receiveNewCardOnDeck(card);
+            performer.performPlayerAction(new RemoveHandCard(card));
+            performer.performPlayerAction(new ReceiveNewCardOnDeck(card));
         }
 
         if (decreaseNumActions) {

@@ -6,6 +6,8 @@ import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 import dominion.models.expansions.SeaSide;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
+import dominion.models.player.PlayerAction.TrashHandCards;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class Salvager extends Card implements SeaSide, Action, HasHandCardsSelec
         performer.increaseNumPurchases(1);
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
         performer.setMaxSelectedCards(1);
-        performer.startSelectingHandCards("選擇要移除的牌", id);
+        performer.performPlayerAction(new StartSelectingHandCards("選擇要移除的牌", id));
     }
 
     @Override
@@ -37,7 +39,7 @@ public class Salvager extends Card implements SeaSide, Action, HasHandCardsSelec
         if(cards.size() > 0) {
             Card card = cards.get(0);
             performer.increaseNumCoins(card.getNumCost());
-            performer.trashHandCards(cards);
+            performer.performPlayerAction(new TrashHandCards(cards));
         }
 
         if (decreaseNumActions) {

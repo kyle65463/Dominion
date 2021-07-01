@@ -11,15 +11,14 @@ import dominion.models.player.container.HandCards;
 import java.util.List;
 
 public class TrashHandCards extends PlayerAction{
-    public TrashHandCards(Player player, List<Card> cards) {
-        this.player = player;
+    public TrashHandCards(List<Card> cards) {
         this.trashedCards = cards;
     }
 
     private List<Card> trashedCards;
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         for (Card card : trashedCards) {
             LogBox.logTrashCard(player, card);
         }

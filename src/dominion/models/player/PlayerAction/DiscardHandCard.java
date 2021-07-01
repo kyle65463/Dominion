@@ -8,8 +8,7 @@ import dominion.models.player.container.FieldCards;
 import dominion.models.player.container.HandCards;
 
 public class DiscardHandCard extends PlayerAction{
-    public DiscardHandCard(Player player, Card card) {
-        this.player = player;
+    public DiscardHandCard(Card card) {
         this.discardedCard = card;
     }
 
@@ -17,7 +16,7 @@ public class DiscardHandCard extends PlayerAction{
 
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         handCards.removeCard(discardedCard);
         discardPile.addCard(discardedCard);
     }

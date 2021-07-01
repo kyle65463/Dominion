@@ -6,6 +6,10 @@ import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.DiscardAllHandCards;
+import dominion.models.player.PlayerAction.DiscardHandCards;
+import dominion.models.player.PlayerAction.DrawCards;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
 
 import java.util.List;
 
@@ -27,14 +31,14 @@ public class WareHouse extends Card implements SeaSide, Action, HasHandCardsSele
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
         performer.increaseNumActions(1);
-        performer.drawCards(3);
+        performer.performPlayerAction(new DrawCards(3));
         if(performer.getHandCards().size() > 3) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             performer.setExactSelectedCards(3);
-            performer.startSelectingHandCards("選擇要棄掉的牌", id);
+            performer.performPlayerAction(new StartSelectingHandCards("選擇要棄掉的牌", id));
         }
         else{
-            performer.discardAllHandCards();
+            performer.performPlayerAction(new DiscardAllHandCards());
             if (decreaseNumActions) {
                 performer.decreaseNumActions();
             }
@@ -44,7 +48,7 @@ public class WareHouse extends Card implements SeaSide, Action, HasHandCardsSele
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.discardHandCards(cards);
+        performer.performPlayerAction(new DiscardHandCards(cards));
 
         if (decreaseNumActions) {
             performer.decreaseNumActions();

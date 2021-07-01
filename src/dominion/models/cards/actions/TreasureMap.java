@@ -9,6 +9,10 @@ import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.player.PlayerAction.ReceiveNewCardOnDeck;
+import dominion.models.player.PlayerAction.StartSelectingHandCards;
+import dominion.models.player.PlayerAction.TrashHandCard;
+import dominion.models.player.PlayerAction.TrashHandCards;
 
 import java.util.List;
 
@@ -30,12 +34,12 @@ public class TreasureMap extends Card implements SeaSide, Action, HasHandCardsSe
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
 
-        performer.trashHandCard(this);
+        performer.performPlayerAction(new TrashHandCard(this));
         if(performer.getHandCards().stream().anyMatch(card -> card instanceof TreasureMap)) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             performer.setExactSelectedCards(1);
             performer.setSelectingHandCardsFilter(card -> card instanceof TreasureMap);
-            performer.startSelectingHandCards("選擇要移除的牌", id);
+            performer.performPlayerAction(new StartSelectingHandCards("選擇要移除的牌", id));
         }
         else{
             if (decreaseNumActions) {
@@ -47,12 +51,12 @@ public class TreasureMap extends Card implements SeaSide, Action, HasHandCardsSe
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.trashHandCards(cards);
+        performer.performPlayerAction(new TrashHandCards(cards));
         for(int i = 0; i < 4; i++) {
             Card gold = new Gold();
             DisplayedCard card = PurchaseArea.getDisplayedCardByCard(gold);
             if (card.getNumRemain() > 0) {
-                performer.receiveNewCardOnDeck(gold);
+                performer.performPlayerAction(new ReceiveNewCardOnDeck(gold));
                 card.decreaseNumRemain();
             }
         }

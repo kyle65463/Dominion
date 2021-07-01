@@ -8,6 +8,5 @@ import dominion.models.player.container.FieldCards;
 import dominion.models.player.container.HandCards;
 
 public abstract class PlayerAction {
-    protected Player player;
-    public abstract void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards);
+    public abstract void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards);
 }

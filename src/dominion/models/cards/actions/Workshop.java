@@ -8,6 +8,8 @@ import dominion.models.cards.CardTypes;
 import dominion.models.events.game.HasDisplayedCardsSelection;
 import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
+import dominion.models.player.PlayerAction.ReceiveNewHandCard;
+import dominion.models.player.PlayerAction.StartSelectingDisplayedCards;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class Workshop extends Card implements Dominion, Action, HasDisplayedCard
         GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
         performer.setMaxSelectedCards(1);
         performer.setSelectingDisplayedCardsFilter(displayedCard -> displayedCard.getCard().getNumCost() <= 4);
-        performer.startSelectingDisplayedCards("選擇要加到手牌的牌", id);
+        performer.performPlayerAction(new StartSelectingDisplayedCards("選擇要加到手牌的牌", id));
     }
 
     @Override
@@ -37,7 +39,7 @@ public class Workshop extends Card implements Dominion, Action, HasDisplayedCard
         if(displayedCards.size() > 0) {
             DisplayedCard displayedCard = displayedCards.get(0);
             Card card = displayedCard.instantiateNewCard();
-            performer.receiveNewHandCard(card);
+            performer.performPlayerAction(new ReceiveNewHandCard(card));
             displayedCard.decreaseNumRemain();
         }
 

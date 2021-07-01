@@ -13,8 +13,7 @@ import dominion.models.player.container.FieldCards;
 import dominion.models.player.container.HandCards;
 
 public class PlayCard extends PlayerAction {
-    public PlayCard(Player player, int cardId, boolean decreaseNumActions, CardNextMoveHandler cardNextMoveHandler) {
-        this.player = player;
+    public PlayCard(int cardId, boolean decreaseNumActions, CardNextMoveHandler cardNextMoveHandler) {
         this.cardId = cardId;
         this.decreaseNumActions = decreaseNumActions;
         this.cardNextMoveHandler = cardNextMoveHandler;
@@ -25,7 +24,7 @@ public class PlayCard extends PlayerAction {
     private CardNextMoveHandler cardNextMoveHandler;
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         Card card = handCards.getCardByCardId(cardId);
         LogBox.logPlayCard(player, card);
         handCards.removeCard(card);

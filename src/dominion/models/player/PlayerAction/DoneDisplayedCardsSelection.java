@@ -12,15 +12,14 @@ import dominion.models.player.container.HandCards;
 import java.util.List;
 
 public class DoneDisplayedCardsSelection extends PlayerAction {
-    public DoneDisplayedCardsSelection(Player player, int cardId) {
-        this.player = player;
+    public DoneDisplayedCardsSelection(int cardId) {
         this.cardId = cardId;
     }
 
     private int cardId;
 
     @Override
-    public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
+    public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         List<DisplayedCard> selectedDisplayedCards = player.getSelectedDisplayedCards();
         for (DisplayedCard displayedCard : selectedDisplayedCards) {
             displayedCard.removeHighlight();
@@ -36,6 +35,6 @@ public class DoneDisplayedCardsSelection extends PlayerAction {
         player.recoverStatus();
         HasDisplayedCardsSelection card = (HasDisplayedCardsSelection) fieldCards.getCardByCardId(cardId);
         card.performDisplayedSelection(player, selectedDisplayedCards);
-        player.clearSelectedDisplayedCards();
+        player.performPlayerAction(new ClearSelectedDisplayedCards());
     }
 }
