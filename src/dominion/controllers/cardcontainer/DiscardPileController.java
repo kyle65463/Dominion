@@ -1,13 +1,12 @@
-package dominion.controllers.components;
+package dominion.controllers.cardcontainer;
 
+import dominion.controllers.components.CardController;
 import dominion.models.cards.Card;
 import dominion.models.areas.GameScene;
 import dominion.utils.Animator;
 
 
-public class DiscardPileController extends ComponentController{
-    // Constructor
-
+public class DiscardPileController extends CardContainerController {
     // Variables
     private final double cardScale = 0.6;
     private final double x = 95 - (CardController.width * (1 - cardScale)) / 2;

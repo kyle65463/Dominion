@@ -2,10 +2,7 @@ package dominion.controllers.components;
 
 import javafx.scene.Node;
 
-public class ComponentController {
-    // Constructor
-    public ComponentController() {}
-
+public abstract class ComponentController {
     // Variables
     protected Node rootNode;
 

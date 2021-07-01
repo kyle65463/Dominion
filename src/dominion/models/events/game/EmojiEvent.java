@@ -1,13 +1,11 @@
 package dominion.models.events.game;
 
-import dominion.controllers.components.AngryFaceController;
+import dominion.controllers.components.emoji.AngryFaceController;
 import dominion.models.areas.GameScene;
 import dominion.models.areas.LogBox;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
-import java.util.Timer;
-import java.util.TimerTask;
 public class EmojiEvent extends InterActiveEvent{
     public EmojiEvent(String playerName){name = playerName;}
     private String name;

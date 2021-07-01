@@ -1,7 +1,7 @@
 package dominion.controllers.scenes;
 
 import dominion.connections.Server;
-import dominion.controllers.components.ReturnRoomController;
+import dominion.utils.ReturnRoomManager;
 import dominion.models.User;
 import dominion.models.cards.CardFactory;
 import dominion.models.events.Event;
@@ -58,7 +58,7 @@ public class RoomController extends SceneController {
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
         // Unpack parameters
-        ReturnRoomController.getParams(stage,sceneParams);
+        ReturnRoomManager.getParams(stage,sceneParams);
         this.stage = stage;
         RoomSceneParams params = (RoomSceneParams) sceneParams;
         List<User> users = params.users;

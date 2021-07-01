@@ -3,12 +3,13 @@ package dominion.controllers.components;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
+import dominion.utils.UiLoader;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
-public class DisplayedCardController extends ComponentController{
+public class DisplayedCardController extends ComponentController {
     // Constructor
     public DisplayedCardController(Card card) {
         this.card = card;
@@ -43,7 +44,9 @@ public class DisplayedCardController extends ComponentController{
         rootNode.setStyle(card.getStyle());
     }
 
-    public void setHighlight() { rootNode.setStyle(card.getStyle() + CardStyles.highlight); }
+    public void setHighlight() {
+        rootNode.setStyle(card.getStyle() + CardStyles.highlight);
+    }
 
     public void removeHighlight() {
         setStyle();
@@ -51,10 +54,9 @@ public class DisplayedCardController extends ComponentController{
 
     public void setDisable(boolean b) {
         isDisable = b;
-        if(isDisable) {
+        if (isDisable) {
             rootNode.setStyle("-fx-opacity: 0.4;" + card.getStyle());
-        }
-        else{
+        } else {
             setStyle();
         }
     }
@@ -72,20 +74,16 @@ public class DisplayedCardController extends ComponentController{
     }
 
     private void initialize() {
-        try {
-            rootNode = FXMLLoader.load(DisplayedCard.class.getClassLoader().getResource("resources/components/displayed_card.fxml"));
-            nameLabel = (Label) rootNode.lookup("#name");
-            numRemainLabel = (Label) rootNode.lookup("#remain");
-            numCostLabel = (Label) rootNode.lookup("#cost");
-            numRemainedBox = (StackPane) rootNode.lookup("#num_remained_box");
+        rootNode = UiLoader.loadFXML("resources/components/displayed_card.fxml");
+        assert rootNode != null;
+        nameLabel = (Label) rootNode.lookup("#name");
+        numRemainLabel = (Label) rootNode.lookup("#remain");
+        numCostLabel = (Label) rootNode.lookup("#cost");
+        numRemainedBox = (StackPane) rootNode.lookup("#num_remained_box");
 
-            setName(card.getName());
-            setNumCost(card.getNumCost());
-            setNumRemain(0);
-            setStyle();
-
-        } catch (Exception e) {
-
-        }
+        setName(card.getName());
+        setNumCost(card.getNumCost());
+        setNumRemain(0);
+        setStyle();
     }
 }

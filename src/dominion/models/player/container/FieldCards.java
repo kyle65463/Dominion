@@ -1,11 +1,8 @@
 package dominion.models.player.container;
 
-import dominion.controllers.components.FieldCardsController;
+import dominion.controllers.cardcontainer.FieldCardsController;
 import dominion.models.HasUi;
 import dominion.models.cards.Card;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FieldCards extends CardContainer implements HasUi {
     // Variables

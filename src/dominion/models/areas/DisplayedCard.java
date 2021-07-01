@@ -1,10 +1,9 @@
 package dominion.models.areas;
 
 import dominion.controllers.components.DisplayedCardController;
-import dominion.controllers.components.FullCardController;
+import dominion.controllers.components.CardDescriptionController;
 import dominion.core.GameManager;
 import dominion.models.HasUi;
-import dominion.models.areas.GameScene;
 import dominion.models.events.game.BuyCardEvent;
 import dominion.models.events.game.SelectDisplayedCardEvent;
 import dominion.models.handlers.DisplayedCardSelectedHandler;
@@ -41,7 +40,7 @@ public class DisplayedCard implements HasUi {
     private int numRemain = 0;
     private boolean isEnableUi;
     private DisplayedCardController uiController;
-    private FullCardController descriptionController;
+    private CardDescriptionController descriptionController;
     private EventHandler originalHandler;
 
     // Functions
@@ -67,7 +66,7 @@ public class DisplayedCard implements HasUi {
 
     public void enableUi(boolean inSettings) {
         this.uiController = new DisplayedCardController(card);
-        this.descriptionController = new FullCardController(card, inSettings);
+        this.descriptionController = new CardDescriptionController(card, inSettings);
         setNumRemain(numRemain);
         originalHandler= (e) -> {
             if (e instanceof MouseEvent) {

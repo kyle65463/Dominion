@@ -1,7 +1,7 @@
 package dominion.core;
 
 import dominion.connections.Connection;
-import dominion.controllers.components.ReturnRoomController;
+import dominion.utils.ReturnRoomManager;
 import dominion.models.areas.*;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionEvent;
@@ -17,7 +17,6 @@ import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 public class GameManager {
     // Constructor
@@ -135,7 +134,7 @@ public class GameManager {
             setCurrentPhase(Phase.GameOver);
         });
         PauseTransition returnRoom = new PauseTransition(Duration.seconds(3));
-        returnRoom.setOnFinished(e-> ReturnRoomController.navigateToRoomScene());
+        returnRoom.setOnFinished(e-> ReturnRoomManager.navigateToRoomScene());
         returnRoom.play();
     }
 

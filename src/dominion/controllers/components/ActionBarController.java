@@ -1,12 +1,13 @@
 package dominion.controllers.components;
 
 import dominion.models.areas.GameScene;
+import dominion.utils.UiLoader;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class ActionBarController extends ComponentController{
+public class ActionBarController extends ComponentController {
     // Constructor
     public ActionBarController() {
         initialize();
@@ -53,32 +54,32 @@ public class ActionBarController extends ComponentController{
         rightButton.setOnMousePressed(handler);
     }
 
-    public void setLeftButtonOnPressed(EventHandler handler) { leftButton.setOnMousePressed(handler); }
+    public void setLeftButtonOnPressed(EventHandler handler) {
+        leftButton.setOnMousePressed(handler);
+    }
 
     private void initialize() {
-        try {
-            rootNode = FXMLLoader.load(ActionBarController.class.getClassLoader().getResource("resources/components/action_bar.fxml"));
-            actionsLabel = (Label) rootNode.lookup("#num_actions");
-            purchasesLabel = (Label) rootNode.lookup("#num_purchases");
-            coinsLabel = (Label) rootNode.lookup("#num_coins");
-            statusLabel = (Label) rootNode.lookup("#status");
-            rightButton = (Button) rootNode.lookup("#button");
-            leftButton = (Button) rootNode.lookup("#autoTreasure");
+        rootNode = UiLoader.loadFXML("resources/components/action_bar.fxml");
+        assert rootNode != null;
 
-            setNumActions(1);
-            setNumPurchases(1);
-            setNumCoins(3);
-            setStatus("你可以購買卡片");
-            setRightButtonText("結束購買");
-            enableLeftButton(false);
-            enableRightButton(true);
+        actionsLabel = (Label) rootNode.lookup("#num_actions");
+        purchasesLabel = (Label) rootNode.lookup("#num_purchases");
+        coinsLabel = (Label) rootNode.lookup("#num_coins");
+        statusLabel = (Label) rootNode.lookup("#status");
+        rightButton = (Button) rootNode.lookup("#button");
+        leftButton = (Button) rootNode.lookup("#autoTreasure");
 
-            rootNode.setLayoutX(x);
-            rootNode.setLayoutY(y);
-            GameScene.add(this);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        setNumActions(1);
+        setNumPurchases(1);
+        setNumCoins(3);
+        setStatus("你可以購買卡片");
+        setRightButtonText("結束購買");
+        enableLeftButton(false);
+        enableRightButton(true);
+
+        rootNode.setLayoutX(x);
+        rootNode.setLayoutY(y);
+        GameScene.add(this);
     }
 
     public void enableLeftButton(boolean b) {

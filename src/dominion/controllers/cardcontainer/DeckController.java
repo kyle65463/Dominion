@@ -1,13 +1,11 @@
-package dominion.controllers.components;
+package dominion.controllers.cardcontainer;
 
+import dominion.controllers.components.CardController;
 import dominion.models.cards.Card;
 import dominion.models.areas.GameScene;
 import dominion.utils.Animator;
 
-public class DeckController extends ComponentController{
-    // Constructor
-
-
+public class DeckController extends CardContainerController {
     // Variables
     private final double cardScale = 0.6;
     private final double x = 15 - (CardController.width * (1 - cardScale)) / 2;
@@ -22,7 +20,6 @@ public class DeckController extends ComponentController{
             cardController.setLayout(x, y);
             GameScene.add(cardController);
         } else {
-
             GameScene.setToTop(cardController);
             Animator.transitTo(cardController, x, y, cardScale);
         }

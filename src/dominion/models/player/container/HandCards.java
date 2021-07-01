@@ -1,17 +1,11 @@
 package dominion.models.player.container;
 
-import dominion.controllers.components.HandCardsController;
+import dominion.controllers.cardcontainer.HandCardsController;
 import dominion.models.HasUi;
 import dominion.models.cards.Card;
 import dominion.models.cards.actions.Action;
 import dominion.models.cards.actions.Reaction;
-import dominion.models.cards.curses.Curses;
-import dominion.models.cards.victories.Victory;
 import dominion.models.handlers.CardSelectedHandler;
-import dominion.models.player.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HandCards extends CardContainer implements HasUi {
     // Variables

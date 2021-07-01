@@ -1,8 +1,8 @@
 package dominion.controllers.scenes;
 
 import dominion.connections.Connection;
-import dominion.controllers.components.ChoiceBoxController;
-import dominion.controllers.components.SettingButtonController;
+import dominion.controllers.components.emoji.ChoiceBoxController;
+import dominion.controllers.components.settings.SettingsButtonController;
 import dominion.core.Game;
 import dominion.core.GameManager;
 import dominion.models.areas.LogBox;
@@ -81,7 +81,7 @@ public class GameController extends SceneController {
 
         ChoiceBoxController c = new ChoiceBoxController();
         GameScene.add(c);
-        SettingButtonController s = new SettingButtonController();
+        SettingsButtonController s = new SettingsButtonController();
         GameScene.add(s);
 
         // Set up players

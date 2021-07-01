@@ -1,7 +1,6 @@
 package dominion.connections;
 
-import dominion.controllers.components.LeaveController;
-import dominion.controllers.components.ReturnRoomController;
+import dominion.controllers.components.LeaveDialogController;
 import dominion.models.areas.GameScene;
 import dominion.models.events.Event;
 import javafx.animation.PauseTransition;
@@ -66,7 +65,7 @@ class Receive implements Runnable {
             System.out.println(e);
             Platform.runLater(()->{
                 GameScene.disable();
-                GameScene.add(new LeaveController());
+                GameScene.add(new LeaveDialogController());
                 PauseTransition exit = new PauseTransition(Duration.seconds(2));
                 exit.setOnFinished(ee->Platform.exit());
                 exit.play();
