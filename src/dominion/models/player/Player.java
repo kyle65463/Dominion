@@ -12,6 +12,7 @@ import dominion.models.cards.actions.HasHandCardsSelection;
 import dominion.models.cards.actions.Reaction;
 import dominion.models.cards.treasures.Treasure;
 import dominion.models.handlers.*;
+import dominion.models.player.PlayerAction.*;
 import javafx.event.EventHandler;
 import javafx.util.Pair;
 
@@ -114,15 +115,17 @@ public class Player {
     }
 
     public void receiveNewCard(Card card) {
-        LogBox.logReceiveCard(this, card);
-        discardPile.addCard(card);
-        setPlayerStatusValues();
+//        LogBox.logReceiveCard(this, card);
+//        discardPile.addCard(card);
+//        setPlayerStatusValues();
+        performPlayerAction(new ReceiveNewCard(this, card));
     }
 
     public void receiveNewHandCard(Card card) {
-        LogBox.logReceiveCard(this, card);
-        handCards.addCard(card);
-        setPlayerStatusValues();
+//        LogBox.logReceiveCard(this, card);
+//        handCards.addCard(card);
+//        setPlayerStatusValues();
+        performPlayerAction(new ReceiveNewHandCard(this, card));
     }
 
     public void decreaseNumActions() {
@@ -192,8 +195,18 @@ public class Player {
     }
 
     public void retrieveHandCardFromFieldCards(Card card) {
-        fieldCards.removeCard(card);
-        handCards.addCard(card);
+//        fieldCards.removeCard(card);
+//        handCards.addCard(card);
+        performPlayerAction(new RetrieveHandCardFromFieldCards(this, card));
+    }
+
+    public void performPlayerAction(PlayerAction playerAction) {
+//        TODO: discardAllHandCards', discardAllFieldCards, trashHandCard, trashHandCards,
+//        TODO: discardHandCard, discardHandCards, startSelectingHandCards, doneHandCardsSelection
+//        TODO: selectHandCard, startSelectingDisplayedCards,
+        System.out.println("performing action: " + playerAction);
+        playerAction.perform(handCards, deck, discardPile, fieldCards);
+        setPlayerStatusValues();
     }
 
     public void playCard(int cardId, boolean decreaseNumActions, CardNextMoveHandler nextMoveHandler) {
@@ -294,19 +307,21 @@ public class Player {
     }
 
     public void discardAllHandCards() {
-        // Discard all hand cards to discard pile
-        List<Card> cards = handCards.getCards();
-        discardPile.addCards(cards);
-        handCards.removeAllCards();
-        setPlayerStatusValues();
+//        // Discard all hand cards to discard pile
+//        List<Card> cards = handCards.getCards();
+//        discardPile.addCards(cards);
+//        handCards.removeAllCards();
+//        setPlayerStatusValues();
+        performPlayerAction(new DiscardAllHandCards(this));
     }
 
     public void discardAllFieldCards() {
-        // Discard all field cards to discard `pile
-        List<Card> cards = fieldCards.getCards();
-        fieldCards.removeCards();
-        discardPile.addCards(cards);
-        setPlayerStatusValues();
+//        // Discard all field cards to discard `pile
+//        List<Card> cards = fieldCards.getCards();
+//        fieldCards.removeCards();
+//        discardPile.addCards(cards);
+//        setPlayerStatusValues();
+        performPlayerAction(new DiscardAllFieldCards(this));
     }
 
     public void reset() {
@@ -349,34 +364,35 @@ public class Player {
     }
 
     public void drawCards(int numCards) {
-        // Check bounds
-        if (numCards > discardPile.getNumCards() + deck.getNumCards()) {
-            List<Card> cards = deck.popCards(deck.getNumCards());
-            handCards.addCards(cards);
-            List<Card> newCards = discardPile.getCards();
-            discardPile.removeCards();
-            handCards.addCards(newCards);
-            LogBox.logDrawCard(this, cards.size() + newCards.size());
-            return;
-        }
-
-        // Refill the deck if it's empty
-        if (deck.isEmpty()) {
-            List<Card> newCards = discardPile.getCards();
-            discardPile.removeCards();
-            deck.addCards(newCards, true);
-        }
-
-        // Draw cards from the deck
-        List<Card> cards = deck.popCards(numCards);
-        LogBox.logDrawCard(this, cards.size());
-        handCards.addCards(cards);
-
-        // Draw cards again if not enough
-        if (cards.size() < numCards) {
-            drawCards(numCards - cards.size());
-        }
-        setPlayerStatusValues();
+//        // Check bounds
+//        if (numCards > discardPile.getNumCards() + deck.getNumCards()) {
+//            List<Card> cards = deck.popCards(deck.getNumCards());
+//            handCards.addCards(cards);
+//            List<Card> newCards = discardPile.getCards();
+//            discardPile.removeCards();
+//            handCards.addCards(newCards);
+//            LogBox.logDrawCard(this, cards.size() + newCards.size());
+//            return;
+//        }
+//
+//        // Refill the deck if it's empty
+//        if (deck.isEmpty()) {
+//            List<Card> newCards = discardPile.getCards();
+//            discardPile.removeCards();
+//            deck.addCards(newCards, true);
+//        }
+//
+//        // Draw cards from the deck
+//        List<Card> cards = deck.popCards(numCards);
+//        LogBox.logDrawCard(this, cards.size());
+//        handCards.addCards(cards);
+//
+//        // Draw cards again if not enough
+//        if (cards.size() < numCards) {
+//            drawCards(numCards - cards.size());
+//        }
+//        setPlayerStatusValues();
+        performPlayerAction(new DrawCards(this, numCards));
     }
 
     public int getNumScores() {
