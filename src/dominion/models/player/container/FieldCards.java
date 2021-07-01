@@ -1,4 +1,4 @@
-package dominion.models.player;
+package dominion.models.player.container;
 
 import dominion.controllers.components.FieldCardsController;
 import dominion.models.HasUi;
@@ -7,7 +7,7 @@ import dominion.models.cards.Card;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FieldCards implements HasUi {
+public class FieldCards extends CardContainer implements HasUi {
     // Constructor
     public FieldCards() {
     }

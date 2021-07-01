@@ -1,4 +1,4 @@
-package dominion.models.player;
+package dominion.models.player.container;
 
 import dominion.controllers.components.DeckController;
 import dominion.core.GameManager;
@@ -6,13 +6,14 @@ import dominion.models.HasUi;
 import dominion.models.cards.Card;
 import dominion.models.cards.curses.Curses;
 import dominion.models.cards.victories.Victory;
+import dominion.models.player.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Deck implements HasUi {
+public class Deck extends CardContainer implements HasUi {
     // Constructor
     public Deck() {
     }

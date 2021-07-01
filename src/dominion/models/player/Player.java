@@ -12,6 +12,10 @@ import dominion.models.cards.actions.HasHandCardsSelection;
 import dominion.models.cards.actions.Reaction;
 import dominion.models.cards.treasures.Treasure;
 import dominion.models.handlers.*;
+import dominion.models.player.container.Deck;
+import dominion.models.player.container.DiscardPile;
+import dominion.models.player.container.FieldCards;
+import dominion.models.player.container.HandCards;
 import javafx.event.EventHandler;
 import javafx.util.Pair;
 
