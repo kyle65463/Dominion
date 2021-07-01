@@ -60,7 +60,6 @@ public class GameController extends SceneController {
     @FXML
     Label winnerLabel;
 
-
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
         // Unpack parameters
@@ -71,6 +70,13 @@ public class GameController extends SceneController {
         int randomSeed = params.randomSeed;
         List<Card> basicCards = CardFactory.getCardsByIds(params.basicCardIds);
         List<Card> allEnabledCards = CardFactory.getCardsByIds(params.allEnabledCardIds);
+        if(allEnabledCards.size() < 10){
+            List<Card> defaultCards = CardFactory.getCardsOfExpansion(CardFactory.getDefaultExpansion());
+            for(Card card : defaultCards){
+                if(allEnabledCards.stream().noneMatch(c -> c.getName().equals(card.getName())))
+                    allEnabledCards.add(card);
+            }
+        }
 
         // Set up random seed
         GameManager.setRandomSeed(randomSeed);
@@ -103,6 +109,7 @@ public class GameController extends SceneController {
                 index++;
             }
 
+            // Set up initial cards
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
                 initialCards.add(new Copper());

@@ -41,6 +41,7 @@ public class DisplayedCard implements HasUi {
     private boolean isEnableUi;
     private DisplayedCardController uiController;
     private CardDescriptionController descriptionController;
+    private DisplayedCardSelectedHandler selectedHandler;
     private EventHandler originalHandler;
 
     // Functions
@@ -157,7 +158,14 @@ public class DisplayedCard implements HasUi {
         descriptionController.deleteOnScene();
     }
 
+    public void fireOnPressed(){
+        if(selectedHandler != null) {
+            selectedHandler.onSelected(this);
+        }
+    }
+
     public void setOnPressed(DisplayedCardSelectedHandler handler) {
+        this.selectedHandler = handler;
         if (isEnableUi) {
             uiController.setOnPressed((e)->{
                 if (e instanceof MouseEvent) {

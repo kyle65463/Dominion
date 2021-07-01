@@ -40,6 +40,7 @@ public class GameSettingsController extends SceneController {
     private final Map<Class<? extends Expansion>, List<DisplayedCard>> expansionDisplayedCardMap = new HashMap<>();
     private final List<Label> expansionTabs = new ArrayList<>();
     private final String tabSelectedStyle = "-fx-text-fill: Sienna;";
+    private final List<DisplayedCard> displayedCards = new ArrayList<>();
 
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
@@ -85,6 +86,7 @@ public class GameSettingsController extends SceneController {
         for (int i = 0; i < numCols; i++) {
             gridPane.getColumnConstraints().add(new ColumnConstraints(84));
         }
+        displayedCards.clear();
         for (int i = 0; i < cards.size(); i++) {
             DisplayedCard displayedCard = cards.get(i);
             Integer cardId = CardFactory.getCardId(displayedCard.getCard());
@@ -103,6 +105,7 @@ public class GameSettingsController extends SceneController {
                 card.setDisable(isDisable);
             });
             gridPane.add(displayedCard.getController().getRootNode(), i % numCols, i / numCols);
+            displayedCards.add(displayedCard);
         }
     }
 
@@ -132,6 +135,22 @@ public class GameSettingsController extends SceneController {
 
     public void confirm() {
         navigateToRoomScene();
+    }
+
+    public void selectAll() {
+        for(DisplayedCard displayedCard : displayedCards){
+            if(displayedCard.getDisable()){
+                displayedCard.fireOnPressed();
+            }
+        }
+    }
+
+    public void clearAll(){
+        for(DisplayedCard displayedCard : displayedCards){
+            if(!displayedCard.getDisable()){
+                displayedCard.fireOnPressed();
+            }
+        }
     }
 
     public void navigateToRoomScene() {
