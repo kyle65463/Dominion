@@ -1,9 +1,5 @@
-.root{
-    -fx-background-color: #b59f7f;
-}
 .label{
     -fx-font-size: 60;
-    -fx-text-fill: #326ed4;
     -fx-font-family: "Times New Roman";
     -fx-font-weight: bold;
 }
