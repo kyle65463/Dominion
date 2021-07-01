@@ -4,6 +4,7 @@ import dominion.core.GameManager;
 import dominion.models.areas.PurchaseArea;
 import dominion.models.events.game.DoneAttackingEvent;
 import dominion.models.areas.DisplayedCard;
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.AttackPlayers;
@@ -11,7 +12,7 @@ import dominion.models.cards.curses.Curse;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 
-public class Witch extends Card implements Action, Attack {
+public class Witch extends Card implements Dominion, Action, Attack {
     public Witch() {
         name = "女巫";
         description = "+2 卡片\n\n其他人獲得一張詛咒。";

@@ -5,11 +5,13 @@ import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 import dominion.models.cards.treasures.Copper;
+import dominion.models.expansions.Dominion;
+import dominion.models.expansions.Intrigue;
 import dominion.models.player.Player;
 
 import java.util.List;
 
-public class CountryYard extends Card implements Action, HasHandCardsSelection {
+public class CountryYard extends Card implements Intrigue, Action, HasHandCardsSelection {
     // Constructor
     public CountryYard() {
         name = "庭院";
@@ -17,7 +19,6 @@ public class CountryYard extends Card implements Action, HasHandCardsSelection {
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 2;
-        expansion = Expansion.Intrigue;
     }
 
     // Variables

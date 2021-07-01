@@ -1,6 +1,7 @@
 package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
+import dominion.models.expansions.Dominion;
 import dominion.models.handlers.CardNextMoveHandler;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
@@ -9,7 +10,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class ThroneRoom extends Card implements Action, HasHandCardsSelection {
+public class ThroneRoom extends Card implements Dominion, Action, HasHandCardsSelection {
     // Constructor
     public ThroneRoom() {
         name = "王座廳";

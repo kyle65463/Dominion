@@ -4,38 +4,31 @@ import dominion.connections.Connection;
 import dominion.models.User;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.areas.GameScene;
+import dominion.models.cards.Card;
 import dominion.models.cards.CardFactory;
+import dominion.models.expansions.*;
 import dominion.params.GameSettingsSceneParams;
 import dominion.params.RoomSceneParams;
 import dominion.params.SceneParams;
 import dominion.utils.Navigator;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class GameSettingsController extends SceneController {
     // FXML
     @FXML
     private AnchorPane rootNode;
     @FXML
-    private ScrollPane scrollPane;
-    @FXML
     private GridPane gridPane;
     @FXML
     private VBox collectionList;
-    @FXML
-    private Label dominionTab;
-    @FXML
-    private Label intrigueTab;
-    @FXML
-    private Label seaSideTab;
 
     // Variables
     private Stage stage;
@@ -44,11 +37,9 @@ public class GameSettingsController extends SceneController {
     private Connection connection;
     private List<Integer> basicCardIds;
     private Set<Integer> allEnabledCardIds;
-
-    private List<DisplayedCard> dominionCards;
-    private List<DisplayedCard> intrigueCards;
-    private List<DisplayedCard> seaSideCards;
-
+    private final Map<Class<? extends Expansion>, List<DisplayedCard>> expansionDisplayedCardMap = new HashMap<>();
+    private final List<Label> expansionTabs = new ArrayList<>();
+    private final String tabSelectedStyle = "-fx-text-fill: Sienna;";
 
     // Functions
     public void initialize(Stage stage, SceneParams sceneParams) {
@@ -62,57 +53,27 @@ public class GameSettingsController extends SceneController {
         this.allEnabledCardIds = new HashSet<>(params.allEnabledCardIds);
         GameScene.initialize(rootNode);
 
-        dominionCards = new ArrayList<>(CardFactory.getDominionCardList().stream().map(DisplayedCard::new).toList());
-        dominionCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
+        // Set up variables
+        List<Class<? extends Expansion>> expansions = CardFactory.getExpansions();
+        for (Class<? extends Expansion> expansion : expansions) {
+            List<Card> expansionCards = CardFactory.getCardsOfExpansion(expansion);
+            expansionDisplayedCardMap.put(expansion, new ArrayList<>(expansionCards.stream().map(DisplayedCard::new).toList()));
+            addNewTab(expansion);
+        }
 
-        intrigueCards = new ArrayList<>(CardFactory.getIntrigueCardList().stream().map(DisplayedCard::new).toList());
-        intrigueCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
+        // Remove last divider line
+        collectionList.getChildren().remove(collectionList.getChildren().size() - 1);
 
-        seaSideCards = new ArrayList<>(CardFactory.getSeaSideCardList().stream().map(DisplayedCard::new).toList());
-        seaSideCards.sort((a, b) -> b.getCard().getNumCost() - a.getCard().getNumCost());
-
-        String style = "-fx-text-fill: Sienna;";
-        dominionTab.setStyle(style);
-        intrigueTab.setStyle("");
-        seaSideTab.setStyle("");
-        
-        dominionTab.setOnMouseClicked((e) -> {
-            dominionTab.setStyle(style);
-            intrigueTab.setStyle("");
-            seaSideTab.setStyle("");
-            displayDominionCards();
-        });
-
-        intrigueTab.setOnMouseClicked((e) -> {
-            intrigueTab.setStyle(style);
-            dominionTab.setStyle("");
-            seaSideTab.setStyle("");
-            displayIntrigueCards();
-        });
-
-        seaSideTab.setOnMouseClicked((e) -> {
-            seaSideTab.setStyle(style);
-            intrigueTab.setStyle("");
-            dominionTab.setStyle("");
-            displaySeaSideCards();
-        });
-
-        displayDominionCards();
+        // Display default expansion
+        Class<? extends Expansion> defaultExpansion = CardFactory.getDefaultExpansion();
+        displayExpansionCards(defaultExpansion);
+        if(expansionTabs.size() > 0) {
+            expansionTabs.get(0).setStyle(tabSelectedStyle);
+        }
     }
 
-    private void displayDominionCards() {
-        display(dominionCards);
-    }
-
-    private void displayIntrigueCards() {
-        display(intrigueCards);
-    }
-
-    private void displaySeaSideCards() {
-        display(seaSideCards);
-    }
-
-    private void display(List<DisplayedCard> cards) {
+    private void displayExpansionCards(Class<? extends Expansion> expansion) {
+        List<DisplayedCard> cards = expansionDisplayedCardMap.get(expansion);
         int numCols = Math.min(5, cards.size());
         int numRows = (int) Math.ceil(cards.size() / (double) numCols);
         gridPane.getChildren().clear();
@@ -127,23 +88,46 @@ public class GameSettingsController extends SceneController {
         for (int i = 0; i < cards.size(); i++) {
             DisplayedCard displayedCard = cards.get(i);
             Integer cardId = CardFactory.getCardId(displayedCard.getCard());
-            if(!allEnabledCardIds.contains(cardId)){
+            if (!allEnabledCardIds.contains(cardId)) {
                 displayedCard.setDisable(true);
             }
             displayedCard.getController().setScale(0.7);
             displayedCard.setOnPressed((card) -> {
                 boolean isDisable = !card.getDisable();
                 System.out.println(card);
-                if(isDisable) {
+                if (isDisable) {
                     allEnabledCardIds.remove(cardId);
-                }
-                else{
+                } else {
                     allEnabledCardIds.add(cardId);
                 }
                 card.setDisable(isDisable);
             });
             gridPane.add(displayedCard.getController().getRootNode(), i % numCols, i / numCols);
         }
+    }
+
+    private void addNewTab(Class<? extends Expansion> expansion) {
+        if (expansion == Basic.class)
+            return;
+        String name = CardFactory.getNameOfExpansion(expansion);
+        Label tab = new Label(name);
+        tab.setFont(new Font(16));
+        tab.setAlignment(Pos.CENTER);
+        tab.setPrefHeight(40);
+        tab.setPrefWidth(80);
+        tab.setOnMouseClicked((e) -> {
+            for (Label expansionTab : expansionTabs) {
+                expansionTab.setStyle("");
+            }
+            tab.setStyle(tabSelectedStyle);
+            displayExpansionCards(expansion);
+        });
+        expansionTabs.add(tab);
+        collectionList.getChildren().add(tab);
+
+        // Divider line
+        Line line = new Line(-47.5, 35, 31.5, 35);
+        collectionList.getChildren().add(line);
     }
 
     public void confirm() {

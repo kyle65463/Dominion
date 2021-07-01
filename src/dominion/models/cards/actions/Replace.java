@@ -12,18 +12,18 @@ import dominion.models.cards.treasures.Treasure;
 import dominion.models.cards.victories.Victory;
 import dominion.models.events.game.DoneAttackingEvent;
 import dominion.models.events.game.HasDisplayedCardsSelection;
+import dominion.models.expansions.Intrigue;
 import dominion.models.player.Player;
 
 import java.util.List;
 
-public class Replace extends Card implements Action, Attack, HasHandCardsSelection, HasDisplayedCardsSelection {
+public class Replace extends Card implements Intrigue, Action, Attack, HasHandCardsSelection, HasDisplayedCardsSelection {
     public Replace() {
         name = "替身";
         description = "移除手上一張卡片，獲得一張價值至多加2的卡片，如果獲得的卡是錢幣卡或是行動卡，將卡片放到牌庫頂。如果是分數卡，則其他玩家獲得一張詛咒。";
         style = CardStyles.white;
         type = CardTypes.action;
         numCost = 5;
-        expansion = Expansion.Intrigue;
     }
 
     // Variables

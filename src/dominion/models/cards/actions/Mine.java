@@ -7,11 +7,12 @@ import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 import dominion.models.cards.treasures.Treasure;
 import dominion.models.events.game.HasDisplayedCardsSelection;
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 
 import java.util.List;
 
-public class Mine extends Card implements Action, HasHandCardsSelection, HasDisplayedCardsSelection {
+public class Mine extends Card implements Dominion, Action, HasHandCardsSelection, HasDisplayedCardsSelection {
     public Mine() {
         name = "礦坑";
         description = "你可以移除手上的一張錢幣卡，獲得一張價值至多加3塊的錢幣卡到手中。" ;

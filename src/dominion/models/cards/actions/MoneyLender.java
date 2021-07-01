@@ -1,6 +1,7 @@
 package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.treasures.Copper;
@@ -9,7 +10,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class MoneyLender extends Card implements Action, HasHandCardsSelection {
+public class MoneyLender extends Card implements Dominion, Action, HasHandCardsSelection {
     // Constructor
     public MoneyLender() {
         name = "錢莊";

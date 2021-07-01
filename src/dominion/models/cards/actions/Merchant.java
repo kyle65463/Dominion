@@ -4,11 +4,12 @@ import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 import dominion.models.cards.treasures.Silver;
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 
 import java.util.List;
 
-public class Merchant extends Card implements Action {
+public class Merchant extends Card implements Dominion, Action {
     // Constructor
     public Merchant() {
             name = "商人";

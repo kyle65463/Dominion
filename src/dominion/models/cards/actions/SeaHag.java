@@ -4,6 +4,7 @@ import dominion.core.GameManager;
 import dominion.models.areas.PurchaseArea;
 import dominion.models.events.game.DoneAttackingEvent;
 import dominion.models.areas.DisplayedCard;
+import dominion.models.expansions.SeaSide;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.AttackPlayers;
@@ -13,7 +14,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class SeaHag extends Card implements Action, Attack {
+public class SeaHag extends Card implements SeaSide, Action, Attack {
     public SeaHag() {
         name = "海巫";
         description = "其他所有玩家棄掉牌庫頂的一張卡片，他們獲得一張詛咒並放在牌庫頂。";

@@ -1,11 +1,12 @@
 package dominion.models.cards.victories;
 
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 
-public class Gardens extends Card implements Victory{
+public class Gardens extends Card implements Dominion, Victory{
     // Constructor
     public Gardens() {
         name = "花園";

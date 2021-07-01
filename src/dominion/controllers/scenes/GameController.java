@@ -68,8 +68,8 @@ public class GameController extends SceneController {
         User applicationUser = params.applicationUser;
         Connection connection = params.connection;
         int randomSeed = params.randomSeed;
-        List<Card> basicCards = CardFactory.getCardsById(params.basicCardIds);
-        List<Card> allEnabledCards = CardFactory.getCardsById(params.allEnabledCardIds);
+        List<Card> basicCards = CardFactory.getCardsByIds(params.basicCardIds);
+        List<Card> allEnabledCards = CardFactory.getCardsByIds(params.allEnabledCardIds);
 
         // Set up random seed
         GameManager.setRandomSeed(randomSeed);

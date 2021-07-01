@@ -6,11 +6,12 @@ import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 import dominion.models.events.game.HasDisplayedCardsSelection;
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 
 import java.util.List;
 
-public class Workshop extends Card implements Action, HasDisplayedCardsSelection {
+public class Workshop extends Card implements Dominion, Action, HasDisplayedCardsSelection {
     // Constructor
     public Workshop() {
         name = "工作室";

@@ -3,8 +3,9 @@ package dominion.models.cards.treasures;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.expansions.Basic;
 
-public class Gold extends Card implements Treasure{
+public class Gold extends Card implements Basic, Treasure{
     // Constructor
     public Gold() {
         name = "黃金";

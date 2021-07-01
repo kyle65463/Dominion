@@ -1,11 +1,12 @@
 package dominion.models.cards.victories;
 
+import dominion.models.expansions.Basic;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 
-public class Duchy extends Card implements Victory{
+public class Duchy extends Card implements Basic, Victory{
     // Constructor
     public Duchy() {
         name = "公國";

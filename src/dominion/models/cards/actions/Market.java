@@ -1,11 +1,12 @@
 package dominion.models.cards.actions;
 
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 
-public class Market extends Card implements Action {
+public class Market extends Card implements Dominion, Action {
     // Constructor
     public Market() {
         name = "市集";

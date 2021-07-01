@@ -4,11 +4,12 @@ import dominion.core.GameManager;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 
 import java.util.List;
 
-public class Vassal extends Card implements Action{
+public class Vassal extends Card implements Dominion, Action{
     public Vassal() {
         name = "家臣";
         description = "+2塊錢\n棄掉牌庫頂部的一張卡，若是行動卡，你可以打出它";

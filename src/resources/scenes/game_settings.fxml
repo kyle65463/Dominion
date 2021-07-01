@@ -17,26 +17,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <VBox fx:id="collectionList" layoutX="19.0" layoutY="98.0" prefHeight="238.0" prefWidth="80.0">
-         <children>
-            <Label fx:id="dominionTab" alignment="CENTER" prefHeight="40.0" prefWidth="80.0" text="皇輿爭霸">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <Line endX="31.5" endY="35.0" startX="-47.5" startY="35.0" />
-            <Label fx:id="intrigueTab" alignment="CENTER" prefHeight="40.0" prefWidth="80.0" text="暗潮洶湧">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <Line endX="31.5" endY="35.0" startX="-47.5" startY="35.0" />
-            <Label fx:id="seaSideTab" alignment="CENTER" prefHeight="40.0" prefWidth="80.0" text="海國圖誌">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-         </children></VBox>
+      <VBox fx:id="collectionList" layoutX="19.0" layoutY="98.0" prefHeight="238.0" prefWidth="80.0" />
       <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="129.0" layoutY="80.0" prefHeight="293.0" prefWidth="448.0" style="-fx-border-width: 0; -fx-background-color: transparent;" vbarPolicy="NEVER">
          <content>
             <GridPane fx:id="gridPane" alignment="CENTER" hgap="3.5" prefHeight="291.0" prefWidth="441.0" vgap="3.5">

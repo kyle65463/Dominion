@@ -1,6 +1,7 @@
 package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
+import dominion.models.expansions.SeaSide;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
@@ -8,7 +9,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class WareHouse extends Card implements Action, HasHandCardsSelection {
+public class WareHouse extends Card implements SeaSide, Action, HasHandCardsSelection {
     // Constructor
     public WareHouse() {
         name = "倉庫";

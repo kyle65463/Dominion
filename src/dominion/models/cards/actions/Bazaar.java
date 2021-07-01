@@ -3,9 +3,10 @@ package dominion.models.cards.actions;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.expansions.SeaSide;
 import dominion.models.player.Player;
 
-public class Bazaar extends Card implements Action {
+public class Bazaar extends Card implements SeaSide, Action {
     // Constructor
     public Bazaar() {
         name = "趕集";

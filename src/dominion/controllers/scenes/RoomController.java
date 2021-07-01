@@ -9,6 +9,8 @@ import dominion.models.events.connections.ConnectionAccepted;
 import dominion.models.events.Message;
 import dominion.connections.Connection;
 import dominion.models.events.connections.StartGameEvent;
+import dominion.models.expansions.Basic;
+import dominion.models.expansions.Dominion;
 import dominion.params.GameSceneParams;
 import dominion.params.GameSettingsSceneParams;
 import dominion.params.RoomSceneParams;
@@ -65,10 +67,10 @@ public class RoomController extends SceneController {
         this.basicCardIds = params.basicCardIds;
         this.allEnabledCardIds = params.allEnabledCardIds;
         if(basicCardIds.isEmpty()) {
-            basicCardIds = CardFactory.getCardIds(CardFactory.getBasicCardList());
+            basicCardIds = CardFactory.getCardIds(CardFactory.getCardsOfExpansion(Basic.class));
         }
         if(allEnabledCardIds.isEmpty()) {
-            allEnabledCardIds = CardFactory.getCardIds(CardFactory.getDominionCardList());
+            allEnabledCardIds = CardFactory.getCardIds(CardFactory.getCardsOfExpansion(Dominion.class));
         }
 
         // Set up UIs

@@ -3,11 +3,12 @@ package dominion.models.cards.victories;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.expansions.Intrigue;
 import dominion.models.player.Player;
 
 import java.util.List;
 
-public class Duke extends Card implements Victory{
+public class Duke extends Card implements Intrigue, Victory{
     // Constructor
     public Duke() {
         name = "公爵";
@@ -15,7 +16,6 @@ public class Duke extends Card implements Victory{
         style = CardStyles.green;
         type = CardTypes.victory;
         numCost = 5;
-        expansion = Expansion.Intrigue;
     }
 
     // Functions

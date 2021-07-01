@@ -1,12 +1,13 @@
 package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 
-public class CouncilRoom extends Card implements Action {
+public class CouncilRoom extends Card implements Dominion, Action {
     // Constructor
     public CouncilRoom() {
         name = "會議廳";

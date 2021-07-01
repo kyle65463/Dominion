@@ -6,11 +6,12 @@ import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 import dominion.models.events.game.*;
 import dominion.models.areas.DisplayedCard;
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 
 import java.util.List;
 
-public class Artisan extends Card implements Action, HasHandCardsSelection, HasDisplayedCardsSelection {
+public class Artisan extends Card implements Dominion, Action, HasHandCardsSelection, HasDisplayedCardsSelection {
     // Constructor
     public Artisan() {
         name = "藝術家";

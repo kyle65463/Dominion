@@ -2,6 +2,7 @@ package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
 import dominion.models.events.game.DoneAttackingEvent;
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.AttackPlayers;
@@ -10,7 +11,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class Militia extends Card implements Action, Attack, HasHandCardsSelection {
+public class Militia extends Card implements Dominion, Action, Attack, HasHandCardsSelection {
     public Militia() {
         name = "義勇軍";
         description = "+2 塊錢\n\n其他玩家將手牌棄到剩3張卡。";

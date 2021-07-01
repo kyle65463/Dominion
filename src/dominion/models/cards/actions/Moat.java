@@ -1,11 +1,12 @@
 package dominion.models.cards.actions;
 
+import dominion.models.expansions.Dominion;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
 
-public class Moat extends Card implements Action, Reaction{
+public class Moat extends Card implements Dominion, Action, Reaction{
     public Moat() {
         name = "護城河";
         description = "+2 卡片\n\n當其他玩家打出攻擊卡時，你可以先展示手上的此卡，來無效對你的影響。";

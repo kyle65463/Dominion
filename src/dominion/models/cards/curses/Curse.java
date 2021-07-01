@@ -3,8 +3,9 @@ package dominion.models.cards.curses;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.expansions.Basic;
 
-public class Curse extends Card implements Curses{
+public class Curse extends Card implements Basic, Curses{
     // Constructor
     public Curse() {
         name = "詛咒";

@@ -8,11 +8,12 @@ import dominion.models.cards.CardTypes;
 import dominion.models.cards.treasures.Treasure;
 import dominion.models.cards.victories.Victory;
 import dominion.models.events.game.HasDisplayedCardsSelection;
+import dominion.models.expansions.Intrigue;
 import dominion.models.player.Player;
 
 import java.util.List;
 
-public class IronWorks extends Card implements Action, HasDisplayedCardsSelection {
+public class IronWorks extends Card implements Intrigue, Action, HasDisplayedCardsSelection {
     // Constructor
     public IronWorks() {
         name = "打鐵鋪";

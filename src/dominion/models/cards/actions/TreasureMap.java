@@ -5,6 +5,7 @@ import dominion.models.areas.DisplayedCard;
 import dominion.models.areas.PurchaseArea;
 import dominion.models.cards.curses.Curse;
 import dominion.models.cards.treasures.Gold;
+import dominion.models.expansions.SeaSide;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
@@ -12,7 +13,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class TreasureMap extends Card implements Action, HasHandCardsSelection {
+public class TreasureMap extends Card implements SeaSide, Action, HasHandCardsSelection {
     // Constructor
     public TreasureMap() {
         name = "藏寶圖";

@@ -1,106 +1,75 @@
 package dominion.models.cards;
 
-import dominion.models.cards.actions.*;
-import dominion.models.cards.curses.Curse;
-import dominion.models.cards.treasures.Copper;
-import dominion.models.cards.treasures.Gold;
-import dominion.models.cards.treasures.Silver;
-import dominion.models.cards.victories.Duchy;
-import dominion.models.cards.victories.Duke;
-import dominion.models.cards.victories.Estate;
-import dominion.models.cards.victories.Province;
+import dominion.models.expansions.Expansion;
+import dominion.models.expansions.Unknown;
+import javafx.util.Pair;
 
 import java.util.*;
 
 public class CardFactory {
     // Variables
-    private static Map<Integer, Card> cardsMap = new HashMap<>();
-    private static List<Card> basicCards = new ArrayList<>();
-    private static List<Card> dominionCards = new ArrayList<>();
-    private static List<Card> intrigueCards = new ArrayList<>();
-    private static List<Card> seaSideCards = new ArrayList<>();
-    private static int id = 0;
+    private static Class<? extends Expansion> defaultExpansion;
+    private static final List<Class<? extends Expansion>> expansions = new ArrayList<>();
+    private static final Map<Class<? extends Expansion>, String> expansionNameMap = new HashMap<>();
+    private static final Map<Class<? extends Expansion>, List<Card>> expansionCardMap = new HashMap<>();
+    private static final Map<Integer, Card> cardIdMap = new HashMap<>();
 
     // Functions
-    public static void initialize() {
-        basicCards = new ArrayList<>(Arrays.asList(
-                new Province(),
-                new Gold(),
-                new Duchy(),
-                new Silver(),
-                new Estate(),
-                new Copper(),
-                new Curse()
-        ));
-        setCardIds(basicCards);
-
-        dominionCards = new ArrayList<>(Arrays.asList(
-                new Cellar(),
-                new Chapel(),
-                new CouncilRoom(),
-                new Festival(),
-                new Laboratory(),
-                new Market(),
-                new Militia(),
-                new Moat(),
-                new MoneyLender(),
-                new Smithy(),
-                new ThroneRoom(),
-                new Village(),
-                new Witch(),
-                new Artisan(),
-                new Vassal(),
-                new Merchant(),
-                new Poacher(),
-                new Mine()
-        ));
-        setCardIds(dominionCards);
-
-        intrigueCards = new ArrayList<>(Arrays.asList(
-                new CountryYard(),
-                new Duke(),
-                new IronWorks(),
-                new Replace()
-        ));
-        setCardIds(intrigueCards);
-
-        seaSideCards = new ArrayList<>(Arrays.asList(
-                new WareHouse(),
-                new TreasureMap(),
-                new CutPurse(),
-                new Bazaar(),
-                new SeaHag(),
-                new Salvager()
-        ));
-        setCardIds(seaSideCards);
+    public static void initializeExpansions(List<Pair<String, Class<? extends Expansion>>> expansionPairs) {
+        for (Pair<String, Class<? extends Expansion>> expansionPair : expansionPairs) {
+            String name = expansionPair.getKey();
+            Class<? extends Expansion> expansion = expansionPair.getValue();
+            expansionCardMap.put(expansion, new ArrayList<>());
+            expansionNameMap.put(expansion, name);
+            expansions.add(expansion);
+        }
     }
 
-    public static List<Card> getBasicCardList() {
-        return new ArrayList<>(basicCards);
+    public static void initializeDefaultExpansion(Class<? extends Expansion> expansion) {
+        defaultExpansion = expansion;
     }
 
-    public static List<Card> getDominionCardList() {
-        return new ArrayList<>(dominionCards);
+    public static void initializeAllCards(List<Card> cards) {
+        int id = 0;
+        for (Card card : cards) {
+            Class<? extends Expansion> expansion = getExpansionOfCard(card);
+            if (expansionCardMap.containsKey(expansion)) {
+                List<Card> expansionCards = expansionCardMap.get(expansion);
+                expansionCards.add(card);
+            }
+            cardIdMap.put(id, card);
+            id++;
+        }
     }
 
-    public static List<Card> getSeaSideCardList() {
-        return new ArrayList<>(seaSideCards);
+    private static Class<? extends Expansion> getExpansionOfCard(Card card) {
+        for (Class<? extends Expansion> expansion : expansions) {
+            if (expansion.isInstance(card)) {
+                return expansion;
+            }
+        }
+        return Unknown.class;
     }
 
-    public static List<Card> getIntrigueCardList() {
-        return new ArrayList<>(intrigueCards);
+    public static List<Card> getCardsOfExpansion(Class<? extends Expansion> expansion) {
+        if (expansionCardMap.containsKey(expansion)) {
+            List<Card> expansionCards = expansionCardMap.get(expansion);
+            expansionCards.sort((a, b) -> b.getNumCost() - a.getNumCost());
+            return new ArrayList<>(expansionCards);
+        }
+        return new ArrayList<>();
     }
 
-    public static List<Card> getCardsById(List<Integer> ids) {
+    public static List<Card> getCardsByIds(List<Integer> ids) {
         List<Card> cards = new ArrayList<>();
         for (Integer id : ids) {
-            cards.add(cardsMap.get(id));
+            cards.add(cardIdMap.get(id));
         }
         return cards;
     }
 
     public static int getCardId(Card card) {
-        for (Map.Entry<Integer, Card> pair : cardsMap.entrySet()) {
+        for (Map.Entry<Integer, Card> pair : cardIdMap.entrySet()) {
             if (pair.getValue().getName().equals(card.getName())) {
                 return pair.getKey();
             }
@@ -116,10 +85,18 @@ public class CardFactory {
         return ids;
     }
 
-    private static void setCardIds(List<Card> cards) {
-        for (Card card : cards) {
-            cardsMap.put(id, card);
-            id++;
+    public static Class<? extends Expansion> getDefaultExpansion() {
+        return defaultExpansion;
+    }
+
+    public static List<Class<? extends Expansion>> getExpansions() {
+        return new ArrayList<>(expansions);
+    }
+
+    public static String getNameOfExpansion(Class<? extends Expansion> expansion) {
+        if (expansionNameMap.containsKey(expansion)) {
+            return expansionNameMap.get(expansion);
         }
+        return "";
     }
 }

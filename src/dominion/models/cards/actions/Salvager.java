@@ -4,11 +4,12 @@ import dominion.core.GameManager;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
+import dominion.models.expansions.SeaSide;
 import dominion.models.player.Player;
 
 import java.util.List;
 
-public class Salvager extends Card implements Action, HasHandCardsSelection {
+public class Salvager extends Card implements SeaSide, Action, HasHandCardsSelection {
     // Constructor
     public Salvager() {
         name = "打撈員";

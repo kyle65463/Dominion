@@ -3,6 +3,7 @@ package dominion.models.cards.actions;
 import dominion.core.GameManager;
 import dominion.models.cards.treasures.Copper;
 import dominion.models.events.game.DoneAttackingEvent;
+import dominion.models.expansions.SeaSide;
 import dominion.models.player.Player;
 import dominion.models.cards.Card;
 import dominion.models.cards.AttackPlayers;
@@ -11,7 +12,7 @@ import dominion.models.cards.CardTypes;
 
 import java.util.List;
 
-public class CutPurse extends Card implements Action, Attack, HasHandCardsSelection {
+public class CutPurse extends Card implements SeaSide, Action, Attack, HasHandCardsSelection {
     public CutPurse() {
         name = "扒手";
         description = "+2 塊錢\n\n其他玩家棄掉一張銅幣，或是展示手牌裡沒有銅幣。";
