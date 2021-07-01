@@ -6,7 +6,7 @@ import dominion.models.User;
 import dominion.models.cards.CardFactory;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
-import dominion.models.events.Message;
+import dominion.models.events.interactive.Message;
 import dominion.connections.Connection;
 import dominion.models.events.connections.StartGameEvent;
 import dominion.models.expansions.Basic;

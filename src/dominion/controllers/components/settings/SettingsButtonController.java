@@ -23,7 +23,7 @@ public class SettingsButtonController extends ComponentController {
             GameScene.disable();
             GameScene.add(sc);
         });
-        setLayout(820, 3);
+        setLayout(10, 463);
     }
 
     public void setLayout(double x, double y) {

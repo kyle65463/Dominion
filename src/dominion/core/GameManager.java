@@ -6,7 +6,7 @@ import dominion.models.areas.*;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionEvent;
 import dominion.models.events.game.GameEvent;
-import dominion.models.events.game.InterActiveEvent;
+import dominion.models.events.interactive.InteractiveEvent;
 import dominion.models.player.Player;
 import dominion.utils.VoicePlayer;
 import javafx.animation.PauseTransition;
@@ -175,7 +175,7 @@ public class GameManager {
             if (((GameEvent) event).getPlayerId() == applicationPlayer.getId()) {
                 connection.send(event);
             }
-        }else if(event instanceof InterActiveEvent){
+        }else if(event instanceof InteractiveEvent){
             connection.send(event);
         }
     }
@@ -189,12 +189,12 @@ public class GameManager {
 
             }
             ((GameEvent) event).perform();
-        }else if(event instanceof InterActiveEvent){
+        }else if(event instanceof InteractiveEvent){
             try {
                 Thread.sleep(30);
             } catch (Exception e) {
             }
-            ((InterActiveEvent) event).perform();
+            ((InteractiveEvent) event).perform();
         }else if(event instanceof ConnectionEvent){
             try{
                 Thread.sleep(30);

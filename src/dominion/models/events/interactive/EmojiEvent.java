@@ -1,4 +1,4 @@
-package dominion.models.events.game;
+package dominion.models.events.interactive;
 
 import dominion.controllers.components.emoji.AngryFaceController;
 import dominion.models.areas.GameScene;
@@ -6,7 +6,7 @@ import dominion.models.areas.LogBox;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
-public class EmojiEvent extends InterActiveEvent{
+public class EmojiEvent extends InteractiveEvent {
     public EmojiEvent(String playerName){name = playerName;}
     private String name;
     @Override

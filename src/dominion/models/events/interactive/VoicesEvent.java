@@ -1,9 +1,9 @@
-package dominion.models.events.game;
+package dominion.models.events.interactive;
 
 import dominion.models.areas.LogBox;
 import dominion.utils.VoicePlayer;
 
-public class VoicesEvent extends InterActiveEvent{
+public class VoicesEvent extends InteractiveEvent {
     public VoicesEvent(int sel,String playername){selection = sel;name = playername;}
     private int selection;
     private String name;

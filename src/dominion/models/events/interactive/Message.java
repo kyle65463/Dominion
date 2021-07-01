@@ -1,6 +1,6 @@
-package dominion.models.events;
+package dominion.models.events.interactive;
 
-public class Message extends Event {
+public class Message extends InteractiveEvent {
     // Constructor
     public Message(String username, String content) {
         this.username = username;
@@ -8,8 +8,8 @@ public class Message extends Event {
     }
 
     // Variables
-    private String username;
-    private String content;
+    private final String username;
+    private final String content;
 
     // Functions
     public String getContent() { return content; }
@@ -18,5 +18,8 @@ public class Message extends Event {
         return username;
     }
 
+    @Override
+    public void perform() {
 
+    }
 }

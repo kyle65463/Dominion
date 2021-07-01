@@ -2,16 +2,13 @@ package dominion.controllers.components.emoji;
 
 import dominion.controllers.components.ComponentController;
 import dominion.core.GameManager;
-import dominion.models.cards.Card;
-import dominion.models.events.game.EmojiEvent;
-import dominion.models.events.game.VoicesEvent;
+import dominion.models.events.interactive.EmojiEvent;
+import dominion.models.events.interactive.VoicesEvent;
 import dominion.models.player.Player;
 import dominion.utils.UiLoader;
 import dominion.utils.VoicePlayer;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.Pane;
 
 public class ChoiceBoxController extends ComponentController {
     // Constructor
