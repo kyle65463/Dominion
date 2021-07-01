@@ -13,6 +13,10 @@ import dominion.models.cards.actions.Reaction;
 import dominion.models.cards.treasures.Treasure;
 import dominion.models.handlers.*;
 import dominion.models.player.PlayerAction.*;
+import dominion.models.player.container.Deck;
+import dominion.models.player.container.DiscardPile;
+import dominion.models.player.container.FieldCards;
+import dominion.models.player.container.HandCards;
 import javafx.event.EventHandler;
 import javafx.util.Pair;
 
@@ -30,7 +34,7 @@ public class Player {
         this.id = id;
         deck = new Deck();
         discardPile = new DiscardPile();
-        handCards = new HandCards(this);
+        handCards = new HandCards();
         actionBar = new ActionBar();
         playerStatus = new PlayerStatus();
         playerStatus.setName(name);
@@ -210,10 +214,6 @@ public class Player {
     }
 
     public void playCard(int cardId, boolean decreaseNumActions, CardNextMoveHandler nextMoveHandler) {
-        System.out.println("play " + cardId);
-        for(Card c : handCards.getCards()) {
-            System.out.println(c.getName() + " " + c.getId());
-        }
         Card card = handCards.getCardByCardId(cardId);
         LogBox.logPlayCard(this, card);
         handCards.removeCard(card);
@@ -326,7 +326,6 @@ public class Player {
 
     public void reset() {
         // Update action status
-        handCards.disableAllCards();
         numActions = 1;
         numCoins = 0;
         numPurchases = 1;
@@ -622,7 +621,7 @@ public class Player {
     }
 
     public List<Card> popDeckTop(int numCards) {
-        List<Card> ret = deck.popCards(numCards);
+        List<Card> ret = deck.popTopCards(numCards);
         setPlayerStatusValues();
         return ret;
     }

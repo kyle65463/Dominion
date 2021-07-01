@@ -1,4 +1,4 @@
-package dominion.models.player;
+package dominion.models.player.container;
 
 import dominion.controllers.components.DeckController;
 import dominion.core.GameManager;
@@ -6,21 +6,17 @@ import dominion.models.HasUi;
 import dominion.models.cards.Card;
 import dominion.models.cards.curses.Curses;
 import dominion.models.cards.victories.Victory;
+import dominion.models.player.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Deck implements HasUi {
-    // Constructor
-    public Deck() {
-    }
-
+public class Deck extends CardContainer implements HasUi {
     // Variables
     private boolean isEnableUi = false;
     private DeckController uiController;
-    private List<Card> cards = new ArrayList<>();
 
     // Functions
     public void enableUi() {
@@ -31,32 +27,7 @@ public class Deck implements HasUi {
         }
     }
 
-    public int getNumScores(Player player) {
-        int numScores = 0;
-        for (Card card : cards) {
-            if (card instanceof Victory) {
-                numScores += ((Victory) card).getNumVictories(player);
-            }
-            else if(card instanceof Curses) {
-                numScores -= ((Curses) card).getNumCurses();
-            }
-        }
-        return numScores;
-    }
-
-    public boolean isEmpty() {
-        return cards.isEmpty();
-    }
-
-    public int getNumCards() {
-        return cards.size();
-    }
-
-    public List<Card> getCards() {
-        return cards;
-    }
-
-    public List<Card> popCards(int numCards) {
+    public List<Card> popTopCards(int numCards) {
         List<Card> resultCards = new ArrayList<>();
         for (int i = 0; i < numCards; i++) {
             if (cards.isEmpty()) {
@@ -75,19 +46,22 @@ public class Deck implements HasUi {
         return resultCards;
     }
 
-    public void addCards(List<Card> cards, boolean shuffle) {
-        if(shuffle){
-            Collections.shuffle(cards, new Random(GameManager.getRandomInt()));
+    @Override
+    public void removeCard(Card card) {
+        cards.remove(card);
+        if (isEnableUi) {
+            card.enableUi();
+            card.setNumRemain(0);
+            card.flipToFront();
         }
-        for (Card card : cards) {
-            addCard(card);
+        for(int i = 0; i < cards.size(); i++){
+            if(isEnableUi) {
+                cards.get(i).setNumRemain(i);
+            }
         }
     }
 
-    public void addCards(List<Card> cards) {
-        addCards(cards, false);
-    }
-
+    @Override
     public void addCard(Card card) {
         cards.add(card);
         if (isEnableUi) {
@@ -96,5 +70,12 @@ public class Deck implements HasUi {
             card.flipToBack();
             uiController.addCard(card);
         }
+    }
+
+    public void addCards(List<Card> cards, boolean shuffle) {
+        if(shuffle){
+            Collections.shuffle(cards, new Random(GameManager.getRandomInt()));
+        }
+        super.addCards(cards);
     }
 }

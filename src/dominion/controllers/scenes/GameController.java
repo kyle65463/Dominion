@@ -23,7 +23,7 @@ import dominion.models.cards.treasures.Silver;
 import dominion.models.cards.victories.Estate;
 import dominion.models.cards.victories.Victory;
 import dominion.models.areas.DisplayedCard;
-import dominion.models.player.FieldCards;
+import dominion.models.player.container.FieldCards;
 import dominion.models.player.Player;
 import dominion.models.player.PlayerStatus;
 import dominion.params.GameSceneParams;
