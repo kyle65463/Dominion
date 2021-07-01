@@ -33,7 +33,7 @@ public class Player {
         this.id = id;
         deck = new Deck();
         discardPile = new DiscardPile();
-        handCards = new HandCards(this);
+        handCards = new HandCards();
         actionBar = new ActionBar();
         playerStatus = new PlayerStatus();
         playerStatus.setName(name);
@@ -201,10 +201,6 @@ public class Player {
     }
 
     public void playCard(int cardId, boolean decreaseNumActions, CardNextMoveHandler nextMoveHandler) {
-        System.out.println("play " + cardId);
-        for(Card c : handCards.getCards()) {
-            System.out.println(c.getName() + " " + c.getId());
-        }
         Card card = handCards.getCardByCardId(cardId);
         LogBox.logPlayCard(this, card);
         handCards.removeCard(card);
@@ -300,22 +296,21 @@ public class Player {
     public void discardAllHandCards() {
         // Discard all hand cards to discard pile
         List<Card> cards = handCards.getCards();
-        discardPile.addCards(cards);
         handCards.removeAllCards();
+        discardPile.addCards(cards);
+
         setPlayerStatusValues();
     }
 
     public void discardAllFieldCards() {
-        // Discard all field cards to discard `pile
         List<Card> cards = fieldCards.getCards();
-        fieldCards.removeCards();
+        fieldCards.removeAllCards();
         discardPile.addCards(cards);
         setPlayerStatusValues();
     }
 
     public void reset() {
         // Update action status
-        handCards.disableAllCards();
         numActions = 1;
         numCoins = 0;
         numPurchases = 1;
@@ -355,10 +350,10 @@ public class Player {
     public void drawCards(int numCards) {
         // Check bounds
         if (numCards > discardPile.getNumCards() + deck.getNumCards()) {
-            List<Card> cards = deck.popCards(deck.getNumCards());
+            List<Card> cards = deck.popTopCards(deck.getNumCards());
             handCards.addCards(cards);
             List<Card> newCards = discardPile.getCards();
-            discardPile.removeCards();
+            discardPile.removeAllCards();
             handCards.addCards(newCards);
             LogBox.logDrawCard(this, cards.size() + newCards.size());
             return;
@@ -367,12 +362,12 @@ public class Player {
         // Refill the deck if it's empty
         if (deck.isEmpty()) {
             List<Card> newCards = discardPile.getCards();
-            discardPile.removeCards();
+            discardPile.removeAllCards();
             deck.addCards(newCards, true);
         }
 
         // Draw cards from the deck
-        List<Card> cards = deck.popCards(numCards);
+        List<Card> cards = deck.popTopCards(numCards);
         LogBox.logDrawCard(this, cards.size());
         handCards.addCards(cards);
 
@@ -610,7 +605,7 @@ public class Player {
     }
 
     public List<Card> popDeckTop(int numCards) {
-        List<Card> ret = deck.popCards(numCards);
+        List<Card> ret = deck.popTopCards(numCards);
         setPlayerStatusValues();
         return ret;
     }

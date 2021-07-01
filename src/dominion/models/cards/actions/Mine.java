@@ -26,9 +26,18 @@ public class Mine extends Card implements Dominion, Action, HasHandCardsSelectio
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
-        GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.setExactSelectingCards(1);
-        performer.startSelectingHandCards("選擇要移除的錢幣卡", id);
+        if(performer.getHandCards().stream().anyMatch(card -> card instanceof Treasure)) {
+            GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
+            performer.setExactSelectingCards(1);
+            performer.setSelectingHandCardsFilter(card -> card instanceof Treasure);
+            performer.startSelectingHandCards("選擇要移除的錢幣卡", id);
+        }
+        else{
+            if (decreaseNumActions) {
+                performer.decreaseNumActions();
+            }
+            doNextMove();
+        }
     }
 
     @Override

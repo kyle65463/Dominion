@@ -11,12 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiscardPile extends CardContainer  implements HasUi {
-    // Constructor
-    public DiscardPile(){
-    }
-
     // Variables
-    private List<Card> cards = new ArrayList<>();
     private boolean isEnableUi = false;
     private DiscardPileController uiController;
 
@@ -29,31 +24,12 @@ public class DiscardPile extends CardContainer  implements HasUi {
         }
     }
 
-    public int getNumCards() {
-        return cards.size();
+    @Override
+    public void removeCard(Card card){
+        cards.remove(card);
     }
 
-    public int getNumScores(Player player) {
-        int numScores = 0;
-        for (Card card : cards) {
-            if (card instanceof Victory) {
-                numScores += ((Victory) card).getNumVictories(player);
-            }
-            else if(card instanceof Curses) {
-                numScores -= ((Curses) card).getNumCurses();
-            }
-        }
-        return numScores;
-    }
-
-    public List<Card> getCards() {
-        return new ArrayList<>(cards);
-    }
-
-    public void removeCards() {
-        cards.clear();
-    }
-
+    @Override
     public void addCard(Card card) {
         cards.add(card);
         if(isEnableUi){
@@ -62,12 +38,6 @@ public class DiscardPile extends CardContainer  implements HasUi {
         }
         else{
             card.disableUi();
-        }
-    }
-
-    public void addCards(List<Card> cards) {
-        for(Card card : cards) {
-            addCard(card);
         }
     }
 }
