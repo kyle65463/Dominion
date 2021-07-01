@@ -18,7 +18,7 @@ public class Mine extends Card implements Dominion, Action, HasHandCardsSelectio
         description = "你可以移除手上的一張錢幣卡，獲得一張價值至多加3塊的錢幣卡到手中。" ;
         style = CardStyles.white;
         type = CardTypes.action;
-        numCost = 2;
+        numCost = 5;
     }
 
     private boolean decreaseNumActions;

@@ -16,7 +16,7 @@ public class BuyCardEvent extends GameEvent{
     }
 
     // Variables
-    private int displayedCardId;
+    private final int displayedCardId;
 
     // Functions
     @Override
@@ -29,7 +29,7 @@ public class BuyCardEvent extends GameEvent{
                 if (player.getNumCoins() >= card.getNumCost() && player.getNumPurchases() > 0 && displayedCard.getNumRemain() > 0) {
                     try {
                         Card newCard = displayedCard.instantiateNewCard();
-                        player.buyNewCard(card);
+                        player.buyNewCard(newCard);
                         player.decreaseNumPurchases();
                         player.decreaseNumCoins(card.getNumCost());
                         displayedCard.decreaseNumRemain();

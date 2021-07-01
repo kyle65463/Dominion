@@ -197,6 +197,10 @@ public class Player {
     }
 
     public void playCard(int cardId, boolean decreaseNumActions, CardNextMoveHandler nextMoveHandler) {
+        System.out.println("play " + cardId);
+        for(Card c : handCards.getCards()) {
+            System.out.println(c.getName() + " " + c.getId());
+        }
         Card card = handCards.getCardByCardId(cardId);
         LogBox.logPlayCard(this, card);
         handCards.removeCard(card);
