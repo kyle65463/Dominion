@@ -42,7 +42,7 @@ public class Main extends Application {
         CardFactory.initializeExpansions(Arrays.asList(
                 new Pair<>("基本", Basic.class),
                 new Pair<>("皇輿爭霸", Dominion.class),
-//                new Pair<>("暗潮洶湧", Intrigue.class),
+                new Pair<>("暗潮洶湧", Intrigue.class),
                 new Pair<>("海國圖誌", SeaSide.class)
         ));
 
