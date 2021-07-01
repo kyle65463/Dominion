@@ -4,6 +4,7 @@ import dominion.models.User;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
 import dominion.models.events.connections.ConnectionRequest;
+import dominion.models.handlers.MyEventHandler;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Host extends Connection {
-    private int numConnection = 0;
-    private int maxConnection = 3;
-    private List<ActionSender> senders = new ArrayList<>();
-    private List<ActionReceiver> receivers = new ArrayList<>();
-    private List<User> users = new ArrayList<>();
+    // Variable
+    private final List<EventSender> senders = new ArrayList<>();
+    private final List<EventReceiver> receivers = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
 
+    // Functions
     public void run() {
         try {
             ServerSocket server = new ServerSocket(Integer. valueOf(port));
@@ -25,8 +26,8 @@ public class Host extends Connection {
             myEventHandler.handle(new ConnectionAccepted(user, users));
             while (true) {
                 Socket client = server.accept();
-                ActionSender sender = new ActionSender(client);
-                ActionReceiver receiver = new ActionReceiver(client, (action) -> {
+                EventSender sender = new EventSender(client);
+                EventReceiver receiver = new EventReceiver(client, (action) -> {
                     if (action instanceof ConnectionRequest) {
                         processConnectionRequest((ConnectionRequest) action);
                     }
@@ -62,7 +63,7 @@ public class Host extends Connection {
 
     public void setEventHandler(MyEventHandler callback) {
         this.myEventHandler = callback;
-        for (ActionReceiver receiver : receivers) {
+        for (EventReceiver receiver : receivers) {
             receiver.setActionCallback((action) -> {
                 callback.handle(action);
                 sendClient(action);
@@ -71,7 +72,7 @@ public class Host extends Connection {
     }
 
     private void sendClient(Event event) {
-        for (ActionSender sender : senders) {
+        for (EventSender sender : senders) {
             sender.send(event);
         }
     }

@@ -1,6 +1,7 @@
 package dominion.connections;
 
 import dominion.models.events.Event;
+import dominion.models.handlers.MyEventHandler;
 
 abstract public class Connection implements Runnable{
     protected MyEventHandler myEventHandler = (m) -> {};

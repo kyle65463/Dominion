@@ -166,7 +166,7 @@ public class GameController extends SceneController {
         for (Player player : players) {
             player.drawCards(5);
             player.setActionBarStatus("等待其他玩家的回合", "");
-            player.reset();
+            player.resetActionBarValues();
         }
 
         stage.setOnCloseRequest(e->{

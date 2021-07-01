@@ -309,7 +309,7 @@ public class Player {
         setPlayerStatusValues();
     }
 
-    public void reset() {
+    public void resetActionBarValues() {
         // Update action status
         numActions = 1;
         numCoins = 0;
