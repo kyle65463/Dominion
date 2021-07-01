@@ -22,10 +22,10 @@ import java.util.List;
 public class Player {
     // Constructor
     public Player(User user) {
-        this(user.getName(), user.getId(),user);
+        this(user.getName(), user.getId(), user);
     }
 
-    public Player(String name, int id,User user) {
+    public Player(String name, int id, User user) {
         this.name = name;
         this.id = id;
         deck = new Deck();
@@ -58,8 +58,10 @@ public class Player {
     private final ActionBar actionBar;
     private final PlayerStatus playerStatus;
 
-    private AfterPlayerActionHandler afterPlayerActionHandler = ()->{};
-    private AfterPlayCardHandler afterPlayCardHandler = ()->{};
+    private AfterPlayerActionHandler afterPlayerActionHandler = () -> {
+    };
+    private AfterPlayCardHandler afterPlayCardHandler = () -> {
+    };
 
     private int exactSelectedCards = 0;
     private int maxSelectedCard = Integer.MAX_VALUE;
@@ -70,31 +72,53 @@ public class Player {
 
     // Functions
 
-    public int getExactSelectedCards() { return exactSelectedCards; }
+    public int getExactSelectedCards() {
+        return exactSelectedCards;
+    }
 
-    public int getMaxSelectedCards() { return maxSelectedCard; }
+    public int getMaxSelectedCards() {
+        return maxSelectedCard;
+    }
 
-    public int getSelectedCardsSize() { return selectedCards.size(); }
+    public int getSelectedCardsSize() {
+        return selectedCards.size();
+    }
 
-    public List<Card> getSelectedCards() { return selectedCards; }
+    public List<Card> getSelectedCards() {
+        return selectedCards;
+    }
 
-    public List<DisplayedCard> getSelectedDisplayedCards() { return selectedDisplayedCards; }
+    public List<DisplayedCard> getSelectedDisplayedCards() {
+        return selectedDisplayedCards;
+    }
 
-    public User getUser(){return user;}
+    public User getUser() {
+        return user;
+    }
 
     public void setImmuneNextAttack(boolean b) {
         immuneNextAttack = b;
     }
 
-    public void setAfterPlayerActionHandler(AfterPlayerActionHandler handler)  { afterPlayerActionHandler = handler; }
+    public void setAfterPlayerActionHandler(AfterPlayerActionHandler handler) {
+        afterPlayerActionHandler = handler;
+    }
 
-    public void clearAfterPlayerActionHandler() { afterPlayCardHandler = null; }
+    public void clearAfterPlayerActionHandler() {
+        afterPlayCardHandler = null;
+    }
 
-    public AfterPlayerActionHandler getAfterPlayerActionHandler() { return afterPlayerActionHandler; }
+    public AfterPlayerActionHandler getAfterPlayerActionHandler() {
+        return afterPlayerActionHandler;
+    }
 
-    public void setAfterPlayCardHandler(AfterPlayCardHandler handler) { afterPlayCardHandler = handler; }
+    public void setAfterPlayCardHandler(AfterPlayCardHandler handler) {
+        afterPlayCardHandler = handler;
+    }
 
-    public AfterPlayCardHandler getAfterPlayCardHandler() { return afterPlayCardHandler; }
+    public AfterPlayCardHandler getAfterPlayCardHandler() {
+        return afterPlayCardHandler;
+    }
 
     public PlayerStatus getPlayerStatus() {
         return playerStatus;
@@ -120,7 +144,9 @@ public class Player {
         return numPurchases;
     }
 
-    public int getNumActions() { return numActions; }
+    public int getNumActions() {
+        return numActions;
+    }
 
     public void enableUi() {
         deck.enableUi();
@@ -175,7 +201,9 @@ public class Player {
         this.fieldCards = fieldCards;
     }
 
-    public FieldCards getFieldCards() { return this.fieldCards; }
+    public FieldCards getFieldCards() {
+        return this.fieldCards;
+    }
 
     public void setDeckCards(List<Card> cards) {
         deck.addCards(cards, true);
@@ -192,7 +220,7 @@ public class Player {
 
     public List<Card> getAllCards() {
         List<Card> cards = new ArrayList<>();
-        if(fieldCards != null){
+        if (fieldCards != null) {
             cards.addAll(fieldCards.getCards());
         }
         cards.addAll(handCards.getCards());
@@ -323,7 +351,6 @@ public class Player {
         playerStatus.setScore(numScores);
     }
 
-
     class StatusSnapshot {
         String buttonText;
         String status;
@@ -370,22 +397,18 @@ public class Player {
         }
     }
 
-    public DisplayedCardFilter getSelectingDisplayedCardsFilter() { return this.selectingDisplayedCardsFilter; }
+    public DisplayedCardFilter getSelectingDisplayedCardsFilter() {
+        return this.selectingDisplayedCardsFilter;
+    }
 
     public void setMaxSelectedCards(int maxSelectedCards) {
-        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards ||
-                GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
-            this.maxSelectedCard = maxSelectedCards;
-        }
+        this.maxSelectedCard = maxSelectedCards;
     }
 
     public void setExactSelectedCards(int exactSelectedCards) {
-        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards ||
-                GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
-            this.exactSelectedCards = exactSelectedCards;
-            this.maxSelectedCard = exactSelectedCards;
-            actionBar.enableRightButton(false);
-        }
+        this.exactSelectedCards = exactSelectedCards;
+        this.maxSelectedCard = exactSelectedCards;
+        actionBar.enableRightButton(false);
     }
 
     public List<Card> popDeckTop(int numCards) {

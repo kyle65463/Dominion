@@ -15,7 +15,6 @@ public class DoneHandCardsSelection extends PlayerAction {
 
     private int cardId;
 
-
     @Override
     public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         for (Card card : player.getSelectedCards()) {

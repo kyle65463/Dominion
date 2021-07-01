@@ -19,7 +19,6 @@ public class StartSelectingHandCards extends PlayerAction {
     private String statusText;
     private int cardId;
 
-
     @Override
     public void perform(Player player, HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
         if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
