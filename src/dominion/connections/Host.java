@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Server extends Connection {
+public class Host extends Connection {
     private int numConnection = 0;
     private int maxConnection = 3;
     private List<ActionSender> senders = new ArrayList<>();

@@ -21,6 +21,9 @@ public class Merchant extends Card implements Dominion, Action {
 
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
+        performer.drawCards(1);
+        performer.increaseNumActions(1);
+
         performer.setAfterPlayCardHandler(()->{
             List<Card> cards = performer.getFieldCards().getCards();
             boolean firstSilver = true;

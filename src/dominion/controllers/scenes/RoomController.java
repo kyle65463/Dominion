@@ -1,6 +1,6 @@
 package dominion.controllers.scenes;
 
-import dominion.connections.Server;
+import dominion.connections.Host;
 import dominion.utils.ReturnRoomManager;
 import dominion.models.User;
 import dominion.models.cards.CardFactory;
@@ -86,7 +86,7 @@ public class RoomController extends SceneController {
                 sendMessage();
             }
         });
-        if (!(connection instanceof Server)) {
+        if (!(connection instanceof Host)) {
             startGameButton.setVisible(false);
             startGameButton.setDisable(true);
             settingsButton.setVisible(false);
