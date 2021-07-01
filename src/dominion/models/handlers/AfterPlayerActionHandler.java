@@ -1,5 +1,5 @@
 package dominion.models.handlers;
 
-public interface AfterPlayCardHandler {
+public interface AfterPlayerActionHandler {
     public void perform();
 }

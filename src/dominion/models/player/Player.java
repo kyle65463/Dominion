@@ -4,7 +4,6 @@ import dominion.core.GameManager;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.areas.LogBox;
 import dominion.models.User;
-import dominion.models.areas.PurchaseArea;
 import dominion.models.events.game.*;
 import dominion.models.cards.Card;
 import dominion.models.cards.actions.Action;
@@ -61,12 +60,13 @@ public class Player {
     private final ActionBar actionBar;
     private final PlayerStatus playerStatus;
 
-    private int maxSelectedCard = Integer.MAX_VALUE;
-    private List<DisplayedCard> selectedDisplayedCards = new ArrayList<>();
+    private AfterPlayerActionHandler afterPlayerActionHandler = ()->{};
     private AfterPlayCardHandler afterPlayCardHandler = ()->{};
 
     private int exactSelectedCards = 0;
+    private int maxSelectedCard = Integer.MAX_VALUE;
     private List<Card> selectedCards = new ArrayList<>();
+    private List<DisplayedCard> selectedDisplayedCards = new ArrayList<>();
     private CardFilter selectingHandCardsFilter;
     private DisplayedCardFilter selectingDisplayedCardsFilter;
 
@@ -80,12 +80,23 @@ public class Player {
 
     public List<Card> getSelectedCards() { return selectedCards; }
 
+    public List<DisplayedCard> getSelectedDisplayedCards() { return selectedDisplayedCards; }
+
     public User getUser(){return user;}
 
     public void setImmuneNextAttack(boolean b) {
         immuneNextAttack = b;
     }
+
+    public void setAfterPlayerActionHandler(AfterPlayerActionHandler handler)  { afterPlayerActionHandler = handler; }
+
+    public void clearAfterPlayerActionHandler() { afterPlayCardHandler = null; }
+
+    public AfterPlayerActionHandler getAfterPlayerActionHandler() { return afterPlayerActionHandler; }
+
     public void setAfterPlayCardHandler(AfterPlayCardHandler handler) { afterPlayCardHandler = handler; }
+
+    public AfterPlayCardHandler getAfterPlayCardHandler() { return afterPlayCardHandler; }
 
     public PlayerStatus getPlayerStatus() {
         return playerStatus;
@@ -220,27 +231,29 @@ public class Player {
         playerAction.perform(handCards, deck, discardPile, fieldCards);
         setPlayerStatusValues();
         setActionBarValues();
+        afterPlayerActionHandler.perform();
     }
 
     public void playCard(int cardId, boolean decreaseNumActions, CardNextMoveHandler nextMoveHandler) {
-        Card card = handCards.getCardByCardId(cardId);
-        LogBox.logPlayCard(this, card);
-        handCards.removeCard(card);
-        fieldCards.addCard(card);
-        if (card instanceof Treasure) {
-            numCoins += ((Treasure) card).getNumValue();
-        } else if (card instanceof Action) {
-            card.setCardNextMove(nextMoveHandler == null ? ()->{
-                checkActionCardsAndEndPlayingActionPhase();
-            } : nextMoveHandler);
-            ((Action) card).perform(this, decreaseNumActions);
-        }
-
-        setPlayerStatusValues();
-        setActionBarValues();
-        if (this.afterPlayCardHandler != null) {
-            afterPlayCardHandler.perform();
-        }
+//        Card card = handCards.getCardByCardId(cardId);
+//        LogBox.logPlayCard(this, card);
+//        handCards.removeCard(card);
+//        fieldCards.addCard(card);
+//        if (card instanceof Treasure) {
+//            numCoins += ((Treasure) card).getNumValue();
+//        } else if (card instanceof Action) {
+//            card.setCardNextMove(nextMoveHandler == null ? ()->{
+//                checkActionCardsAndEndPlayingActionPhase();
+//            } : nextMoveHandler);
+//            ((Action) card).perform(this, decreaseNumActions);
+//        }
+//
+//        setPlayerStatusValues();
+//        setActionBarValues();
+//        if (this.afterPlayCardHandler != null) {
+//            afterPlayCardHandler.perform();
+//        }
+        performPlayerAction(new PlayCard(this, cardId, decreaseNumActions, nextMoveHandler));
     }
 
     public void checkActionCardsAndEndPlayingActionPhase() {
@@ -526,6 +539,8 @@ public class Player {
         }
     }
 
+    public DisplayedCardFilter getSelectingDisplayedCardsFilter() { return this.selectingDisplayedCardsFilter; }
+
     public void setMaxSelectedCards(int maxSelectedCards) {
         if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards ||
                 GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
@@ -559,89 +574,96 @@ public class Player {
     }
 
     public void clearSelectedHandCards() {
-        selectedCards.clear();
-        handCards.rearrange();
-        actionBar.enableLeftButton(false);
-        if (exactSelectedCards > 0) {
-            actionBar.enableRightButton(selectedCards.size() == exactSelectedCards);
-        }
+//        selectedCards.clear();
+//        handCards.rearrange();
+//        actionBar.enableLeftButton(false);
+//        if (exactSelectedCards > 0) {
+//            actionBar.enableRightButton(selectedCards.size() == exactSelectedCards);
+//        }
+        performPlayerAction(new ClearSelectedHandCards(this));
     }
 
     //    Select Displayed Card
     public void startSelectingDisplayedCards(String statusText, int cardId) {
-        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
-            snapshotStatus();
-            setActionBarStatus(statusText, "完成", "重新選擇");
-            PurchaseArea.setDisplayedCardSelectedHandler((displayedCard) -> {
-                if (selectingDisplayedCardsFilter == null || selectingDisplayedCardsFilter.filter(displayedCard)) {
-                    GameManager.sendEvent(new SelectDisplayedCardEvent(id, displayedCard.getId()));
-                }
-            });
-            setActionBarLeftButtonHandler((e) -> {
-                GameManager.sendEvent(new ClearSelectedDisplayedCardsEvent(id));
-            });
-            setActionBarRightButtonHandler((e) -> {
-                PurchaseArea.rearrange();
-                GameManager.sendEvent(new DoneSelectingDisplayedCardEvent(id, cardId));
-            });
-            setCardSelectedHandler(((card) -> {
-            }));
-            actionBar.enableLeftButton(false);
-        }
+//        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
+//            snapshotStatus();
+//            setActionBarStatus(statusText, "完成", "重新選擇");
+//            PurchaseArea.setDisplayedCardSelectedHandler((displayedCard) -> {
+//                if (selectingDisplayedCardsFilter == null || selectingDisplayedCardsFilter.filter(displayedCard)) {
+//                    GameManager.sendEvent(new SelectDisplayedCardEvent(id, displayedCard.getId()));
+//                }
+//            });
+//            setActionBarLeftButtonHandler((e) -> {
+//                GameManager.sendEvent(new ClearSelectedDisplayedCardsEvent(id));
+//            });
+//            setActionBarRightButtonHandler((e) -> {
+//                PurchaseArea.rearrange();
+//                GameManager.sendEvent(new DoneSelectingDisplayedCardEvent(id, cardId));
+//            });
+//            setCardSelectedHandler(((card) -> {
+//            }));
+//            actionBar.enableLeftButton(false);
+//        }
+        performPlayerAction(new StartSelectingDisplayedCards(this, statusText, cardId));
     }
 
     public void doneDisplayedCardsSelection(int cardId) {
-        for (DisplayedCard displayedCard : selectedDisplayedCards) {
-            displayedCard.removeHighlight();
-        }
-        maxSelectedCard = Integer.MAX_VALUE;
-        exactSelectedCards = 0;
-        selectingDisplayedCardsFilter = null;
-        actionBar.enableRightButton(true);
-        actionBar.enableLeftButton(false);
-        PurchaseArea.setDisplayedCardSelectedHandler((displayedCard) -> {
-            displayedCard.setDisplayCardEventHandler(displayedCard.getOriginalHandler());
-        });
-        recoverStatus();
-        HasDisplayedCardsSelection card = (HasDisplayedCardsSelection) fieldCards.getCardByCardId(cardId);
-        card.performDisplayedSelection(this, selectedDisplayedCards);
-        clearSelectedDisplayedCards();
+//        for (DisplayedCard displayedCard : selectedDisplayedCards) {
+//            displayedCard.removeHighlight();
+//        }
+//        maxSelectedCard = Integer.MAX_VALUE;
+//        exactSelectedCards = 0;
+//        selectingDisplayedCardsFilter = null;
+//        actionBar.enableRightButton(true);
+//        actionBar.enableLeftButton(false);
+//        PurchaseArea.setDisplayedCardSelectedHandler((displayedCard) -> {
+//            displayedCard.setDisplayCardEventHandler(displayedCard.getOriginalHandler());
+//        });
+//        recoverStatus();
+//        HasDisplayedCardsSelection card = (HasDisplayedCardsSelection) fieldCards.getCardByCardId(cardId);
+//        card.performDisplayedSelection(this, selectedDisplayedCards);
+//        clearSelectedDisplayedCards();
+        performPlayerAction(new DoneDisplayedCardsSelection(this, cardId));
     }
 
     public void selectDisplayedCard(int displayedCardId) {
-        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
-            DisplayedCard displayedCard = PurchaseArea.getDisplayedCardById(displayedCardId);
-            if (!selectedDisplayedCards.contains(displayedCard) && selectedDisplayedCards.size() < maxSelectedCard) {
-                if (id == GameManager.getApplicationPlayer().getId() && displayedCard != null) {
-                    displayedCard.setHighlight();
-                }
-                selectedDisplayedCards.add(displayedCard);
-            }
-            actionBar.enableLeftButton(selectedDisplayedCards.size() > 0);
-            if (exactSelectedCards > 0) {
-                actionBar.enableRightButton(selectedDisplayedCards.size() == exactSelectedCards);
-            }
-        }
+//        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
+//            DisplayedCard displayedCard = PurchaseArea.getDisplayedCardById(displayedCardId);
+//            if (!selectedDisplayedCards.contains(displayedCard) && selectedDisplayedCards.size() < maxSelectedCard) {
+//                if (id == GameManager.getApplicationPlayer().getId() && displayedCard != null) {
+//                    displayedCard.setHighlight();
+//                }
+//                selectedDisplayedCards.add(displayedCard);
+//            }
+//            actionBar.enableLeftButton(selectedDisplayedCards.size() > 0);
+//            if (exactSelectedCards > 0) {
+//                actionBar.enableRightButton(selectedDisplayedCards.size() == exactSelectedCards);
+//            }
+//        }
+        performPlayerAction(new SelectDisplayedCard(this, displayedCardId));
     }
 
     public void clearSelectedDisplayedCards() {
-        selectedDisplayedCards.clear();
-        PurchaseArea.rearrange();
-        actionBar.enableLeftButton(false);
-        if (exactSelectedCards > 0) {
-            actionBar.enableRightButton(selectedDisplayedCards.size() == exactSelectedCards);
-        }
+//        selectedDisplayedCards.clear();
+//        PurchaseArea.rearrange();
+//        actionBar.enableLeftButton(false);
+//        if (exactSelectedCards > 0) {
+//            actionBar.enableRightButton(selectedDisplayedCards.size() == exactSelectedCards);
+//        }
+        performPlayerAction(new ClearSelectedDisplayedCards(this));
     }
 
     public void receiveNewCardOnDeck(Card card) {
-        deck.addCard(card);
-        LogBox.logReceiveCard(this, card);
-        setPlayerStatusValues();
+//        deck.addCard(card);
+//        LogBox.logReceiveCard(this, card);
+//        setPlayerStatusValues();
+        performPlayerAction(new ReceiveNewCardOnDeck(this, card));
     }
 
     public void removeHandCard(Card card) {
-        handCards.removeCard(card);
-        setPlayerStatusValues();
+//        handCards.removeCard(card);
+//        setPlayerStatusValues();
+        performPlayerAction(new RemoveHandCard(this, card));
     }
 
     public List<Card> popDeckTop(int numCards) {
@@ -651,7 +673,8 @@ public class Player {
     }
 
     public void addCardsToDiscardPile(List<Card> cards){
-        discardPile.addCards(cards);
-        setPlayerStatusValues();
+        performPlayerAction(new AddCardsToDiscardPile(this, cards));
+//        discardPile.addCards(cards);
+//        setPlayerStatusValues();
     }
 }

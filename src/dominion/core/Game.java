@@ -121,7 +121,7 @@ public class Game implements Runnable {
     private void reset(Player currentPlayer){
         UiThread.run(() -> {
             currentPlayer.removeCardSelectedHandler();
-            currentPlayer.setAfterPlayCardHandler(() -> {
+            currentPlayer.setAfterPlayerActionHandler(() -> {
             });
             currentPlayer.enableLeftButton(false);
             currentPlayer.discardAllHandCards();
