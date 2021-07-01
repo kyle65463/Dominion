@@ -29,7 +29,7 @@ public class Artisan extends Card implements Dominion, Action, HasHandCardsSelec
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
-        performer.setMaxSelectingCards(1);
+        performer.setMaxSelectedCards(1);
         performer.setSelectingDisplayedCardsFilter(displayedCard -> displayedCard.getCard().getNumCost() <= 5);
         performer.startSelectingDisplayedCards("選擇要加到手牌的牌", id);
     }
@@ -47,7 +47,7 @@ public class Artisan extends Card implements Dominion, Action, HasHandCardsSelec
         // Select the card that placed back to deck
         if(performer.getHandCards().size() > 0) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-            performer.setExactSelectingCards(1);
+            performer.setExactSelectedCards(1);
             performer.startSelectingHandCards("選擇放回牌庫頂的牌", id);
         }
         else{

@@ -4,8 +4,6 @@ import dominion.core.GameManager;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
-import dominion.models.cards.treasures.Copper;
-import dominion.models.expansions.Dominion;
 import dominion.models.expansions.Intrigue;
 import dominion.models.player.Player;
 
@@ -32,7 +30,7 @@ public class CountryYard extends Card implements Intrigue, Action, HasHandCardsS
 
         if(performer.getHandCards().size() > 0) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-            performer.setExactSelectingCards(1);
+            performer.setExactSelectedCards(1);
             performer.startSelectingHandCards("選擇放回牌庫頂的牌", id);
         }
         else{

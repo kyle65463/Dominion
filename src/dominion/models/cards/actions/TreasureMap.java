@@ -3,7 +3,6 @@ package dominion.models.cards.actions;
 import dominion.core.GameManager;
 import dominion.models.areas.DisplayedCard;
 import dominion.models.areas.PurchaseArea;
-import dominion.models.cards.curses.Curse;
 import dominion.models.cards.treasures.Gold;
 import dominion.models.expansions.SeaSide;
 import dominion.models.player.Player;
@@ -34,7 +33,7 @@ public class TreasureMap extends Card implements SeaSide, Action, HasHandCardsSe
         performer.trashHandCard(this);
         if(performer.getHandCards().stream().anyMatch(card -> card instanceof TreasureMap)) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-            performer.setExactSelectingCards(1);
+            performer.setExactSelectedCards(1);
             performer.setSelectingHandCardsFilter(card -> card instanceof TreasureMap);
             performer.startSelectingHandCards("選擇要移除的牌", id);
         }

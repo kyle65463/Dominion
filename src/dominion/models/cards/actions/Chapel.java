@@ -27,7 +27,7 @@ public class Chapel extends Card implements Dominion, Action, HasHandCardsSelect
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.setMaxSelectingCards(4);
+        performer.setMaxSelectedCards(4);
         performer.startSelectingHandCards("選擇要移除的牌", id);
     }
 

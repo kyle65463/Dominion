@@ -33,7 +33,7 @@ public class Replace extends Card implements Intrigue, Action, Attack, HasHandCa
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.setMaxSelectingCards(1);
+        performer.setMaxSelectedCards(1);
         performer.startSelectingHandCards("選擇要移除的牌", id);
     }
 
@@ -44,7 +44,7 @@ public class Replace extends Card implements Intrigue, Action, Attack, HasHandCa
             performer.trashHandCards(cards);
 
             GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
-            performer.setMaxSelectingCards(1);
+            performer.setMaxSelectedCards(1);
             performer.setSelectingDisplayedCardsFilter(displayedCard -> displayedCard.getCard().getNumCost() <= card.getNumCost() + 2);
             performer.startSelectingDisplayedCards("獲得一張牌", id);
         } else {

@@ -1,24 +1,24 @@
 package dominion.models.player.PlayerAction;
 
-import dominion.models.areas.LogBox;
 import dominion.models.cards.Card;
-import dominion.models.player.*;
+import dominion.models.player.Player;
 import dominion.models.player.container.Deck;
 import dominion.models.player.container.DiscardPile;
 import dominion.models.player.container.FieldCards;
 import dominion.models.player.container.HandCards;
 
-public class ReceiveNewCard extends PlayerAction {
-    public ReceiveNewCard(Player player, Card card) {
-        receivedCard = card;
+public class DiscardHandCard extends PlayerAction{
+    public DiscardHandCard(Player player, Card card) {
         this.player = player;
+        this.discardedCard = card;
     }
 
-    private Card receivedCard;
+    private Card discardedCard;
+
 
     @Override
     public void perform(HandCards handCards, Deck deck, DiscardPile discardPile, FieldCards fieldCards) {
-        LogBox.logReceiveCard(player, receivedCard);
-        discardPile.addCard(receivedCard);
+        handCards.removeCard(discardedCard);
+        discardPile.addCard(discardedCard);
     }
 }

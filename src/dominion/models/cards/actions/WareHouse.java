@@ -30,7 +30,7 @@ public class WareHouse extends Card implements SeaSide, Action, HasHandCardsSele
         performer.drawCards(3);
         if(performer.getHandCards().size() > 3) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-            performer.setExactSelectingCards(3);
+            performer.setExactSelectedCards(3);
             performer.startSelectingHandCards("選擇要棄掉的牌", id);
         }
         else{

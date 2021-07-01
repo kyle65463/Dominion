@@ -31,7 +31,7 @@ public class Poacher extends Card implements Dominion, Action, HasHandCardsSelec
         if (PurchaseArea.getNumNoneRemained() > 0) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             int selectedNum = Math.min(PurchaseArea.getNumNoneRemained(), performer.getHandCards().size());
-            performer.setExactSelectingCards(selectedNum);
+            performer.setExactSelectedCards(selectedNum);
             performer.startSelectingHandCards("選擇要棄掉的牌", id);
         } else {
             if (decreaseNumActions) {

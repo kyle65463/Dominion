@@ -35,7 +35,7 @@ public class Militia extends Card implements Dominion, Action, Attack, HasHandCa
         if (attacked.getHandCards().size() > 3) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             attacked.startSelectingHandCards("丟棄至三張牌", id);
-            attacked.setExactSelectingCards(attacked.getHandCards().size() - 3);
+            attacked.setExactSelectedCards(attacked.getHandCards().size() - 3);
         } else {
             GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
         }

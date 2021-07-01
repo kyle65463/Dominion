@@ -28,7 +28,7 @@ public class Salvager extends Card implements SeaSide, Action, HasHandCardsSelec
         this.decreaseNumActions = decreaseNumActions;
         performer.increaseNumPurchases(1);
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.setMaxSelectingCards(1);
+        performer.setMaxSelectedCards(1);
         performer.startSelectingHandCards("選擇要移除的牌", id);
     }
 

@@ -31,7 +31,7 @@ public class IronWorks extends Card implements Intrigue, Action, HasDisplayedCar
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
-        performer.setMaxSelectingCards(1);
+        performer.setMaxSelectedCards(1);
         performer.setSelectingDisplayedCardsFilter(displayedCard -> displayedCard.getCard().getNumCost() <= 4);
         performer.startSelectingDisplayedCards("選擇要加到手牌的牌", id);
     }
