@@ -1,7 +1,7 @@
 package dominion.models.cards;
 
 import dominion.controllers.components.CardController;
-import dominion.controllers.components.FullCardController;
+import dominion.controllers.components.CardDescriptionController;
 import dominion.core.GameManager;
 import dominion.models.areas.GameScene;
 import dominion.models.HasUi;
@@ -31,7 +31,7 @@ public abstract class Card implements HasUi, Cloneable {
     /* UI */
     protected boolean isEnableUi = false;
     protected CardController uiController;
-    protected FullCardController descriptionController;
+    protected CardDescriptionController descriptionController;
     protected CardNextMoveHandler nextMoveHandler = ()->{};
 
     // Function
@@ -89,7 +89,7 @@ public abstract class Card implements HasUi, Cloneable {
             }
         }
         if (descriptionController == null) {
-            descriptionController = new FullCardController(this, false);
+            descriptionController = new CardDescriptionController(this, false);
         }
         isEnableUi = true;
     }

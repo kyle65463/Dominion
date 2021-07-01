@@ -5,10 +5,12 @@ import dominion.models.events.Event;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ActionSender {
+public class EventSender {
     // Initialization
-    public ActionSender() {}
-    public ActionSender(Socket client) {
+    public EventSender() {
+    }
+
+    public EventSender(Socket client) {
         try {
             outputStream = new ObjectOutputStream(client.getOutputStream());
         } catch (Exception e) {
@@ -24,8 +26,8 @@ public class ActionSender {
         try {
             outputStream.writeObject(event);
         } catch (Exception e) {
-            System.out.println("Sender Error");
-            System.out.println(e);
+            System.err.println("EventSender Error");
+            System.err.println(e);
         }
     }
 }

@@ -1,16 +1,15 @@
-package dominion.controllers.components;
+package dominion.utils;
 
 import dominion.connections.Connection;
 import dominion.models.User;
 import dominion.params.RoomSceneParams;
 import dominion.params.SceneParams;
-import dominion.utils.Navigator;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReturnRoomController {
+public class ReturnRoomManager {
     public static Stage stage;
     public static User applicationUser;
     public static List<User> users = new ArrayList<>();
@@ -19,15 +18,15 @@ public class ReturnRoomController {
     public static List<Integer> allEnabledCardIds;
 
     public static void getParams(Stage stage,SceneParams sceneParams){
-        ReturnRoomController.stage = stage;
+        ReturnRoomManager.stage = stage;
         RoomSceneParams params = (RoomSceneParams) sceneParams;
 
-        ReturnRoomController.users = params.users;
+        ReturnRoomManager.users = params.users;
 
-        ReturnRoomController.applicationUser = params.applicationUser;
-        ReturnRoomController.connection = params.connection;
-        ReturnRoomController.basicCardIds = params.basicCardIds;
-        ReturnRoomController.allEnabledCardIds = params.allEnabledCardIds;
+        ReturnRoomManager.applicationUser = params.applicationUser;
+        ReturnRoomManager.connection = params.connection;
+        ReturnRoomManager.basicCardIds = params.basicCardIds;
+        ReturnRoomManager.allEnabledCardIds = params.allEnabledCardIds;
     }
 
     public static void navigateToRoomScene() {

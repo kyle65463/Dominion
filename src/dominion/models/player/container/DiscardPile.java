@@ -1,14 +1,8 @@
 package dominion.models.player.container;
 
-import dominion.controllers.components.DiscardPileController;
+import dominion.controllers.cardcontainer.DiscardPileController;
 import dominion.models.HasUi;
 import dominion.models.cards.Card;
-import dominion.models.cards.curses.Curses;
-import dominion.models.cards.victories.Victory;
-import dominion.models.player.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DiscardPile extends CardContainer  implements HasUi {
     // Variables

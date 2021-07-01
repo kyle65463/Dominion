@@ -62,7 +62,7 @@ public class Mine extends Card implements Dominion, Action, HasHandCardsSelectio
     public void performDisplayedSelection(Player performer, List<DisplayedCard> displayedCards) {
         if (displayedCards.size() > 0) {
             DisplayedCard displayedCard = displayedCards.get(0);
-            Card card = displayedCard.getCard();
+            Card card = displayedCard.instantiateNewCard();
             performer.receiveNewHandCard(card);
             displayedCard.decreaseNumRemain();
         }

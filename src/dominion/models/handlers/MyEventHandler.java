@@ -1,4 +1,4 @@
-package dominion.connections;
+package dominion.models.handlers;
 
 import dominion.models.events.Event;
 

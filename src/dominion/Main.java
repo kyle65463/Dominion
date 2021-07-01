@@ -69,7 +69,7 @@ public class Main extends Application {
                 new Moat(),
                 new MoneyLender(),
                 new Smithy(),
-                new ThroneRoom(),
+//                new ThroneRoom(),
                 new Village(),
                 new Witch(),
                 new Artisan(),

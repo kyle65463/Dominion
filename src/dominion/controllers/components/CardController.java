@@ -4,12 +4,12 @@ import dominion.models.cards.Card;
 import dominion.models.cards.treasures.Treasure;
 import dominion.models.areas.GameScene;
 import dominion.models.cards.CardStyles;
+import dominion.utils.UiLoader;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-
 
 
 public class CardController extends ComponentController {
@@ -22,7 +22,7 @@ public class CardController extends ComponentController {
     // Variables
     public static final double width = 120;
     public static final double height = 190;
-    private Card card;
+    private final Card card;
     private StackPane numRemainBox;
     private StackPane numSelectedBox;
     private StackPane valueBox;
@@ -35,6 +35,34 @@ public class CardController extends ComponentController {
     private Label numValueLabel;
 
     // Functions
+    private void initialize() {
+        rootNode = UiLoader.loadFXML("resources/components/card.fxml");
+        assert rootNode != null;
+
+        nameLabel = (Label) rootNode.lookup("#name");
+        typesLabel = (Label) rootNode.lookup("#types");
+        numCostLabel = (Label) rootNode.lookup("#cost");
+        numRemainLabel = (Label) rootNode.lookup("#remain");
+        numSelectedLabel = (Label) rootNode.lookup("#num_selected");
+        numValueLabel = (Label) rootNode.lookup("#value");
+        numRemainBox = (StackPane) rootNode.lookup("#remain_box");
+        numSelectedBox = (StackPane) rootNode.lookup("#num_selected_box");
+        valueBox = (StackPane) rootNode.lookup("#value_box");
+        costBox = (StackPane) rootNode.lookup("#cost_box");
+
+        setNameLabel(card.getName());
+        setTypesLabel(card.getType());
+        setNumRemainLabel(0);
+        setNumCostLabel(card.getNumCost());
+        setNumSelected(0);
+        if (card instanceof Treasure) {
+            setNumValueLabel(((Treasure) card).getNumValue());
+        } else {
+            setNumValueLabel(0);
+        }
+        setStyle();
+    }
+
     public void deleteOnScene() {
         GameScene.delete(this);
     }
@@ -84,7 +112,7 @@ public class CardController extends ComponentController {
     }
 
     public void setNumValueLabel(int value) {
-        valueBox.setVisible(value > 0);
+        enableValueBox(value > 0);
         numValueLabel.setText(String.valueOf(value));
     }
 
@@ -93,7 +121,7 @@ public class CardController extends ComponentController {
     }
 
     public void setNumRemainLabel(int numRemain) {
-        numRemainBox.setVisible(numRemain > 1);
+        enableRemainBox(numRemain > 1);
         numRemainLabel.setText(String.valueOf(numRemain));
     }
 
@@ -121,35 +149,5 @@ public class CardController extends ComponentController {
     public void enableValueBox(Boolean enable) {
         valueBox.setDisable(!enable);
         valueBox.setVisible(enable);
-    }
-
-    private void initialize() {
-        try {
-            rootNode = (Pane) FXMLLoader.load(Card.class.getClassLoader().getResource("resources/components/card.fxml"));
-            nameLabel = (Label) rootNode.lookup("#name");
-            typesLabel = (Label) rootNode.lookup("#types");
-            numCostLabel = (Label) rootNode.lookup("#cost");
-            numRemainLabel = (Label) rootNode.lookup("#remain");
-            numSelectedLabel = (Label) rootNode.lookup("#num_selected");
-            numValueLabel = (Label) rootNode.lookup("#value");
-            numRemainBox = (StackPane) rootNode.lookup("#remain_box");
-            numSelectedBox = (StackPane) rootNode.lookup("#num_selected_box");
-            valueBox = (StackPane) rootNode.lookup("#value_box");
-            costBox = (StackPane) rootNode.lookup("#cost_box");
-
-            setNameLabel(card.getName());
-            setTypesLabel(card.getType());
-            setNumRemainLabel(0);
-            setNumCostLabel(card.getNumCost());
-            setNumSelected(0);
-            if (card instanceof Treasure) {
-                setNumValueLabel(((Treasure) card).getNumValue());
-            } else {
-                setNumValueLabel(0);
-            }
-            setStyle();
-        } catch (Exception e) {
-
-        }
     }
 }

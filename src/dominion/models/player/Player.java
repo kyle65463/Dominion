@@ -337,7 +337,7 @@ public class Player {
         performPlayerAction(new DiscardAllFieldCards(this));
     }
 
-    public void reset() {
+    public void resetActionBarValues() {
         // Update action status
         numActions = 1;
         numCoins = 0;

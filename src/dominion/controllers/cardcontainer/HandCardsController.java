@@ -1,5 +1,6 @@
-package dominion.controllers.components;
+package dominion.controllers.cardcontainer;
 
+import dominion.controllers.components.CardController;
 import dominion.models.cards.Card;
 import dominion.models.areas.GameScene;
 import dominion.utils.Animator;
@@ -7,9 +8,7 @@ import dominion.utils.Animator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HandCardsController extends ComponentController{
-    // Constructor
-
+public class HandCardsController extends CardContainerController {
     // Variables
     private final double centerX = 560;
     private final double y = 589;
@@ -64,15 +63,17 @@ public class HandCardsController extends ComponentController{
         }
         return x;
     }
-}
 
-class CardInfo {
-    CardInfo(String name) {
-        this.name = name;
-        this.numRemained = 1;
+    class CardInfo {
+        CardInfo(String name) {
+            this.name = name;
+            this.numRemained = 1;
+        }
+
+        public String name;
+        public double pos;
+        public int numRemained;
     }
-
-    public String name;
-    public double pos;
-    public int numRemained;
 }
+
+

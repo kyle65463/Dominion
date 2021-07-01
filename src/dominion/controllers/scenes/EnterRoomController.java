@@ -1,8 +1,6 @@
 package dominion.controllers.scenes;
 
 import dominion.connections.Client;
-import dominion.connections.Server;
-import dominion.params.ConnectToRoomSceneParams;
 import dominion.params.SceneParams;
 import javafx.stage.Stage;
 
