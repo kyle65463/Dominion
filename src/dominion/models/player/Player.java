@@ -230,10 +230,6 @@ public class Player {
     }
 
     public void performAction(PlayerAction playerAction) {
-//        TODO: discardAllHandCards', discardAllFieldCards, trashHandCard, trashHandCards,
-//        TODO: discardHandCard, discardHandCards, startSelectingHandCards, doneHandCardsSelection
-//        TODO: selectHandCard, startSelectingDisplayedCards,
-        System.out.println("performing action: " + playerAction);
         playerAction.perform(this, handCards, deck, discardPile, fieldCards);
         setPlayerStatusValues();
         setActionBarValues();
@@ -382,9 +378,7 @@ public class Player {
     }
 
     public void setSelectingHandCardsFilter(CardFilter filter) {
-        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
-            this.selectingHandCardsFilter = filter;
-        }
+        this.selectingHandCardsFilter = filter;
     }
 
     public CardFilter getSelectingHandCardsFilter() {
@@ -392,9 +386,7 @@ public class Player {
     }
 
     public void setSelectingDisplayedCardsFilter(DisplayedCardFilter filter) {
-        if (GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
-            this.selectingDisplayedCardsFilter = filter;
-        }
+        this.selectingDisplayedCardsFilter = filter;
     }
 
     public DisplayedCardFilter getSelectingDisplayedCardsFilter() {
