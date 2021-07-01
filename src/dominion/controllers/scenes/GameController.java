@@ -13,6 +13,9 @@ import dominion.models.areas.MinorPurchaseArea;
 import dominion.models.areas.WinnerDialog;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardFactory;
+import dominion.models.cards.actions.Artisan;
+import dominion.models.cards.actions.Cellar;
+import dominion.models.cards.actions.ThroneRoom;
 import dominion.models.cards.curses.Curses;
 import dominion.models.cards.treasures.Copper;
 import dominion.models.cards.treasures.Gold;
@@ -104,10 +107,12 @@ public class GameController extends SceneController {
 
             List<Card> initialCards = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
-                initialCards.add(new Copper());
+//                initialCards.add(new Copper());
+                initialCards.add(new Artisan());
             }
             for (int i = 0; i < 3; i++) {
-                initialCards.add(new Estate());
+//                initialCards.add(new Estate());
+                initialCards.add(new Cellar());
             }
 
             player.setDeckCards(initialCards);
