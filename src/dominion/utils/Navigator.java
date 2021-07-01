@@ -20,6 +20,8 @@ public class Navigator {
             Scene scene = new Scene(root);
             if(fxml.contains("game.fxml")) {
                 scene.getStylesheets().add(Navigator.class.getClassLoader().getResource("resources/styles/game.css").toExternalForm());
+            }else if(fxml.contains("main.fxml")){
+                scene.getStylesheets().add(Navigator.class.getClassLoader().getResource("resources/styles/main.css").toExternalForm());
             }
             stage.setScene(scene);
             stage.show();
