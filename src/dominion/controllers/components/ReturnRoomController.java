@@ -31,7 +31,6 @@ public class ReturnRoomController {
         ReturnRoomController.stage = stage;
         RoomSceneParams params = (RoomSceneParams) sceneParams;
         ReturnRoomController.users = params.users;
-
         ReturnRoomController.applicationUser = params.applicationUser;
         ReturnRoomController.connection = params.connection;
         ReturnRoomController.basicCardIds = params.basicCardIds;

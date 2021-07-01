@@ -5,6 +5,7 @@ import dominion.models.User;
 import dominion.models.events.Event;
 import dominion.models.events.connections.ConnectionAccepted;
 import dominion.models.events.connections.ConnectionRequest;
+import dominion.models.events.connections.RoomClientDisconnect;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -60,6 +61,7 @@ public class Server extends Connection {
         users.add(requestedUser);
         myEventHandler.handle(new ConnectionAccepted(requestedUser, users));
         sendClient(new ConnectionAccepted(requestedUser, users));
+//        sendClient(new RoomClientDisconnect(-1));
     }
 
     public void setEventHandler(MyEventHandler callback) {

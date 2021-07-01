@@ -95,11 +95,14 @@ public class RoomController extends SceneController {
                 this.connection.send(new RoomServerDisconnect());
             }else{
                 int id = this.applicationUser.getId();
-                this.connection.send(new RoomClientDisconnect(id));
+                List<Integer> leaveId = new ArrayList<>();
+                leaveId.add(id);
+                this.connection.send(new RoomClientDisconnect(leaveId));
             }
             Platform.exit();
         });
     }
+    public List<User> getUsers(){return users;}
 
     public void receiveMessage(String message) {
         messages.getChildren().add(new Label(message));
@@ -135,6 +138,7 @@ public class RoomController extends SceneController {
     }
 
     public void handleEvent(Event event) {
+
         if (event instanceof Message) {
             receiveMessage(((Message) event).getUsername() + ": " + ((Message) event).getContent());
         }
