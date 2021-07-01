@@ -35,6 +35,6 @@ public class DoneDisplayedCardsSelection extends PlayerAction {
         player.recoverStatus();
         HasDisplayedCardsSelection card = (HasDisplayedCardsSelection) fieldCards.getCardByCardId(cardId);
         card.performDisplayedSelection(player, selectedDisplayedCards);
-        player.performPlayerAction(new ClearSelectedDisplayedCards());
+        player.performAction(new ClearSelectedDisplayedCards());
     }
 }

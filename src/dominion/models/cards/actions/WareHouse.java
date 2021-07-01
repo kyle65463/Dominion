@@ -31,14 +31,14 @@ public class WareHouse extends Card implements SeaSide, Action, HasHandCardsSele
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
         performer.increaseNumActions(1);
-        performer.performPlayerAction(new DrawCards(3));
+        performer.performAction(new DrawCards(3));
         if(performer.getHandCards().size() > 3) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             performer.setExactSelectedCards(3);
-            performer.performPlayerAction(new StartSelectingHandCards("選擇要棄掉的牌", id));
+            performer.performAction(new StartSelectingHandCards("選擇要棄掉的牌", id));
         }
         else{
-            performer.performPlayerAction(new DiscardAllHandCards());
+            performer.performAction(new DiscardAllHandCards());
             if (decreaseNumActions) {
                 performer.decreaseNumActions();
             }
@@ -48,7 +48,7 @@ public class WareHouse extends Card implements SeaSide, Action, HasHandCardsSele
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.performPlayerAction(new DiscardHandCards(cards));
+        performer.performAction(new DiscardHandCards(cards));
 
         if (decreaseNumActions) {
             performer.decreaseNumActions();

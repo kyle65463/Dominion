@@ -15,7 +15,7 @@ public class ClearSelectedDisplayedCardsEvent extends GameEvent {
     public void perform() {
         if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingDisplayedCards) {
             Player player = GameManager.getPlayerById(playerId);
-            player.performPlayerAction(new ClearSelectedDisplayedCards());
+            player.performAction(new ClearSelectedDisplayedCards());
         }
     }
 }

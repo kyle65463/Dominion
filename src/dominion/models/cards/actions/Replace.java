@@ -35,19 +35,19 @@ public class Replace extends Card implements Intrigue, Action, Attack, HasHandCa
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
         performer.setMaxSelectedCards(1);
-        performer.performPlayerAction(new StartSelectingHandCards("選擇要移除的牌", id));
+        performer.performAction(new StartSelectingHandCards("選擇要移除的牌", id));
     }
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
         if (cards.size() > 0) {
             Card card = cards.get(0);
-            performer.performPlayerAction(new TrashHandCards(cards));
+            performer.performAction(new TrashHandCards(cards));
 
             GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
             performer.setMaxSelectedCards(1);
             performer.setSelectingDisplayedCardsFilter(displayedCard -> displayedCard.getCard().getNumCost() <= card.getNumCost() + 2);
-            performer.performPlayerAction(new StartSelectingDisplayedCards("獲得一張牌", id));
+            performer.performAction(new StartSelectingDisplayedCards("獲得一張牌", id));
         } else {
             if (decreaseNumActions) {
                 performer.decreaseNumActions();
@@ -65,11 +65,11 @@ public class Replace extends Card implements Intrigue, Action, Attack, HasHandCa
             displayedCard.decreaseNumRemain();
 
             if (card instanceof Action || card instanceof Treasure) {
-                performer.performPlayerAction(new ReceiveNewCardOnDeck(card));
+                performer.performAction(new ReceiveNewCardOnDeck(card));
             }
 
             if (card instanceof Victory) {
-                performer.performPlayerAction(new ReceiveNewCard(card));
+                performer.performAction(new ReceiveNewCard(card));
                 Thread thread = new Thread(new AttackPlayers(performer, this));
                 thread.start();
             }
@@ -95,7 +95,7 @@ public class Replace extends Card implements Intrigue, Action, Attack, HasHandCa
         Card curse = new Curse();
         DisplayedCard card = PurchaseArea.getDisplayedCardByCard(curse);
         if (card.getNumRemain() > 0) {
-            attacked.performPlayerAction(new ReceiveNewCard(curse));
+            attacked.performAction(new ReceiveNewCard(curse));
             card.decreaseNumRemain();
         }
         GameManager.sendEvent(new DoneAttackingEvent(attacked.getId()));

@@ -30,6 +30,6 @@ public class DoneHandCardsSelection extends PlayerAction {
 
         HasHandCardsSelection card = (HasHandCardsSelection) fieldCards.getCardByCardId(cardId);
         card.performSelection(player, player.getSelectedCards());
-        player.performPlayerAction(new ClearSelectedHandCards());
+        player.performAction(new ClearSelectedHandCards());
     }
 }

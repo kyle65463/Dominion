@@ -31,7 +31,7 @@ public class Workshop extends Card implements Dominion, Action, HasDisplayedCard
         GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
         performer.setMaxSelectedCards(1);
         performer.setSelectingDisplayedCardsFilter(displayedCard -> displayedCard.getCard().getNumCost() <= 4);
-        performer.performPlayerAction(new StartSelectingDisplayedCards("選擇要加到手牌的牌", id));
+        performer.performAction(new StartSelectingDisplayedCards("選擇要加到手牌的牌", id));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class Workshop extends Card implements Dominion, Action, HasDisplayedCard
         if(displayedCards.size() > 0) {
             DisplayedCard displayedCard = displayedCards.get(0);
             Card card = displayedCard.instantiateNewCard();
-            performer.performPlayerAction(new ReceiveNewHandCard(card));
+            performer.performAction(new ReceiveNewHandCard(card));
             displayedCard.decreaseNumRemain();
         }
 

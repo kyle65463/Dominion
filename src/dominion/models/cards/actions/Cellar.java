@@ -30,13 +30,13 @@ public class Cellar extends Card implements Dominion, Action, HasHandCardsSelect
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
-        performer.performPlayerAction(new StartSelectingHandCards("選擇要棄掉的牌", id));
+        performer.performAction(new StartSelectingHandCards("選擇要棄掉的牌", id));
     }
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.performPlayerAction(new DiscardHandCards(cards));
-        performer.performPlayerAction(new DrawCards(cards.size()));
+        performer.performAction(new DiscardHandCards(cards));
+        performer.performAction(new DrawCards(cards.size()));
         performer.increaseNumActions(1);
 
         if (decreaseNumActions) {

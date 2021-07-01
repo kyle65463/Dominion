@@ -20,7 +20,7 @@ public class Bazaar extends Card implements SeaSide, Action {
     // Functions
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.performPlayerAction(new DrawCards(1));
+        performer.performAction(new DrawCards(1));
         performer.increaseNumActions(2);
         performer.increaseNumCoins(1);
 

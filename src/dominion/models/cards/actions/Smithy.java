@@ -20,7 +20,7 @@ public class Smithy extends Card implements Dominion, Action {
     // Functions
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.performPlayerAction(new DrawCards(3));
+        performer.performAction(new DrawCards(3));
 
         if(decreaseNumActions) {
             performer.decreaseNumActions();

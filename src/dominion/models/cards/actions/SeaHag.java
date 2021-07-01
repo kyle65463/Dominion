@@ -38,13 +38,13 @@ public class SeaHag extends Card implements SeaSide, Action, Attack {
     public void performAttack(Player performer, Player attacked) {
         // Pop a card from deck
         List<Card> cards = attacked.popDeckTop(1);
-        attacked.performPlayerAction(new AddCardsToDiscardPile(cards));
+        attacked.performAction(new AddCardsToDiscardPile(cards));
 
         // Get a curse
         Card curse = new Curse();
         DisplayedCard card = PurchaseArea.getDisplayedCardByCard(curse);
         if (card.getNumRemain() > 0) {
-            attacked.performPlayerAction(new ReceiveNewCardOnDeck(curse));
+            attacked.performAction(new ReceiveNewCardOnDeck(curse));
             card.decreaseNumRemain();
         }
         GameManager.sendEvent(new DoneAttackingEvent(attacked.getId()));

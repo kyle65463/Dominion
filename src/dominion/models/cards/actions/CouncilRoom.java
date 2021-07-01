@@ -21,11 +21,11 @@ public class CouncilRoom extends Card implements Dominion, Action {
     // Functions
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.performPlayerAction(new DrawCards(4));
+        performer.performAction(new DrawCards(4));
         performer.increaseNumPurchases(1);
         for(Player player : GameManager.getPlayers()) {
             if(player.getId() != performer.getId()){
-                player.performPlayerAction(new DrawCards(1));
+                player.performAction(new DrawCards(1));
             }
         }
 

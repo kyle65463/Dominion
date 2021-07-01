@@ -35,7 +35,7 @@ public class ThroneRoom extends Card implements Dominion, Action, HasHandCardsSe
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             performer.setMaxSelectedCards(1);
             performer.setSelectingHandCardsFilter(card -> card instanceof Action);
-            performer.performPlayerAction(new StartSelectingHandCards("選擇要執行的牌", id));
+            performer.performAction(new StartSelectingHandCards("選擇要執行的牌", id));
         }
         else{
             if (decreaseNumActions) {
@@ -50,14 +50,14 @@ public class ThroneRoom extends Card implements Dominion, Action, HasHandCardsSe
         if(cards.size() > 0) {
             Card card = cards.get(0);
             CardNextMoveHandler handler1 = ()->{
-                performer.performPlayerAction(new RetrieveHandCardFromFieldCards(card));
+                performer.performAction(new RetrieveHandCardFromFieldCards(card));
                 CardNextMoveHandler handler2 = ()->{
                     card.clearCardNextMove();
                     performer.checkActionCardsAndEndPlayingActionPhase();
                 };
-                performer.performPlayerAction(new PlayCard(card.getId(), false, handler2));
+                performer.performAction(new PlayCard(card.getId(), false, handler2));
             };
-            performer.performPlayerAction(new PlayCard(cards.get(0).getId(), false, handler1));
+            performer.performAction(new PlayCard(cards.get(0).getId(), false, handler1));
         }
         performer.setSelectingHandCardsFilter(null);
 

@@ -15,7 +15,7 @@ public class ClearSelectedHandCardsEvent extends GameEvent{
     public void perform() {
         if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
             Player player = GameManager.getPlayerById(playerId);
-            player.performPlayerAction(new ClearSelectedHandCards());
+            player.performAction(new ClearSelectedHandCards());
         }
     }
 }

@@ -1,6 +1,7 @@
 package dominion.models.cards.actions;
 
 import dominion.core.GameManager;
+import dominion.models.areas.LogBox;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardStyles;
 import dominion.models.cards.CardTypes;
@@ -34,17 +35,17 @@ public class Vassal extends Card implements Dominion, Action{
                 performer.setActionBarStatus("你可以打出 " + card.getName(), "打出", "不打出");
                 performer.enableLeftButton(true);
                 performer.setActionBarRightButtonHandler((e)->{
-                    performer.performPlayerAction(new ReceiveNewHandCard(card));
+                    performer.performAction(new ReceiveNewHandCard(card));
                     performer.recoverStatus();
                     performer.enableLeftButton(false);
                     GameManager.returnLastPhase();
                     if(decreaseNumActions) {
                         performer.decreaseNumActions();
                     }
-                    performer.performPlayerAction(new PlayCard(card.getId(), false, null));
+                    performer.performAction(new PlayCard(card.getId(), false, null));
                 });
                 performer.setActionBarLeftButtonHandler((e)->{
-                    performer.performPlayerAction(new AddCardsToDiscardPile(cards));
+                    performer.performAction(new AddCardsToDiscardPile(cards));
                     performer.recoverStatus();
                     performer.enableLeftButton(false);
                     GameManager.returnLastPhase();
@@ -54,7 +55,8 @@ public class Vassal extends Card implements Dominion, Action{
                     doNextMove();
                 });
             } else {
-                performer.performPlayerAction(new AddCardsToDiscardPile(cards));
+                LogBox.logDiscardCard(performer, card);
+                performer.performAction(new AddCardsToDiscardPile(cards));
                 if(decreaseNumActions) {
                     performer.decreaseNumActions();
                 }

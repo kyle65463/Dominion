@@ -44,7 +44,7 @@ public class DrawCards extends PlayerAction {
 
         // Draw cards again if not enough
         if (cards.size() < numCards) {
-            player.performPlayerAction(new DrawCards(numCards - cards.size()));
+            player.performAction(new DrawCards(numCards - cards.size()));
         }
     }
 }

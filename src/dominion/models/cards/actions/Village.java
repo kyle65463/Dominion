@@ -20,7 +20,7 @@ public class Village extends Card implements Dominion, Action {
     // Functions
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.performPlayerAction(new DrawCards(1));
+        performer.performAction(new DrawCards(1));
         performer.increaseNumActions(2);
 
         if(decreaseNumActions) {

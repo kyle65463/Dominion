@@ -32,7 +32,7 @@ public class Artisan extends Card implements Dominion, Action, HasHandCardsSelec
         GameManager.setCurrentPhase(GameManager.Phase.SelectingDisplayedCards);
         performer.setMaxSelectedCards(1);
         performer.setSelectingDisplayedCardsFilter(displayedCard -> displayedCard.getCard().getNumCost() <= 5);
-        performer.performPlayerAction(new StartSelectingDisplayedCards("選擇要加到手牌的牌", id));
+        performer.performAction(new StartSelectingDisplayedCards("選擇要加到手牌的牌", id));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Artisan extends Card implements Dominion, Action, HasHandCardsSelec
         if(displayedCards.size() > 0) {
             DisplayedCard displayedCard = displayedCards.get(0);
             Card card = displayedCard.instantiateNewCard();
-            performer.performPlayerAction(new ReceiveNewHandCard(card));
+            performer.performAction(new ReceiveNewHandCard(card));
             displayedCard.decreaseNumRemain();
         }
 
@@ -49,7 +49,7 @@ public class Artisan extends Card implements Dominion, Action, HasHandCardsSelec
         if(performer.getHandCards().size() > 0) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             performer.setExactSelectedCards(1);
-            performer.performPlayerAction(new StartSelectingHandCards("選擇放回牌庫頂的牌", id));
+            performer.performAction(new StartSelectingHandCards("選擇放回牌庫頂的牌", id));
         }
         else{
             if (decreaseNumActions) {
@@ -63,8 +63,8 @@ public class Artisan extends Card implements Dominion, Action, HasHandCardsSelec
     public void performSelection(Player performer, List<Card> cards) {
         if(cards.size() > 0) {
             Card card = cards.get(0);
-            performer.performPlayerAction(new RemoveHandCard(card));
-            performer.performPlayerAction(new ReceiveNewCardOnDeck(card));
+            performer.performAction(new RemoveHandCard(card));
+            performer.performAction(new ReceiveNewCardOnDeck(card));
         }
 
         if (decreaseNumActions) {

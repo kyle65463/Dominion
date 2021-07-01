@@ -61,9 +61,9 @@ public class LogBox {
 //        addMessage(player.getName() + " 選擇了 " + card.getName());
 //    }
 
-//    public static void logDiscardCard(Player player, Card card) {
-//        addMessage(player.getName() + " 丟棄了 " + card.getName());
-//    }
+    public static void logDiscardCard(Player player, Card card) {
+        addMessage(player.getName() + " 丟棄了 " + card.getName());
+    }
 
     public static void logDisplayHandCards(Player player, List<Card> cards){
         for(Card card : cards){

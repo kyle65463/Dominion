@@ -27,7 +27,7 @@ public class Witch extends Card implements Dominion, Action, Attack {
 
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
-        performer.performPlayerAction(new DrawCards(2));
+        performer.performAction(new DrawCards(2));
         this.decreaseNumActions = decreaseNumActions;
         Thread thread = new Thread(new AttackPlayers(performer, this));
         thread.start();
@@ -38,7 +38,7 @@ public class Witch extends Card implements Dominion, Action, Attack {
         Card curse = new Curse();
         DisplayedCard card = PurchaseArea.getDisplayedCardByCard(curse);
         if (card.getNumRemain() > 0) {
-            attacked.performPlayerAction(new ReceiveNewCard(curse));
+            attacked.performAction(new ReceiveNewCard(curse));
             card.decreaseNumRemain();
         }
         GameManager.sendEvent(new DoneAttackingEvent(attacked.getId()));

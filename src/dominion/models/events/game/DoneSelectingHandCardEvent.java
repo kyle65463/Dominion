@@ -20,7 +20,7 @@ public class DoneSelectingHandCardEvent extends GameEvent {
         if(GameManager.getCurrentPhase() == GameManager.Phase.SelectingHandCards) {
             GameManager.returnLastPhase();
             Player player = GameManager.getPlayerById(playerId);
-            player.performPlayerAction(new DoneHandCardsSelection(cardId));
+            player.performAction(new DoneHandCardsSelection(cardId));
         }
     }
 }

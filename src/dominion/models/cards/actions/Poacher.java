@@ -27,7 +27,7 @@ public class Poacher extends Card implements Dominion, Action, HasHandCardsSelec
     @Override
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
-        performer.performPlayerAction(new DrawCards(1));
+        performer.performAction(new DrawCards(1));
         performer.increaseNumActions(1);
         performer.increaseNumCoins(1);
 
@@ -35,7 +35,7 @@ public class Poacher extends Card implements Dominion, Action, HasHandCardsSelec
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             int selectedNum = Math.min(PurchaseArea.getNumNoneRemained(), performer.getHandCards().size());
             performer.setExactSelectedCards(selectedNum);
-            performer.performPlayerAction(new StartSelectingHandCards("選擇要棄掉的牌", id));
+            performer.performAction(new StartSelectingHandCards("選擇要棄掉的牌", id));
         } else {
             if (decreaseNumActions) {
                 performer.decreaseNumActions();
@@ -47,7 +47,7 @@ public class Poacher extends Card implements Dominion, Action, HasHandCardsSelec
     @Override
     public void performSelection(Player performer, List<Card> cards) {
         if (cards.size() > 0) {
-            performer.performPlayerAction(new DiscardHandCards(cards));
+            performer.performAction(new DiscardHandCards(cards));
         }
 
         if(decreaseNumActions) {

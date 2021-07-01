@@ -40,7 +40,7 @@ public class CutPurse extends Card implements SeaSide, Action, Attack, HasHandCa
                 GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
                 attacked.setSelectingHandCardsFilter(card -> card instanceof Copper);
                 attacked.setExactSelectedCards(1);
-                attacked.performPlayerAction(new StartSelectingHandCards("棄掉一張銅幣", id));
+                attacked.performAction(new StartSelectingHandCards("棄掉一張銅幣", id));
             } else {
                 attacked.displayHandCards();
                 GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
@@ -53,7 +53,7 @@ public class CutPurse extends Card implements SeaSide, Action, Attack, HasHandCa
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.performPlayerAction(new DiscardHandCards(cards));
+        performer.performAction(new DiscardHandCards(cards));
         GameManager.sendEvent(new DoneAttackingEvent(performer.getId()));
     }
 

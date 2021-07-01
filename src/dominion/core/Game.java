@@ -59,6 +59,12 @@ public class Game implements Runnable {
 
     private void logEndTurn() {
         UiThread.run(LogBox::logEndTurn);
+        try {
+            Thread.sleep(100);
+        }
+        catch (Exception e){
+
+        }
     }
 
     private void playNewTurnSoundEffect(Player currentPlayer) {
@@ -127,9 +133,9 @@ public class Game implements Runnable {
             currentPlayer.setAfterPlayerActionHandler(() -> {
             });
             currentPlayer.enableLeftButton(false);
-            currentPlayer.performPlayerAction(new DiscardAllHandCards());
-            currentPlayer.performPlayerAction(new DiscardAllFieldCards());
-            currentPlayer.performPlayerAction(new DrawCards(5));
+            currentPlayer.performAction(new DiscardAllHandCards());
+            currentPlayer.performAction(new DiscardAllFieldCards());
+            currentPlayer.performAction(new DrawCards(5));
 
             currentPlayer.setActionBarStatus("等待其他玩家的回合", "");
             currentPlayer.resetActionBarValues();

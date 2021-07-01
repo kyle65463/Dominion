@@ -201,7 +201,7 @@ public class Player {
         return cards;
     }
 
-    public void performPlayerAction(PlayerAction playerAction) {
+    public void performAction(PlayerAction playerAction) {
 //        TODO: discardAllHandCards', discardAllFieldCards, trashHandCard, trashHandCards,
 //        TODO: discardHandCard, discardHandCards, startSelectingHandCards, doneHandCardsSelection
 //        TODO: selectHandCard, startSelectingDisplayedCards,

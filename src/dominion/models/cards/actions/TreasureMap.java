@@ -34,12 +34,12 @@ public class TreasureMap extends Card implements SeaSide, Action, HasHandCardsSe
     public void perform(Player performer, boolean decreaseNumActions) {
         this.decreaseNumActions = decreaseNumActions;
 
-        performer.performPlayerAction(new TrashHandCard(this));
+        performer.performAction(new TrashHandCard(this));
         if(performer.getHandCards().stream().anyMatch(card -> card instanceof TreasureMap)) {
             GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
             performer.setExactSelectedCards(1);
             performer.setSelectingHandCardsFilter(card -> card instanceof TreasureMap);
-            performer.performPlayerAction(new StartSelectingHandCards("選擇要移除的牌", id));
+            performer.performAction(new StartSelectingHandCards("選擇要移除的牌", id));
         }
         else{
             if (decreaseNumActions) {
@@ -51,12 +51,12 @@ public class TreasureMap extends Card implements SeaSide, Action, HasHandCardsSe
 
     @Override
     public void performSelection(Player performer, List<Card> cards) {
-        performer.performPlayerAction(new TrashHandCards(cards));
+        performer.performAction(new TrashHandCards(cards));
         for(int i = 0; i < 4; i++) {
             Card gold = new Gold();
             DisplayedCard card = PurchaseArea.getDisplayedCardByCard(gold);
             if (card.getNumRemain() > 0) {
-                performer.performPlayerAction(new ReceiveNewCardOnDeck(gold));
+                performer.performAction(new ReceiveNewCardOnDeck(gold));
                 card.decreaseNumRemain();
             }
         }

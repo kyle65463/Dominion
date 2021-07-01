@@ -13,7 +13,6 @@ import dominion.models.areas.MinorPurchaseArea;
 import dominion.models.areas.WinnerDialog;
 import dominion.models.cards.Card;
 import dominion.models.cards.CardFactory;
-import dominion.models.cards.actions.*;
 import dominion.models.cards.curses.Curses;
 import dominion.models.cards.treasures.Copper;
 import dominion.models.cards.treasures.Gold;
@@ -166,7 +165,7 @@ public class GameController extends SceneController {
         Game game = new Game();
         Thread gameThread = new Thread(game);
         for (Player player : players) {
-            player.performPlayerAction(new DrawCards(5));
+            player.performAction(new DrawCards(5));
             player.setActionBarStatus("等待其他玩家的回合", "");
             player.resetActionBarValues();
         }
