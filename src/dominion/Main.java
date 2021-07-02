@@ -13,10 +13,12 @@ import dominion.models.cards.victories.Province;
 import dominion.models.expansions.*;
 import dominion.params.MainSceneParams;
 import dominion.utils.Navigator;
+import dominion.utils.VoicePlayer;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class Main extends Application {
@@ -30,10 +32,15 @@ public class Main extends Application {
         // Initialization procedure
         initializeCardFactory();
 
+
         // Create stage
         Stage stage = new Stage();
         stage.setTitle("Dominion");
         stage.setResizable(false);
+        documentBase = getHostServices().getDocumentBase();
+        System.out.println(documentBase);
+        File file = new File(documentBase + "src/voice/soundEffect/soundEffect1.mp3");
+        System.out.println(file);
         MainSceneParams params = new MainSceneParams("kyle15989", "localhost", "9999");
         Navigator.to(stage, "resources/scenes/main.fxml", params);
     }
@@ -92,4 +99,6 @@ public class Main extends Application {
                 new Salvager()
         ));
     }
+
+    public static String documentBase;
 }
