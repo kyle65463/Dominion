@@ -32,6 +32,9 @@ public class GameManager {
         });
         GameManager.connection = connection;
         GameManager.applicationPlayer = applicationPlayer;
+        System.out.println(currentPlayer);
+        System.out.println(GameManager.applicationPlayer);
+
     }
 
     // Variables
