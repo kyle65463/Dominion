@@ -399,8 +399,10 @@ public class Player {
 
     public void setExactSelectedCards(int exactSelectedCards) {
         this.exactSelectedCards = exactSelectedCards;
-        this.maxSelectedCard = exactSelectedCards;
-        actionBar.enableRightButton(false);
+        if(exactSelectedCards > 0) {
+            this.maxSelectedCard = exactSelectedCards;
+            actionBar.enableRightButton(false);
+        }
     }
 
     public List<Card> popDeckTop(int numCards) {

@@ -31,8 +31,8 @@ public class MoneyLender extends Card implements Dominion, Action, HasHandCardsS
         this.decreaseNumActions = decreaseNumActions;
         GameManager.setCurrentPhase(GameManager.Phase.SelectingHandCards);
         performer.setMaxSelectedCards(1);
-        performer.performAction(new StartSelectingHandCards("選擇要移除的牌", id));
         performer.setSelectingHandCardsFilter(card -> card instanceof Copper);
+        performer.performAction(new StartSelectingHandCards("選擇要移除的牌", id));
     }
 
     @Override

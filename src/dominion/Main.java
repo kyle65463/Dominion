@@ -73,7 +73,6 @@ public class Main extends Application {
                 new Village(),
                 new Witch(),
                 new Artisan(),
-                new Vassal(),
                 new Merchant(),
                 new Poacher(),
                 new Mine(),
